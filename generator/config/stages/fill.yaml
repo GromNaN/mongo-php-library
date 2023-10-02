@@ -1,0 +1,25 @@
+name: fill
+type: stage
+uri: https://www.mongodb.com/docs/manual/reference/operator/aggregation/fill/
+doc: ""
+encode: object
+args:
+  - name: partitionBy
+    type: expression
+    isOptional: true
+    doc: "Specifies an expression to group the documents. In the $fill stage, a group of documents is known as a partition."
+
+  - name: partitionByFields
+    type: resolvesToArray
+    #subtype: fieldPath
+    isOptional: true
+    doc: "Specifies an array of fields as the compound key to group the documents. In the $fill stage, each group of documents is known as a partition."
+
+  - name: sortBy
+    type: resolvesToBool
+    isOptional: true # @todo Required if method is specified in at least one output.<field>.
+    doc: ""
+
+  - name: output
+    type: resolvesToObject
+    doc: ""

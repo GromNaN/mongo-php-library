@@ -1,0 +1,7 @@
+name: match
+type: stage
+uri: https://www.mongodb.com/docs/manual/reference/operator/aggregation/match/
+doc: ""
+args:
+- name: query
+  type: expression

@@ -20,7 +20,6 @@
     # @todo _id is not optional but only nullable
     - name: _id
       type: expression
-      isOptional: true
     # @todo fields are optional and encoded at the same level as _id
     - name: fields
       type: resolvesToObject

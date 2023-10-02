@@ -21,10 +21,10 @@ use MongoDB\Builder\Stage\SortStage;
 final class Stage
 {
     /**
-     * @param ExpressionInterface|mixed|null $_id
+     * @param ExpressionInterface|mixed $_id
      * @param Document|ResolvesToObject|Serializable|array|null|object $fields
      */
-    public static function group(mixed $_id = null, array|null|object $fields = null): GroupStage
+    public static function group(mixed $_id, array|null|object $fields = null): GroupStage
     {
         return new GroupStage($_id, $fields);
     }

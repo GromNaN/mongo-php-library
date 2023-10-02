@@ -1,0 +1,109 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "$ref": "#/definitions/Operator",
+    "definitions": {
+        "Operator": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "stage",
+                        "accumulator",
+                        "resolvesToArray",
+                        "resolvesToBool",
+                        "resolvesToDate",
+                        "resolvesToDecimal",
+                        "resolvesToFloat",
+                        "resolvesToInt",
+                        "resolvesToNull",
+                        "resolvesToNumber",
+                        "resolvesToObject",
+                        "resolvesToString"
+                    ]
+                },
+                "uri": {
+                    "type": "string",
+                    "format": "uri"
+                },
+                "doc": {
+                    "type": "string"
+                },
+                "encode": {
+                    "type": "string",
+                    "enum": [
+                        "single",
+                        "array",
+                        "object"
+                    ]
+                },
+                "args": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "type": {
+                                "type": "string",
+                                "enum": [
+                                    "accumulator",
+                                    "expression",
+                                    "fieldName",
+                                    "literal",
+                                    "resolvesToArray",
+                                    "resolvesToBool",
+                                    "resolvesToDate",
+                                    "resolvesToDecimal",
+                                    "resolvesToFloat",
+                                    "resolvesToInt",
+                                    "resolvesToNull",
+                                    "resolvesToNumber",
+                                    "resolvesToObject",
+                                    "resolvesToString"
+                                ]
+                            },
+                            "default": {
+                                "type": [
+                                    "string",
+                                    "number",
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "doc": {
+                                "type": "string"
+                            },
+                            "isVariadic": {
+                                "type": "boolean"
+                            },
+                            "variadicMin": {
+                                "type": "integer"
+                            },
+                            "isOptional": {
+                                "type": "boolean"
+                            }
+                        },
+                        "required": [
+                            "name",
+                            "type"
+                        ]
+                    }
+                }
+            },
+            "required": [
+                "args",
+                "name",
+                "type",
+                "uri"
+            ],
+            "title": "Operator"
+        }
+    }
+}

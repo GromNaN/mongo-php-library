@@ -24,6 +24,11 @@ return [
     ExpressionInterface::class => [
         'types' => ['mixed'],
     ],
+    // @see https://www.mongodb.com/docs/manual/meta/aggregation-quick-reference/#std-label-agg-quick-reference-accumulators
+    // @todo support accumulators and set type
+    AccumulatorInterface::class => [
+        'types' => ['array', 'stdClass', BSON\Document::class, BSON\Serializable::class],
+    ],
     // @todo if replaced by a string, it must start with $
     FieldPath::class => [
         'class' => true,

@@ -1,0 +1,15 @@
+name: facet
+type: stage
+uri: https://www.mongodb.com/docs/manual/reference/operator/aggregation/facet/
+doc: |
+  Processes multiple aggregation pipelines within a single stage on the same set of input documents. Each sub-pipeline has its own field in the output document where its results are stored as an array of documents.
+  The $facet stage allows you to create multi-faceted aggregations which characterize data across multiple dimensions, or facets, within a single aggregation stage. Multi-faceted aggregations provide multiple filters and categorizations to guide data browsing and analysis. Retailers commonly use faceting to narrow search results by creating filters on product price, manufacturer, size, etc.
+  Input documents are passed to the $facet stage only once. $facet enables various aggregations on the same set of input documents, without needing to retrieve the input documents multiple times.
+encode: single
+args:
+  - name: facets
+    type: resolvesToArray
+    #type: resolvesToArray<stage>|pipeline
+    #subtype: stage
+    isVariadic: true
+    doc: ""

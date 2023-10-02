@@ -1,0 +1,35 @@
+name: changeStream
+type: stage
+uri: https://www.mongodb.com/docs/manual/reference/operator/aggregation/changeStream/
+doc: "Returns a Change Stream cursor on a collection, a database, or an entire cluster. Must be used as the first stage in an aggregation pipeline."
+encode: object
+args:
+  - name: allChangesForCluster
+    type: resolvesToBool
+    isOptional: true
+    doc: "Sets whether the change stream should include all changes in the cluster. May only be opened on the admin database."
+
+  - name: fullDocument
+    type: resolvesToString # @todo enum: [default, required, updateLookup, whenAvailable]
+    doc: "Specifies whether change notifications include a copy of the full document when modified by update operations."
+    isOptional: true
+
+  - name: fullDocumentBeforeChange
+    type: resolvesToString # @todo enum: [off, whenAvailable, required]
+    doc: "Include the full document from before the change."
+
+  - name: resumeAfter
+    type: resolvesToInt
+    doc: "Specifies a resume token as the logical starting point for the change stream. Cannot be used with `startAfter` or `startAtOperationTime` fields."
+
+  - name: showExpandedEvents
+    type: resolvesToBool
+    doc: "Specifies whether to include additional change events, such as such as DDL and index operations."
+
+  - name: startAfter
+    type: resolvesToObject
+    doc: "Specifies a resume token as the logical starting point for the change stream. Cannot be used with `resumeAfter` or `startAtOperationTime` fields."
+
+  - name: startAtOperationTime
+    type: resolvesToInt # @todo timestamp, date should be accepted and converted
+    doc: "Specifies a time as the logical starting point for the change stream. Cannot be used with `resumeAfter` or `startAfter` fields."

@@ -20,10 +20,10 @@ class GroupStage implements StageInterface
     public array|null|object $fields;
 
     /**
-     * @param ExpressionInterface|mixed|null $_id
+     * @param ExpressionInterface|mixed $_id
      * @param Document|ResolvesToObject|Serializable|array|null|object $fields
      */
-    public function __construct(mixed $_id = null, array|null|object $fields = null)
+    public function __construct(mixed $_id, array|null|object $fields = null)
     {
         $this->_id = $_id;
         $this->fields = $fields;

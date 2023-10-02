@@ -1,0 +1,22 @@
+name: bucketAuto
+type: stage
+uri: https://www.mongodb.com/docs/manual/reference/operator/aggregation/bucketAuto/
+doc: "Categorizes incoming documents into a specific number of groups, called buckets, based on a specified expression. Bucket boundaries are automatically determined in an attempt to evenly distribute the documents into the specified number of buckets."
+encode: object
+args:
+  - name: groupBy
+    type: expression
+    doc: "An expression to group documents by. To specify a field path, prefix the field name with a dollar sign $ and enclose it in quotes."
+
+  - name: buckets
+    type: resolvesToInt
+    doc: "A positive 32-bit integer that specifies the number of buckets into which input documents are grouped."
+
+  - name: output
+    type: resolvesToObject
+    #subtype: expression
+    doc: "A document that specifies the fields to include in the output documents in addition to the _id field."
+
+  - name: granularity
+    type: resolvesToString
+    doc: "A string that specifies the preferred number series to use to ensure that the calculated boundary edges end on preferred round numbers or their powers of 10."

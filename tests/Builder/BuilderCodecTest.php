@@ -9,6 +9,7 @@ use MongoDB\Builder\Expression;
 use MongoDB\Builder\Pipeline;
 use MongoDB\Builder\Query;
 use MongoDB\Builder\Stage;
+use MongoDB\Model\Undefined;
 use MongoDB\Tests\TestCase;
 
 use function array_is_list;
@@ -108,7 +109,7 @@ class BuilderCodecTest extends TestCase
     public static function provideAggregationFilterLimit(): Generator
     {
         yield 'unspecified limit' => [
-            null,
+            new Undefined(),
             [],
         ];
 

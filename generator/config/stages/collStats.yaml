@@ -1,0 +1,24 @@
+name: collStats
+type: stage
+uri: https://www.mongodb.com/docs/manual/reference/operator/aggregation/collStats/
+doc: "Returns statistics regarding a collection or view."
+encode: object
+args:
+  - name: latencyStats
+    type: resolvesToObject # @todo latencyStats model https://www.mongodb.com/docs/manual/reference/operator/aggregation/collStats/#std-label-latency-stats-document
+    isOptional: true
+    doc: "Adds latency statistics to the return document."
+
+  - name: latencyStats
+    type: resolvesToObject # @todo latencyStats model https://www.mongodb.com/docs/manual/reference/operator/aggregation/collStats/#std-label-storage-stats-document
+    isOptional: true
+    doc: "Adds storage statistics to the return document."
+
+  - name: count
+    type: resolvesToObject # @todo empty object to enable count, bool?
+    isOptional: true
+    doc: "Adds the total number of documents in the collection to the return document."
+
+  - name: queryExecStats
+    type: resolvesToObject # @todo empty object to enable queryExecStats, bool?
+    doc: "Adds query execution statistics to the return document."

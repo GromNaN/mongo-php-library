@@ -1,0 +1,35 @@
+name: currentOp
+type: stage
+uri: https://www.mongodb.com/docs/manual/reference/operator/aggregation/currentOp/
+doc: "Returns a stream of documents containing information on active and/or dormant operations as well as inactive sessions that are holding locks as part of a transaction. The stage returns a document for each operation or session. To run $currentOp, use the db.aggregate() helper on the admin database."
+encode: object
+args:
+  - name: allUsers
+    type: resolvesToBool
+    isOptional: true
+    doc: "Defaults to false"
+
+  - name: idleConnections
+    type: resolvesToBool
+    isOptional: true
+    doc: "Defaults to false"
+
+  - name: idleCursors
+    type: resolvesToBool
+    isOptional: true
+    doc: "Defaults to false"
+
+  - name: idleSessions
+    type: resolvesToBool
+    isOptional: true
+    doc: "Defaults to true"
+
+  - name: localOps
+    type: resolvesToBool
+    isOptional: true
+    doc: ""
+
+  - name: backtrace
+    type: resolvesToBool
+    isOptional: true
+    doc: "Determines whether callstack information is returned as part of the waitingForLatch output field."

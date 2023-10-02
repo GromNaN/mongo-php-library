@@ -1,0 +1,50 @@
+name: geoNear
+type: stage
+uri: https://www.mongodb.com/docs/manual/reference/operator/aggregation/geoNear/
+doc: ""
+encode: object
+args:
+  - name: distanceField
+    type: resolvesToString
+    isOptional: true
+    doc: ""
+
+  - name: distanceMultiplier
+    type: resolvesToNumber
+    isOptional: true
+    doc: ""
+
+  - name: includeLocs
+    type: resolvesToString
+    isOptional: true
+    doc: ""
+
+  - name: key
+    type: expression # @todo not documented
+    isOptional: true
+    doc: ""
+
+  - name: maxDistance
+    type: resolvesToNumber
+    isOptional: true
+    doc: ""
+
+  - name: minDistance
+    type: resolvesToNumber
+    isOptional: true
+    doc: ""
+
+  - name: near
+    type: resolvesToObject # @todo GeoJSON Point or legacy coordinate pair
+    isOptional: true
+    doc: ""
+
+  - name: query
+    type: resolvesToObject # query
+    isOptional: true
+    doc: "Limits the results to the documents that match the query. The query syntax is the usual MongoDB read operation query syntax."
+
+  - name: spherical
+    type: resolvesToBool
+    isOptional: true
+    doc: ""

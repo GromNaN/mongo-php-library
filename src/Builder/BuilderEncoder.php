@@ -13,6 +13,7 @@ use MongoDB\Builder\Stage\StageInterface;
 use MongoDB\Codec\EncodeIfSupported;
 use MongoDB\Codec\Encoder;
 use MongoDB\Exception\UnsupportedValueException;
+use MongoDB\Model\Undefined;
 use stdClass;
 
 use function array_is_list;
@@ -154,6 +155,8 @@ class BuilderEncoder implements Encoder
             if ($val !== null) {
                 $result->{$key} = $val;
             }
+
+            $result->{$key} = $this->encodeIfSupported($val);
         }
 
         return $this->wrap($value, $result);

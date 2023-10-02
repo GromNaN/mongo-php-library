@@ -1,0 +1,9 @@
+# @todo this stage use watch as example. Options are in the
+name: changeStreamSplitLargeEvent
+type: stage
+uri: https://www.mongodb.com/docs/manual/reference/operator/aggregation/changeStreamSplitLargeEvent/
+doc: |
+  If a change stream has large events that exceed 16 MB, a BSONObjectTooLarge exception is returned. Starting in MongoDB 7.0, you can use a $changeStreamSplitLargeEvent stage to split the events into smaller fragments.
+  You should only use $changeStreamSplitLargeEvent when strictly necessary. For example, if your application requires full document pre- or post-images, and generates large events that exceed 16 MB, use $changeStreamSplitLargeEvent.
+encode: object
+args: []

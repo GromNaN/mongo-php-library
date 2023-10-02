@@ -1,0 +1,26 @@
+name: bucket
+type: stage
+uri: https://www.mongodb.com/docs/manual/reference/operator/aggregation/bucket/
+encode: object
+args:
+  - name: groupBy
+    type: expression
+    doc: "An expression to group documents by. To specify a field path, prefix the field name with a dollar sign $ and enclose it in quotes."
+
+  - name: boundaries
+    type: resolvesToArray
+    #subtype: expression
+    #arrayMin: 2
+    doc: "An array of values based on the groupBy expression that specify the boundaries for each bucket. Each adjacent pair of values acts as the inclusive lower boundary and the exclusive upper boundary for the bucket. You must specify at least two boundaries."
+
+  - name: default
+    type: literal
+    #subtype: string
+    isOptional: true
+    doc: "A literal that specifies the _id of an additional bucket that contains all documents whose groupBy expression result does not fall into a bucket specified by boundaries."
+
+  - name: output
+    type: resolvesToObject
+    #subtype: accumulator
+    isOptional: true
+    doc: "A document that specifies the fields to include in the output documents in addition to the _id field."

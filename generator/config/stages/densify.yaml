@@ -1,0 +1,24 @@
+name: densify
+type: stage
+uri: https://www.mongodb.com/docs/manual/reference/operator/aggregation/densify/
+doc: |
+  Creates new documents in a sequence of documents where certain values in a field are missing.
+  You can use $densify to:
+   - Fill gaps in time series data.
+   - Add missing values between groups of data.
+   - Populate your data with a specified range of values.
+encode: object
+args:
+  - name: field
+    type: fieldName
+    doc: "The field to densify. The values of the specified field must either be all numeric values or all dates."
+
+  - name: range
+    type: resolvesToObject # @todo range model has required properties
+    doc: "An object that specifies how the data is densified."
+
+  - name: partitionByFields
+    type: resolvesToArray
+    #subtype: fieldName
+    isOptional: true
+    doc: "The set of fields to act as the compound key to group the documents. In the $densify stage, each group of documents is known as a partition."

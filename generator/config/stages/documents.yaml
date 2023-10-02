@@ -1,0 +1,10 @@
+name: documents
+type: stage
+uri: https://www.mongodb.com/docs/manual/reference/operator/aggregation/documents/
+doc: "Returns literal documents from input values."
+encode: array
+args:
+  - name: documents
+    type: resolvesToObject
+    isVariadic: true
+    doc: ""

@@ -1,0 +1,41 @@
+name: XXXXX
+type: stage
+uri: https://www.mongodb.com/docs/manual/reference/operator/aggregation/XXXXX/
+doc: ""
+encode: object
+args:
+  - name: XXXX
+    type: resolvesToBool
+    doc: ""
+
+  - name: XXXX
+    type: resolvesToBool
+    doc: ""
+
+  - name: XXXX
+    type: resolvesToBool
+    doc: ""
+
+  - name: XXXX
+    type: resolvesToBool
+    doc: ""
+
+  - name: XXXX
+    type: resolvesToBool
+    doc: ""
+
+  - name: XXXX
+    type: resolvesToBool
+    doc: ""
+
+  - name: XXXX
+    type: resolvesToBool
+    doc: ""
+
+  - name: XXXX
+    type: resolvesToBool
+    doc: ""
+
+  - name: XXXX
+    type: resolvesToBool
+    doc: ""
