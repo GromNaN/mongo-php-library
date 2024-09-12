@@ -36,27 +36,6 @@ use function hex2bin;
 use function iterator_to_array;
 use function key;
 use function MongoDB\with_transaction;
-use function PHPUnit\Framework\assertArrayHasKey;
-use function PHPUnit\Framework\assertContains;
-use function PHPUnit\Framework\assertCount;
-use function PHPUnit\Framework\assertEquals;
-use function PHPUnit\Framework\assertFalse;
-use function PHPUnit\Framework\assertInstanceOf;
-use function PHPUnit\Framework\assertIsArray;
-use function PHPUnit\Framework\assertIsInt;
-use function PHPUnit\Framework\assertIsObject;
-use function PHPUnit\Framework\assertIsString;
-use function PHPUnit\Framework\assertMatchesRegularExpression;
-use function PHPUnit\Framework\assertNotContains;
-use function PHPUnit\Framework\assertNotEquals;
-use function PHPUnit\Framework\assertNotNull;
-use function PHPUnit\Framework\assertNull;
-use function PHPUnit\Framework\assertObjectHasAttribute;
-use function PHPUnit\Framework\assertSame;
-use function PHPUnit\Framework\assertThat;
-use function PHPUnit\Framework\assertTrue;
-use function PHPUnit\Framework\equalTo;
-use function PHPUnit\Framework\logicalOr;
 use function property_exists;
 use function rewind;
 use function stream_get_contents;
@@ -88,15 +67,15 @@ final class Operation
     {
         $this->entityMap = $context->getEntityMap();
 
-        assertIsString($o->name);
+        Assert::assertIsString($o->name);
         $this->name = $o->name;
 
-        assertIsString($o->object);
+        Assert::assertIsString($o->object);
         $this->isTestRunnerOperation = $o->object === self::OBJECT_TEST_RUNNER;
         $this->object = $this->isTestRunnerOperation ? null : $o->object;
 
         if (isset($o->arguments)) {
-            assertIsObject($o->arguments);
+            Assert::assertIsObject($o->arguments);
             $this->arguments = (array) $o->arguments;
         }
 
@@ -113,7 +92,7 @@ final class Operation
         $this->expectResult = new ExpectedResult($o, $this->entityMap, $this->object);
 
         if (isset($o->saveResultAsEntity)) {
-            assertIsString($o->saveResultAsEntity);
+            Assert::assertIsString($o->saveResultAsEntity);
             $this->saveResultAsEntity = $o->saveResultAsEntity;
         }
     }
@@ -165,7 +144,7 @@ final class Operation
         }
 
         $object = $this->entityMap[$this->object];
-        assertIsObject($object);
+        Assert::assertIsObject($object);
 
         $this->context->setActiveClient($this->entityMap->getRootClientIdOf($this->object));
 
@@ -241,8 +220,8 @@ final class Operation
 
         switch ($this->name) {
             case 'createChangeStream':
-                assertArrayHasKey('pipeline', $args);
-                assertIsArray($args['pipeline']);
+                Assert::assertArrayHasKey('pipeline', $args);
+                Assert::assertIsArray($args['pipeline']);
 
                 return $client->watch(
                     $args['pipeline'],
@@ -270,30 +249,30 @@ final class Operation
 
         switch ($this->name) {
             case 'addKeyAltName':
-                assertArrayHasKey('id', $args);
-                assertArrayHasKey('keyAltName', $args);
+                Assert::assertArrayHasKey('id', $args);
+                Assert::assertArrayHasKey('keyAltName', $args);
 
                 return $clientEncryption->addKeyAltName($args['id'], $args['keyAltName']);
 
             case 'createDataKey':
-                assertArrayHasKey('kmsProvider', $args);
+                Assert::assertArrayHasKey('kmsProvider', $args);
                 // CSFLE spec tests nest options under an "opts" key (see: DRIVERS-2414)
                 $options = array_key_exists('opts', $args) ? (array) $args['opts'] : [];
 
                 return $clientEncryption->createDataKey($args['kmsProvider'], $options);
 
             case 'deleteKey':
-                assertArrayHasKey('id', $args);
+                Assert::assertArrayHasKey('id', $args);
 
                 return $clientEncryption->deleteKey($args['id']);
 
             case 'getKey':
-                assertArrayHasKey('id', $args);
+                Assert::assertArrayHasKey('id', $args);
 
                 return $clientEncryption->getKey($args['id']);
 
             case 'getKeyByAltName':
-                assertArrayHasKey('keyAltName', $args);
+                Assert::assertArrayHasKey('keyAltName', $args);
 
                 return $clientEncryption->getKeyByAltName($args['keyAltName']);
 
@@ -301,13 +280,13 @@ final class Operation
                 return iterator_to_array($clientEncryption->getKeys());
 
             case 'removeKeyAltName':
-                assertArrayHasKey('id', $args);
-                assertArrayHasKey('keyAltName', $args);
+                Assert::assertArrayHasKey('id', $args);
+                Assert::assertArrayHasKey('keyAltName', $args);
 
                 return $clientEncryption->removeKeyAltName($args['id'], $args['keyAltName']);
 
             case 'rewrapManyDataKey':
-                assertArrayHasKey('filter', $args);
+                Assert::assertArrayHasKey('filter', $args);
                 // CSFLE spec tests nest options under an "opts" key (see: DRIVERS-2414)
                 $options = array_key_exists('opts', $args) ? (array) $args['opts'] : [];
 
@@ -325,8 +304,8 @@ final class Operation
 
         switch ($this->name) {
             case 'aggregate':
-                assertArrayHasKey('pipeline', $args);
-                assertIsArray($args['pipeline']);
+                Assert::assertArrayHasKey('pipeline', $args);
+                Assert::assertIsArray($args['pipeline']);
 
                 return iterator_to_array($collection->aggregate(
                     $args['pipeline'],
@@ -334,8 +313,8 @@ final class Operation
                 ));
 
             case 'bulkWrite':
-                assertArrayHasKey('requests', $args);
-                assertIsArray($args['requests']);
+                Assert::assertArrayHasKey('requests', $args);
+                Assert::assertIsArray($args['requests']);
 
                 return $collection->bulkWrite(
                     array_map(
@@ -346,8 +325,8 @@ final class Operation
                 );
 
             case 'createChangeStream':
-                assertArrayHasKey('pipeline', $args);
-                assertIsArray($args['pipeline']);
+                Assert::assertArrayHasKey('pipeline', $args);
+                Assert::assertIsArray($args['pipeline']);
 
                 return $collection->watch(
                     $args['pipeline'],
@@ -355,8 +334,8 @@ final class Operation
                 );
 
             case 'createFindCursor':
-                assertArrayHasKey('filter', $args);
-                assertInstanceOf(stdClass::class, $args['filter']);
+                Assert::assertArrayHasKey('filter', $args);
+                Assert::assertInstanceOf(stdClass::class, $args['filter']);
 
                 return $collection->find(
                     $args['filter'],
@@ -364,8 +343,8 @@ final class Operation
                 );
 
             case 'createIndex':
-                assertArrayHasKey('keys', $args);
-                assertInstanceOf(stdClass::class, $args['keys']);
+                Assert::assertArrayHasKey('keys', $args);
+                Assert::assertInstanceOf(stdClass::class, $args['keys']);
 
                 return $collection->createIndex(
                     $args['keys'],
@@ -373,8 +352,8 @@ final class Operation
                 );
 
             case 'dropIndex':
-                assertArrayHasKey('name', $args);
-                assertIsString($args['name']);
+                Assert::assertArrayHasKey('name', $args);
+                Assert::assertIsString($args['name']);
 
                 return $collection->dropIndex(
                     $args['name'],
@@ -383,8 +362,8 @@ final class Operation
 
             case 'count':
             case 'countDocuments':
-                assertArrayHasKey('filter', $args);
-                assertInstanceOf(stdClass::class, $args['filter']);
+                Assert::assertArrayHasKey('filter', $args);
+                Assert::assertInstanceOf(stdClass::class, $args['filter']);
 
                 return $collection->{$this->name}(
                     $args['filter'],
@@ -397,8 +376,8 @@ final class Operation
             case 'deleteMany':
             case 'deleteOne':
             case 'findOneAndDelete':
-                assertArrayHasKey('filter', $args);
-                assertInstanceOf(stdClass::class, $args['filter']);
+                Assert::assertArrayHasKey('filter', $args);
+                Assert::assertInstanceOf(stdClass::class, $args['filter']);
 
                 return $collection->{$this->name}(
                     $args['filter'],
@@ -406,10 +385,10 @@ final class Operation
                 );
 
             case 'distinct':
-                assertArrayHasKey('fieldName', $args);
-                assertArrayHasKey('filter', $args);
-                assertIsString($args['fieldName']);
-                assertInstanceOf(stdClass::class, $args['filter']);
+                Assert::assertArrayHasKey('fieldName', $args);
+                Assert::assertArrayHasKey('filter', $args);
+                Assert::assertIsString($args['fieldName']);
+                Assert::assertInstanceOf(stdClass::class, $args['filter']);
 
                 return $collection->distinct(
                     $args['fieldName'],
@@ -421,8 +400,8 @@ final class Operation
                 return $collection->drop($args);
 
             case 'find':
-                assertArrayHasKey('filter', $args);
-                assertInstanceOf(stdClass::class, $args['filter']);
+                Assert::assertArrayHasKey('filter', $args);
+                Assert::assertInstanceOf(stdClass::class, $args['filter']);
 
                 return iterator_to_array($collection->find(
                     $args['filter'],
@@ -430,8 +409,8 @@ final class Operation
                 ));
 
             case 'findOne':
-                assertArrayHasKey('filter', $args);
-                assertInstanceOf(stdClass::class, $args['filter']);
+                Assert::assertArrayHasKey('filter', $args);
+                Assert::assertInstanceOf(stdClass::class, $args['filter']);
 
                 return $collection->findOne(
                     $args['filter'],
@@ -441,7 +420,7 @@ final class Operation
             case 'findOneAndReplace':
                 if (isset($args['returnDocument'])) {
                     $args['returnDocument'] = strtolower($args['returnDocument']);
-                    assertThat($args['returnDocument'], logicalOr(equalTo('after'), equalTo('before')));
+                    Assert::assertThat($args['returnDocument'], Assert::logicalOr(Assert::equalTo('after'), Assert::equalTo('before')));
 
                     $args['returnDocument'] = 'after' === $args['returnDocument']
                         ? FindOneAndReplace::RETURN_DOCUMENT_AFTER
@@ -449,10 +428,10 @@ final class Operation
                 }
                 // Fall through
             case 'replaceOne':
-                assertArrayHasKey('filter', $args);
-                assertArrayHasKey('replacement', $args);
-                assertInstanceOf(stdClass::class, $args['filter']);
-                assertInstanceOf(stdClass::class, $args['replacement']);
+                Assert::assertArrayHasKey('filter', $args);
+                Assert::assertArrayHasKey('replacement', $args);
+                Assert::assertInstanceOf(stdClass::class, $args['filter']);
+                Assert::assertInstanceOf(stdClass::class, $args['replacement']);
 
                 return $collection->{$this->name}(
                     $args['filter'],
@@ -463,7 +442,7 @@ final class Operation
             case 'findOneAndUpdate':
                 if (isset($args['returnDocument'])) {
                     $args['returnDocument'] = strtolower($args['returnDocument']);
-                    assertThat($args['returnDocument'], logicalOr(equalTo('after'), equalTo('before')));
+                    Assert::assertThat($args['returnDocument'], Assert::logicalOr(Assert::equalTo('after'), Assert::equalTo('before')));
 
                     $args['returnDocument'] = 'after' === $args['returnDocument']
                         ? FindOneAndUpdate::RETURN_DOCUMENT_AFTER
@@ -472,10 +451,10 @@ final class Operation
                 // Fall through
             case 'updateMany':
             case 'updateOne':
-                assertArrayHasKey('filter', $args);
-                assertArrayHasKey('update', $args);
-                assertInstanceOf(stdClass::class, $args['filter']);
-                assertThat($args['update'], logicalOr(new IsType('array'), new IsType('object')));
+                Assert::assertArrayHasKey('filter', $args);
+                Assert::assertArrayHasKey('update', $args);
+                Assert::assertInstanceOf(stdClass::class, $args['filter']);
+                Assert::assertThat($args['update'], Assert::logicalOr(new IsType('array'), new IsType('object')));
 
                 return $collection->{$this->name}(
                     $args['filter'],
@@ -484,8 +463,8 @@ final class Operation
                 );
 
             case 'insertMany':
-                assertArrayHasKey('documents', $args);
-                assertIsArray($args['documents']);
+                Assert::assertArrayHasKey('documents', $args);
+                Assert::assertIsArray($args['documents']);
 
                 return $collection->insertMany(
                     $args['documents'],
@@ -493,8 +472,8 @@ final class Operation
                 );
 
             case 'insertOne':
-                assertArrayHasKey('document', $args);
-                assertInstanceOf(stdClass::class, $args['document']);
+                Assert::assertArrayHasKey('document', $args);
+                Assert::assertInstanceOf(stdClass::class, $args['document']);
 
                 return $collection->insertOne(
                     $args['document'],
@@ -508,12 +487,12 @@ final class Operation
                 );
 
             case 'mapReduce':
-                assertArrayHasKey('map', $args);
-                assertArrayHasKey('reduce', $args);
-                assertArrayHasKey('out', $args);
-                assertInstanceOf(Javascript::class, $args['map']);
-                assertInstanceOf(Javascript::class, $args['reduce']);
-                assertThat($args['out'], logicalOr(new IsType('string'), new IsType('array'), new IsType('object')));
+                Assert::assertArrayHasKey('map', $args);
+                Assert::assertArrayHasKey('reduce', $args);
+                Assert::assertArrayHasKey('out', $args);
+                Assert::assertInstanceOf(Javascript::class, $args['map']);
+                Assert::assertInstanceOf(Javascript::class, $args['reduce']);
+                Assert::assertThat($args['out'], Assert::logicalOr(new IsType('string'), new IsType('array'), new IsType('object')));
 
                 return iterator_to_array($collection->mapReduce(
                     $args['map'],
@@ -523,8 +502,8 @@ final class Operation
                 ));
 
             case 'rename':
-                assertArrayHasKey('to', $args);
-                assertIsString($args['to']);
+                Assert::assertArrayHasKey('to', $args);
+                Assert::assertIsString($args['to']);
 
                 return $collection->rename(
                     $args['to'],
@@ -533,10 +512,10 @@ final class Operation
                 );
 
             case 'createSearchIndex':
-                assertArrayHasKey('model', $args);
-                assertIsObject($args['model']);
-                assertObjectHasAttribute('definition', $args['model']);
-                assertInstanceOf(stdClass::class, $args['model']->definition);
+                Assert::assertArrayHasKey('model', $args);
+                Assert::assertIsObject($args['model']);
+                Assert::assertObjectHasAttribute('definition', $args['model']);
+                Assert::assertInstanceOf(stdClass::class, $args['model']->definition);
 
                 /* Note: tests specify options within "model". A top-level
                  * "options" key (CreateSearchIndexOptions) is not used. */
@@ -546,13 +525,13 @@ final class Operation
                 return $collection->createSearchIndex($definition, $options);
 
             case 'createSearchIndexes':
-                assertArrayHasKey('models', $args);
-                assertIsArray($args['models']);
+                Assert::assertArrayHasKey('models', $args);
+                Assert::assertIsArray($args['models']);
 
                 $indexes = array_map(function ($index) {
                     $index = (array) $index;
-                    assertArrayHasKey('definition', $index);
-                    assertInstanceOf(stdClass::class, $index['definition']);
+                    Assert::assertArrayHasKey('definition', $index);
+                    Assert::assertInstanceOf(stdClass::class, $index['definition']);
 
                     return $index;
                 }, $args['models']);
@@ -560,16 +539,16 @@ final class Operation
                 return $collection->createSearchIndexes($indexes);
 
             case 'dropSearchIndex':
-                assertArrayHasKey('name', $args);
-                assertIsString($args['name']);
+                Assert::assertArrayHasKey('name', $args);
+                Assert::assertIsString($args['name']);
 
                 return $collection->dropSearchIndex($args['name']);
 
             case 'updateSearchIndex':
-                assertArrayHasKey('name', $args);
-                assertArrayHasKey('definition', $args);
-                assertIsString($args['name']);
-                assertInstanceOf(stdClass::class, $args['definition']);
+                Assert::assertArrayHasKey('name', $args);
+                Assert::assertArrayHasKey('definition', $args);
+                Assert::assertIsString($args['name']);
+                Assert::assertInstanceOf(stdClass::class, $args['definition']);
 
                 return $collection->updateSearchIndex($args['name'], $args['definition']);
 
@@ -598,7 +577,7 @@ final class Operation
                  * a different approach if tests ever attempt to access the
                  * cursor entity after calling the "close" operation. */
                 $this->entityMap->closeCursor($this->object);
-                assertFalse($this->entityMap->offsetExists($this->object));
+                Assert::assertFalse($this->entityMap->offsetExists($this->object));
                 break;
             case 'iterateUntilDocumentOrError':
                 /* Note: the first iteration should use rewind, otherwise we may
@@ -639,8 +618,8 @@ final class Operation
 
         switch ($this->name) {
             case 'aggregate':
-                assertArrayHasKey('pipeline', $args);
-                assertIsArray($args['pipeline']);
+                Assert::assertArrayHasKey('pipeline', $args);
+                Assert::assertIsArray($args['pipeline']);
 
                 return iterator_to_array($database->aggregate(
                     $args['pipeline'],
@@ -648,8 +627,8 @@ final class Operation
                 ));
 
             case 'createChangeStream':
-                assertArrayHasKey('pipeline', $args);
-                assertIsArray($args['pipeline']);
+                Assert::assertArrayHasKey('pipeline', $args);
+                Assert::assertIsArray($args['pipeline']);
 
                 return $database->watch(
                     $args['pipeline'],
@@ -657,8 +636,8 @@ final class Operation
                 );
 
             case 'createCollection':
-                assertArrayHasKey('collection', $args);
-                assertIsString($args['collection']);
+                Assert::assertArrayHasKey('collection', $args);
+                Assert::assertIsString($args['collection']);
 
                 return $database->createCollection(
                     $args['collection'],
@@ -666,8 +645,8 @@ final class Operation
                 );
 
             case 'dropCollection':
-                assertArrayHasKey('collection', $args);
-                assertIsString($args['collection']);
+                Assert::assertArrayHasKey('collection', $args);
+                Assert::assertIsString($args['collection']);
 
                 return $database->dropCollection(
                     $args['collection'],
@@ -684,8 +663,8 @@ final class Operation
                 );
 
             case 'modifyCollection':
-                assertArrayHasKey('collection', $args);
-                assertIsString($args['collection']);
+                Assert::assertArrayHasKey('collection', $args);
+                Assert::assertIsString($args['collection']);
 
                 /* ModifyCollection takes collection and command options
                  * separately, so we must split the array after initially
@@ -700,8 +679,8 @@ final class Operation
                 return $database->modifyCollection($args['collection'], $collectionOptions, $options);
 
             case 'runCommand':
-                assertArrayHasKey('command', $args);
-                assertInstanceOf(stdClass::class, $args['command']);
+                Assert::assertArrayHasKey('command', $args);
+                Assert::assertInstanceOf(stdClass::class, $args['command']);
 
                 // Note: commandName is not used by PHP
                 $options = array_diff_key($args, ['command' => 1, 'commandName' => 1]);
@@ -738,11 +717,11 @@ final class Operation
                 return $session->startTransaction($args);
 
             case 'withTransaction':
-                assertArrayHasKey('callback', $args);
-                assertIsArray($args['callback']);
+                Assert::assertArrayHasKey('callback', $args);
+                Assert::assertIsArray($args['callback']);
 
                 $operations = array_map(function ($o) {
-                    assertIsObject($o);
+                    Assert::assertIsObject($o);
 
                     return new Operation($o, $this->context);
                 }, $args['callback']);
@@ -767,13 +746,13 @@ final class Operation
 
         switch ($this->name) {
             case 'delete':
-                assertArrayHasKey('id', $args);
+                Assert::assertArrayHasKey('id', $args);
 
                 return $bucket->delete($args['id']);
 
             case 'downloadByName':
-                assertArrayHasKey('filename', $args);
-                assertIsString($args['filename']);
+                Assert::assertArrayHasKey('filename', $args);
+                Assert::assertIsString($args['filename']);
 
                 return stream_get_contents($bucket->openDownloadStreamByName(
                     $args['filename'],
@@ -781,12 +760,12 @@ final class Operation
                 ));
 
             case 'download':
-                assertArrayHasKey('id', $args);
+                Assert::assertArrayHasKey('id', $args);
 
                 return stream_get_contents($bucket->openDownloadStream($args['id']));
 
             case 'uploadWithId':
-                assertArrayHasKey('id', $args);
+                Assert::assertArrayHasKey('id', $args);
                 $args['_id'] = $args['id'];
                 unset($args['id']);
 
@@ -813,87 +792,87 @@ final class Operation
 
         switch ($this->name) {
             case 'assertCollectionExists':
-                assertArrayHasKey('databaseName', $args);
-                assertArrayHasKey('collectionName', $args);
-                assertIsString($args['databaseName']);
-                assertIsString($args['collectionName']);
+                Assert::assertArrayHasKey('databaseName', $args);
+                Assert::assertArrayHasKey('collectionName', $args);
+                Assert::assertIsString($args['databaseName']);
+                Assert::assertIsString($args['collectionName']);
                 $database = $this->context->getInternalClient()->selectDatabase($args['databaseName']);
-                assertContains($args['collectionName'], $database->listCollectionNames());
+                Assert::assertContains($args['collectionName'], $database->listCollectionNames());
                 break;
             case 'assertCollectionNotExists':
-                assertArrayHasKey('databaseName', $args);
-                assertArrayHasKey('collectionName', $args);
-                assertIsString($args['databaseName']);
-                assertIsString($args['collectionName']);
+                Assert::assertArrayHasKey('databaseName', $args);
+                Assert::assertArrayHasKey('collectionName', $args);
+                Assert::assertIsString($args['databaseName']);
+                Assert::assertIsString($args['collectionName']);
                 $database = $this->context->getInternalClient()->selectDatabase($args['databaseName']);
-                assertNotContains($args['collectionName'], $database->listCollectionNames());
+                Assert::assertNotContains($args['collectionName'], $database->listCollectionNames());
                 break;
             case 'assertIndexExists':
-                assertArrayHasKey('databaseName', $args);
-                assertArrayHasKey('collectionName', $args);
-                assertArrayHasKey('indexName', $args);
-                assertIsString($args['databaseName']);
-                assertIsString($args['collectionName']);
-                assertIsString($args['indexName']);
-                assertContains($args['indexName'], $this->getIndexNames($args['databaseName'], $args['collectionName']));
+                Assert::assertArrayHasKey('databaseName', $args);
+                Assert::assertArrayHasKey('collectionName', $args);
+                Assert::assertArrayHasKey('indexName', $args);
+                Assert::assertIsString($args['databaseName']);
+                Assert::assertIsString($args['collectionName']);
+                Assert::assertIsString($args['indexName']);
+                Assert::assertContains($args['indexName'], $this->getIndexNames($args['databaseName'], $args['collectionName']));
                 break;
             case 'assertIndexNotExists':
-                assertArrayHasKey('databaseName', $args);
-                assertArrayHasKey('collectionName', $args);
-                assertArrayHasKey('indexName', $args);
-                assertIsString($args['databaseName']);
-                assertIsString($args['collectionName']);
-                assertIsString($args['indexName']);
-                assertNotContains($args['indexName'], $this->getIndexNames($args['databaseName'], $args['collectionName']));
+                Assert::assertArrayHasKey('databaseName', $args);
+                Assert::assertArrayHasKey('collectionName', $args);
+                Assert::assertArrayHasKey('indexName', $args);
+                Assert::assertIsString($args['databaseName']);
+                Assert::assertIsString($args['collectionName']);
+                Assert::assertIsString($args['indexName']);
+                Assert::assertNotContains($args['indexName'], $this->getIndexNames($args['databaseName'], $args['collectionName']));
                 break;
             case 'assertSameLsidOnLastTwoCommands':
                 /* Context::getEventObserverForClient() requires the client ID.
                  * Avoid checking $args['client'], which is already resolved. */
-                assertArrayHasKey('client', $this->arguments);
+                Assert::assertArrayHasKey('client', $this->arguments);
                 $eventObserver = $this->context->getEventObserverForClient($this->arguments['client']);
-                assertEquals(...$eventObserver->getLsidsOnLastTwoCommands());
+                Assert::assertEquals(...$eventObserver->getLsidsOnLastTwoCommands());
                 break;
             case 'assertDifferentLsidOnLastTwoCommands':
                 /* Context::getEventObserverForClient() requires the client ID.
                  * Avoid checking $args['client'], which is already resolved. */
-                assertArrayHasKey('client', $this->arguments);
+                Assert::assertArrayHasKey('client', $this->arguments);
                 $eventObserver = $this->context->getEventObserverForClient($this->arguments['client']);
-                assertNotEquals(...$eventObserver->getLsidsOnLastTwoCommands());
+                Assert::assertNotEquals(...$eventObserver->getLsidsOnLastTwoCommands());
                 break;
             case 'assertNumberConnectionsCheckedOut':
-                assertArrayHasKey('connections', $args);
-                assertIsInt($args['connections']);
+                Assert::assertArrayHasKey('connections', $args);
+                Assert::assertIsInt($args['connections']);
                 /* PHP does not implement connection pooling. Check parameters
                  * for the sake of valid-fail tests, but otherwise raise an
                  * error. */
                 Assert::fail('Tests using assertNumberConnectionsCheckedOut should be skipped');
                 break;
             case 'assertSessionDirty':
-                assertArrayHasKey('session', $args);
-                assertTrue($args['session']->isDirty());
+                Assert::assertArrayHasKey('session', $args);
+                Assert::assertTrue($args['session']->isDirty());
                 break;
             case 'assertSessionNotDirty':
-                assertArrayHasKey('session', $args);
-                assertFalse($args['session']->isDirty());
+                Assert::assertArrayHasKey('session', $args);
+                Assert::assertFalse($args['session']->isDirty());
                 break;
             case 'assertSessionPinned':
-                assertArrayHasKey('session', $args);
-                assertInstanceOf(Session::class, $args['session']);
-                assertInstanceOf(Server::class, $args['session']->getServer());
+                Assert::assertArrayHasKey('session', $args);
+                Assert::assertInstanceOf(Session::class, $args['session']);
+                Assert::assertInstanceOf(Server::class, $args['session']->getServer());
                 break;
             case 'assertSessionTransactionState':
-                assertArrayHasKey('session', $args);
-                assertInstanceOf(Session::class, $args['session']);
-                assertSame($this->arguments['state'], $args['session']->getTransactionState());
+                Assert::assertArrayHasKey('session', $args);
+                Assert::assertInstanceOf(Session::class, $args['session']);
+                Assert::assertSame($this->arguments['state'], $args['session']->getTransactionState());
                 break;
             case 'assertSessionUnpinned':
-                assertArrayHasKey('session', $args);
-                assertInstanceOf(Session::class, $args['session']);
-                assertNull($args['session']->getServer());
+                Assert::assertArrayHasKey('session', $args);
+                Assert::assertInstanceOf(Session::class, $args['session']);
+                Assert::assertNull($args['session']->getServer());
                 break;
             case 'createEntities':
-                assertArrayHasKey('entities', $args);
-                assertIsArray($args['entities']);
+                Assert::assertArrayHasKey('entities', $args);
+                Assert::assertIsArray($args['entities']);
                 $this->context->createEntities($args['entities']);
                 /* Ensure EventObserver and EventCollector for any new clients
                  * are subscribed. This is a NOP for existing clients. */
@@ -901,27 +880,27 @@ final class Operation
                 $this->context->startEventCollectors();
                 break;
             case 'failPoint':
-                assertArrayHasKey('client', $args);
-                assertArrayHasKey('failPoint', $args);
-                assertInstanceOf(Client::class, $args['client']);
-                assertInstanceOf(stdClass::class, $args['failPoint']);
+                Assert::assertArrayHasKey('client', $args);
+                Assert::assertArrayHasKey('failPoint', $args);
+                Assert::assertInstanceOf(Client::class, $args['client']);
+                Assert::assertInstanceOf(stdClass::class, $args['failPoint']);
                 $args['client']->selectDatabase('admin')->command($args['failPoint']);
                 break;
             case 'targetedFailPoint':
-                assertArrayHasKey('session', $args);
-                assertArrayHasKey('failPoint', $args);
-                assertInstanceOf(Session::class, $args['session']);
-                assertInstanceOf(stdClass::class, $args['failPoint']);
-                assertNotNull($args['session']->getServer(), 'Session is pinned');
+                Assert::assertArrayHasKey('session', $args);
+                Assert::assertArrayHasKey('failPoint', $args);
+                Assert::assertInstanceOf(Session::class, $args['session']);
+                Assert::assertInstanceOf(stdClass::class, $args['failPoint']);
+                Assert::assertNotNull($args['session']->getServer(), 'Session is pinned');
                 $operation = new DatabaseCommand('admin', $args['failPoint']);
                 $operation->execute($args['session']->getServer());
                 break;
             case 'loop':
-                assertArrayHasKey('operations', $args);
-                assertIsArray($args['operations']);
+                Assert::assertArrayHasKey('operations', $args);
+                Assert::assertIsArray($args['operations']);
 
                 $operations = array_map(function ($o) {
-                    assertIsObject($o);
+                    Assert::assertIsObject($o);
 
                     return new Operation($o, $this->context);
                 }, $args['operations']);
@@ -946,12 +925,12 @@ final class Operation
         $args = $this->arguments;
 
         if (array_key_exists('client', $args)) {
-            assertIsString($args['client']);
+            Assert::assertIsString($args['client']);
             $args['client'] = $this->entityMap->getClient($args['client']);
         }
 
         if (array_key_exists('session', $args)) {
-            assertIsString($args['session']);
+            Assert::assertIsString($args['session']);
             $args['session'] = $this->entityMap->getSession($args['session']);
         }
 
@@ -962,18 +941,18 @@ final class Operation
     private static function prepareBulkWriteRequest(stdClass $request): array
     {
         $request = (array) $request;
-        assertCount(1, $request);
+        Assert::assertCount(1, $request);
 
         $type = key($request);
         $args = current($request);
-        assertIsObject($args);
+        Assert::assertIsObject($args);
         $args = (array) $args;
 
         switch ($type) {
             case 'deleteMany':
             case 'deleteOne':
-                assertArrayHasKey('filter', $args);
-                assertInstanceOf(stdClass::class, $args['filter']);
+                Assert::assertArrayHasKey('filter', $args);
+                Assert::assertInstanceOf(stdClass::class, $args['filter']);
 
                 return [
                     $type => [
@@ -983,15 +962,15 @@ final class Operation
                 ];
 
             case 'insertOne':
-                assertArrayHasKey('document', $args);
+                Assert::assertArrayHasKey('document', $args);
 
                 return ['insertOne' => [$args['document']]];
 
             case 'replaceOne':
-                assertArrayHasKey('filter', $args);
-                assertArrayHasKey('replacement', $args);
-                assertInstanceOf(stdClass::class, $args['filter']);
-                assertInstanceOf(stdClass::class, $args['replacement']);
+                Assert::assertArrayHasKey('filter', $args);
+                Assert::assertArrayHasKey('replacement', $args);
+                Assert::assertInstanceOf(stdClass::class, $args['filter']);
+                Assert::assertInstanceOf(stdClass::class, $args['replacement']);
 
                 return [
                     'replaceOne' => [
@@ -1003,10 +982,10 @@ final class Operation
 
             case 'updateMany':
             case 'updateOne':
-                assertArrayHasKey('filter', $args);
-                assertArrayHasKey('update', $args);
-                assertInstanceOf(stdClass::class, $args['filter']);
-                assertThat($args['update'], logicalOr(new IsType('array'), new IsType('object')));
+                Assert::assertArrayHasKey('filter', $args);
+                Assert::assertArrayHasKey('update', $args);
+                Assert::assertInstanceOf(stdClass::class, $args['filter']);
+                Assert::assertThat($args['update'], Assert::logicalOr(new IsType('array'), new IsType('object')));
 
                 return [
                     $type => [
@@ -1049,12 +1028,12 @@ final class Operation
     private static function prepareUploadArguments(array $args): array
     {
         $source = $args['source'] ?? null;
-        assertIsObject($source);
-        assertObjectHasAttribute('$$hexBytes', $source);
+        Assert::assertIsObject($source);
+        Assert::assertObjectHasAttribute('$$hexBytes', $source);
         Util::assertHasOnlyKeys($source, ['$$hexBytes']);
         $hexBytes = $source->{'$$hexBytes'};
-        assertIsString($hexBytes);
-        assertMatchesRegularExpression('/^([0-9a-fA-F]{2})*$/', $hexBytes);
+        Assert::assertIsString($hexBytes);
+        Assert::assertMatchesRegularExpression('/^([0-9a-fA-F]{2})*$/', $hexBytes);
 
         $stream = fopen('php://temp', 'w+b');
         fwrite($stream, hex2bin($hexBytes));

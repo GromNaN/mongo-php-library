@@ -7,16 +7,13 @@ use MongoDB\Driver\Monitoring\CommandStartedEvent;
 use MongoDB\Driver\Monitoring\CommandSubscriber;
 use MongoDB\Driver\Monitoring\CommandSucceededEvent;
 use MongoDB\Model\BSONArray;
+use PHPUnit\Framework\Assert;
 
 use function array_filter;
 use function array_flip;
 use function microtime;
 use function MongoDB\Driver\Monitoring\addSubscriber;
 use function MongoDB\Driver\Monitoring\removeSubscriber;
-use function PHPUnit\Framework\assertArrayHasKey;
-use function PHPUnit\Framework\assertIsObject;
-use function PHPUnit\Framework\assertIsString;
-use function PHPUnit\Framework\assertNotEmpty;
 use function sprintf;
 
 /**
@@ -49,11 +46,11 @@ final class EventCollector implements CommandSubscriber
 
     public function __construct(private BSONArray $eventList, array $collectEvents, private string $clientId, private Context $context)
     {
-        assertNotEmpty($collectEvents);
+        Assert::assertNotEmpty($collectEvents);
 
         foreach ($collectEvents as $event) {
-            assertIsString($event);
-            assertArrayHasKey($event, self::$supportedEvents);
+            Assert::assertIsString($event);
+            Assert::assertArrayHasKey($event, self::$supportedEvents);
 
             /* CMAP events are "supported" only in the sense that we recognize
              * them in the test format; however, PHPC does not implement
@@ -94,7 +91,7 @@ final class EventCollector implements CommandSubscriber
 
     private function handleCommandMonitoringEvent(CommandStartedEvent|CommandSucceededEvent|CommandFailedEvent $event): void
     {
-        assertIsObject($event);
+        Assert::assertIsObject($event);
 
         if (! $this->context->isActiveClient($this->clientId)) {
             return;

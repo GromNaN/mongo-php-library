@@ -18,13 +18,6 @@ use ReturnTypeWillChange;
 use stdClass;
 
 use function array_key_exists;
-use function PHPUnit\Framework\assertArrayHasKey;
-use function PHPUnit\Framework\assertArrayNotHasKey;
-use function PHPUnit\Framework\assertInstanceOf;
-use function PHPUnit\Framework\assertIsString;
-use function PHPUnit\Framework\assertThat;
-use function PHPUnit\Framework\isInstanceOf;
-use function PHPUnit\Framework\logicalOr;
 use function sprintf;
 
 class EntityMap implements ArrayAccess
@@ -58,7 +51,7 @@ class EntityMap implements ArrayAccess
     /** @see https://php.net/arrayaccess.offsetexists */
     public function offsetExists($id): bool
     {
-        assertIsString($id);
+        Assert::assertIsString($id);
 
         return array_key_exists($id, $this->map);
     }
@@ -67,8 +60,8 @@ class EntityMap implements ArrayAccess
     #[ReturnTypeWillChange]
     public function offsetGet($id): mixed
     {
-        assertIsString($id);
-        assertArrayHasKey($id, $this->map, sprintf('No entity is defined for "%s"', $id));
+        Assert::assertIsString($id);
+        Assert::assertArrayHasKey($id, $this->map, sprintf('No entity is defined for "%s"', $id));
 
         return $this->map[$id]->value;
     }
@@ -87,8 +80,8 @@ class EntityMap implements ArrayAccess
 
     public function set(string $id, $value, ?string $parentId = null): void
     {
-        assertArrayNotHasKey($id, $this->map, sprintf('Entity already exists for "%s" and cannot be replaced', $id));
-        assertThat($value, self::isSupportedType());
+        Assert::assertArrayNotHasKey($id, $this->map, sprintf('Entity already exists for "%s" and cannot be replaced', $id));
+        Assert::assertThat($value, self::isSupportedType());
 
         if ($value instanceof Session) {
             $this->lsidsBySession[$id] = $value->getLogicalSessionId();
@@ -124,7 +117,7 @@ class EntityMap implements ArrayAccess
      */
     public function closeCursor(string $cursorId): void
     {
-        assertInstanceOf(Cursor::class, $this[$cursorId]);
+        Assert::assertInstanceOf(Cursor::class, $this[$cursorId]);
         unset($this->map[$cursorId]);
     }
 
@@ -162,15 +155,15 @@ class EntityMap implements ArrayAccess
 
     private static function isSupportedType(): Constraint
     {
-        self::$isSupportedType ??= logicalOr(
-            isInstanceOf(Client::class),
-            isInstanceOf(ClientEncryption::class),
-            isInstanceOf(Database::class),
-            isInstanceOf(Collection::class),
-            isInstanceOf(Session::class),
-            isInstanceOf(Bucket::class),
-            isInstanceOf(ChangeStream::class),
-            isInstanceOf(Cursor::class),
+        self::$isSupportedType ??= Assert::logicalOr(
+            Assert::isInstanceOf(Client::class),
+            Assert::isInstanceOf(ClientEncryption::class),
+            Assert::isInstanceOf(Database::class),
+            Assert::isInstanceOf(Collection::class),
+            Assert::isInstanceOf(Session::class),
+            Assert::isInstanceOf(Bucket::class),
+            Assert::isInstanceOf(ChangeStream::class),
+            Assert::isInstanceOf(Cursor::class),
             IsBsonType::any(),
         );
 

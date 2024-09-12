@@ -13,6 +13,7 @@ use MongoDB\Driver\ReadPreference;
 use MongoDB\Driver\Session;
 use MongoDB\Driver\WriteConcern;
 use MongoDB\GridFS\Bucket;
+use PHPUnit\Framework\Assert;
 use stdClass;
 
 use function array_diff_key;
@@ -20,18 +21,6 @@ use function array_fill_keys;
 use function array_key_exists;
 use function array_keys;
 use function implode;
-use function PHPUnit\Framework\assertArrayHasKey;
-use function PHPUnit\Framework\assertContains;
-use function PHPUnit\Framework\assertEmpty;
-use function PHPUnit\Framework\assertIsArray;
-use function PHPUnit\Framework\assertIsBool;
-use function PHPUnit\Framework\assertIsInt;
-use function PHPUnit\Framework\assertIsObject;
-use function PHPUnit\Framework\assertIsString;
-use function PHPUnit\Framework\assertThat;
-use function PHPUnit\Framework\isInstanceOf;
-use function PHPUnit\Framework\isType;
-use function PHPUnit\Framework\logicalOr;
 
 final class Util
 {
@@ -141,15 +130,15 @@ final class Util
 
     public static function assertHasOnlyKeys($arrayOrObject, array $keys): void
     {
-        assertThat($arrayOrObject, logicalOr(isType('array'), isInstanceOf(stdClass::class)));
+        Assert::assertThat($arrayOrObject, Assert::logicalOr(Assert::isType('array'), Assert::isInstanceOf(stdClass::class)));
         $diff = array_diff_key((array) $arrayOrObject, array_fill_keys($keys, 1));
-        assertEmpty($diff, 'Unsupported keys: ' . implode(',', array_keys($diff)));
+        Assert::assertEmpty($diff, 'Unsupported keys: ' . implode(',', array_keys($diff)));
     }
 
     public static function assertArgumentsBySchema(string $executingObjectName, string $operation, array $args): void
     {
-        assertArrayHasKey($executingObjectName, self::$args);
-        assertArrayHasKey($operation, self::$args[$executingObjectName]);
+        Assert::assertArrayHasKey($executingObjectName, self::$args);
+        Assert::assertArrayHasKey($operation, self::$args[$executingObjectName]);
         self::assertHasOnlyKeys($args, self::$args[$executingObjectName][$operation]);
     }
 
@@ -158,7 +147,7 @@ final class Util
         self::assertHasOnlyKeys($o, ['level']);
 
         $level = $o->level ?? null;
-        assertIsString($level);
+        Assert::assertIsString($level);
 
         return new ReadConcern($level);
     }
@@ -172,22 +161,22 @@ final class Util
         $maxStalenessSeconds = $o->maxStalenessSeconds ?? null;
         $hedge = $o->hedge ?? null;
 
-        assertIsString($mode);
+        Assert::assertIsString($mode);
 
         if (isset($tagSets)) {
-            assertIsArray($tagSets);
-            assertContains('object', $tagSets);
+            Assert::assertIsArray($tagSets);
+            Assert::assertContains('object', $tagSets);
         }
 
         $options = [];
 
         if (isset($maxStalenessSeconds)) {
-            assertIsInt($maxStalenessSeconds);
+            Assert::assertIsInt($maxStalenessSeconds);
             $options['maxStalenessSeconds'] = $maxStalenessSeconds;
         }
 
         if (isset($hedge)) {
-            assertIsObject($hedge);
+            Assert::assertIsObject($hedge);
             $options['hedge'] = $hedge;
         }
 
@@ -202,13 +191,13 @@ final class Util
         $wtimeoutMS = $o->wtimeoutMS ?? 0;
         $journal = $o->journal ?? null;
 
-        assertThat($w, logicalOr(isType('int'), isType('string')));
-        assertIsInt($wtimeoutMS);
+        Assert::assertThat($w, Assert::logicalOr(Assert::isType('int'), Assert::isType('string')));
+        Assert::assertIsInt($wtimeoutMS);
 
         $args = [$w, $wtimeoutMS];
 
         if (isset($journal)) {
-            assertIsBool($journal);
+            Assert::assertIsBool($journal);
             $args[] = $journal;
         }
 
@@ -218,17 +207,17 @@ final class Util
     public static function prepareCommonOptions(array $options): array
     {
         if (array_key_exists('readConcern', $options)) {
-            assertIsObject($options['readConcern']);
+            Assert::assertIsObject($options['readConcern']);
             $options['readConcern'] = self::createReadConcern($options['readConcern']);
         }
 
         if (array_key_exists('readPreference', $options)) {
-            assertIsObject($options['readPreference']);
+            Assert::assertIsObject($options['readPreference']);
             $options['readPreference'] = self::createReadPreference($options['readPreference']);
         }
 
         if (array_key_exists('writeConcern', $options)) {
-            assertIsObject($options['writeConcern']);
+            Assert::assertIsObject($options['writeConcern']);
             $options['writeConcern'] = self::createWriteConcern($options['writeConcern']);
         }
 

@@ -13,26 +13,6 @@ use PHPUnit\Framework\Assert;
 use stdClass;
 use Throwable;
 
-use function PHPUnit\Framework\assertArrayHasKey;
-use function PHPUnit\Framework\assertContainsOnly;
-use function PHPUnit\Framework\assertCount;
-use function PHPUnit\Framework\assertFalse;
-use function PHPUnit\Framework\assertInstanceOf;
-use function PHPUnit\Framework\assertIsArray;
-use function PHPUnit\Framework\assertIsBool;
-use function PHPUnit\Framework\assertIsInt;
-use function PHPUnit\Framework\assertIsObject;
-use function PHPUnit\Framework\assertIsString;
-use function PHPUnit\Framework\assertNotInstanceOf;
-use function PHPUnit\Framework\assertNotNull;
-use function PHPUnit\Framework\assertNull;
-use function PHPUnit\Framework\assertObjectHasAttribute;
-use function PHPUnit\Framework\assertSame;
-use function PHPUnit\Framework\assertStringContainsStringIgnoringCase;
-use function PHPUnit\Framework\assertThat;
-use function PHPUnit\Framework\assertTrue;
-use function PHPUnit\Framework\isInstanceOf;
-use function PHPUnit\Framework\logicalOr;
 use function property_exists;
 use function sprintf;
 
@@ -74,43 +54,43 @@ final class ExpectedError
         $this->isError = true;
 
         if (isset($o->isError)) {
-            assertTrue($o->isError);
+            Assert::assertTrue($o->isError);
         }
 
         if (isset($o->isClientError)) {
-            assertIsBool($o->isClientError);
+            Assert::assertIsBool($o->isClientError);
             $this->isClientError = $o->isClientError;
         }
 
         if (isset($o->errorContains)) {
-            assertIsString($o->errorContains);
+            Assert::assertIsString($o->errorContains);
             $this->messageContains = $o->errorContains;
         }
 
         if (isset($o->errorCode)) {
-            assertIsInt($o->errorCode);
+            Assert::assertIsInt($o->errorCode);
             $this->code = $o->errorCode;
         }
 
         if (isset($o->errorCodeName)) {
-            assertIsString($o->errorCodeName);
+            Assert::assertIsString($o->errorCodeName);
             $this->codeName = $o->errorCodeName;
         }
 
         if (isset($o->errorResponse)) {
-            assertIsObject($o->errorResponse);
+            Assert::assertIsObject($o->errorResponse);
             $this->matchesResultDocument = new Matches($o->errorResponse, $entityMap);
         }
 
         if (isset($o->errorLabelsContain)) {
-            assertIsArray($o->errorLabelsContain);
-            assertContainsOnly('string', $o->errorLabelsContain);
+            Assert::assertIsArray($o->errorLabelsContain);
+            Assert::assertContainsOnly('string', $o->errorLabelsContain);
             $this->includedLabels = $o->errorLabelsContain;
         }
 
         if (isset($o->errorLabelsOmit)) {
-            assertIsArray($o->errorLabelsOmit);
-            assertContainsOnly('string', $o->errorLabelsOmit);
+            Assert::assertIsArray($o->errorLabelsOmit);
+            Assert::assertContainsOnly('string', $o->errorLabelsOmit);
             $this->excludedLabels = $o->errorLabelsOmit;
         }
 
@@ -131,57 +111,57 @@ final class ExpectedError
         }
 
         if (! $this->isError) {
-            assertNull($e);
+            Assert::assertNull($e);
 
             return;
         }
 
-        assertNotNull($e);
+        Assert::assertNotNull($e);
 
         if (isset($this->isClientError)) {
             $this->assertIsClientError($e);
         }
 
         if (isset($this->messageContains)) {
-            assertStringContainsStringIgnoringCase($this->messageContains, $e->getMessage());
+            Assert::assertStringContainsStringIgnoringCase($this->messageContains, $e->getMessage());
         }
 
         if (isset($this->code)) {
-            assertInstanceOf(ServerException::class, $e);
-            assertSame($this->code, $e->getCode());
+            Assert::assertInstanceOf(ServerException::class, $e);
+            Assert::assertSame($this->code, $e->getCode());
         }
 
         if (isset($this->codeName)) {
-            assertInstanceOf(ServerException::class, $e);
+            Assert::assertInstanceOf(ServerException::class, $e);
             $this->assertCodeName($e);
         }
 
         if (isset($this->matchesResultDocument)) {
-            assertThat($e, logicalOr(isInstanceOf(CommandException::class), isInstanceOf(WriteException::class)));
+            Assert::assertThat($e, Assert::logicalOr(Assert::isInstanceOf(CommandException::class), Assert::isInstanceOf(WriteException::class)));
 
             if ($e instanceof CommandException) {
-                assertThat($e->getResultDocument(), $this->matchesResultDocument, 'CommandException result document matches');
+                Assert::assertThat($e->getResultDocument(), $this->matchesResultDocument, 'CommandException result document matches');
             } elseif ($e instanceof WriteException) {
                 $writeErrors = $e->getWriteResult()->getErrorReplies();
-                assertCount(1, $writeErrors);
-                assertThat($writeErrors[0], $this->matchesResultDocument, 'WriteException result document matches');
+                Assert::assertCount(1, $writeErrors);
+                Assert::assertThat($writeErrors[0], $this->matchesResultDocument, 'WriteException result document matches');
             }
         }
 
         if (! empty($this->excludedLabels) || ! empty($this->includedLabels)) {
-            assertInstanceOf(RuntimeException::class, $e);
+            Assert::assertInstanceOf(RuntimeException::class, $e);
 
             foreach ($this->excludedLabels as $label) {
-                assertFalse($e->hasErrorLabel($label), 'Exception should not have error label: ' . $label);
+                Assert::assertFalse($e->hasErrorLabel($label), 'Exception should not have error label: ' . $label);
             }
 
             foreach ($this->includedLabels as $label) {
-                assertTrue($e->hasErrorLabel($label), 'Exception should have error label: ' . $label);
+                Assert::assertTrue($e->hasErrorLabel($label), 'Exception should have error label: ' . $label);
             }
         }
 
         if (isset($this->expectedResult)) {
-            assertInstanceOf(BulkWriteException::class, $e);
+            Assert::assertInstanceOf(BulkWriteException::class, $e);
             $this->expectedResult->assert($e->getWriteResult());
         }
     }
@@ -195,9 +175,9 @@ final class ExpectedError
         }
 
         if ($this->isClientError) {
-            assertNotInstanceOf(ServerException::class, $e);
+            Assert::assertNotInstanceOf(ServerException::class, $e);
         } else {
-            assertInstanceOf(ServerException::class, $e);
+            Assert::assertInstanceOf(ServerException::class, $e);
         }
     }
 
@@ -208,23 +188,23 @@ final class ExpectedError
          *
          * TODO: Remove this once PHPC-1386 is resolved. */
         if ($e instanceof BulkWriteException || $e instanceof ExecutionTimeoutException) {
-            assertArrayHasKey($this->codeName, self::$codeNameMap);
-            assertSame(self::$codeNameMap[$this->codeName], $e->getCode());
+            Assert::assertArrayHasKey($this->codeName, self::$codeNameMap);
+            Assert::assertSame(self::$codeNameMap[$this->codeName], $e->getCode());
 
             return;
         }
 
-        assertInstanceOf(CommandException::class, $e);
+        Assert::assertInstanceOf(CommandException::class, $e);
         $result = $e->getResultDocument();
 
         if (isset($result->writeConcernError)) {
-            assertObjectHasAttribute('codeName', $result->writeConcernError);
-            assertSame($this->codeName, $result->writeConcernError->codeName);
+            Assert::assertObjectHasAttribute('codeName', $result->writeConcernError);
+            Assert::assertSame($this->codeName, $result->writeConcernError->codeName);
 
             return;
         }
 
-        assertObjectHasAttribute('codeName', $result);
-        assertSame($this->codeName, $result->codeName);
+        Assert::assertObjectHasAttribute('codeName', $result);
+        Assert::assertSame($this->codeName, $result->codeName);
     }
 }

@@ -19,17 +19,6 @@ use function is_object;
 use function key;
 use function MongoDB\Driver\Monitoring\addSubscriber;
 use function MongoDB\Driver\Monitoring\removeSubscriber;
-use function PHPUnit\Framework\assertArrayHasKey;
-use function PHPUnit\Framework\assertCount;
-use function PHPUnit\Framework\assertGreaterThanOrEqual;
-use function PHPUnit\Framework\assertInstanceOf;
-use function PHPUnit\Framework\assertIsBool;
-use function PHPUnit\Framework\assertIsObject;
-use function PHPUnit\Framework\assertIsString;
-use function PHPUnit\Framework\assertNotEmpty;
-use function PHPUnit\Framework\assertObjectHasAttribute;
-use function PHPUnit\Framework\assertSame;
-use function PHPUnit\Framework\assertThat;
 use function sprintf;
 
 /**
@@ -104,10 +93,10 @@ final class EventObserver implements CommandSubscriber
 
     public function __construct(array $observeEvents, array $ignoreCommands, private bool $observeSensitiveCommands, private string $clientId, private Context $context)
     {
-        assertNotEmpty($observeEvents);
+        Assert::assertNotEmpty($observeEvents);
 
         foreach ($observeEvents as $event) {
-            assertIsString($event);
+            Assert::assertIsString($event);
 
             /* Unlike Context::assertExpectedEventsForClients, which runs within
              * a test, EventObserver is constructed via createEntities (before
@@ -117,12 +106,12 @@ final class EventObserver implements CommandSubscriber
                 continue;
             }
 
-            assertArrayHasKey($event, self::$supportedEvents);
+            Assert::assertArrayHasKey($event, self::$supportedEvents);
             $this->observeEvents[self::$supportedEvents[$event]] = 1;
         }
 
         foreach ($ignoreCommands as $command) {
-            assertIsString($command);
+            Assert::assertIsString($command);
             $this->ignoreCommands[$command] = 1;
         }
     }
@@ -165,7 +154,7 @@ final class EventObserver implements CommandSubscriber
             }
 
             $command = $event->getCommand();
-            assertObjectHasAttribute('lsid', $command);
+            Assert::assertObjectHasAttribute('lsid', $command);
             $lsids[] = $command->lsid;
 
             if (count($lsids) === 2) {
@@ -179,9 +168,9 @@ final class EventObserver implements CommandSubscriber
     public function assert(array $expectedEvents, bool $ignoreExtraEvents): void
     {
         if ($ignoreExtraEvents) {
-            assertGreaterThanOrEqual(count($expectedEvents), count($this->actualEvents));
+            Assert::assertGreaterThanOrEqual(count($expectedEvents), count($this->actualEvents));
         } else {
-            assertCount(count($expectedEvents), $this->actualEvents);
+            Assert::assertCount(count($expectedEvents), $this->actualEvents);
         }
 
         $mi = new MultipleIterator(MultipleIterator::MIT_NEED_ANY);
@@ -195,26 +184,26 @@ final class EventObserver implements CommandSubscriber
                 break;
             }
 
-            assertIsObject($expectedEvent);
+            Assert::assertIsObject($expectedEvent);
             $expectedEvent = (array) $expectedEvent;
-            assertCount(1, $expectedEvent);
+            Assert::assertCount(1, $expectedEvent);
 
             $type = key($expectedEvent);
-            assertArrayHasKey($type, self::$supportedEvents);
+            Assert::assertArrayHasKey($type, self::$supportedEvents);
             $data = current($expectedEvent);
-            assertIsObject($data);
+            Assert::assertIsObject($data);
 
             // Message is used for actual event assertions (not test structure)
             $message = sprintf('%s event[%d]', $this->clientId, $keys[0]);
 
-            assertInstanceOf(self::$supportedEvents[$type], $actualEvent, $message . ': type matches');
+            Assert::assertInstanceOf(self::$supportedEvents[$type], $actualEvent, $message . ': type matches');
             $this->assertEvent($actualEvent, $data, $message);
         }
     }
 
     private function assertEvent($actual, stdClass $expected, string $message): void
     {
-        assertIsObject($actual);
+        Assert::assertIsObject($actual);
 
         match ($actual::class) {
             CommandStartedEvent::class => $this->assertCommandStartedEvent($actual, $expected, $message),
@@ -229,29 +218,29 @@ final class EventObserver implements CommandSubscriber
         Util::assertHasOnlyKeys($expected, ['command', 'commandName', 'databaseName', 'hasServiceId', 'hasServerConnectionId']);
 
         if (isset($expected->command)) {
-            assertIsObject($expected->command);
+            Assert::assertIsObject($expected->command);
             $constraint = new Matches($expected->command, $this->context->getEntityMap());
-            assertThat($actual->getCommand(), $constraint, $message . ': command matches');
+            Assert::assertThat($actual->getCommand(), $constraint, $message . ': command matches');
         }
 
         if (isset($expected->commandName)) {
-            assertIsString($expected->commandName);
-            assertSame($actual->getCommandName(), $expected->commandName, $message . ': commandName matches');
+            Assert::assertIsString($expected->commandName);
+            Assert::assertSame($actual->getCommandName(), $expected->commandName, $message . ': commandName matches');
         }
 
         if (isset($expected->databaseName)) {
-            assertIsString($expected->databaseName);
-            assertSame($actual->getDatabaseName(), $expected->databaseName, $message . ': databaseName matches');
+            Assert::assertIsString($expected->databaseName);
+            Assert::assertSame($actual->getDatabaseName(), $expected->databaseName, $message . ': databaseName matches');
         }
 
         if (isset($expected->hasServiceId)) {
-            assertIsBool($expected->hasServiceId);
-            assertSame($actual->getServiceId() !== null, $expected->hasServiceId, $message . ': hasServiceId matches');
+            Assert::assertIsBool($expected->hasServiceId);
+            Assert::assertSame($actual->getServiceId() !== null, $expected->hasServiceId, $message . ': hasServiceId matches');
         }
 
         if (isset($expected->hasServerConnectionId)) {
-            assertIsBool($expected->hasServerConnectionId);
-            assertSame($actual->getServerConnectionId() !== null, $expected->hasServerConnectionId, $message . ': hasServerConnectionId matches');
+            Assert::assertIsBool($expected->hasServerConnectionId);
+            Assert::assertSame($actual->getServerConnectionId() !== null, $expected->hasServerConnectionId, $message . ': hasServerConnectionId matches');
         }
     }
 
@@ -260,29 +249,29 @@ final class EventObserver implements CommandSubscriber
         Util::assertHasOnlyKeys($expected, ['reply', 'commandName', 'databaseName', 'hasServiceId', 'hasServerConnectionId']);
 
         if (isset($expected->reply)) {
-            assertIsObject($expected->reply);
+            Assert::assertIsObject($expected->reply);
             $constraint = new Matches($expected->reply, $this->context->getEntityMap());
-            assertThat($actual->getReply(), $constraint, $message . ': reply matches');
+            Assert::assertThat($actual->getReply(), $constraint, $message . ': reply matches');
         }
 
         if (isset($expected->commandName)) {
-            assertIsString($expected->commandName);
-            assertSame($actual->getCommandName(), $expected->commandName, $message . ': commandName matches');
+            Assert::assertIsString($expected->commandName);
+            Assert::assertSame($actual->getCommandName(), $expected->commandName, $message . ': commandName matches');
         }
 
         if (isset($expected->databaseName)) {
-            assertIsString($expected->databaseName);
-            assertSame($actual->getDatabaseName(), $expected->databaseName, $message . ': databaseName matches');
+            Assert::assertIsString($expected->databaseName);
+            Assert::assertSame($actual->getDatabaseName(), $expected->databaseName, $message . ': databaseName matches');
         }
 
         if (isset($expected->hasServiceId)) {
-            assertIsBool($expected->hasServiceId);
-            assertSame($actual->getServiceId() !== null, $expected->hasServiceId, $message . ': hasServiceId matches');
+            Assert::assertIsBool($expected->hasServiceId);
+            Assert::assertSame($actual->getServiceId() !== null, $expected->hasServiceId, $message . ': hasServiceId matches');
         }
 
         if (isset($expected->hasServerConnectionId)) {
-            assertIsBool($expected->hasServerConnectionId);
-            assertSame($actual->getServerConnectionId() !== null, $expected->hasServerConnectionId, $message . ': hasServerConnectionId matches');
+            Assert::assertIsBool($expected->hasServerConnectionId);
+            Assert::assertSame($actual->getServerConnectionId() !== null, $expected->hasServerConnectionId, $message . ': hasServerConnectionId matches');
         }
     }
 
@@ -291,23 +280,23 @@ final class EventObserver implements CommandSubscriber
         Util::assertHasOnlyKeys($expected, ['commandName', 'databaseName', 'hasServiceId', 'hasServerConnectionId']);
 
         if (isset($expected->commandName)) {
-            assertIsString($expected->commandName);
-            assertSame($actual->getCommandName(), $expected->commandName, $message . ': commandName matches');
+            Assert::assertIsString($expected->commandName);
+            Assert::assertSame($actual->getCommandName(), $expected->commandName, $message . ': commandName matches');
         }
 
         if (isset($expected->databaseName)) {
-            assertIsString($expected->databaseName);
-            assertSame($actual->getDatabaseName(), $expected->databaseName, $message . ': databaseName matches');
+            Assert::assertIsString($expected->databaseName);
+            Assert::assertSame($actual->getDatabaseName(), $expected->databaseName, $message . ': databaseName matches');
         }
 
         if (isset($expected->hasServiceId)) {
-            assertIsBool($expected->hasServiceId);
-            assertSame($actual->getServiceId() !== null, $expected->hasServiceId, $message . ': hasServiceId matches');
+            Assert::assertIsBool($expected->hasServiceId);
+            Assert::assertSame($actual->getServiceId() !== null, $expected->hasServiceId, $message . ': hasServiceId matches');
         }
 
         if (isset($expected->hasServerConnectionId)) {
-            assertIsBool($expected->hasServerConnectionId);
-            assertSame($actual->getServerConnectionId() !== null, $expected->hasServerConnectionId, $message . ': hasServerConnectionId matches');
+            Assert::assertIsBool($expected->hasServerConnectionId);
+            Assert::assertSame($actual->getServerConnectionId() !== null, $expected->hasServerConnectionId, $message . ': hasServerConnectionId matches');
         }
     }
 

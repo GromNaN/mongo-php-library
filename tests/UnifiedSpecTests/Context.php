@@ -18,16 +18,6 @@ use function current;
 use function explode;
 use function getenv;
 use function key;
-use function PHPUnit\Framework\assertArrayHasKey;
-use function PHPUnit\Framework\assertCount;
-use function PHPUnit\Framework\assertIsArray;
-use function PHPUnit\Framework\assertIsBool;
-use function PHPUnit\Framework\assertIsInt;
-use function PHPUnit\Framework\assertIsObject;
-use function PHPUnit\Framework\assertIsString;
-use function PHPUnit\Framework\assertNotEmpty;
-use function PHPUnit\Framework\assertNotSame;
-use function PHPUnit\Framework\assertSame;
 use function sprintf;
 
 /**
@@ -84,16 +74,16 @@ final class Context
     public function createEntities(array $entities): void
     {
         foreach ($entities as $entity) {
-            assertIsObject($entity);
+            Assert::assertIsObject($entity);
             $entity = (array) $entity;
-            assertCount(1, $entity);
+            Assert::assertCount(1, $entity);
 
             $type = key($entity);
             $def = current($entity);
-            assertIsObject($def);
+            Assert::assertIsObject($def);
 
             $id = $def->id ?? null;
-            assertIsString($id);
+            Assert::assertIsString($id);
 
             switch ($type) {
                 case 'client':
@@ -169,10 +159,10 @@ final class Context
 
     public function assertExpectedEventsForClients(array $expectedEventsForClients): void
     {
-        assertNotEmpty($expectedEventsForClients);
+        Assert::assertNotEmpty($expectedEventsForClients);
 
         foreach ($expectedEventsForClients as $expectedEventsForClient) {
-            assertIsObject($expectedEventsForClient);
+            Assert::assertIsObject($expectedEventsForClient);
             Util::assertHasOnlyKeys($expectedEventsForClient, ['client', 'events', 'eventType', 'ignoreExtraEvents']);
 
             $client = $expectedEventsForClient->client ?? null;
@@ -180,12 +170,12 @@ final class Context
             $expectedEvents = $expectedEventsForClient->events ?? null;
             $ignoreExtraEvents = $expectedEventsForClient->ignoreExtraEvents ?? false;
 
-            assertIsString($client);
-            assertArrayHasKey($client, $this->eventObserversByClient);
+            Assert::assertIsString($client);
+            Assert::assertArrayHasKey($client, $this->eventObserversByClient);
             /* Note: PHPC does not implement CMAP. Any tests expecting CMAP
              * events should be skipped explicitly. */
-            assertSame('command', $eventType);
-            assertIsArray($expectedEvents);
+            Assert::assertSame('command', $eventType);
+            Assert::assertIsArray($expectedEvents);
 
             $this->eventObserversByClient[$client]->assert($expectedEvents, $ignoreExtraEvents);
         }
@@ -207,7 +197,7 @@ final class Context
 
     public function getEventObserverForClient(string $id): EventObserver
     {
-        assertArrayHasKey($id, $this->eventObserversByClient);
+        Assert::assertArrayHasKey($id, $this->eventObserversByClient);
 
         return $this->eventObserversByClient[$id];
     }
@@ -268,7 +258,7 @@ final class Context
         $uri = $this->uri;
 
         if (isset($useMultipleMongoses)) {
-            assertIsBool($useMultipleMongoses);
+            Assert::assertIsBool($useMultipleMongoses);
 
             $uri = $useMultipleMongoses ? $this->multiMongosUri : $this->singleMongosUri;
         }
@@ -276,7 +266,7 @@ final class Context
         $uriOptions = [];
 
         if (isset($o->uriOptions)) {
-            assertIsObject($o->uriOptions);
+            Assert::assertIsObject($o->uriOptions);
             $uriOptions = (array) $o->uriOptions;
 
             if (! empty($uriOptions['readPreferenceTags'])) {
@@ -292,15 +282,15 @@ final class Context
         }
 
         if (isset($observeEvents)) {
-            assertIsArray($observeEvents);
-            assertIsArray($ignoreCommandMonitoringEvents);
-            assertIsBool($observeSensitiveCommands);
+            Assert::assertIsArray($observeEvents);
+            Assert::assertIsArray($ignoreCommandMonitoringEvents);
+            Assert::assertIsBool($observeSensitiveCommands);
 
             $this->eventObserversByClient[$id] = new EventObserver($observeEvents, $ignoreCommandMonitoringEvents, $observeSensitiveCommands, $id, $this);
         }
 
         if (isset($storeEventsAsEntities)) {
-            assertIsArray($storeEventsAsEntities);
+            Assert::assertIsArray($storeEventsAsEntities);
 
             foreach ($storeEventsAsEntities as $storeEventsAsEntity) {
                 $this->createEntityCollector($id, $storeEventsAsEntity);
@@ -311,7 +301,7 @@ final class Context
         $driverOptions = isset($observeEvents) ? ['disableClientPersistence' => true] : [];
 
         if ($serverApi !== null) {
-            assertIsObject($serverApi);
+            Assert::assertIsObject($serverApi);
             $driverOptions['serverApi'] = new ServerApi(
                 $serverApi->version,
                 $serverApi->strict ?? null,
@@ -333,12 +323,12 @@ final class Context
         $clientId = null;
 
         if (isset($o->clientEncryptionOpts)) {
-            assertIsObject($o->clientEncryptionOpts);
+            Assert::assertIsObject($o->clientEncryptionOpts);
             $clientEncryptionOpts = (array) $o->clientEncryptionOpts;
         }
 
         if (isset($clientEncryptionOpts['keyVaultClient'])) {
-            assertIsString($clientEncryptionOpts['keyVaultClient']);
+            Assert::assertIsString($clientEncryptionOpts['keyVaultClient']);
             /* Record the keyVaultClient's ID, which we'll later use to track
              * the parent client in the entity map. */
             $clientId = $clientEncryptionOpts['keyVaultClient'];
@@ -346,7 +336,7 @@ final class Context
         }
 
         if (isset($clientEncryptionOpts['kmsProviders'])) {
-            assertIsObject($clientEncryptionOpts['kmsProviders']);
+            Assert::assertIsObject($clientEncryptionOpts['kmsProviders']);
 
             if (isset($clientEncryptionOpts['kmsProviders']->aws->accessKeyId->{'$$placeholder'})) {
                 $clientEncryptionOpts['kmsProviders']->aws->accessKeyId = static::getEnv('AWS_ACCESS_KEY_ID');
@@ -402,8 +392,8 @@ final class Context
         $eventListId = $o->id ?? null;
         $events = $o->events ?? null;
 
-        assertNotSame($eventListId, $clientId);
-        assertIsArray($events);
+        Assert::assertNotSame($eventListId, $clientId);
+        Assert::assertIsArray($events);
 
         $eventList = new BSONArray();
         $this->entityMap->set($eventListId, $eventList);
@@ -417,15 +407,15 @@ final class Context
         $collectionName = $o->collectionName ?? null;
         $databaseId = $o->database ?? null;
 
-        assertIsString($collectionName);
-        assertIsString($databaseId);
+        Assert::assertIsString($collectionName);
+        Assert::assertIsString($databaseId);
 
         $database = $this->entityMap->getDatabase($databaseId);
 
         $options = [];
 
         if (isset($o->collectionOptions)) {
-            assertIsObject($o->collectionOptions);
+            Assert::assertIsObject($o->collectionOptions);
             $options = self::prepareCollectionOrDatabaseOptions((array) $o->collectionOptions);
         }
 
@@ -439,15 +429,15 @@ final class Context
         $databaseName = $o->databaseName ?? null;
         $clientId = $o->client ?? null;
 
-        assertIsString($databaseName);
-        assertIsString($clientId);
+        Assert::assertIsString($databaseName);
+        Assert::assertIsString($clientId);
 
         $client = $this->entityMap->getClient($clientId);
 
         $options = [];
 
         if (isset($o->databaseOptions)) {
-            assertIsObject($o->databaseOptions);
+            Assert::assertIsObject($o->databaseOptions);
             $options = self::prepareCollectionOrDatabaseOptions((array) $o->databaseOptions);
         }
 
@@ -459,13 +449,13 @@ final class Context
         Util::assertHasOnlyKeys($o, ['id', 'client', 'sessionOptions']);
 
         $clientId = $o->client ?? null;
-        assertIsString($clientId);
+        Assert::assertIsString($clientId);
         $client = $this->entityMap->getClient($clientId);
 
         $options = [];
 
         if (isset($o->sessionOptions)) {
-            assertIsObject($o->sessionOptions);
+            Assert::assertIsObject($o->sessionOptions);
             $options = self::prepareSessionOptions((array) $o->sessionOptions);
         }
 
@@ -483,13 +473,13 @@ final class Context
         Util::assertHasOnlyKeys($o, ['id', 'database', 'bucketOptions']);
 
         $databaseId = $o->database ?? null;
-        assertIsString($databaseId);
+        Assert::assertIsString($databaseId);
         $database = $this->entityMap->getDatabase($databaseId);
 
         $options = [];
 
         if (isset($o->bucketOptions)) {
-            assertIsObject($o->bucketOptions);
+            Assert::assertIsObject($o->bucketOptions);
             $options = self::prepareBucketOptions((array) $o->bucketOptions);
         }
 
@@ -519,15 +509,15 @@ final class Context
         Util::assertHasOnlyKeys($options, ['bucketName', 'chunkSizeBytes', 'disableMD5', 'readConcern', 'readPreference', 'writeConcern']);
 
         if (array_key_exists('bucketName', $options)) {
-            assertIsString($options['bucketName']);
+            Assert::assertIsString($options['bucketName']);
         }
 
         if (array_key_exists('chunkSizeBytes', $options)) {
-            assertIsInt($options['chunkSizeBytes']);
+            Assert::assertIsInt($options['chunkSizeBytes']);
         }
 
         if (array_key_exists('disableMD5', $options)) {
-            assertIsBool($options['disableMD5']);
+            Assert::assertIsBool($options['disableMD5']);
         }
 
         return Util::prepareCommonOptions($options);
@@ -538,16 +528,16 @@ final class Context
         Util::assertHasOnlyKeys($options, ['causalConsistency', 'defaultTransactionOptions', 'snapshot']);
 
         if (array_key_exists('causalConsistency', $options)) {
-            assertIsBool($options['causalConsistency']);
+            Assert::assertIsBool($options['causalConsistency']);
         }
 
         if (array_key_exists('defaultTransactionOptions', $options)) {
-            assertIsObject($options['defaultTransactionOptions']);
+            Assert::assertIsObject($options['defaultTransactionOptions']);
             $options['defaultTransactionOptions'] = self::prepareDefaultTransactionOptions((array) $options['defaultTransactionOptions']);
         }
 
         if (array_key_exists('snapshot', $options)) {
-            assertIsBool($options['snapshot']);
+            Assert::assertIsBool($options['snapshot']);
         }
 
         return $options;
@@ -558,7 +548,7 @@ final class Context
         Util::assertHasOnlyKeys($options, ['maxCommitTimeMS', 'readConcern', 'readPreference', 'writeConcern']);
 
         if (array_key_exists('maxCommitTimeMS', $options)) {
-            assertIsInt($options['maxCommitTimeMS']);
+            Assert::assertIsInt($options['maxCommitTimeMS']);
         }
 
         return Util::prepareCommonOptions($options);
