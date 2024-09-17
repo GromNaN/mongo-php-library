@@ -21,7 +21,6 @@ use Iterator;
 use MongoDB\BSON\Document;
 use MongoDB\BSON\Int64;
 use MongoDB\Codec\DocumentCodec;
-use MongoDB\Driver\Cursor;
 use MongoDB\Driver\CursorId;
 use MongoDB\Driver\CursorInterface;
 use MongoDB\Driver\Server;
@@ -64,7 +63,7 @@ class CodecCursor implements CursorInterface, Iterator
      * @param DocumentCodec<NativeClass> $codec
      * @return self<NativeClass>
      */
-    public static function fromCursor(Cursor $cursor, DocumentCodec $codec): self
+    public static function fromCursor(CursorInterface&Iterator $cursor, DocumentCodec $codec): self
     {
         $cursor->setTypeMap(self::TYPEMAP);
 
@@ -138,7 +137,7 @@ class CodecCursor implements CursorInterface, Iterator
     }
 
     /** @param DocumentCodec<TValue> $codec */
-    private function __construct(private Cursor $cursor, private DocumentCodec $codec)
+    private function __construct(private CursorInterface&Iterator $cursor, private DocumentCodec $codec)
     {
     }
 }
