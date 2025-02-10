@@ -108,7 +108,7 @@ class Collection
      *
      * Supported options:
      *
-     *  * builderEncoder (MongoDB\Builder\Encoder): Encoder for query and
+     *  * builderEncoder (MongoDB\Codec\Encoder): Encoder for query and
      *    aggregation builders. If not given, the default encoder will be used.
      *
      *  * codec (MongoDB\Codec\DocumentCodec): Codec used to decode documents
