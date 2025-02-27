@@ -4,16 +4,22 @@ declare(strict_types=1);
 
 namespace MongoDB\Tests\Builder;
 
+use DateTime;
+use DateTimeImmutable;
 use Generator;
 use MongoDB\BSON\Document;
+use MongoDB\BSON\UTCDateTime;
 use MongoDB\Builder\Accumulator;
 use MongoDB\Builder\BuilderEncoder;
 use MongoDB\Builder\Expression;
 use MongoDB\Builder\Pipeline;
 use MongoDB\Builder\Query;
 use MongoDB\Builder\Stage;
+use MongoDB\Builder\Type\FieldPathInterface;
 use MongoDB\Builder\Type\Sort;
 use MongoDB\Builder\Variable;
+use MongoDB\Codec\EncodeIfSupported;
+use MongoDB\Codec\Encoder;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
@@ -337,10 +343,89 @@ class BuilderEncoderTest extends TestCase
         $this->assertSamePipeline($expected, $pipeline);
     }
 
-    /** @param list<array<string, mixed>> $expected */
-    private static function assertSamePipeline(array $expected, Pipeline $pipeline): void
+    public function testDateTimeEncoding(): void
     {
-        $codec = new BuilderEncoder();
+        $dateTimeImmutable = new DateTimeImmutable();
+        $dateTime = DateTime::createFromImmutable($dateTimeImmutable);
+        $utcDateTime = new UTCDateTime($dateTime);
+
+        $pipeline = new Pipeline(
+            Stage::match(
+                utc: $utcDateTime,
+                mutable: $dateTime,
+                immutable: $dateTimeImmutable,
+            ),
+            Stage::addFields(
+                utc: Expression::dateToString($utcDateTime),
+                mutable: Expression::dateToString($dateTime),
+                immutable: Expression::dateToString($dateTimeImmutable),
+            ),
+        );
+
+        $expected = [
+            [
+                '$match' => [
+                    'utc' => $utcDateTime,
+                    'mutable' => $utcDateTime,
+                    'immutable' => $utcDateTime,
+                ],
+            ],
+            [
+                '$addFields' => [
+                    'utc' => ['$dateToString' => ['date' => $utcDateTime]],
+                    'mutable' => ['$dateToString' => ['date' => $utcDateTime]],
+                    'immutable' => ['$dateToString' => ['date' => $utcDateTime]],
+                ],
+            ],
+        ];
+
+        $this->assertSamePipeline($expected, $pipeline);
+    }
+
+    public function testCustomEncoder(): void
+    {
+        $customEncoders = [
+            FieldPathInterface::class => new class implements Encoder {
+                use EncodeIfSupported;
+
+                public function canEncode(mixed $value): bool
+                {
+                    return $value instanceof FieldPathInterface;
+                }
+
+                public function encode(mixed $value): mixed
+                {
+                    return '$prefix.' . $value->name;
+                }
+            },
+        ];
+        $codec = new BuilderEncoder($customEncoders);
+
+        $pipeline = new Pipeline(
+            Stage::project(
+                threeFavorites: Expression::slice(
+                    Expression::arrayFieldPath('items'),
+                    n: 3,
+                ),
+            ),
+        );
+
+        $expected = [
+            [
+                '$project' => [
+                    'threeFavorites' => [
+                        '$slice' => ['$prefix.items', 3],
+                    ],
+                ],
+            ],
+        ];
+
+        $this->assertSamePipeline($expected, $pipeline, $codec);
+    }
+
+    /** @param list<array<string, mixed>> $expected */
+    private static function assertSamePipeline(array $expected, Pipeline $pipeline, $codec = new BuilderEncoder()): void
+    {
         $actual = $codec->encode($pipeline);
 
         // Normalize with BSON round-trip

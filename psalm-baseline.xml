@@ -40,12 +40,10 @@
       <code><![CDATA[stdClass]]></code>
     </MoreSpecificReturnType>
   </file>
-  <file src="src/Builder/Encoder/AbstractExpressionEncoder.php">
-    <MixedAssignment>
-      <code><![CDATA[$val]]></code>
-      <code><![CDATA[$val]]></code>
-      <code><![CDATA[$value[$key]]]></code>
-    </MixedAssignment>
+  <file src="src/Builder/BuilderEncoder.php">
+    <MixedReturnStatement>
+      <code><![CDATA[$encoder->encode($value)]]></code>
+    </MixedReturnStatement>
   </file>
   <file src="src/Builder/Encoder/CombinedFieldQueryEncoder.php">
     <MixedAssignment>
@@ -96,6 +94,13 @@
     <MixedAssignment>
       <code><![CDATA[$subValue]]></code>
       <code><![CDATA[$value]]></code>
+    </MixedAssignment>
+  </file>
+  <file src="src/Builder/Encoder/RecursiveEncode.php">
+    <MixedAssignment>
+      <code><![CDATA[$val]]></code>
+      <code><![CDATA[$val]]></code>
+      <code><![CDATA[$value[$key]]]></code>
     </MixedAssignment>
   </file>
   <file src="src/Builder/Query.php">
@@ -235,6 +240,8 @@
       <code><![CDATA[$value]]></code>
     </ArgumentTypeCoercion>
     <InvalidReturnType>
+      <code><![CDATA[($value is NativeType ? BSONType : $value)]]></code>
+      <code><![CDATA[($value is NativeType ? BSONType : $value)]]></code>
       <code><![CDATA[($value is NativeType ? BSONType : $value)]]></code>
       <code><![CDATA[($value is NativeType ? BSONType : $value)]]></code>
       <code><![CDATA[($value is NativeType ? BSONType : $value)]]></code>

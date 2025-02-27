@@ -89,6 +89,14 @@ final class BulkWrite
      *  * upsert (boolean): When true, a new document is created if no document
      *    matches the query. The default is false.
      *
+     * Supported options for replaceOne and updateOne operations:
+     *
+     *  * sort (document): Determines which document the operation modifies if
+     *    the query selects multiple documents.
+     *
+     *    This is not supported for server versions < 8.0 and will result in an
+     *    exception at execution time if used.
+     *
      * Supported options for updateMany and updateOne operations:
      *
      *  * arrayFilters (document array): A set of filters specifying to which
@@ -368,6 +376,10 @@ final class BulkWrite
                         throw InvalidArgumentException::expectedDocumentType(sprintf('$operations[%d]["%s"][2]["collation"]', $i, $type), $args[2]['collation']);
                     }
 
+                    if (isset($args[2]['sort']) && ! is_document($args[2]['sort'])) {
+                        throw InvalidArgumentException::expectedDocumentType(sprintf('$operations[%d]["%s"][2]["sort"]', $i, $type), $args[2]['sort']);
+                    }
+
                     if (! is_bool($args[2]['upsert'])) {
                         throw InvalidArgumentException::invalidType(sprintf('$operations[%d]["%s"][2]["upsert"]', $i, $type), $args[2]['upsert'], 'boolean');
                     }
@@ -407,6 +419,14 @@ final class BulkWrite
 
                     if (isset($args[2]['collation']) && ! is_document($args[2]['collation'])) {
                         throw InvalidArgumentException::expectedDocumentType(sprintf('$operations[%d]["%s"][2]["collation"]', $i, $type), $args[2]['collation']);
+                    }
+
+                    if (isset($args[2]['sort']) && ! is_document($args[2]['sort'])) {
+                        throw InvalidArgumentException::expectedDocumentType(sprintf('$operations[%d]["%s"][2]["sort"]', $i, $type), $args[2]['sort']);
+                    }
+
+                    if (isset($args[2]['sort']) && $args[2]['multi']) {
+                        throw new InvalidArgumentException(sprintf('"sort" option cannot be used with $operations[%d]["%s"]', $i, $type));
                     }
 
                     if (! is_bool($args[2]['upsert'])) {

@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace MongoDB\Builder;
 
+use DateTimeInterface;
+use MongoDB\BSON\Type;
 use MongoDB\Builder\Encoder\CombinedFieldQueryEncoder;
+use MongoDB\Builder\Encoder\DateTimeEncoder;
 use MongoDB\Builder\Encoder\DictionaryEncoder;
-use MongoDB\Builder\Encoder\ExpressionEncoder;
 use MongoDB\Builder\Encoder\FieldPathEncoder;
 use MongoDB\Builder\Encoder\OperatorEncoder;
 use MongoDB\Builder\Encoder\OutputWindowEncoder;
@@ -27,34 +29,39 @@ use MongoDB\Codec\EncodeIfSupported;
 use MongoDB\Codec\Encoder;
 use MongoDB\Exception\UnsupportedValueException;
 use stdClass;
+use WeakReference;
 
 use function array_key_exists;
 use function is_object;
 
-/** @template-implements Encoder<stdClass|array|string|int, Pipeline|StageInterface|ExpressionInterface|QueryInterface> */
+/** @template-implements Encoder<Type|stdClass|array|string|int, Pipeline|StageInterface|ExpressionInterface|QueryInterface> */
 final class BuilderEncoder implements Encoder
 {
-    /** @template-use EncodeIfSupported<stdClass|array|string|int, Pipeline|StageInterface|ExpressionInterface|QueryInterface> */
+    /** @template-use EncodeIfSupported<Type|stdClass|array|string|int, Pipeline|StageInterface|ExpressionInterface|QueryInterface> */
     use EncodeIfSupported;
 
-    /** @var array<class-string, class-string<ExpressionEncoder>> */
-    private array $defaultEncoders = [
-        Pipeline::class => PipelineEncoder::class,
-        Variable::class => VariableEncoder::class,
-        DictionaryInterface::class => DictionaryEncoder::class,
-        FieldPathInterface::class => FieldPathEncoder::class,
-        CombinedFieldQuery::class => CombinedFieldQueryEncoder::class,
-        QueryObject::class => QueryEncoder::class,
-        OutputWindow::class => OutputWindowEncoder::class,
-        OperatorInterface::class => OperatorEncoder::class,
-    ];
+    /** @var array<class-string, Encoder> */
+    private array $encoders;
 
-    /** @var array<class-string, ExpressionEncoder|null> */
+    /** @var array<class-string, Encoder|null> */
     private array $cachedEncoders = [];
 
-    /** @param array<class-string, class-string<ExpressionEncoder>> $customEncoders */
-    public function __construct(private readonly array $customEncoders = [])
+    /** @param array<class-string, Encoder> $encoders */
+    public function __construct(array $encoders = [])
     {
+        $self = WeakReference::create($this);
+
+        $this->encoders = $encoders + [
+            Pipeline::class => new PipelineEncoder($self),
+            Variable::class => new VariableEncoder(),
+            DictionaryInterface::class => new DictionaryEncoder(),
+            FieldPathInterface::class => new FieldPathEncoder(),
+            CombinedFieldQuery::class => new CombinedFieldQueryEncoder($self),
+            QueryObject::class => new QueryEncoder($self),
+            OutputWindow::class => new OutputWindowEncoder($self),
+            OperatorInterface::class => new OperatorEncoder($self),
+            DateTimeInterface::class => new DateTimeEncoder(),
+        ];
     }
 
     /** @psalm-assert-if-true object $value */
@@ -67,7 +74,7 @@ final class BuilderEncoder implements Encoder
         return (bool) $this->getEncoderFor($value)?->canEncode($value);
     }
 
-    public function encode(mixed $value): stdClass|array|string|int
+    public function encode(mixed $value): Type|stdClass|array|string|int
     {
         $encoder = $this->getEncoderFor($value);
 
@@ -78,24 +85,22 @@ final class BuilderEncoder implements Encoder
         return $encoder->encode($value);
     }
 
-    private function getEncoderFor(object $value): ExpressionEncoder|null
+    private function getEncoderFor(object $value): Encoder|null
     {
         $valueClass = $value::class;
         if (array_key_exists($valueClass, $this->cachedEncoders)) {
             return $this->cachedEncoders[$valueClass];
         }
 
-        $encoderList = $this->customEncoders + $this->defaultEncoders;
-
         // First attempt: match class name exactly
-        if (isset($encoderList[$valueClass])) {
-            return $this->cachedEncoders[$valueClass] = new $encoderList[$valueClass]($this);
+        if (isset($this->encoders[$valueClass])) {
+            return $this->cachedEncoders[$valueClass] = $this->encoders[$valueClass];
         }
 
         // Second attempt: catch child classes
-        foreach ($encoderList as $className => $encoderClass) {
+        foreach ($this->encoders as $className => $encoder) {
             if ($value instanceof $className) {
-                return $this->cachedEncoders[$valueClass] = new $encoderClass($this);
+                return $this->cachedEncoders[$valueClass] = $encoder;
             }
         }
 
