@@ -393,7 +393,7 @@ class BuilderEncoderTest extends TestCase
                     return $value instanceof FieldPathInterface;
                 }
 
-                public function encode(mixed $value)
+                public function encode(mixed $value): mixed
                 {
                     return '$prefix.' . $value->name;
                 }
