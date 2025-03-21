@@ -3,6 +3,7 @@
 namespace MongoDB\Tests\Collection;
 
 use Closure;
+use MongoDB\Codec\DocumentCodec;
 use MongoDB\Codec\Encoder;
 use MongoDB\Collection;
 use MongoDB\Database;
@@ -369,6 +370,8 @@ class CollectionFunctionalTest extends FunctionalTestCase
     public function testWithOptionsInheritsOptions(): void
     {
         $collectionOptions = [
+            'builderEncoder' => $this->createMock(Encoder::class),
+            'codec' => $this->createMock(DocumentCodec::class),
             'readConcern' => new ReadConcern(ReadConcern::LOCAL),
             'readPreference' => new ReadPreference(ReadPreference::SECONDARY_PREFERRED),
             'typeMap' => ['root' => 'array'],
@@ -382,20 +385,17 @@ class CollectionFunctionalTest extends FunctionalTestCase
         $this->assertSame($this->manager, $debug['manager']);
         $this->assertSame($this->getDatabaseName(), $debug['databaseName']);
         $this->assertSame($this->getCollectionName(), $debug['collectionName']);
-        $this->assertInstanceOf(ReadConcern::class, $debug['readConcern']);
-        $this->assertSame(ReadConcern::LOCAL, $debug['readConcern']->getLevel());
-        $this->assertInstanceOf(ReadPreference::class, $debug['readPreference']);
-        $this->assertSame(ReadPreference::SECONDARY_PREFERRED, $debug['readPreference']->getModeString());
-        $this->assertIsArray($debug['typeMap']);
-        $this->assertSame(['root' => 'array'], $debug['typeMap']);
-        $this->assertInstanceOf(WriteConcern::class, $debug['writeConcern']);
-        $this->assertSame(WriteConcern::MAJORITY, $debug['writeConcern']->getW());
+
+        foreach ($collectionOptions as $key => $value) {
+            $this->assertSame($value, $debug[$key]);
+        }
     }
 
     public function testWithOptionsPassesOptions(): void
     {
         $collectionOptions = [
-            'builderEncoder' => $builderEncoder = $this->createMock(Encoder::class),
+            'builderEncoder' => $this->createMock(Encoder::class),
+            'codec' => $this->createMock(DocumentCodec::class),
             'readConcern' => new ReadConcern(ReadConcern::LOCAL),
             'readPreference' => new ReadPreference(ReadPreference::SECONDARY_PREFERRED),
             'typeMap' => ['root' => 'array'],
@@ -405,15 +405,9 @@ class CollectionFunctionalTest extends FunctionalTestCase
         $clone = $this->collection->withOptions($collectionOptions);
         $debug = $clone->__debugInfo();
 
-        $this->assertSame($builderEncoder, $debug['builderEncoder']);
-        $this->assertInstanceOf(ReadConcern::class, $debug['readConcern']);
-        $this->assertSame(ReadConcern::LOCAL, $debug['readConcern']->getLevel());
-        $this->assertInstanceOf(ReadPreference::class, $debug['readPreference']);
-        $this->assertSame(ReadPreference::SECONDARY_PREFERRED, $debug['readPreference']->getModeString());
-        $this->assertIsArray($debug['typeMap']);
-        $this->assertSame(['root' => 'array'], $debug['typeMap']);
-        $this->assertInstanceOf(WriteConcern::class, $debug['writeConcern']);
-        $this->assertSame(WriteConcern::MAJORITY, $debug['writeConcern']->getW());
+        foreach ($collectionOptions as $key => $value) {
+            $this->assertSame($value, $debug[$key]);
+        }
     }
 
     public static function collectionMethodClosures()
