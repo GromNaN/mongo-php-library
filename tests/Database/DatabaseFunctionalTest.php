@@ -141,8 +141,7 @@ class DatabaseFunctionalTest extends FunctionalTestCase
         $writeResult = $this->manager->executeBulkWrite($this->getNamespace(), $bulkWrite);
         $this->assertEquals(1, $writeResult->getInsertedCount());
 
-        $commandResult = $this->database->drop();
-        $this->assertCommandSucceeded($commandResult);
+        $this->database->drop();
         $this->assertCollectionCount($this->getNamespace(), 0);
     }
 
@@ -154,8 +153,7 @@ class DatabaseFunctionalTest extends FunctionalTestCase
         $writeResult = $this->manager->executeBulkWrite($this->getNamespace(), $bulkWrite);
         $this->assertEquals(1, $writeResult->getInsertedCount());
 
-        $commandResult = $this->database->dropCollection($this->getCollectionName());
-        $this->assertCommandSucceeded($commandResult);
+        $this->database->dropCollection($this->getCollectionName());
         $this->assertCollectionDoesNotExist($this->getCollectionName());
     }
 
@@ -221,13 +219,12 @@ class DatabaseFunctionalTest extends FunctionalTestCase
         $writeResult = $this->manager->executeBulkWrite($this->getNamespace(), $bulkWrite);
         $this->assertEquals(1, $writeResult->getInsertedCount());
 
-        $commandResult = $this->database->renameCollection(
+        $this->database->renameCollection(
             $this->getCollectionName(),
             $toCollectionName,
             null,
             ['dropTarget' => true],
         );
-        $this->assertCommandSucceeded($commandResult);
         $this->assertCollectionDoesNotExist($this->getCollectionName());
         $this->assertCollectionExists($toCollectionName);
 
@@ -258,12 +255,11 @@ class DatabaseFunctionalTest extends FunctionalTestCase
         $writeResult = $this->manager->executeBulkWrite($this->getNamespace(), $bulkWrite);
         $this->assertEquals(1, $writeResult->getInsertedCount());
 
-        $commandResult = $this->database->renameCollection(
+        $this->database->renameCollection(
             $this->getCollectionName(),
             $toCollectionName,
             $toDatabaseName,
         );
-        $this->assertCommandSucceeded($commandResult);
         $this->assertCollectionDoesNotExist($this->getCollectionName());
         $this->assertCollectionExists($toCollectionName, $toDatabaseName);
 
