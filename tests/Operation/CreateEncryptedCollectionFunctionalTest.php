@@ -27,10 +27,6 @@ class CreateEncryptedCollectionFunctionalTest extends FunctionalTestCase
 
         $this->skipIfClientSideEncryptionIsNotSupported();
 
-        if (! static::isCryptSharedLibAvailable() && ! static::isMongocryptdAvailable()) {
-            $this->markTestSkipped('Neither crypt_shared nor mongocryptd are available');
-        }
-
         if ($this->isStandalone()) {
             $this->markTestSkipped('Queryable Encryption requires replica sets');
         }

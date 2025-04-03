@@ -25,10 +25,6 @@ abstract class FunctionalTestCase extends BaseFunctionalTestCase
         parent::setUp();
 
         $this->skipIfClientSideEncryptionIsNotSupported();
-
-        if (! static::isCryptSharedLibAvailable() && ! static::isMongocryptdAvailable()) {
-            $this->markTestSkipped('Neither crypt_shared nor mongocryptd are available');
-        }
     }
 
     public static function createTestClient(?string $uri = null, array $options = [], array $driverOptions = []): Client
