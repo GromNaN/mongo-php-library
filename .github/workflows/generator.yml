@@ -16,7 +16,7 @@ env:
   DRIVER_VERSION: "stable"
 
 jobs:
-  psalm:
+  diff:
     name: "Diff check"
     runs-on: "ubuntu-22.04"
 
