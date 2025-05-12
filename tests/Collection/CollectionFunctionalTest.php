@@ -77,6 +77,22 @@ class CollectionFunctionalTest extends FunctionalTestCase
         ]);
     }
 
+    public function testGetBuilderEncoder(): void
+    {
+        $collectionOptions = ['builderEncoder' => $this->createMock(Encoder::class)];
+        $collection = new Collection($this->manager, $this->getDatabaseName(), $this->getCollectionName(), $collectionOptions);
+
+        $this->assertSame($collectionOptions['builderEncoder'], $collection->getBuilderEncoder());
+    }
+
+    public function testGetCodec(): void
+    {
+        $collectionOptions = ['codec' => $this->createMock(DocumentCodec::class)];
+        $collection = new Collection($this->manager, $this->getDatabaseName(), $this->getCollectionName(), $collectionOptions);
+
+        $this->assertSame($collectionOptions['codec'], $collection->getCodec());
+    }
+
     public function testGetManager(): void
     {
         $this->assertSame($this->manager, $this->collection->getManager());
@@ -718,7 +734,7 @@ class CollectionFunctionalTest extends FunctionalTestCase
         $session->startTransaction();
 
         $this->expectException(UnsupportedException::class);
-        $this->expectExceptionMessage('"writeConcern" option cannot be specified within a transaction');
+        $this->expectExceptionMessage('Cannot set write concern after starting a transaction');
 
         try {
             call_user_func($method, $this->collection, $session, ['writeConcern' => new WriteConcern(1)]);
@@ -738,7 +754,7 @@ class CollectionFunctionalTest extends FunctionalTestCase
         $session->startTransaction();
 
         $this->expectException(UnsupportedException::class);
-        $this->expectExceptionMessage('"readConcern" option cannot be specified within a transaction');
+        $this->expectExceptionMessage('Cannot set read concern after starting a transaction');
 
         try {
             call_user_func($method, $this->collection, $session, ['readConcern' => new ReadConcern(ReadConcern::LOCAL)]);
