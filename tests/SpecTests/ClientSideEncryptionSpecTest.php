@@ -753,7 +753,7 @@ class ClientSideEncryptionSpecTest extends FunctionalTestCase
             'kmsProviders' => [
                 'azure' => Context::getAzureCredentials() + ['identityPlatformEndpoint' => 'doesnotexist.invalid:443'],
                 'gcp' => Context::getGCPCredentials() + ['endpoint' => 'doesnotexist.invalid:443'],
-                'kmip' => ['endpoint' => 'doesnotexist.local:5698'],
+                'kmip' => ['endpoint' => 'doesnotexist.invalid:5698'],
             ],
             'tlsOptions' => [
                 'kmip' => Context::getKmsTlsOptions(),
@@ -801,9 +801,9 @@ class ClientSideEncryptionSpecTest extends FunctionalTestCase
         ];
 
         yield 'Test 4' => [
-            static function (self $test, ClientEncryption $clientEncryption, ClientEncryption $clientEncryptionInvalid) use ($awsMasterKey): void {
+            static function (self $test, ClientEncryption $clientEncryption, ClientEncryption $clientEncryptionInvalid) use ($kmipMasterKey): void {
                 $test->expectException(ConnectionException::class);
-                $clientEncryption->createDataKey('aws', ['masterKey' => $awsMasterKey + ['endpoint' => 'kms.us-east-1.amazonaws.com:12345']]);
+                $clientEncryption->createDataKey('kmip', ['masterKey' => $kmipMasterKey + ['endpoint' => 'localhost:12345']]);
             },
         ];
 
@@ -864,7 +864,7 @@ class ClientSideEncryptionSpecTest extends FunctionalTestCase
                 $test->assertSame('test', $clientEncryption->decrypt($encrypted));
 
                 $test->expectException(RuntimeException::class);
-                $test->expectExceptionMessageMatches('#doesnotexist.local#');
+                $test->expectExceptionMessageMatches('#doesnotexist.invalid#');
                 $clientEncryptionInvalid->createDataKey('kmip', ['masterKey' => $kmipMasterKey]);
             },
         ];
@@ -881,10 +881,10 @@ class ClientSideEncryptionSpecTest extends FunctionalTestCase
 
         yield 'Test 12' => [
             static function (self $test, ClientEncryption $clientEncryption, ClientEncryption $clientEncryptionInvalid) use ($kmipMasterKey): void {
-                $kmipMasterKey['endpoint'] = 'doesnotexist.local:5698';
+                $kmipMasterKey['endpoint'] = 'doesnotexist.invalid:5698';
 
                 $test->expectException(RuntimeException::class);
-                $test->expectExceptionMessageMatches('#doesnotexist.local#');
+                $test->expectExceptionMessageMatches('#doesnotexist.invalid#');
                 $clientEncryption->createDataKey('kmip', ['masterKey' => $kmipMasterKey]);
             },
         ];
