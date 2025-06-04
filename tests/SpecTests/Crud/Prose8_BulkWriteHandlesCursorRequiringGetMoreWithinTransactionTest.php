@@ -20,10 +20,6 @@ class Prose8_BulkWriteHandlesCursorRequiringGetMoreWithinTransactionTest extends
 {
     public function testHandlesCursorWithinTransaction(): void
     {
-        if ($this->isServerless()) {
-            $this->markTestSkipped('bulkWrite command is not supported');
-        }
-
         $this->skipIfServerVersion('<', '8.0', 'bulkWrite command is not supported');
         $this->skipIfTransactionsAreNotSupported();
 

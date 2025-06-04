@@ -27,10 +27,6 @@ class Prose11_BulkWriteBatchSplitsWhenNamespaceExceedsMessageSizeTest extends Fu
     {
         parent::setUp();
 
-        if ($this->isServerless()) {
-            $this->markTestSkipped('bulkWrite command is not supported');
-        }
-
         $this->skipIfServerVersion('<', '8.0', 'bulkWrite command is not supported');
 
         $this->client = self::createTestClient();
