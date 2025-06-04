@@ -24,7 +24,6 @@ use function call_user_func;
 use function count;
 use function current;
 use function explode;
-use function filter_var;
 use function getenv;
 use function implode;
 use function in_array;
@@ -46,7 +45,6 @@ use function sprintf;
 use function version_compare;
 
 use const DIRECTORY_SEPARATOR;
-use const FILTER_VALIDATE_BOOLEAN;
 use const INFO_MODULES;
 use const PATH_SEPARATOR;
 
@@ -411,16 +409,6 @@ abstract class FunctionalTestCase extends TestCase
     protected function isStandalone()
     {
         return $this->getPrimaryServer()->getType() == Server::TYPE_STANDALONE;
-    }
-
-    /**
-     * Return whether serverless (i.e. proxy as mongos) is being utilized.
-     */
-    protected static function isServerless(): bool
-    {
-        $isServerless = getenv('MONGODB_IS_SERVERLESS');
-
-        return $isServerless !== false ? filter_var($isServerless, FILTER_VALIDATE_BOOLEAN) : false;
     }
 
     protected function isShardedCluster()
