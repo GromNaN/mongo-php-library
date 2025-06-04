@@ -55,13 +55,18 @@ final class UnifiedTestRunner
     /**
      * Support for the following schema versions is incomplete:
      *
-     *   - 1.9: Only createEntities operation is implemented
+     *   - 1.9: collectionOrDatabaseOptions.timeoutMS and expectedError.isTimeoutError are not implemented
      *   - 1.10: Not implemented
      *   - 1.11: Not implemented, but CMAP is not applicable
      *   - 1.13: Only $$matchAsDocument and $$matchAsRoot is implemented
      *   - 1.14: Not implemented
+     *   - 1.16: Not implemented
+     *   - 1.17: Not implemented
+     *   - 1.18: Not implemented
+     *   - 1.19: Not implemented
+     *   - 1.20: Not implemented
      */
-    public const MAX_SCHEMA_VERSION = '1.15';
+    public const MAX_SCHEMA_VERSION = '1.21';
 
     private Client $internalClient;
 

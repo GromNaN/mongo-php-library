@@ -29,6 +29,8 @@ class UnifiedSpecTest extends FunctionalTestCase
      * @var array<string, string>
      */
     private static array $incompleteTestGroups = [
+        // Spec tests for named KMS providers depends on unimplemented functionality from UTF schema 1.18
+        'client-side-encryption/namedKMS' => 'UTF schema 1.18 is not supported (PHPLIB-1328)',
         // Many load balancer tests use CMAP events and/or assertNumberConnectionsCheckedOut
         'load-balancers/cursors are correctly pinned to connections for load-balanced clusters' => 'PHPC does not implement CMAP',
         'load-balancers/transactions are correctly pinned to connections for load-balanced clusters' => 'PHPC does not implement CMAP',
@@ -53,9 +55,6 @@ class UnifiedSpecTest extends FunctionalTestCase
         'valid-pass/entity-client-cmap-events: events are captured during an operation' => 'PHPC does not implement CMAP',
         'valid-pass/expectedEventsForClient-eventType: eventType can be set to command and cmap' => 'PHPC does not implement CMAP',
         'valid-pass/expectedEventsForClient-eventType: eventType defaults to command if unset' => 'PHPC does not implement CMAP',
-        // CSOT is not yet implemented (PHPC-1760)
-        'valid-pass/collectionData-createOptions: collection is created with the correct options' => 'CSOT is not yet implemented (PHPC-1760)',
-        'valid-pass/operator-lte: special lte matching operator' => 'CSOT is not yet implemented (PHPC-1760)',
         // libmongoc always adds readConcern to aggregate command
         'index-management/search index operations ignore read and write concern: listSearchIndexes ignores read and write concern' => 'libmongoc appends readConcern to aggregate command',
         // Uses an invalid object name

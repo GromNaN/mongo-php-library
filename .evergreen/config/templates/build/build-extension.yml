@@ -5,8 +5,6 @@
         vars:
           PHP_VERSION: "%phpVersion%"
       - func: "compile extension"
-        vars:
-          EXTENSION_BRANCH: "v1.21"
       - func: "upload extension"
   - name: "build-php-%phpVersion%-lowest"
     tags: ["build", "php%phpVersion%", "lowest", "pr", "tag"]
@@ -15,8 +13,14 @@
         vars:
           PHP_VERSION: "%phpVersion%"
       - func: "compile extension"
+      - func: "upload extension"
+  - name: "build-php-%phpVersion%-next-stable"
+    tags: ["build", "php%phpVersion%", "next-stable", "pr", "tag"]
+    commands:
+      - func: "locate PHP binaries"
         vars:
-          EXTENSION_VERSION: "1.21.0"
+          PHP_VERSION: "%phpVersion%"
+      - func: "compile extension"
       - func: "upload extension"
   - name: "build-php-%phpVersion%-next-minor"
     tags: ["build", "php%phpVersion%", "next-minor"]
@@ -26,5 +30,5 @@
           PHP_VERSION: "%phpVersion%"
       - func: "compile extension"
         vars:
-          EXTENSION_BRANCH: "v1.x"
+          EXTENSION_BRANCH: "v2.x"
       - func: "upload extension"
