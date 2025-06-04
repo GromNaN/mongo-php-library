@@ -23,10 +23,6 @@ class Prose9_BulkWriteHandlesGetMoreErrorTest extends FunctionalTestCase
 
     public function testHandlesGetMoreError(): void
     {
-        if ($this->isServerless()) {
-            $this->markTestSkipped('bulkWrite command is not supported');
-        }
-
         $this->skipIfServerVersion('<', '8.0', 'bulkWrite command is not supported');
 
         $client = self::createTestClient();

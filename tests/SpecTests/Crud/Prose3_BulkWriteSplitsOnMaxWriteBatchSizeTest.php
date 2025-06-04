@@ -18,10 +18,6 @@ class Prose3_BulkWriteSplitsOnMaxWriteBatchSizeTest extends FunctionalTestCase
 {
     public function testSplitOnMaxWriteBatchSize(): void
     {
-        if ($this->isServerless()) {
-            $this->markTestSkipped('bulkWrite command is not supported');
-        }
-
         $this->skipIfServerVersion('<', '8.0', 'bulkWrite command is not supported');
 
         $client = self::createTestClient();

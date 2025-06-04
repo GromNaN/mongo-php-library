@@ -20,10 +20,6 @@ class Prose7_BulkWriteHandlesCursorRequiringGetMoreTest extends FunctionalTestCa
 {
     public function testHandlesCursor(): void
     {
-        if ($this->isServerless()) {
-            $this->markTestSkipped('bulkWrite command is not supported');
-        }
-
         $this->skipIfServerVersion('<', '8.0', 'bulkWrite command is not supported');
 
         $client = self::createTestClient();
