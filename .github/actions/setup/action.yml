@@ -36,7 +36,7 @@ runs:
     - name: Install PHP
       uses: shivammathur/setup-php@v2
       with:
-        coverage: none
+        coverage: xdebug
         extensions: "mongodb-${{ inputs.driver-version }}"
         php-version: "${{ inputs.php-version }}"
         tools: cs2pr
