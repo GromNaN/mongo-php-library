@@ -468,6 +468,18 @@ trait FactoryTrait
     }
 
     /**
+     * Takes two or more arrays and returns an array containing the elements that appear in any input array.
+     *
+     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/setUnion/
+     * @no-named-arguments
+     * @param BSONArray|PackedArray|ResolvesToArray|array|string ...$array An array of expressions that resolve to an array.
+     */
+    public static function setUnion(PackedArray|ResolvesToArray|BSONArray|array|string ...$array): SetUnionAccumulator
+    {
+        return new SetUnionAccumulator(...$array);
+    }
+
+    /**
      * Returns the value from an expression applied to a document in a specified position relative to the current document in the $setWindowFields stage partition.
      * New in MongoDB 5.0.
      *

@@ -1934,6 +1934,35 @@ enum Pipelines: string
     JSON;
 
     /**
+     * Flowers collection
+     *
+     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/setUnion/#example
+     */
+    case SetUnionFlowersCollection = <<<'JSON'
+    [
+        {
+            "$project": {
+                "flowerFieldA": {
+                    "$numberInt": "1"
+                },
+                "flowerFieldB": {
+                    "$numberInt": "1"
+                },
+                "allValues": {
+                    "$setUnion": [
+                        "$flowerFieldA",
+                        "$flowerFieldB"
+                    ]
+                },
+                "_id": {
+                    "$numberInt": "0"
+                }
+            }
+        }
+    ]
+    JSON;
+
+    /**
      * Shift Using a Positive Integer
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/shift/#shift-using-a-positive-integer
