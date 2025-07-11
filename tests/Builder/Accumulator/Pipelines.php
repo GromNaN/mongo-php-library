@@ -375,6 +375,26 @@ enum Pipelines: string
     JSON;
 
     /**
+     * Warehouse collection
+     *
+     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/concatArrays/#example
+     */
+    case ConcatArraysWarehouseCollection = <<<'JSON'
+    [
+        {
+            "$project": {
+                "items": {
+                    "$concatArrays": [
+                        "$instock",
+                        "$ordered"
+                    ]
+                }
+            }
+        }
+    ]
+    JSON;
+
+    /**
      * Use in $group Stage
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/count-accumulator/#use-in--group-stage
