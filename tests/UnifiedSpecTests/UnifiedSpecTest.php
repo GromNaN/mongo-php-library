@@ -13,6 +13,7 @@ use PHPUnit\Framework\Warning;
 use function array_flip;
 use function glob;
 use function str_starts_with;
+use function strtolower;
 
 /**
  * Unified test format spec tests.
@@ -40,6 +41,34 @@ class UnifiedSpecTest extends FunctionalTestCase
         'retryable-reads/retryable reads handshake failures' => 'Handshakes are not retried (CDRIVER-4532)',
         'retryable-writes/retryable writes handshake failures' => 'Handshakes are not retried (CDRIVER-4532)',
         'crud/bypassDocumentValidation' => 'bypassDocumentValidation is handled by libmongoc (PHPLIB-1576)',
+        // The rawData option will not be implemented
+        'collection-management/listCollections-rawData' => 'rawData option will not be implemented',
+        'crud/aggregate-rawData' => 'rawData option will not be implemented',
+        'crud/BulkWrite deleteMany-rawData' => 'rawData option will not be implemented',
+        'crud/BulkWrite deleteOne-rawData' => 'rawData option will not be implemented',
+        'crud/BulkWrite replaceOne-rawData' => 'rawData option will not be implemented',
+        'crud/BulkWrite updateMany-rawData' => 'rawData option will not be implemented',
+        'crud/BulkWrite updateOne-rawData' => 'rawData option will not be implemented',
+        'crud/client bulkWrite delete-rawData' => 'rawData option will not be implemented',
+        'crud/client bulkWrite replaceOne-rawData' => 'rawData option will not be implemented',
+        'crud/client bulkWrite update-rawData' => 'rawData option will not be implemented',
+        'crud/count-rawData' => 'rawData option will not be implemented',
+        'crud/countDocuments-rawData' => 'rawData option will not be implemented',
+        'crud/db-aggregate-rawData' => 'rawData option will not be implemented',
+        'crud/deleteMany-rawData' => 'rawData option will not be implemented',
+        'crud/deleteOne-rawData' => 'rawData option will not be implemented',
+        'crud/distinct-rawData' => 'rawData option will not be implemented',
+        'crud/estimatedDocumentCount-rawData' => 'rawData option will not be implemented',
+        'crud/find-rawData' => 'rawData option will not be implemented',
+        'crud/findOneAndDelete-rawData' => 'rawData option will not be implemented',
+        'crud/findOneAndReplace-rawData' => 'rawData option will not be implemented',
+        'crud/findOneAndUpdate-rawData' => 'rawData option will not be implemented',
+        'crud/insertMany-rawData' => 'rawData option will not be implemented',
+        'crud/insertOne-rawData' => 'rawData option will not be implemented',
+        'crud/replaceOne-rawData' => 'rawData option will not be implemented',
+        'crud/updateMany-rawData' => 'rawData option will not be implemented',
+        'crud/updateOne-rawData' => 'rawData option will not be implemented',
+        'index-management/index management-rawData' => 'rawData option will not be implemented',
     ];
 
     /** @var array<string, string> */
@@ -107,7 +136,7 @@ class UnifiedSpecTest extends FunctionalTestCase
         }
 
         foreach (self::$incompleteTestGroups as $testGroup => $reason) {
-            if (str_starts_with($this->dataDescription(), $testGroup)) {
+            if (str_starts_with(strtolower($this->dataDescription()), strtolower($testGroup))) {
                 $this->markTestIncomplete($reason);
             }
         }
