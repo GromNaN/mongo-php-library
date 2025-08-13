@@ -17,7 +17,6 @@ use MongoDB\Exception\UnsupportedException;
 use MongoDB\Operation\Count;
 use MongoDB\Tests\CommandObserver;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\Group;
 use ReflectionClass;
 use TypeError;
 
