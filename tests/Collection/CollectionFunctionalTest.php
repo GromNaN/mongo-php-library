@@ -17,6 +17,7 @@ use MongoDB\Exception\UnsupportedException;
 use MongoDB\Operation\Count;
 use MongoDB\Tests\CommandObserver;
 use PHPUnit\Framework\Attributes\DataProvider;
+use ReflectionClass;
 use TypeError;
 
 use function array_filter;
@@ -405,6 +406,16 @@ class CollectionFunctionalTest extends FunctionalTestCase
         foreach ($collectionOptions as $key => $value) {
             $this->assertSame($value, $debug[$key]);
         }
+
+        // autoEncryptionEnabled is an internal option not reported via debug info
+        $collection = new Collection($this->manager, $this->getDatabaseName(), $this->getCollectionName(), ['autoEncryptionEnabled' => true]);
+        $clone = $collection->withOptions();
+
+        $rc = new ReflectionClass($clone);
+        $rp = $rc->getProperty('autoEncryptionEnabled');
+        $rp->setAccessible(true);
+
+        $this->assertSame(true, $rp->getValue($clone));
     }
 
     public function testWithOptionsPassesOptions(): void
@@ -424,6 +435,15 @@ class CollectionFunctionalTest extends FunctionalTestCase
         foreach ($collectionOptions as $key => $value) {
             $this->assertSame($value, $debug[$key]);
         }
+
+        // autoEncryptionEnabled is an internal option not reported via debug info
+        $clone = $this->collection->withOptions(['autoEncryptionEnabled' => true]);
+
+        $rc = new ReflectionClass($clone);
+        $rp = $rc->getProperty('autoEncryptionEnabled');
+        $rp->setAccessible(true);
+
+        $this->assertSame(true, $rp->getValue($clone));
     }
 
     public static function collectionMethodClosures()
