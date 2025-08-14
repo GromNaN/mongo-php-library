@@ -1063,6 +1063,7 @@ class Collection
     public function withOptions(array $options = []): Collection
     {
         $options += [
+            'autoEncryptionEnabled' => $this->autoEncryptionEnabled,
             'builderEncoder' => $this->builderEncoder,
             'codec' => $this->codec,
             'readConcern' => $this->readConcern,

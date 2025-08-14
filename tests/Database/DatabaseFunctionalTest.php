@@ -15,6 +15,7 @@ use MongoDB\Exception\InvalidArgumentException;
 use MongoDB\Operation\CreateIndexes;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
+use ReflectionClass;
 use TypeError;
 
 use function array_key_exists;
@@ -385,6 +386,16 @@ class DatabaseFunctionalTest extends FunctionalTestCase
         foreach ($databaseOptions as $key => $value) {
             $this->assertSame($value, $debug[$key]);
         }
+
+        // autoEncryptionEnabled is an internal option not reported via debug info
+        $database = new Database($this->manager, $this->getDatabaseName(), ['autoEncryptionEnabled' => true]);
+        $clone = $database->withOptions();
+
+        $rc = new ReflectionClass($clone);
+        $rp = $rc->getProperty('autoEncryptionEnabled');
+        $rp->setAccessible(true);
+
+        $this->assertSame(true, $rp->getValue($clone));
     }
 
     public function testWithOptionsPassesOptions(): void
@@ -403,5 +414,14 @@ class DatabaseFunctionalTest extends FunctionalTestCase
         foreach ($databaseOptions as $key => $value) {
             $this->assertSame($value, $debug[$key]);
         }
+
+        // autoEncryptionEnabled is an internal option not reported via debug info
+        $clone = $this->database->withOptions(['autoEncryptionEnabled' => true]);
+
+        $rc = new ReflectionClass($clone);
+        $rp = $rc->getProperty('autoEncryptionEnabled');
+        $rp->setAccessible(true);
+
+        $this->assertSame(true, $rp->getValue($clone));
     }
 }

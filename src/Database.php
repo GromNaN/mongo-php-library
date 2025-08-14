@@ -632,6 +632,7 @@ class Database
     public function withOptions(array $options = []): Database
     {
         $options += [
+            'autoEncryptionEnabled' => $this->autoEncryptionEnabled,
             'builderEncoder' => $this->builderEncoder,
             'readConcern' => $this->readConcern,
             'readPreference' => $this->readPreference,
