@@ -380,7 +380,7 @@ class ExplainFunctionalTest extends FunctionalTestCase
         for ($i = 1; $i <= $n; $i++) {
             $bulkWrite->insert([
                 '_id' => $i,
-                'x' => (integer) ($i . $i),
+                'x' => (int) ($i . $i),
             ]);
         }
 
