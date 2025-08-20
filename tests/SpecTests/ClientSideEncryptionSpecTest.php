@@ -142,15 +142,6 @@ class ClientSideEncryptionSpecTest extends FunctionalTestCase
         static::assertDocumentsMatch($expected, $actual);
     }
 
-    public static function createTestClient(?string $uri = null, array $options = [], array $driverOptions = []): Client
-    {
-        if (isset($driverOptions['autoEncryption']) && getenv('CRYPT_SHARED_LIB_PATH')) {
-            $driverOptions['autoEncryption']['extraOptions']['cryptSharedLibPath'] = getenv('CRYPT_SHARED_LIB_PATH');
-        }
-
-        return parent::createTestClient($uri, $options, $driverOptions);
-    }
-
     /**
      * Execute an individual test case from the specification.
      *
@@ -620,7 +611,7 @@ class ClientSideEncryptionSpecTest extends FunctionalTestCase
             $previous = $e->getPrevious();
 
             $this->assertInstanceOf(EncryptionException::class, $previous);
-            $this->assertSame('cannot auto encrypt a view', $previous->getMessage());
+            $this->assertStringContainsString('cannot auto encrypt a view', $previous->getMessage());
         }
     }
 

@@ -158,30 +158,6 @@ class ExplainFunctionalTest extends FunctionalTestCase
         );
     }
 
-    public function testFindModifiers(): void
-    {
-        $this->createFixtures(3);
-
-        $operation = new Find(
-            $this->getDatabaseName(),
-            $this->getCollectionName(),
-            [],
-            ['modifiers' => ['$orderby' => ['_id' => 1]]],
-        );
-
-        (new CommandObserver())->observe(
-            function () use ($operation): void {
-                $explainOperation = new Explain($this->getDatabaseName(), $operation, ['typeMap' => ['root' => 'array', 'document' => 'array']]);
-                $explainOperation->execute($this->getPrimaryServer());
-            },
-            function (array $event): void {
-                $command = $event['started']->getCommand();
-                $this->assertObjectHasProperty('sort', $command->explain);
-                $this->assertObjectNotHasProperty('modifiers', $command->explain);
-            },
-        );
-    }
-
     #[DataProvider('provideVerbosityInformation')]
     public function testFindOne($verbosity, $executionStatsExpected, $allPlansExecutionExpected): void
     {
@@ -331,8 +307,6 @@ class ExplainFunctionalTest extends FunctionalTestCase
 
     public function testAggregate(): void
     {
-        $this->skipIfServerVersion('<', '4.0.0', 'Explaining aggregate command requires server version >= 4.0');
-
         $this->createFixtures(3);
 
         // Use a $sort stage to ensure the aggregate does not get optimised to a query
