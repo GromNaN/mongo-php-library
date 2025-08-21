@@ -123,6 +123,15 @@ The goal is that the library passes tests with the latest spec version at all
 times, either by implementing small changes quickly, or by skipping tests as
 necessary.
 
+## Backward compatibility
+
+When submitting a PR, be mindful of our backward compatibility guarantees. Our 
+BC policy follows [Symfony's Backward Compatibility Promise](https://symfony.com/doc/current/contributing/code/bc.html).
+
+In short, this means we use semantic versioning and guarantee backward 
+compatibility on all minor releases. For a more detailed definition, refer to 
+the Symfony docs linked above.
+
 ## Code quality
 
 Before submitting a pull request, please ensure that your code adheres to the
