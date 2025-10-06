@@ -31,6 +31,7 @@ jobs:
           - "8.2"
           - "8.3"
           - "8.4"
+          - "8.5"
         mongodb-version:
           - "8.0"
         topology:
@@ -83,6 +84,7 @@ jobs:
           php-version: ${{ matrix.php-version }}
           driver-version: ${{ env.DRIVER_VERSION }}
           php-ini-values: "zend.assertions=1"
+          ignore-platform-req: ${{ matrix.php-version == '8.5' && 'true' || 'false' }}
 
       - name: "Run PHPUnit"
         run: "vendor/bin/phpunit --configuration phpunit.evergreen.xml --coverage-clover coverage.xml"
