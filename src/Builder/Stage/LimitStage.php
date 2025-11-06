@@ -34,4 +34,16 @@ final class LimitStage implements StageInterface, OperatorInterface
     {
         $this->limit = $limit;
     }
+
+    /**
+     * Executes the $limit stage locally on the provided documents.
+     * Only for test/local execution purposes.
+     *
+     * @param array $documents Input documents
+     * @return array Limited documents
+     */
+    public function processLocally(array $documents): array
+    {
+        return array_slice($documents, 0, $this->limit);
+    }
 }

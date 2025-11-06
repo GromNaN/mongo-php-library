@@ -29,4 +29,15 @@ final class CountAccumulator implements AccumulatorInterface, WindowInterface, O
     public function __construct()
     {
     }
+
+    /**
+     * Accumulate the count for the current group state using the provided document.
+     *
+     * @param array $state Reference to the group state
+     * @param array $doc The current document
+     */
+    public function accumulate(array &$state, array $doc): void
+    {
+        $state['value'] = ($state['value'] ?? 0) + 1;
+    }
 }

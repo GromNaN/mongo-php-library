@@ -41,4 +41,25 @@ final class MaxAccumulator implements AccumulatorInterface, WindowInterface, Ope
     ) {
         $this->expression = $expression;
     }
+
+    /**
+     * Accumulate the maximum for the current group state using the provided document.
+     *
+     * @param array $state Reference to the group state
+     * @param array $doc The current document
+     */
+    public function accumulate(array &$state, array $doc): void
+    {
+        $expr = $this->expression;
+        $val = null;
+        if (is_string($expr) && str_starts_with($expr, '$')) {
+            $field = substr($expr, 1);
+            $val = $doc[$field] ?? null;
+        } elseif (is_numeric($expr)) {
+            $val = $expr;
+        }
+        if (!isset($state['value']) || ($val !== null && $val > $state['value'])) {
+            $state['value'] = $val;
+        }
+    }
 }

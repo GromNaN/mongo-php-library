@@ -57,4 +57,24 @@ final class Pipeline implements IteratorAggregate
     {
         return new ArrayIterator($this->stages);
     }
+
+    /**
+     * Executes the pipeline locally on the provided documents.
+     * Only for test/local execution purposes.
+     *
+     * @param array $documents Input documents
+     * @return array Resulting documents after pipeline execution
+     */
+    public function processLocally(array $documents): array
+    {
+        $result = $documents;
+        foreach ($this->stages as $stage) {
+            if (method_exists($stage, 'processLocally')) {
+                $result = $stage->processLocally($result);
+            } else {
+                throw new \RuntimeException('Stage does not support local execution: ' . (is_object($stage) ? get_class($stage) : gettype($stage)));
+            }
+        }
+        return $result;
+    }
 }

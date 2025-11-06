@@ -54,4 +54,29 @@ final class SortStage implements StageInterface, OperatorInterface
         $sort = (object) $sort;
         $this->sort = $sort;
     }
+
+    /**
+     * Executes the $sort stage locally on the provided documents.
+     * Only for test/local execution purposes.
+     *
+     * @param array $documents Input documents
+     * @return array Sorted documents
+     */
+    public function processLocally(array $documents): array
+    {
+        $sortSpec = (array) $this->sort;
+        usort($documents, function ($a, $b) use ($sortSpec) {
+            foreach ($sortSpec as $field => $direction) {
+                $dir = ($direction === -1 || $direction === 'desc' || $direction === Sort::Desc) ? -1 : 1;
+                $aVal = $a[$field] ?? null;
+                $bVal = $b[$field] ?? null;
+                if ($aVal === $bVal) {
+                    continue;
+                }
+                return ($aVal < $bVal ? -1 : 1) * $dir;
+            }
+            return 0;
+        });
+        return $documents;
+    }
 }
