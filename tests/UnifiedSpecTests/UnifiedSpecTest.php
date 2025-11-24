@@ -69,6 +69,11 @@ class UnifiedSpecTest extends FunctionalTestCase
         'crud/updateMany-rawData' => 'rawData option will not be implemented',
         'crud/updateOne-rawData' => 'rawData option will not be implemented',
         'index-management/index management-rawData' => 'rawData option will not be implemented',
+        'sessions/snapshot-sessions: Find operation with snapshot and snapshot time' => 'getSnapshotTime not implemented yet (PHPLIB-1725)',
+        'sessions/snapshot-sessions: Distinct operation with snapshot and snapshot time' => 'getSnapshotTime not implemented yet (PHPLIB-1725)',
+        'sessions/snapshot-sessions: Aggregate operation with snapshot and snapshot time' => 'getSnapshotTime not implemented yet (PHPLIB-1725)',
+        'sessions/snapshot-sessions: countDocuments operation with snapshot and snapshot time' => 'getSnapshotTime not implemented yet (PHPLIB-1725)',
+        'sessions/snapshot-sessions: Mixed operation with snapshot and snapshotTime' => 'getSnapshotTime not implemented yet (PHPLIB-1725)',
     ];
 
     /** @var array<string, string> */
