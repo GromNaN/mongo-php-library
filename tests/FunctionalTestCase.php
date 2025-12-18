@@ -469,10 +469,6 @@ abstract class FunctionalTestCase extends TestCase
 
     protected function skipIfClientSideEncryptionIsNotSupported(): void
     {
-        if (version_compare($this->getFeatureCompatibilityVersion(), '4.2', '<')) {
-            $this->markTestSkipped('Client Side Encryption only supported on FCV 4.2 or higher');
-        }
-
         if (static::getModuleInfo('libmongocrypt') === 'disabled') {
             $this->markTestSkipped('Client Side Encryption is not enabled in the MongoDB extension');
         }
@@ -491,16 +487,18 @@ abstract class FunctionalTestCase extends TestCase
 
     protected function skipIfTransactionsAreNotSupported(): void
     {
-        if ($this->getPrimaryServer()->getType() === Server::TYPE_STANDALONE) {
-            $this->markTestSkipped('Transactions are not supported on standalone servers');
-        }
+        switch ($this->getPrimaryServer()->getType()) {
+            case Server::TYPE_STANDALONE:
+                $this->markTestSkipped('Transactions are not supported on standalone servers');
+                break;
 
-        if ($this->isShardedCluster()) {
-            $this->markTestSkipped('Transactions are only supported on FCV 4.2 or higher');
-        }
+            case Server::TYPE_RS_PRIMARY:
+                // Note: mongos does not report storage engine information
+                if ($this->getServerStorageEngine() !== 'wiredTiger') {
+                    $this->markTestSkipped('Transactions require WiredTiger storage engine');
+                }
 
-        if ($this->getServerStorageEngine() !== 'wiredTiger') {
-            $this->markTestSkipped('Transactions require WiredTiger storage engine');
+                break;
         }
     }
 
