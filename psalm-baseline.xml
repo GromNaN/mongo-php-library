@@ -217,28 +217,6 @@
       <code><![CDATA[$query::NAME]]></code>
     </UndefinedConstant>
   </file>
-  <file src="src/Client.php">
-    <MixedArgument>
-      <code><![CDATA[$driverOptions['driver'] ?? []]]></code>
-      <code><![CDATA[$pipeline]]></code>
-    </MixedArgument>
-    <MixedArrayAssignment>
-      <code><![CDATA[$options['kmsProviders'][$name]]]></code>
-    </MixedArrayAssignment>
-    <MixedAssignment>
-      <code><![CDATA[$mergedDriver['platform']]]></code>
-      <code><![CDATA[$provider]]></code>
-    </MixedAssignment>
-    <MixedPropertyTypeCoercion>
-      <code><![CDATA[$driverOptions['builderEncoder'] ?? new BuilderEncoder()]]></code>
-    </MixedPropertyTypeCoercion>
-    <NamedArgumentNotAllowed>
-      <code><![CDATA[$pipeline]]></code>
-    </NamedArgumentNotAllowed>
-    <PossiblyInvalidArgument>
-      <code><![CDATA[$pipeline]]></code>
-    </PossiblyInvalidArgument>
-  </file>
   <file src="src/ClientBulkWrite.php">
     <PossiblyInvalidArgument>
       <code><![CDATA[$document]]></code>
