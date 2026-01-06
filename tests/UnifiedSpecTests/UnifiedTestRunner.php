@@ -32,6 +32,7 @@ use function PHPUnit\Framework\assertIsArray;
 use function PHPUnit\Framework\assertIsString;
 use function PHPUnit\Framework\assertNotEmpty;
 use function PHPUnit\Framework\assertNotFalse;
+use function preg_match;
 use function preg_replace;
 use function sprintf;
 use function str_starts_with;
@@ -89,7 +90,7 @@ final class UnifiedTestRunner
          *
          * Atlas Data Lake also does not support killAllSessions.
          */
-        if (FunctionalTestCase::isAtlas($internalClientUri) || $this->isAtlasDataLake()) {
+        if ($this->isAtlas($internalClientUri) || $this->isAtlasDataLake()) {
             $this->allowKillAllSessions = false;
         }
 
@@ -305,6 +306,11 @@ final class UnifiedTestRunner
             Server::TYPE_LOAD_BALANCER => RunOnRequirement::TOPOLOGY_LOAD_BALANCED,
             default => throw new UnexpectedValueException('Topology is neither single nor RS nor sharded'),
         };
+    }
+
+    private function isAtlas(string $internalClientUri): bool
+    {
+        return preg_match('/\.(mongodb\.net|mongodb-dev\.net)/', $internalClientUri);
     }
 
     private function isAtlasDataLake(): bool
