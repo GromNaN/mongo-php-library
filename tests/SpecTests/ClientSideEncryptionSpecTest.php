@@ -635,6 +635,8 @@ class ClientSideEncryptionSpecTest extends FunctionalTestCase
     #[TestWith([false])]
     public function testCorpus($schemaMap = true): void
     {
+        $this->markTestSkipped('Encryption tests sending large payloads fail on some mongocryptd versions (See DRIVERS-3382)');
+
         $client = static::createTestClient();
         $client->selectDatabase('db')->dropCollection('coll');
 
