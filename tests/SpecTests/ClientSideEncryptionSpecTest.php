@@ -566,7 +566,7 @@ class ClientSideEncryptionSpecTest extends FunctionalTestCase
     #[DataProvider('provideBSONSizeLimitsAndBatchSplittingTests')]
     public function testBSONSizeLimitsAndBatchSplitting(Closure $test): void
     {
-        $this->markTestSkipped('Encryption tests sending large payloads fail on some mongocryptd versions (See DRIVERS-3382)');
+        $this->skipIfServerVersion('>=', '7.0.29', 'Encryption tests sending large payloads fail on some mongocryptd versions (See DRIVERS-3382)');
 
         $client = static::createTestClient();
 
@@ -635,7 +635,7 @@ class ClientSideEncryptionSpecTest extends FunctionalTestCase
     #[TestWith([false])]
     public function testCorpus($schemaMap = true): void
     {
-        $this->markTestSkipped('Encryption tests sending large payloads fail on some mongocryptd versions (See DRIVERS-3382)');
+        $this->skipIfServerVersion('>=', '7.0.29', 'Encryption tests sending large payloads fail on some mongocryptd versions (See DRIVERS-3382)');
 
         $client = static::createTestClient();
         $client->selectDatabase('db')->dropCollection('coll');
