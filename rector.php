@@ -20,6 +20,9 @@ return RectorConfig::configure()
     ])
     ->withPhpSets(php74: true)
     ->withComposerBased(phpunit: true)
+    // Error with StaticCallOnNonStaticToInstanceCallRector
+    // https://github.com/rectorphp/rector/issues/9608
+    ->withSkipPath(__DIR__ . '/tests/Builder/BuilderEncoderTest.php')
     ->withRules([
         ChangeSwitchToMatchRector::class,
     ])
