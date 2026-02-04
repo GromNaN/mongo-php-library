@@ -25,6 +25,9 @@ return RectorConfig::configure()
     ->withSkipPath(__DIR__ . '/tests/Builder/BuilderEncoderTest.php')
     ->withPhpSets(php80: true)
     ->withComposerBased(phpunit: true)
+    ->withRules([
+        ChangeSwitchToMatchRector::class,
+    ])
     // All classes are public API by default, unless marked with @internal.
     ->withConfiguredRule(RemoveAnnotationRector::class, ['api'])
     // Fix PHP 8.5 deprecations
