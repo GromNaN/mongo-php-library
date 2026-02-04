@@ -13,11 +13,12 @@ use PHPUnit\Framework\Warning;
 use function array_flip;
 use function glob;
 use function str_starts_with;
+use function strtolower;
 
 /**
  * Unified test format spec tests.
  *
- * @see https://github.com/mongodb/specifications/blob/master/source/unified-test-format/unified-test-format.rst
+ * @see https://github.com/mongodb/specifications/blob/master/source/unified-test-format/unified-test-format.md
  */
 class UnifiedSpecTest extends FunctionalTestCase
 {
@@ -40,6 +41,46 @@ class UnifiedSpecTest extends FunctionalTestCase
         'retryable-reads/retryable reads handshake failures' => 'Handshakes are not retried (CDRIVER-4532)',
         'retryable-writes/retryable writes handshake failures' => 'Handshakes are not retried (CDRIVER-4532)',
         'crud/bypassDocumentValidation' => 'bypassDocumentValidation is handled by libmongoc (PHPLIB-1576)',
+        // The rawData option will not be implemented
+        'collection-management/listCollections-rawData' => 'rawData option will not be implemented',
+        'crud/aggregate-rawData' => 'rawData option will not be implemented',
+        'crud/BulkWrite deleteMany-rawData' => 'rawData option will not be implemented',
+        'crud/BulkWrite deleteOne-rawData' => 'rawData option will not be implemented',
+        'crud/BulkWrite replaceOne-rawData' => 'rawData option will not be implemented',
+        'crud/BulkWrite updateMany-rawData' => 'rawData option will not be implemented',
+        'crud/BulkWrite updateOne-rawData' => 'rawData option will not be implemented',
+        'crud/client bulkWrite delete-rawData' => 'rawData option will not be implemented',
+        'crud/client bulkWrite replaceOne-rawData' => 'rawData option will not be implemented',
+        'crud/client bulkWrite update-rawData' => 'rawData option will not be implemented',
+        'crud/count-rawData' => 'rawData option will not be implemented',
+        'crud/countDocuments-rawData' => 'rawData option will not be implemented',
+        'crud/db-aggregate-rawData' => 'rawData option will not be implemented',
+        'crud/deleteMany-rawData' => 'rawData option will not be implemented',
+        'crud/deleteOne-rawData' => 'rawData option will not be implemented',
+        'crud/distinct-rawData' => 'rawData option will not be implemented',
+        'crud/estimatedDocumentCount-rawData' => 'rawData option will not be implemented',
+        'crud/find-rawData' => 'rawData option will not be implemented',
+        'crud/findOneAndDelete-rawData' => 'rawData option will not be implemented',
+        'crud/findOneAndReplace-rawData' => 'rawData option will not be implemented',
+        'crud/findOneAndUpdate-rawData' => 'rawData option will not be implemented',
+        'crud/insertMany-rawData' => 'rawData option will not be implemented',
+        'crud/insertOne-rawData' => 'rawData option will not be implemented',
+        'crud/replaceOne-rawData' => 'rawData option will not be implemented',
+        'crud/updateMany-rawData' => 'rawData option will not be implemented',
+        'crud/updateOne-rawData' => 'rawData option will not be implemented',
+        'index-management/index management-rawData' => 'rawData option will not be implemented',
+        'sessions/snapshot-sessions: Find operation with snapshot and snapshot time' => 'getSnapshotTime not implemented yet (PHPLIB-1725)',
+        'sessions/snapshot-sessions: Distinct operation with snapshot and snapshot time' => 'getSnapshotTime not implemented yet (PHPLIB-1725)',
+        'sessions/snapshot-sessions: Aggregate operation with snapshot and snapshot time' => 'getSnapshotTime not implemented yet (PHPLIB-1725)',
+        'sessions/snapshot-sessions: countDocuments operation with snapshot and snapshot time' => 'getSnapshotTime not implemented yet (PHPLIB-1725)',
+        'sessions/snapshot-sessions: Mixed operation with snapshot and snapshotTime' => 'getSnapshotTime not implemented yet (PHPLIB-1725)',
+        'sessions/snapshot-sessions: Find operation with snapshot' => 'Cluster time is not sent in first command sent out on single-threaded connections (PHPC-2655)',
+        'sessions/snapshot-sessions: Distinct operation with snapshot' => 'Cluster time is not sent in first command sent out on single-threaded connections (PHPC-2655)',
+        'sessions/snapshot-sessions: Aggregate operation with snapshot' => 'Cluster time is not sent in first command sent out on single-threaded connections (PHPC-2655)',
+        'sessions/snapshot-sessions: countDocuments operation with snapshot' => 'Cluster time is not sent in first command sent out on single-threaded connections (PHPC-2655)',
+        'sessions/snapshot-sessions: Mixed operation with snapshot' => 'Cluster time is not sent in first command sent out on single-threaded connections (PHPC-2655)',
+        'sessions/snapshot-sessions: Write commands with snapshot session do not affect snapshot reads' => 'Cluster time is not sent in first command sent out on single-threaded connections (PHPC-2655)',
+        'sessions/implicit sessions default causal consistency: afterClusterTime is not sent on retried read in implicit session when readConcern level is snapshot' => 'Cluster time is not sent in first command sent out on single-threaded connections (PHPC-2655)',
     ];
 
     /** @var array<string, string> */
@@ -107,7 +148,7 @@ class UnifiedSpecTest extends FunctionalTestCase
         }
 
         foreach (self::$incompleteTestGroups as $testGroup => $reason) {
-            if (str_starts_with($this->dataDescription(), $testGroup)) {
+            if (str_starts_with(strtolower($this->dataDescription()), strtolower($testGroup))) {
                 $this->markTestIncomplete($reason);
             }
         }
@@ -332,9 +373,7 @@ class UnifiedSpecTest extends FunctionalTestCase
     #[DataProvider('provideIndexManagementTests')]
     public function testIndexManagement(UnifiedTestCase $test): void
     {
-        if (self::isAtlas()) {
-            self::markTestSkipped('Search Indexes tests must run on a non-Atlas cluster');
-        }
+        $this->skipIfSearchIndexIsNotSupported();
 
         if (! self::isEnterprise()) {
             self::markTestSkipped('Specific Atlas error messages are only available on Enterprise server');

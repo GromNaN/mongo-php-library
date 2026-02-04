@@ -118,6 +118,20 @@ trait FactoryTrait
     }
 
     /**
+     * Concatenates arrays to return the concatenated array.
+     *
+     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/concatArrays/
+     * @no-named-arguments
+     * @param BSONArray|PackedArray|ResolvesToArray|array|string ...$array An array of expressions that resolve to an array.
+     * If any argument resolves to a value of null or refers to a field that is missing, `$concatArrays` returns `null`.
+     */
+    public static function concatArrays(
+        PackedArray|ResolvesToArray|BSONArray|array|string ...$array,
+    ): ConcatArraysAccumulator {
+        return new ConcatArraysAccumulator(...$array);
+    }
+
+    /**
      * Returns the number of documents in the group or window.
      * Distinct from the $count pipeline stage.
      * New in MongoDB 5.0.
@@ -451,6 +465,18 @@ trait FactoryTrait
     public static function rank(): RankAccumulator
     {
         return new RankAccumulator();
+    }
+
+    /**
+     * Takes two or more arrays and returns an array containing the elements that appear in any input array.
+     *
+     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/setUnion/
+     * @no-named-arguments
+     * @param BSONArray|PackedArray|ResolvesToArray|array|string ...$array An array of expressions that resolve to an array.
+     */
+    public static function setUnion(PackedArray|ResolvesToArray|BSONArray|array|string ...$array): SetUnionAccumulator
+    {
+        return new SetUnionAccumulator(...$array);
     }
 
     /**

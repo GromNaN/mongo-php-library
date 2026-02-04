@@ -32,6 +32,7 @@ use function PHPUnit\Framework\assertIsArray;
 use function PHPUnit\Framework\assertIsString;
 use function PHPUnit\Framework\assertNotEmpty;
 use function PHPUnit\Framework\assertNotFalse;
+use function preg_match;
 use function preg_replace;
 use function sprintf;
 use function str_starts_with;
@@ -43,7 +44,7 @@ use function version_compare;
 /**
  * Unified test runner.
  *
- * @see https://github.com/mongodb/specifications/blob/master/source/unified-test-format/unified-test-format.rst
+ * @see https://github.com/mongodb/specifications/blob/master/source/unified-test-format/unified-test-format.md
  */
 final class UnifiedTestRunner
 {
@@ -89,7 +90,7 @@ final class UnifiedTestRunner
          *
          * Atlas Data Lake also does not support killAllSessions.
          */
-        if (FunctionalTestCase::isAtlas($internalClientUri) || $this->isAtlasDataLake()) {
+        if ($this->isAtlas($internalClientUri) || $this->isAtlasDataLake()) {
             $this->allowKillAllSessions = false;
         }
 
@@ -307,6 +308,11 @@ final class UnifiedTestRunner
         };
     }
 
+    private function isAtlas(string $internalClientUri): bool
+    {
+        return preg_match('/\.(mongodb\.net|mongodb-dev\.net)/', $internalClientUri);
+    }
+
     private function isAtlasDataLake(): bool
     {
         $database = $this->internalClient->selectDatabase('admin');
@@ -337,12 +343,6 @@ final class UnifiedTestRunner
      */
     private function isClientSideEncryptionSupported(): bool
     {
-        /* CSFLE technically requires FCV 4.2+ but this is sufficient since we
-         * do not test on mixed-version clusters. */
-        if (version_compare($this->getServerVersion(), '4.2', '<')) {
-            return false;
-        }
-
         if (FunctionalTestCase::getModuleInfo('libmongocrypt') === 'disabled') {
             return false;
         }
@@ -456,7 +456,7 @@ final class UnifiedTestRunner
     /**
      * Work around potential error executing distinct on sharded clusters.
      *
-     * @see https://github.com/mongodb/specifications/blob/master/source/unified-test-format/unified-test-format.rst#staledbversion-errors-on-sharded-clusters
+     * @see https://github.com/mongodb/specifications/blob/master/source/unified-test-format/unified-test-format.md#staledbversion-errors-on-sharded-clusters
      */
     private function preventStaleDbVersionError(array $operations, Context $context): void
     {
