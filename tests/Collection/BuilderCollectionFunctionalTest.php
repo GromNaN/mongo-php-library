@@ -186,6 +186,20 @@ class BuilderCollectionFunctionalTest extends FunctionalTestCase
         $this->assertEquals(3, $result->x);
     }
 
+    public function testFindOneAndUpdateWithPipelineUpdate(): void
+    {
+        $result = $this->collection->findOneAndUpdate(
+            Query::query(x: Query::lt(2)),
+            new Pipeline(
+                Stage::set(x: 3),
+            ),
+        );
+        $this->assertEquals(1, $result->x);
+
+        $result = $this->collection->findOne(Query::query(x: Query::eq(3)));
+        $this->assertEquals(3, $result->x);
+    }
+
     public function testReplaceOne(): void
     {
         $this->collection->insertOne(['x' => 1]);
@@ -217,8 +231,6 @@ class BuilderCollectionFunctionalTest extends FunctionalTestCase
 
     public function testUpdateWithPipeline(): void
     {
-        $this->skipIfServerVersion('<', '4.2.0', 'Pipeline-style updates are not supported');
-
         $result = $this->collection->updateOne(
             Query::query(x: Query::lt(2)),
             new Pipeline(
@@ -245,8 +257,6 @@ class BuilderCollectionFunctionalTest extends FunctionalTestCase
 
     public function testUpdateManyWithPipeline(): void
     {
-        $this->skipIfServerVersion('<', '4.2.0', 'Pipeline-style updates are not supported');
-
         $result = $this->collection->updateMany(
             Query::query(x: Query::gt(1)),
             new Pipeline(

@@ -375,6 +375,26 @@ enum Pipelines: string
     JSON;
 
     /**
+     * Warehouse collection
+     *
+     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/concatArrays/#example
+     */
+    case ConcatArraysWarehouseCollection = <<<'JSON'
+    [
+        {
+            "$project": {
+                "items": {
+                    "$concatArrays": [
+                        "$instock",
+                        "$ordered"
+                    ]
+                }
+            }
+        }
+    ]
+    JSON;
+
+    /**
      * Use in $group Stage
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/count-accumulator/#use-in--group-stage
@@ -1907,6 +1927,35 @@ enum Pipelines: string
                     "rankOrderDateForState": {
                         "$rank": {}
                     }
+                }
+            }
+        }
+    ]
+    JSON;
+
+    /**
+     * Flowers collection
+     *
+     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/setUnion/#example
+     */
+    case SetUnionFlowersCollection = <<<'JSON'
+    [
+        {
+            "$project": {
+                "flowerFieldA": {
+                    "$numberInt": "1"
+                },
+                "flowerFieldB": {
+                    "$numberInt": "1"
+                },
+                "allValues": {
+                    "$setUnion": [
+                        "$flowerFieldA",
+                        "$flowerFieldB"
+                    ]
+                },
+                "_id": {
+                    "$numberInt": "0"
                 }
             }
         }

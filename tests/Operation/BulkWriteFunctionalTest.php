@@ -18,8 +18,6 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Depends;
 use stdClass;
 
-use function is_array;
-
 class BulkWriteFunctionalTest extends FunctionalTestCase
 {
     private Collection $collection;
@@ -198,10 +196,6 @@ class BulkWriteFunctionalTest extends FunctionalTestCase
     #[DataProvider('provideUpdatePipelines')]
     public function testUpdateDocuments($update, $expectedUpdate): void
     {
-        if (is_array($expectedUpdate)) {
-            $this->skipIfServerVersion('<', '4.2.0', 'Pipeline-style updates are not supported');
-        }
-
         (new CommandObserver())->observe(
             function () use ($update): void {
                 $operation = new BulkWrite(
@@ -423,8 +417,6 @@ class BulkWriteFunctionalTest extends FunctionalTestCase
 
     public function testBulkWriteWithPipelineUpdates(): void
     {
-        $this->skipIfServerVersion('<', '4.2.0', 'Pipeline-style updates are not supported');
-
         $this->createFixtures(4);
 
         $ops = [

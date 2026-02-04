@@ -1012,7 +1012,7 @@ class ClientSideEncryptionSpecTest extends FunctionalTestCase
     /**
      * Prose test 8: Bypass spawning mongocryptd (via bypassQueryAnalysis)
      *
-     * @see https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.rst#via-bypassqueryanalysis
+     * @see https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.md#via-bypassqueryanalysis
      */
     public function testBypassSpawningMongocryptdViaBypassQueryAnalysis(): void
     {
@@ -1046,7 +1046,7 @@ class ClientSideEncryptionSpecTest extends FunctionalTestCase
     /**
      * Prose test 10: KMS TLS Tests (Invalid KMS Certificate)
      *
-     * @see https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.rst#invalid-kms-certificate
+     * @see https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.md#invalid-kms-certificate
      */
     public function testInvalidKmsCertificate(): void
     {
@@ -1074,7 +1074,7 @@ class ClientSideEncryptionSpecTest extends FunctionalTestCase
     /**
      * Prose test 10: KMS TLS Tests (Invalid Hostname in KMS Certificate)
      *
-     * @see https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.rst#invalid-hostname-in-kms-certificate
+     * @see https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.md#invalid-hostname-in-kms-certificate
      */
     public function testInvalidHostnameInKmsCertificate(): void
     {
@@ -1102,7 +1102,7 @@ class ClientSideEncryptionSpecTest extends FunctionalTestCase
     /**
      * Prose test 11: KMS TLS Options
      *
-     * @see https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.rst#kms-tls-options-tests
+     * @see https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.md#kms-tls-options-tests
      */
     #[DataProvider('provideKmsTlsOptionsTests')]
     public function testKmsTlsOptions(Closure $test): void
@@ -1185,7 +1185,7 @@ class ClientSideEncryptionSpecTest extends FunctionalTestCase
 
         // Note: expected exception messages below assume OpenSSL is used
 
-        // See: https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.rst#case-1-aws
+        // See: https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.md#case-1-aws
         yield 'AWS: client_encryption_no_client_cert' => [
             static function (self $test, ClientEncryption $clientEncryptionNoClientCert, ClientEncryption $clientEncryptionWithTls, ClientEncryption $clientEncryptionExpired, ClientEncryption $clientEncryptionInvalidHostname) use ($awsMasterKey): void {
                 $test->expectException(ConnectionException::class);
@@ -1218,7 +1218,7 @@ class ClientSideEncryptionSpecTest extends FunctionalTestCase
             },
         ];
 
-        // See: https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.rst#case-2-azure
+        // See: https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.md#case-2-azure
         yield 'Azure: client_encryption_no_client_cert' => [
             static function (self $test, ClientEncryption $clientEncryptionNoClientCert, ClientEncryption $clientEncryptionWithTls, ClientEncryption $clientEncryptionExpired, ClientEncryption $clientEncryptionInvalidHostname) use ($azureMasterKey): void {
                 $test->expectException(ConnectionException::class);
@@ -1251,7 +1251,7 @@ class ClientSideEncryptionSpecTest extends FunctionalTestCase
             },
         ];
 
-        // See: https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.rst#case-3-gcp
+        // See: https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.md#case-3-gcp
         yield 'GCP: client_encryption_no_client_cert' => [
             static function (self $test, ClientEncryption $clientEncryptionNoClientCert, ClientEncryption $clientEncryptionWithTls, ClientEncryption $clientEncryptionExpired, ClientEncryption $clientEncryptionInvalidHostname) use ($gcpMasterKey): void {
                 $test->expectException(ConnectionException::class);
@@ -1284,7 +1284,7 @@ class ClientSideEncryptionSpecTest extends FunctionalTestCase
             },
         ];
 
-        // See: https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.rst#case-4-kmip
+        // See: https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.md#case-4-kmip
         yield 'KMIP: client_encryption_no_client_cert' => [
             static function (self $test, ClientEncryption $clientEncryptionNoClientCert, ClientEncryption $clientEncryptionWithTls, ClientEncryption $clientEncryptionExpired, ClientEncryption $clientEncryptionInvalidHostname) use ($kmipMasterKey): void {
                 $test->expectException(ConnectionException::class);
@@ -1320,7 +1320,7 @@ class ClientSideEncryptionSpecTest extends FunctionalTestCase
     /**
      * Prose test 12: Explicit Encryption
      *
-     * @see https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.rst#explicit-encryption
+     * @see https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.md#explicit-encryption
      */
     #[DataProvider('provideExplicitEncryptionTests')]
     public function testExplicitEncryption(Closure $test): void
@@ -1369,7 +1369,7 @@ class ClientSideEncryptionSpecTest extends FunctionalTestCase
 
     public static function provideExplicitEncryptionTests()
     {
-        // See: https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.rst#case-1-can-insert-encrypted-indexed-and-find
+        // See: https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.md#case-1-can-insert-encrypted-indexed-and-find
         yield 'Case 1: can insert encrypted indexed and find' => [
             static function (self $test, ClientEncryption $clientEncryption, Client $encryptedClient, Client $keyVaultClient, Binary $key1Id): void {
                 $value = 'encrypted indexed value';
@@ -1397,7 +1397,7 @@ class ClientSideEncryptionSpecTest extends FunctionalTestCase
             },
         ];
 
-        // See: https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.rst#case-2-can-insert-encrypted-indexed-and-find-with-non-zero-contention
+        // See: https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.md#case-2-can-insert-encrypted-indexed-and-find-with-non-zero-contention
         yield 'Case 2: can insert encrypted indexed and find with non-zero contention' => [
             static function (self $test, ClientEncryption $clientEncryption, Client $encryptedClient, Client $keyVaultClient, Binary $key1Id): void {
                 $value = 'encrypted indexed value';
@@ -1446,7 +1446,7 @@ class ClientSideEncryptionSpecTest extends FunctionalTestCase
             },
         ];
 
-        // See: https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.rst#case-3-can-insert-encrypted-unindexed
+        // See: https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.md#case-3-can-insert-encrypted-unindexed
         yield 'Case 3: can insert encrypted unindexed' => [
             static function (self $test, ClientEncryption $clientEncryption, Client $encryptedClient, Client $keyVaultClient, Binary $key1Id): void {
                 $value = 'encrypted unindexed value';
@@ -1466,7 +1466,7 @@ class ClientSideEncryptionSpecTest extends FunctionalTestCase
             },
         ];
 
-        // See: https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.rst#case-4-can-roundtrip-encrypted-indexed
+        // See: https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.md#case-4-can-roundtrip-encrypted-indexed
         yield 'Case 4: can roundtrip encrypted indexed' => [
             static function (self $test, ClientEncryption $clientEncryption, Client $encryptedClient, Client $keyVaultClient, Binary $key1Id): void {
                 $value = 'encrypted indexed value';
@@ -1481,7 +1481,7 @@ class ClientSideEncryptionSpecTest extends FunctionalTestCase
             },
         ];
 
-        // See: https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.rst#case-5-can-roundtrip-encrypted-unindexed
+        // See: https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.md#case-5-can-roundtrip-encrypted-unindexed
         yield 'Case 5: can roundtrip encrypted unindexed' => [
             static function (self $test, ClientEncryption $clientEncryption, Client $encryptedClient, Client $keyVaultClient, Binary $key1Id): void {
                 $value = 'encrypted unindexed value';
@@ -1499,7 +1499,7 @@ class ClientSideEncryptionSpecTest extends FunctionalTestCase
     /**
      * Prose test 13: Unique Index on keyAltNames
      *
-     * @see https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.rst#unique-index-on-keyaltnames
+     * @see https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.md#unique-index-on-keyaltnames
      */
     #[DataProvider('provideUniqueIndexOnKeyAltNamesTests')]
     public function testUniqueIndexOnKeyAltNames(Closure $test): void
@@ -1532,7 +1532,7 @@ class ClientSideEncryptionSpecTest extends FunctionalTestCase
 
     public static function provideUniqueIndexOnKeyAltNamesTests()
     {
-        // See: https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.rst#case-1-createdatakey
+        // See: https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.md#case-1-createdatakey
         yield 'Case 1: createDataKey()' => [
             static function (self $test, Client $client, ClientEncryption $clientEncryption): void {
                 $clientEncryption->createDataKey('local', ['keyAltNames' => ['abc']]);
@@ -1553,7 +1553,7 @@ class ClientSideEncryptionSpecTest extends FunctionalTestCase
             },
         ];
 
-        // See: https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.rst#case-2-addkeyaltname
+        // See: https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.md#case-2-addkeyaltname
         yield 'Case 2: addKeyAltName()' => [
             static function (self $test, Client $client, ClientEncryption $clientEncryption): void {
                 $keyId = $clientEncryption->createDataKey('local');
@@ -1778,7 +1778,7 @@ class ClientSideEncryptionSpecTest extends FunctionalTestCase
     /**
      * Prose test 16: RewrapManyDataKey
      *
-     * @see https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.rst#rewrap
+     * @see https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.md#rewrap
      */
     #[DataProvider('provideRewrapManyDataKeySrcAndDstProviders')]
     public function testRewrapManyDataKey(string $srcProvider, string $dstProvider): void

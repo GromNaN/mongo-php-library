@@ -17,13 +17,8 @@
 
 namespace MongoDB;
 
-use Composer\InstalledVersions;
 use Iterator;
-use MongoDB\BSON\Document;
-use MongoDB\BSON\PackedArray;
-use MongoDB\Builder\BuilderEncoder;
 use MongoDB\Builder\Pipeline;
-use MongoDB\Codec\Encoder;
 use MongoDB\Driver\BulkWriteCommand;
 use MongoDB\Driver\BulkWriteCommandResult;
 use MongoDB\Driver\ClientEncryption;
@@ -38,34 +33,26 @@ use MongoDB\Driver\WriteConcern;
 use MongoDB\Exception\InvalidArgumentException;
 use MongoDB\Exception\UnexpectedValueException;
 use MongoDB\Exception\UnsupportedException;
-use MongoDB\Model\BSONArray;
-use MongoDB\Model\BSONDocument;
+use MongoDB\Model\AutoEncryptionOptions;
 use MongoDB\Model\DatabaseInfo;
+use MongoDB\Model\DriverOptions;
 use MongoDB\Operation\ClientBulkWriteCommand;
 use MongoDB\Operation\DropDatabase;
 use MongoDB\Operation\ListDatabaseNames;
 use MongoDB\Operation\ListDatabases;
 use MongoDB\Operation\Watch;
 use stdClass;
-use Throwable;
+use Stringable;
 
 use function array_diff_key;
-use function is_array;
-use function is_string;
 
-class Client
+/**
+ * @psalm-import-type stage from Builder\Pipeline
+ * @psalm-no-seal-properties
+ */
+class Client implements Stringable
 {
     public const DEFAULT_URI = 'mongodb://127.0.0.1/';
-
-    private const DEFAULT_TYPE_MAP = [
-        'array' => BSONArray::class,
-        'document' => BSONDocument::class,
-        'root' => BSONDocument::class,
-    ];
-
-    private const HANDSHAKE_SEPARATOR = '/';
-
-    private static ?string $version = null;
 
     private Manager $manager;
 
@@ -75,14 +62,9 @@ class Client
 
     private string $uri;
 
-    private array $typeMap;
-
-    /** @psalm-var Encoder<array|stdClass|Document|PackedArray, mixed> */
-    private readonly Encoder $builderEncoder;
-
     private WriteConcern $writeConcern;
 
-    private bool $autoEncryptionEnabled;
+    private DriverOptions $driverOptions;
 
     /**
      * Constructs a new Client instance.
@@ -112,34 +94,14 @@ class Client
      */
     public function __construct(?string $uri = null, array $uriOptions = [], array $driverOptions = [])
     {
-        $driverOptions += ['typeMap' => self::DEFAULT_TYPE_MAP];
-
-        if (! is_array($driverOptions['typeMap'])) {
-            throw InvalidArgumentException::invalidType('"typeMap" driver option', $driverOptions['typeMap'], 'array');
-        }
-
-        if (isset($driverOptions['autoEncryption']) && is_array($driverOptions['autoEncryption'])) {
-            $driverOptions['autoEncryption'] = $this->prepareEncryptionOptions($driverOptions['autoEncryption']);
-        }
-
-        if (isset($driverOptions['builderEncoder']) && ! $driverOptions['builderEncoder'] instanceof Encoder) {
-            throw InvalidArgumentException::invalidType('"builderEncoder" option', $driverOptions['builderEncoder'], Encoder::class);
-        }
-
-        $driverOptions['driver'] = $this->mergeDriverInfo($driverOptions['driver'] ?? []);
+        $this->driverOptions = DriverOptions::fromArray($driverOptions);
 
         $this->uri = $uri ?? self::DEFAULT_URI;
-        $this->builderEncoder = $driverOptions['builderEncoder'] ?? new BuilderEncoder();
-        $this->typeMap = $driverOptions['typeMap'];
 
-        /* Database and Collection objects may need to know whether auto
-         * encryption is enabled for dropping collections. Track this via an
-         * internal option until PHPC-2615 is implemented. */
-        $this->autoEncryptionEnabled = isset($driverOptions['autoEncryption']['keyVaultNamespace']);
-
-        $driverOptions = array_diff_key($driverOptions, ['builderEncoder' => 1, 'typeMap' => 1]);
+        $driverOptions = array_diff_key($this->driverOptions->toArray(), ['builderEncoder' => 1, 'typeMap' => 1]);
 
         $this->manager = new Manager($uri, $uriOptions, $driverOptions);
+
         $this->readConcern = $this->manager->getReadConcern();
         $this->readPreference = $this->manager->getReadPreference();
         $this->writeConcern = $this->manager->getWriteConcern();
@@ -155,8 +117,8 @@ class Client
         return [
             'manager' => $this->manager,
             'uri' => $this->uri,
-            'typeMap' => $this->typeMap,
-            'builderEncoder' => $this->builderEncoder,
+            'typeMap' => $this->driverOptions->typeMap,
+            'builderEncoder' => $this->driverOptions->builderEncoder,
             'writeConcern' => $this->writeConcern,
         ];
     }
@@ -224,13 +186,13 @@ class Client
     /**
      * Returns a ClientEncryption instance for explicit encryption and decryption
      *
-     * @param array $options Encryption options
+     * @param array{kmsProviders?: stdClass|array<string, array>, keyVaultClient?: Client|Manager} $options
      */
     public function createClientEncryption(array $options): ClientEncryption
     {
-        $options = $this->prepareEncryptionOptions($options);
+        $options = AutoEncryptionOptions::fromArray($options);
 
-        return $this->manager->createClientEncryption($options);
+        return $this->manager->createClientEncryption($options->toArray());
     }
 
     /**
@@ -267,7 +229,11 @@ class Client
      */
     public function getCollection(string $databaseName, string $collectionName, array $options = []): Collection
     {
-        $options += ['typeMap' => $this->typeMap, 'builderEncoder' => $this->builderEncoder, 'autoEncryptionEnabled' => $this->autoEncryptionEnabled];
+        $options += [
+            'typeMap' => $this->driverOptions->typeMap,
+            'builderEncoder' => $this->driverOptions->builderEncoder,
+            'autoEncryptionEnabled' => $this->driverOptions->isAutoEncryptionEnabled(),
+        ];
 
         return new Collection($this->manager, $databaseName, $collectionName, $options);
     }
@@ -282,7 +248,11 @@ class Client
      */
     public function getDatabase(string $databaseName, array $options = []): Database
     {
-        $options += ['typeMap' => $this->typeMap, 'builderEncoder' => $this->builderEncoder, 'autoEncryptionEnabled' => $this->autoEncryptionEnabled];
+        $options += [
+            'typeMap' => $this->driverOptions->typeMap,
+            'builderEncoder' => $this->driverOptions->builderEncoder,
+            'autoEncryptionEnabled' => $this->driverOptions->isAutoEncryptionEnabled(),
+        ];
 
         return new Database($this->manager, $databaseName, $options);
     }
@@ -318,7 +288,7 @@ class Client
      */
     public function getTypeMap(): array
     {
-        return $this->typeMap;
+        return $this->driverOptions->typeMap;
     }
 
     /**
@@ -417,8 +387,8 @@ class Client
      * Create a change stream for watching changes to the cluster.
      *
      * @see Watch::__construct() for supported options
-     * @param array $pipeline Aggregation pipeline
-     * @param array $options  Command options
+     * @psalm-param list<stage> $pipeline Aggregation pipeline
+     * @param array $options Command options
      * @throws InvalidArgumentException for parameter/option parsing errors
      */
     public function watch(array $pipeline = [], array $options = []): ChangeStream
@@ -427,7 +397,8 @@ class Client
             $pipeline = new Pipeline(...$pipeline);
         }
 
-        $pipeline = $this->builderEncoder->encodeIfSupported($pipeline);
+        /** @var array<array-key, mixed> $pipeline */
+        $pipeline = $this->driverOptions->builderEncoder->encodeIfSupported($pipeline);
 
         if (! isset($options['readPreference']) && ! is_in_transaction($options)) {
             $options['readPreference'] = $this->readPreference;
@@ -440,76 +411,11 @@ class Client
         }
 
         if (! isset($options['typeMap'])) {
-            $options['typeMap'] = $this->typeMap;
+            $options['typeMap'] = $this->driverOptions->typeMap;
         }
 
         $operation = new Watch($this->manager, null, null, $pipeline, $options);
 
         return $operation->execute($server);
-    }
-
-    private static function getVersion(): string
-    {
-        if (self::$version === null) {
-            try {
-                self::$version = InstalledVersions::getPrettyVersion('mongodb/mongodb') ?? 'unknown';
-            } catch (Throwable) {
-                self::$version = 'error';
-            }
-        }
-
-        return self::$version;
-    }
-
-    private function mergeDriverInfo(array $driver): array
-    {
-        $mergedDriver = [
-            'name' => 'PHPLIB',
-            'version' => self::getVersion(),
-        ];
-
-        if (isset($driver['name'])) {
-            if (! is_string($driver['name'])) {
-                throw InvalidArgumentException::invalidType('"name" handshake option', $driver['name'], 'string');
-            }
-
-            $mergedDriver['name'] .= self::HANDSHAKE_SEPARATOR . $driver['name'];
-        }
-
-        if (isset($driver['version'])) {
-            if (! is_string($driver['version'])) {
-                throw InvalidArgumentException::invalidType('"version" handshake option', $driver['version'], 'string');
-            }
-
-            $mergedDriver['version'] .= self::HANDSHAKE_SEPARATOR . $driver['version'];
-        }
-
-        if (isset($driver['platform'])) {
-            $mergedDriver['platform'] = $driver['platform'];
-        }
-
-        return $mergedDriver;
-    }
-
-    private function prepareEncryptionOptions(array $options): array
-    {
-        if (isset($options['keyVaultClient'])) {
-            if ($options['keyVaultClient'] instanceof self) {
-                $options['keyVaultClient'] = $options['keyVaultClient']->manager;
-            } elseif (! $options['keyVaultClient'] instanceof Manager) {
-                throw InvalidArgumentException::invalidType('"keyVaultClient" option', $options['keyVaultClient'], [self::class, Manager::class]);
-            }
-        }
-
-        // The server requires an empty document for automatic credentials.
-        if (isset($options['kmsProviders']) && is_array($options['kmsProviders'])) {
-            foreach ($options['kmsProviders'] as $name => $provider) {
-                if ($provider === []) {
-                    $options['kmsProviders'][$name] = new stdClass();
-                }
-            }
-        }
-
-        return $options;
     }
 }
