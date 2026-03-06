@@ -1,5 +1,43 @@
 # This file is generated automatically - please edit the "templates/build/build-extension.yml" template file instead.
 tasks:
+  - name: "build-php-8.5"
+    tags: ["build", "php8.5", "stable", "pr", "tag"]
+    commands:
+      - func: "locate PHP binaries"
+        vars:
+          PHP_VERSION: "8.5"
+      - func: "compile extension"
+      - func: "upload extension"
+  - name: "build-php-8.5-lowest"
+    tags: ["build", "php8.5", "lowest", "pr", "tag"]
+    commands:
+      - func: "locate PHP binaries"
+        vars:
+          PHP_VERSION: "8.5"
+      - func: "compile extension"
+        vars:
+          EXTENSION_VERSION: "2.2.0"
+      - func: "upload extension"
+  - name: "build-php-8.5-next-stable"
+    tags: ["build", "php8.5", "next-stable", "pr", "tag"]
+    commands:
+      - func: "locate PHP binaries"
+        vars:
+          PHP_VERSION: "8.5"
+      - func: "compile extension"
+        vars:
+          EXTENSION_BRANCH: "v2.2"
+      - func: "upload extension"
+  - name: "build-php-8.5-next-minor"
+    tags: ["build", "php8.5", "next-minor"]
+    commands:
+      - func: "locate PHP binaries"
+        vars:
+          PHP_VERSION: "8.5"
+      - func: "compile extension"
+        vars:
+          EXTENSION_BRANCH: "v2.x"
+      - func: "upload extension"
   - name: "build-php-8.4"
     tags: ["build", "php8.4", "stable", "pr", "tag"]
     commands:

@@ -98,6 +98,15 @@ functions:
       params:
         destination: src
         path: build.tar.gz
+    # Ensure extension directory exists
+    - command: subprocess.exec
+      type: setup
+      params:
+        working_dir: "src"
+        binary: bash
+        args:
+          - -c
+          - mkdir -p `${PHP_PATH}/bin/php -r "echo ini_get('extension_dir');"`
     # Move compiled extension to correct ini path
     - command: subprocess.exec
       type: setup
