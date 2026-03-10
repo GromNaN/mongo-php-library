@@ -393,13 +393,55 @@ class BuilderEncoderTest extends TestCase
                     return $value instanceof FieldPathInterface;
                 }
 
-                public function encode(mixed $value)
+                public function encode(mixed $value): mixed
                 {
                     return '$prefix.' . $value->name;
                 }
             },
         ];
         $codec = new BuilderEncoder($customEncoders);
+
+        $pipeline = new Pipeline(
+            Stage::project(
+                threeFavorites: Expression::slice(
+                    Expression::arrayFieldPath('items'),
+                    n: 3,
+                ),
+            ),
+        );
+
+        $expected = [
+            [
+                '$project' => [
+                    'threeFavorites' => [
+                        '$slice' => ['$prefix.items', 3],
+                    ],
+                ],
+            ],
+        ];
+
+        $this->assertSamePipeline($expected, $pipeline, $codec);
+    }
+
+    public function testCustomEncoderIterable(): void
+    {
+        $customEncoders = static function (): Generator {
+            yield FieldPathInterface::class => new class implements Encoder {
+                use EncodeIfSupported;
+
+                public function canEncode(mixed $value): bool
+                {
+                    return $value instanceof FieldPathInterface;
+                }
+
+                public function encode(mixed $value): mixed
+                {
+                    return '$prefix.' . $value->name;
+                }
+            };
+        };
+
+        $codec = new BuilderEncoder($customEncoders());
 
         $pipeline = new Pipeline(
             Stage::project(

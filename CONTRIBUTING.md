@@ -58,21 +58,21 @@ The test suite references the following environment variables:
    `username` URI option for clients constructed by the test suite, which will
    override any credentials in the connection string itself.
 
-The following environment variable is used for [stable API testing](https://github.com/mongodb/specifications/blob/master/source/versioned-api/tests/README.rst):
+The following environment variable is used for [stable API testing](https://github.com/mongodb/specifications/blob/master/source/versioned-api/tests/README.md):
 
  * `API_VERSION`: If defined, this value will be used to construct a
    [`MongoDB\Driver\ServerApi`](https://www.php.net/manual/en/mongodb-driver-serverapi.construct.php),
    which will then be specified as the `serverApi` driver option for clients
    created by the test suite.
 
-The following environment variables are used for [load balancer testing](https://github.com/mongodb/specifications/blob/master/source/load-balancers/tests/README.rst):
+The following environment variables are used for [load balancer testing](https://github.com/mongodb/specifications/blob/master/source/load-balancers/tests/README.md):
 
  * `MONGODB_SINGLE_MONGOS_LB_URI`: Connection string to a load balancer backed
    by a single mongos host.
  * `MONGODB_MULTI_MONGOS_LB_URI`: Connection string to a load balancer backed by
    multiple mongos hosts.
 
-The following environment variables are used for [CSFLE testing](https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.rst):
+The following environment variables are used for [CSFLE testing](https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.md):
 
  * `AWS_ACCESS_KEY_ID`
  * `AWS_SECRET_ACCESS_KEY`
@@ -122,6 +122,15 @@ specifications are run in the test runner.
 The goal is that the library passes tests with the latest spec version at all
 times, either by implementing small changes quickly, or by skipping tests as
 necessary.
+
+## Backward compatibility
+
+When submitting a PR, be mindful of our backward compatibility guarantees. Our 
+BC policy follows [Symfony's Backward Compatibility Promise](https://symfony.com/doc/current/contributing/code/bc.html).
+
+In short, this means we use semantic versioning and guarantee backward 
+compatibility on all minor releases. For a more detailed definition, refer to 
+the Symfony docs linked above.
 
 ## Code quality
 

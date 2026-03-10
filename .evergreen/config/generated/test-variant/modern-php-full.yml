@@ -14,10 +14,10 @@ buildvariants:
       - variant: "build-debian12"
         name: "build-php-8.4"
     tasks:
-      - ".standalone .local !.csfle !.4.0 !.4.2 !.4.4 !.5.0 !.6.0"
-      - ".replicaset .local !.csfle !.4.0 !.4.2 !.4.4 !.5.0 !.6.0"
-      - ".sharded .local !.csfle !.4.0 !.4.2 !.4.4 !.5.0 !.6.0"
-      - ".loadbalanced .local !.csfle !.4.0 !.4.2 !.4.4 !.5.0 !.6.0"
+      - ".standalone .local !.csfle !.4.2 !.4.4 !.5.0 !.6.0"
+      - ".replicaset .local !.csfle !.4.2 !.4.4 !.5.0 !.6.0"
+      - ".sharded .local !.csfle !.4.2 !.4.4 !.5.0 !.6.0"
+      - ".loadbalanced .local !.csfle !.4.2 !.4.4 !.5.0 !.6.0"
 
   # Test MongoDB 5.0 and 6.0
   - name: test-debian11-php-8.4-local
@@ -33,10 +33,10 @@ buildvariants:
         name: "build-php-8.4"
     tasks:
       # Remember to add new major versions here as they are released
-      - ".standalone .local !.csfle !.4.0 !.4.2 !.4.4 !.7.0 !.8.0 !.rapid !.latest"
-      - ".replicaset .local !.csfle !.4.0 !.4.2 !.4.4 !.7.0 !.8.0 !.rapid !.latest"
-      - ".sharded .local !.csfle !.4.0 !.4.2 !.4.4 !.7.0 !.8.0 !.rapid !.latest"
-      - ".loadbalanced .local !.csfle !.4.0 !.4.2 !.4.4 !.7.0 !.8.0 !.rapid !.latest"
+      - ".standalone .local !.csfle !.4.2 !.4.4 !.7.0 !.8.0 !.rapid !.latest"
+      - ".replicaset .local !.csfle !.4.2 !.4.4 !.7.0 !.8.0 !.rapid !.latest"
+      - ".sharded .local !.csfle !.4.2 !.4.4 !.7.0 !.8.0 !.rapid !.latest"
+      - ".loadbalanced .local !.csfle !.4.2 !.4.4 !.7.0 !.8.0 !.rapid !.latest"
 
   # Test versions < 5.0
   - name: test-rhel80-php-8.4
@@ -72,10 +72,10 @@ buildvariants:
       - variant: "build-debian12"
         name: "build-php-8.3"
     tasks:
-      - ".standalone .local !.csfle !.4.0 !.4.2 !.4.4 !.5.0 !.6.0"
-      - ".replicaset .local !.csfle !.4.0 !.4.2 !.4.4 !.5.0 !.6.0"
-      - ".sharded .local !.csfle !.4.0 !.4.2 !.4.4 !.5.0 !.6.0"
-      - ".loadbalanced .local !.csfle !.4.0 !.4.2 !.4.4 !.5.0 !.6.0"
+      - ".standalone .local !.csfle !.4.2 !.4.4 !.5.0 !.6.0"
+      - ".replicaset .local !.csfle !.4.2 !.4.4 !.5.0 !.6.0"
+      - ".sharded .local !.csfle !.4.2 !.4.4 !.5.0 !.6.0"
+      - ".loadbalanced .local !.csfle !.4.2 !.4.4 !.5.0 !.6.0"
 
   # Test MongoDB 5.0 and 6.0
   - name: test-debian11-php-8.3-local
@@ -91,10 +91,10 @@ buildvariants:
         name: "build-php-8.3"
     tasks:
       # Remember to add new major versions here as they are released
-      - ".standalone .local !.csfle !.4.0 !.4.2 !.4.4 !.7.0 !.8.0 !.rapid !.latest"
-      - ".replicaset .local !.csfle !.4.0 !.4.2 !.4.4 !.7.0 !.8.0 !.rapid !.latest"
-      - ".sharded .local !.csfle !.4.0 !.4.2 !.4.4 !.7.0 !.8.0 !.rapid !.latest"
-      - ".loadbalanced .local !.csfle !.4.0 !.4.2 !.4.4 !.7.0 !.8.0 !.rapid !.latest"
+      - ".standalone .local !.csfle !.4.2 !.4.4 !.7.0 !.8.0 !.rapid !.latest"
+      - ".replicaset .local !.csfle !.4.2 !.4.4 !.7.0 !.8.0 !.rapid !.latest"
+      - ".sharded .local !.csfle !.4.2 !.4.4 !.7.0 !.8.0 !.rapid !.latest"
+      - ".loadbalanced .local !.csfle !.4.2 !.4.4 !.7.0 !.8.0 !.rapid !.latest"
 
   # Test versions < 5.0
   - name: test-rhel80-php-8.3
@@ -130,10 +130,10 @@ buildvariants:
       - variant: "build-debian12"
         name: "build-php-8.2"
     tasks:
-      - ".standalone .local !.csfle !.4.0 !.4.2 !.4.4 !.5.0 !.6.0"
-      - ".replicaset .local !.csfle !.4.0 !.4.2 !.4.4 !.5.0 !.6.0"
-      - ".sharded .local !.csfle !.4.0 !.4.2 !.4.4 !.5.0 !.6.0"
-      - ".loadbalanced .local !.csfle !.4.0 !.4.2 !.4.4 !.5.0 !.6.0"
+      - ".standalone .local !.csfle !.4.2 !.4.4 !.5.0 !.6.0"
+      - ".replicaset .local !.csfle !.4.2 !.4.4 !.5.0 !.6.0"
+      - ".sharded .local !.csfle !.4.2 !.4.4 !.5.0 !.6.0"
+      - ".loadbalanced .local !.csfle !.4.2 !.4.4 !.5.0 !.6.0"
 
   # Test MongoDB 5.0 and 6.0
   - name: test-debian11-php-8.2-local
@@ -149,10 +149,10 @@ buildvariants:
         name: "build-php-8.2"
     tasks:
       # Remember to add new major versions here as they are released
-      - ".standalone .local !.csfle !.4.0 !.4.2 !.4.4 !.7.0 !.8.0 !.rapid !.latest"
-      - ".replicaset .local !.csfle !.4.0 !.4.2 !.4.4 !.7.0 !.8.0 !.rapid !.latest"
-      - ".sharded .local !.csfle !.4.0 !.4.2 !.4.4 !.7.0 !.8.0 !.rapid !.latest"
-      - ".loadbalanced .local !.csfle !.4.0 !.4.2 !.4.4 !.7.0 !.8.0 !.rapid !.latest"
+      - ".standalone .local !.csfle !.4.2 !.4.4 !.7.0 !.8.0 !.rapid !.latest"
+      - ".replicaset .local !.csfle !.4.2 !.4.4 !.7.0 !.8.0 !.rapid !.latest"
+      - ".sharded .local !.csfle !.4.2 !.4.4 !.7.0 !.8.0 !.rapid !.latest"
+      - ".loadbalanced .local !.csfle !.4.2 !.4.4 !.7.0 !.8.0 !.rapid !.latest"
 
   # Test versions < 5.0
   - name: test-rhel80-php-8.2
@@ -188,10 +188,10 @@ buildvariants:
       - variant: "build-debian12"
         name: "build-php-8.1"
     tasks:
-      - ".standalone .local !.csfle !.4.0 !.4.2 !.4.4 !.5.0 !.6.0"
-      - ".replicaset .local !.csfle !.4.0 !.4.2 !.4.4 !.5.0 !.6.0"
-      - ".sharded .local !.csfle !.4.0 !.4.2 !.4.4 !.5.0 !.6.0"
-      - ".loadbalanced .local !.csfle !.4.0 !.4.2 !.4.4 !.5.0 !.6.0"
+      - ".standalone .local !.csfle !.4.2 !.4.4 !.5.0 !.6.0"
+      - ".replicaset .local !.csfle !.4.2 !.4.4 !.5.0 !.6.0"
+      - ".sharded .local !.csfle !.4.2 !.4.4 !.5.0 !.6.0"
+      - ".loadbalanced .local !.csfle !.4.2 !.4.4 !.5.0 !.6.0"
 
   # Test MongoDB 5.0 and 6.0
   - name: test-debian11-php-8.1-local
@@ -207,10 +207,10 @@ buildvariants:
         name: "build-php-8.1"
     tasks:
       # Remember to add new major versions here as they are released
-      - ".standalone .local !.csfle !.4.0 !.4.2 !.4.4 !.7.0 !.8.0 !.rapid !.latest"
-      - ".replicaset .local !.csfle !.4.0 !.4.2 !.4.4 !.7.0 !.8.0 !.rapid !.latest"
-      - ".sharded .local !.csfle !.4.0 !.4.2 !.4.4 !.7.0 !.8.0 !.rapid !.latest"
-      - ".loadbalanced .local !.csfle !.4.0 !.4.2 !.4.4 !.7.0 !.8.0 !.rapid !.latest"
+      - ".standalone .local !.csfle !.4.2 !.4.4 !.7.0 !.8.0 !.rapid !.latest"
+      - ".replicaset .local !.csfle !.4.2 !.4.4 !.7.0 !.8.0 !.rapid !.latest"
+      - ".sharded .local !.csfle !.4.2 !.4.4 !.7.0 !.8.0 !.rapid !.latest"
+      - ".loadbalanced .local !.csfle !.4.2 !.4.4 !.7.0 !.8.0 !.rapid !.latest"
 
   # Test versions < 5.0
   - name: test-rhel80-php-8.1
