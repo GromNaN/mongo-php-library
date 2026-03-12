@@ -11,20 +11,22 @@ namespace MongoDB\Builder\Stage;
 use MongoDB\BSON\Document;
 use MongoDB\BSON\Serializable;
 use MongoDB\Builder\Type\Encode;
+use MongoDB\Builder\Type\InputStageInterface;
 use MongoDB\Builder\Type\OperatorInterface;
 use MongoDB\Builder\Type\Optional;
 use MongoDB\Builder\Type\SearchOperatorInterface;
-use MongoDB\Builder\Type\StageInterface;
 use stdClass;
 
 /**
  * Performs a full-text search of the field or fields in an Atlas collection.
  * NOTE: $search is only available for MongoDB Atlas clusters, and is not available for self-managed deployments.
  *
+ * New in MongoDB 5.0
+ *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/search/
  * @internal
  */
-final class SearchStage implements StageInterface, OperatorInterface
+final class SearchStage implements InputStageInterface, OperatorInterface
 {
     public const ENCODE = Encode::Object;
     public const NAME = '$search';

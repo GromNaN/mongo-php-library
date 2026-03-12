@@ -6,6 +6,8 @@ use MongoDB\Builder\Expression;
 use MongoDB\Builder\Pipeline;
 use MongoDB\Builder\Query;
 use MongoDB\Builder\Stage;
+use MongoDB\Builder\Update;
+use MongoDB\Builder\UpdatePipeline;
 use PHPUnit\Framework\Attributes\TestWith;
 
 class BuilderCollectionFunctionalTest extends FunctionalTestCase
@@ -83,8 +85,7 @@ class BuilderCollectionFunctionalTest extends FunctionalTestCase
             [
                 'updateMany' => [
                     Query::query(x: Query::gt(1)),
-                    // @todo Use Builder when update operators are supported by PHPLIB-1507
-                    ['$set' => ['x' => 3]],
+                    Update::set(x: 3),
                 ],
             ],
         ]);
@@ -101,8 +102,7 @@ class BuilderCollectionFunctionalTest extends FunctionalTestCase
             [
                 'updateOne' => [
                     Query::query(x: Query::eq(1)),
-                    // @todo Use Builder when update operators are supported by PHPLIB-1507
-                    ['$set' => ['x' => 3]],
+                    Update::set(x: 3),
                 ],
             ],
         ]);
@@ -177,8 +177,7 @@ class BuilderCollectionFunctionalTest extends FunctionalTestCase
     {
         $result = $this->collection->findOneAndUpdate(
             Query::query(x: Query::lt(2)),
-            // @todo Use Builder when update operators are supported by PHPLIB-1507
-            ['$set' => ['x' => 3]],
+            Update::set(x: 3),
         );
         $this->assertEquals(1, $result->x);
 
@@ -190,7 +189,7 @@ class BuilderCollectionFunctionalTest extends FunctionalTestCase
     {
         $result = $this->collection->findOneAndUpdate(
             Query::query(x: Query::lt(2)),
-            new Pipeline(
+            new UpdatePipeline(
                 Stage::set(x: 3),
             ),
         );
@@ -220,8 +219,7 @@ class BuilderCollectionFunctionalTest extends FunctionalTestCase
 
         $result = $this->collection->updateOne(
             Query::query(x: Query::lt(2)),
-            // @todo Use Builder when update operators are supported by PHPLIB-1507
-            ['$set' => ['x' => 3]],
+            Update::set(x: 3),
         );
         $this->assertEquals(1, $result->getModifiedCount());
 
@@ -233,7 +231,7 @@ class BuilderCollectionFunctionalTest extends FunctionalTestCase
     {
         $result = $this->collection->updateOne(
             Query::query(x: Query::lt(2)),
-            new Pipeline(
+            new UpdatePipeline(
                 Stage::set(x: 3),
             ),
         );
@@ -245,21 +243,21 @@ class BuilderCollectionFunctionalTest extends FunctionalTestCase
     {
         $result = $this->collection->updateMany(
             Query::query(x: Query::gt(1)),
-            // @todo Use Builder when update operators are supported by PHPLIB-1507
-            ['$set' => ['x' => 3]],
+            new Update(Update::set(x: 3), Update::inc(y: 1)),
         );
         $this->assertEquals(2, $result->getModifiedCount());
 
         $result = $this->collection->find(Query::query(x: Query::eq(3)))->toArray();
         $this->assertCount(2, $result);
         $this->assertEquals(3, $result[0]->x);
+        $this->assertEquals(1, $result[0]->y);
     }
 
     public function testUpdateManyWithPipeline(): void
     {
         $result = $this->collection->updateMany(
             Query::query(x: Query::gt(1)),
-            new Pipeline(
+            new UpdatePipeline(
                 Stage::set(x: 3),
             ),
         );
