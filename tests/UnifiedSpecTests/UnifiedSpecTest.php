@@ -69,18 +69,13 @@ class UnifiedSpecTest extends FunctionalTestCase
         'crud/updateMany-rawData' => 'rawData option will not be implemented',
         'crud/updateOne-rawData' => 'rawData option will not be implemented',
         'index-management/index management-rawData' => 'rawData option will not be implemented',
-        'sessions/snapshot-sessions: Find operation with snapshot and snapshot time' => 'getSnapshotTime not implemented yet (PHPLIB-1725)',
-        'sessions/snapshot-sessions: Distinct operation with snapshot and snapshot time' => 'getSnapshotTime not implemented yet (PHPLIB-1725)',
-        'sessions/snapshot-sessions: Aggregate operation with snapshot and snapshot time' => 'getSnapshotTime not implemented yet (PHPLIB-1725)',
-        'sessions/snapshot-sessions: countDocuments operation with snapshot and snapshot time' => 'getSnapshotTime not implemented yet (PHPLIB-1725)',
-        'sessions/snapshot-sessions: Mixed operation with snapshot and snapshotTime' => 'getSnapshotTime not implemented yet (PHPLIB-1725)',
-        'sessions/snapshot-sessions: Find operation with snapshot' => 'Cluster time is not sent in first command sent out on single-threaded connections (PHPC-2655)',
-        'sessions/snapshot-sessions: Distinct operation with snapshot' => 'Cluster time is not sent in first command sent out on single-threaded connections (PHPC-2655)',
-        'sessions/snapshot-sessions: Aggregate operation with snapshot' => 'Cluster time is not sent in first command sent out on single-threaded connections (PHPC-2655)',
-        'sessions/snapshot-sessions: countDocuments operation with snapshot' => 'Cluster time is not sent in first command sent out on single-threaded connections (PHPC-2655)',
-        'sessions/snapshot-sessions: Mixed operation with snapshot' => 'Cluster time is not sent in first command sent out on single-threaded connections (PHPC-2655)',
-        'sessions/snapshot-sessions: Write commands with snapshot session do not affect snapshot reads' => 'Cluster time is not sent in first command sent out on single-threaded connections (PHPC-2655)',
-        'sessions/implicit sessions default causal consistency: afterClusterTime is not sent on retried read in implicit session when readConcern level is snapshot' => 'Cluster time is not sent in first command sent out on single-threaded connections (PHPC-2655)',
+        'sessions/snapshot-sessions: Find operation with snapshot and snapshot time' => 'getSnapshotTime not implemented yet (PHPLIB-1725, PHPC-2658)',
+        'sessions/snapshot-sessions: Distinct operation with snapshot and snapshot time' => 'getSnapshotTime not implemented yet (PHPLIB-1725, PHPC-2658)',
+        'sessions/snapshot-sessions: Aggregate operation with snapshot and snapshot time' => 'getSnapshotTime not implemented yet (PHPLIB-1725, PHPC-2658)',
+        'sessions/snapshot-sessions: countDocuments operation with snapshot and snapshot time' => 'getSnapshotTime not implemented yet (PHPLIB-1725, PHPC-2658)',
+        'sessions/snapshot-sessions: Mixed operation with snapshot and snapshotTime' => 'getSnapshotTime not implemented yet (PHPLIB-1725, PHPC-2658)',
+        'sessions/snapshot-sessions: Aggregate operation with snapshot' => 'Cluster time is not sent in first command sent out on single-threaded connections (PHPLIB-1725, PHPC-2658)',
+        'sessions/snapshot-sessions: Mixed operation with snapshot' => 'Cluster time is not sent in first command sent out on single-threaded connections (PHPLIB-1725, PHPC-2658)',
         // Backpressure tests rely on libmonogc
         'transactions/backpressure-' => 'Backpressure tests rely on libmongoc (PHPLIB-1719)',
     ];
@@ -119,10 +114,7 @@ class UnifiedSpecTest extends FunctionalTestCase
      *
      * @var array<string, string>
      */
-    private static array $incompleteLoadBalancerTests = [
-        'transactions/mongos-recovery-token: commitTransaction explicit retries include recoveryToken' => 'libmongoc omits recoveryToken for load-balanced topology (CDRIVER-4718)',
-        'transactions/pin-mongos: multiple commits' => 'libmongoc does not pin for load-balanced topology',
-    ];
+    private static array $incompleteLoadBalancerTests = ['transactions/pin-mongos: multiple commits' => 'libmongoc does not pin for load-balanced topology'];
 
     private static UnifiedTestRunner $runner;
 
