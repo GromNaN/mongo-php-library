@@ -18,8 +18,9 @@ tasks:
         vars:
           PHP_VERSION: "8.5"
       - func: "compile extension"
+        # TODO: Switch to EXTENSION_VERSION: "2.3.0" when 2.3.0 is released on PECL
         vars:
-          EXTENSION_VERSION: "2.2.0"
+          EXTENSION_BRANCH: "v2.x"
       - func: "upload extension"
   - name: "build-php-8.5-next-stable"
     tags: ["build", "php8.5", "next-stable", "pr", "tag"]
@@ -28,8 +29,9 @@ tasks:
         vars:
           PHP_VERSION: "8.5"
       - func: "compile extension"
+        # TODO: Switch to EXTENSION_VERSION: "2.3.0" when 2.3.0 is released on PECL
         vars:
-          EXTENSION_BRANCH: "v2.2"
+          EXTENSION_BRANCH: "v2.x"
       - func: "upload extension"
   - name: "build-php-8.5-next-minor"
     tags: ["build", "php8.5", "next-minor"]
@@ -59,8 +61,9 @@ tasks:
         vars:
           PHP_VERSION: "8.4"
       - func: "compile extension"
+        # TODO: Switch to EXTENSION_VERSION: "2.3.0" when 2.3.0 is released on PECL
         vars:
-          EXTENSION_VERSION: "2.2.0"
+          EXTENSION_BRANCH: "v2.x"
       - func: "upload extension"
   - name: "build-php-8.4-next-stable"
     tags: ["build", "php8.4", "next-stable", "pr", "tag"]
@@ -69,8 +72,9 @@ tasks:
         vars:
           PHP_VERSION: "8.4"
       - func: "compile extension"
+        # TODO: Switch to EXTENSION_VERSION: "2.3.0" when 2.3.0 is released on PECL
         vars:
-          EXTENSION_BRANCH: "v2.2"
+          EXTENSION_BRANCH: "v2.x"
       - func: "upload extension"
   - name: "build-php-8.4-next-minor"
     tags: ["build", "php8.4", "next-minor"]
@@ -100,8 +104,9 @@ tasks:
         vars:
           PHP_VERSION: "8.3"
       - func: "compile extension"
+        # TODO: Switch to EXTENSION_VERSION: "2.3.0" when 2.3.0 is released on PECL
         vars:
-          EXTENSION_VERSION: "2.2.0"
+          EXTENSION_BRANCH: "v2.x"
       - func: "upload extension"
   - name: "build-php-8.3-next-stable"
     tags: ["build", "php8.3", "next-stable", "pr", "tag"]
@@ -110,8 +115,9 @@ tasks:
         vars:
           PHP_VERSION: "8.3"
       - func: "compile extension"
+        # TODO: Switch to EXTENSION_VERSION: "2.3.0" when 2.3.0 is released on PECL
         vars:
-          EXTENSION_BRANCH: "v2.2"
+          EXTENSION_BRANCH: "v2.x"
       - func: "upload extension"
   - name: "build-php-8.3-next-minor"
     tags: ["build", "php8.3", "next-minor"]
@@ -141,8 +147,9 @@ tasks:
         vars:
           PHP_VERSION: "8.2"
       - func: "compile extension"
+        # TODO: Switch to EXTENSION_VERSION: "2.3.0" when 2.3.0 is released on PECL
         vars:
-          EXTENSION_VERSION: "2.2.0"
+          EXTENSION_BRANCH: "v2.x"
       - func: "upload extension"
   - name: "build-php-8.2-next-stable"
     tags: ["build", "php8.2", "next-stable", "pr", "tag"]
@@ -151,8 +158,9 @@ tasks:
         vars:
           PHP_VERSION: "8.2"
       - func: "compile extension"
+        # TODO: Switch to EXTENSION_VERSION: "2.3.0" when 2.3.0 is released on PECL
         vars:
-          EXTENSION_BRANCH: "v2.2"
+          EXTENSION_BRANCH: "v2.x"
       - func: "upload extension"
   - name: "build-php-8.2-next-minor"
     tags: ["build", "php8.2", "next-minor"]
@@ -182,8 +190,9 @@ tasks:
         vars:
           PHP_VERSION: "8.1"
       - func: "compile extension"
+        # TODO: Switch to EXTENSION_VERSION: "2.3.0" when 2.3.0 is released on PECL
         vars:
-          EXTENSION_VERSION: "2.2.0"
+          EXTENSION_BRANCH: "v2.x"
       - func: "upload extension"
   - name: "build-php-8.1-next-stable"
     tags: ["build", "php8.1", "next-stable", "pr", "tag"]
@@ -192,8 +201,9 @@ tasks:
         vars:
           PHP_VERSION: "8.1"
       - func: "compile extension"
+        # TODO: Switch to EXTENSION_VERSION: "2.3.0" when 2.3.0 is released on PECL
         vars:
-          EXTENSION_BRANCH: "v2.2"
+          EXTENSION_BRANCH: "v2.x"
       - func: "upload extension"
   - name: "build-php-8.1-next-minor"
     tags: ["build", "php8.1", "next-minor"]

@@ -16,8 +16,9 @@
         vars:
           PHP_VERSION: "%phpVersion%"
       - func: "compile extension"
+        # TODO: Switch to EXTENSION_VERSION: "2.3.0" when 2.3.0 is released on PECL
         vars:
-          EXTENSION_VERSION: "2.2.0"
+          EXTENSION_BRANCH: "v2.x"
       - func: "upload extension"
   - name: "build-php-%phpVersion%-next-stable"
     tags: ["build", "php%phpVersion%", "next-stable", "pr", "tag"]
@@ -26,8 +27,9 @@
         vars:
           PHP_VERSION: "%phpVersion%"
       - func: "compile extension"
+        # TODO: Switch to EXTENSION_VERSION: "2.3.0" when 2.3.0 is released on PECL
         vars:
-          EXTENSION_BRANCH: "v2.2"
+          EXTENSION_BRANCH: "v2.x"
       - func: "upload extension"
   - name: "build-php-%phpVersion%-next-minor"
     tags: ["build", "php%phpVersion%", "next-minor"]
