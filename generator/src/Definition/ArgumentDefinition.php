@@ -7,8 +7,10 @@ namespace MongoDB\CodeGenerator\Definition;
 use InvalidArgumentException;
 
 use function array_is_list;
+use function array_map;
 use function assert;
 use function get_debug_type;
+use function get_object_vars;
 use function is_array;
 use function is_object;
 use function is_string;
@@ -22,6 +24,9 @@ final class ArgumentDefinition
     public VariadicType|null $variadic;
     public int|null $variadicMin;
 
+    /** @var list<self> Sub-arguments for object-typed arguments. */
+    public array $arguments;
+
     public function __construct(
         public string $name,
         /** @var list<string> */
@@ -33,6 +38,7 @@ final class ArgumentDefinition
         public mixed $default = null,
         public bool $mergeObject = false,
         public string|null $minVersion = null,
+        array $arguments = [],
         mixed ...$ignoredOtherArgs,
     ) {
         assert($this->optional === false || $this->default === null, 'Optional arguments cannot have a default value');
@@ -64,5 +70,10 @@ final class ArgumentDefinition
         if ($this->minVersion && version_compare($this->minVersion, '4.4', '>=')) {
             $this->description .= sprintf("\nNew in MongoDB %s\n", $this->minVersion);
         }
+
+        $this->arguments = array_map(
+            static fn (object $arg): self => new self(...get_object_vars($arg)),
+            $arguments,
+        );
     }
 }

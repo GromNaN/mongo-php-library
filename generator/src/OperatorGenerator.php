@@ -151,6 +151,19 @@ abstract class OperatorGenerator extends AbstractGenerator
     }
 
     /**
+     * Returns the fully qualified class name for the generated type class for an argument with sub-fields.
+     * Returns null if the argument has no sub-arguments.
+     */
+    final protected function getArgumentTypeClassName(OperatorDefinition $operator, ArgumentDefinition $argument): string|null
+    {
+        if (! $argument->arguments) {
+            return null;
+        }
+
+        return 'MongoDB\\Builder\\Type\\' . ucfirst(ltrim($operator->name, '$')) . ucfirst($argument->propertyName);
+    }
+
+    /**
      * usort() callback for sorting types.
      * "Optional" is always first, for documentation of optional parameters,
      * then types are sorted alphabetically.

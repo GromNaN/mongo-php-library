@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MongoDB\CodeGenerator;
 
+use MongoDB\Builder\Type\Optional;
 use MongoDB\CodeGenerator\Definition\GeneratorDefinition;
 use MongoDB\CodeGenerator\Definition\OperatorDefinition;
 use MongoDB\CodeGenerator\Definition\VariadicType;
@@ -18,7 +19,10 @@ use function ltrim;
 use function rtrim;
 use function sprintf;
 use function str_replace;
+use function str_starts_with;
 use function strcasecmp;
+use function strlen;
+use function substr;
 use function usort;
 
 final class OperatorFactoryGenerator extends OperatorGenerator
@@ -82,6 +86,34 @@ final class OperatorFactoryGenerator extends OperatorGenerator
                     $parameter->setDefaultValue(new Literal('Optional::Undefined'));
                 } elseif ($argument->default !== null) {
                     $parameter->setDefaultValue($argument->default);
+                }
+
+                // If the argument has sub-fields, inject the generated type class into the union
+                $typeClassName = $this->getArgumentTypeClassName($operator, $argument);
+                if ($typeClassName !== null) {
+                    $namespace->addUse('\\' . $typeClassName);
+                    $type->use[] = '\\' . $typeClassName;
+                    [, $typeShortName] = $this->splitNamespaceAndClassName($typeClassName);
+
+                    if ($argument->optional) {
+                        $optionalNative = '\\' . Optional::class . '|';
+                        $optionalDoc = 'Optional|';
+                        if (str_starts_with($type->native, $optionalNative)) {
+                            $type->native = $optionalNative . '\\' . $typeClassName . '|' . substr($type->native, strlen($optionalNative));
+                        }
+
+                        if (str_starts_with($type->doc, $optionalDoc)) {
+                            $type->doc = $optionalDoc . $typeShortName . '|' . substr($type->doc, strlen($optionalDoc));
+                        }
+                    } else {
+                        $type->native = '\\' . $typeClassName . '|' . $type->native;
+                        $type->doc = $typeShortName . '|' . $type->doc;
+                    }
+
+                    $parameter->setType($type->native);
+                    foreach ($type->use as $use) {
+                        $namespace->addUse($use);
+                    }
                 }
 
                 $method->addComment('@param ' . $type->doc . ' $' . $argument->propertyName . rtrim(' ' . $argument->description));
