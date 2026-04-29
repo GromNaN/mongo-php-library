@@ -108,6 +108,19 @@
       <code><![CDATA[$value[$key]]]></code>
     </MixedAssignment>
   </file>
+  <file src="src/Builder/Encoder/TypeEncoder.php">
+    <MixedAssignment>
+      <code><![CDATA[$k]]></code>
+      <code><![CDATA[$name]]></code>
+      <code><![CDATA[$prop]]></code>
+      <code><![CDATA[$v]]></code>
+      <code><![CDATA[$val]]></code>
+      <code><![CDATA[$val]]></code>
+    </MixedAssignment>
+    <PossibleRawObjectIteration>
+      <code><![CDATA[$val]]></code>
+    </PossibleRawObjectIteration>
+  </file>
   <file src="src/Builder/Encoder/UpdateEncoder.php">
     <MixedAssignment>
       <code><![CDATA[$operator]]></code>
@@ -171,6 +184,21 @@
       <code><![CDATA[stdClass]]></code>
     </TooManyTemplateParams>
   </file>
+  <file src="src/Builder/Stage/RankFusionStage.php">
+    <MixedArgument>
+      <code><![CDATA[$combination]]></code>
+      <code><![CDATA[$input]]></code>
+    </MixedArgument>
+  </file>
+  <file src="src/Builder/Stage/ScoreFusionStage.php">
+    <MixedArgument>
+      <code><![CDATA[$combination]]></code>
+      <code><![CDATA[$combination]]></code>
+      <code><![CDATA[$combination]]></code>
+      <code><![CDATA[$input]]></code>
+      <code><![CDATA[$input]]></code>
+    </MixedArgument>
+  </file>
   <file src="src/Builder/Stage/SetStage.php">
     <PropertyTypeCoercion>
       <code><![CDATA[$field]]></code>
@@ -221,6 +249,32 @@
       <code><![CDATA[$query::NAME]]></code>
       <code><![CDATA[$query::NAME]]></code>
     </UndefinedConstant>
+  </file>
+  <file src="src/Builder/Type/RankFusionCombination.php">
+    <PropertyTypeCoercion>
+      <code><![CDATA[is_array($weights) ? (object) $weights : $weights]]></code>
+    </PropertyTypeCoercion>
+  </file>
+  <file src="src/Builder/Type/RankFusionInput.php">
+    <PropertyTypeCoercion>
+      <code><![CDATA[is_array($pipelines) ? (object) $pipelines : $pipelines]]></code>
+    </PropertyTypeCoercion>
+    <TooManyTemplateParams>
+      <code><![CDATA[stdClass]]></code>
+    </TooManyTemplateParams>
+  </file>
+  <file src="src/Builder/Type/ScoreFusionCombination.php">
+    <PropertyTypeCoercion>
+      <code><![CDATA[is_array($weights) ? (object) $weights : $weights]]></code>
+    </PropertyTypeCoercion>
+  </file>
+  <file src="src/Builder/Type/ScoreFusionInput.php">
+    <PropertyTypeCoercion>
+      <code><![CDATA[is_array($pipelines) ? (object) $pipelines : $pipelines]]></code>
+    </PropertyTypeCoercion>
+    <TooManyTemplateParams>
+      <code><![CDATA[stdClass]]></code>
+    </TooManyTemplateParams>
   </file>
   <file src="src/Builder/Update.php">
     <MixedReturnStatement>
@@ -374,6 +428,7 @@
       <code><![CDATA[($value is NativeType ? BSONType : $value)]]></code>
     </InvalidReturnType>
     <MixedArgumentTypeCoercion>
+      <code><![CDATA[$value]]></code>
       <code><![CDATA[$value]]></code>
       <code><![CDATA[$value]]></code>
       <code><![CDATA[$value]]></code>

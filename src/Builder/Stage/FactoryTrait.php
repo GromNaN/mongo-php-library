@@ -24,6 +24,10 @@ use MongoDB\Builder\Type\AccumulatorInterface;
 use MongoDB\Builder\Type\ExpressionInterface;
 use MongoDB\Builder\Type\Optional;
 use MongoDB\Builder\Type\QueryInterface;
+use MongoDB\Builder\Type\RankFusionCombination;
+use MongoDB\Builder\Type\RankFusionInput;
+use MongoDB\Builder\Type\ScoreFusionCombination;
+use MongoDB\Builder\Type\ScoreFusionInput;
 use MongoDB\Builder\Type\SearchOperatorInterface;
 use MongoDB\Builder\Type\Sort;
 use MongoDB\Model\BSONArray;
@@ -505,16 +509,14 @@ trait FactoryTrait
      * New in MongoDB 8.1
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/rankFusion/
-     * @param Document|Serializable|array|stdClass $input An object with the following required fields:
-     * - input.pipelines: Map from name to ranked input pipeline. Each pipeline must operate on the same collection. Minimum of one pipeline.
+     * @param RankFusionInput|Document|Serializable|array|stdClass $input An object that specifies the pipelines to combine with rank fusion.
      * @param bool $scoreDetails Set to true to include detailed scoring information.
-     * @param Optional|Document|Serializable|array|stdClass $combination An object with the following optional fields:
-     * - combination.weights: Map from pipeline name to numbers (non-negative). If unspecified, default weight is 1 for each pipeline.
+     * @param Optional|RankFusionCombination|Document|Serializable|array|stdClass $combination An object that specifies how to combine the ranked results.
      */
     public static function rankFusion(
-        Document|Serializable|stdClass|array $input,
+        RankFusionInput|Document|Serializable|stdClass|array $input,
         bool $scoreDetails = false,
-        Optional|Document|Serializable|stdClass|array $combination = Optional::Undefined,
+        Optional|RankFusionCombination|Document|Serializable|stdClass|array $combination = Optional::Undefined,
     ): RankFusionStage {
         return new RankFusionStage($input, $scoreDetails, $combination);
     }
@@ -573,19 +575,14 @@ trait FactoryTrait
      * New in MongoDB 8.0
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/scoreFusion/
-     * @param Document|Serializable|array|stdClass $input An object with the following required fields:
-     * - input.pipelines: Map from name to input pipeline. Each pipeline must be operating on the same collection. Minimum of one pipeline.
-     * - input.normalization: Normalizes the score to the range 0 to 1 before combining the results. Value can be none, sigmoid or minMaxScaler.
+     * @param ScoreFusionInput|Document|Serializable|array|stdClass $input An object that specifies the pipelines to combine with score fusion.
      * @param bool $scoreDetails Set to true to include detailed scoring information.
-     * @param Optional|Document|Serializable|array|stdClass $combination An object with the following optional fields:
-     * - combination.weights: Map from pipeline name to numbers (non-negative). If unspecified, default weight is 1 for each pipeline.
-     * - combination.method: Specifies method for combining scores. Value can be avg or expression. Default is avg.
-     * - combination.expression: This is the custom expression that is used when combination.method is set to expression.
+     * @param Optional|ScoreFusionCombination|Document|Serializable|array|stdClass $combination An object that specifies how to combine the scores.
      */
     public static function scoreFusion(
-        Document|Serializable|stdClass|array $input,
+        ScoreFusionInput|Document|Serializable|stdClass|array $input,
         bool $scoreDetails = false,
-        Optional|Document|Serializable|stdClass|array $combination = Optional::Undefined,
+        Optional|ScoreFusionCombination|Document|Serializable|stdClass|array $combination = Optional::Undefined,
     ): ScoreFusionStage {
         return new ScoreFusionStage($input, $scoreDetails, $combination);
     }

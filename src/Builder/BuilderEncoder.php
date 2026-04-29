@@ -14,6 +14,7 @@ use MongoDB\Builder\Encoder\OperatorEncoder;
 use MongoDB\Builder\Encoder\OutputWindowEncoder;
 use MongoDB\Builder\Encoder\PipelineEncoder;
 use MongoDB\Builder\Encoder\QueryEncoder;
+use MongoDB\Builder\Encoder\TypeEncoder;
 use MongoDB\Builder\Encoder\UpdateEncoder;
 use MongoDB\Builder\Encoder\VariableEncoder;
 use MongoDB\Builder\Expression\Variable;
@@ -26,6 +27,7 @@ use MongoDB\Builder\Type\OutputWindow;
 use MongoDB\Builder\Type\QueryInterface;
 use MongoDB\Builder\Type\QueryObject;
 use MongoDB\Builder\Type\StageInterface;
+use MongoDB\Builder\Type\TypeInterface;
 use MongoDB\Codec\EncodeIfSupported;
 use MongoDB\Codec\Encoder;
 use MongoDB\Exception\UnsupportedValueException;
@@ -68,6 +70,7 @@ final class BuilderEncoder implements Encoder
             CombinedFieldQuery::class => new CombinedFieldQueryEncoder($self),
             QueryObject::class => new QueryEncoder($self),
             OutputWindow::class => new OutputWindowEncoder($self),
+            TypeInterface::class => new TypeEncoder($self),
             OperatorInterface::class => new OperatorEncoder($self),
             DateTimeInterface::class => new DateTimeEncoder(),
         ];

@@ -9,13 +9,17 @@ use MongoDB\Builder\Type\Encode;
 use MongoDB\Builder\Type\OperatorInterface;
 use MongoDB\Builder\Type\Optional;
 use MongoDB\Builder\Type\QueryObject;
+use MongoDB\Builder\Type\TypeInterface;
 use MongoDB\CodeGenerator\Definition\ArgumentDefinition;
 use MongoDB\CodeGenerator\Definition\GeneratorDefinition;
 use MongoDB\CodeGenerator\Definition\OperatorDefinition;
 use MongoDB\CodeGenerator\Definition\VariadicType;
 use MongoDB\Exception\InvalidArgumentException;
 use Nette\PhpGenerator\Literal;
+use Nette\PhpGenerator\Method;
+use Nette\PhpGenerator\Parameter;
 use Nette\PhpGenerator\PhpNamespace;
+use Nette\PhpGenerator\Property;
 use RuntimeException;
 use stdClass;
 use Throwable;
@@ -157,19 +161,10 @@ class OperatorClassGenerator extends OperatorGenerator
                     \${$argument->propertyName} = (object) \${$argument->propertyName};
                     PHP);
                 }
+
+                $constructor->addBody('$this->' . $argument->propertyName . ' = $' . $argument->propertyName . ';');
             } else {
-                // Non-variadic arguments
-                $property->addComment('@var ' . $type->doc . ' $' . $argument->propertyName . rtrim(' ' . $argument->description));
-                $property->setType($type->native);
-                $constructor->addComment('@param ' . $type->doc . ' $' . $argument->propertyName . rtrim(' ' . $argument->description));
-
-                if ($argument->optional) {
-                    // We use a special Optional::Undefined type to differentiate between null and undefined
-                    $constructorParam->setDefaultValue(new Literal('Optional::Undefined'));
-                } elseif ($argument->default !== null) {
-                    $constructorParam->setDefaultValue($argument->default);
-                }
-
+                // Non-variadic arguments: add validation/coercion bodies first, then property/param setup and setter
                 if ($type->dollarPrefixedString) {
                     $namespace->addUseFunction('is_string');
                     $namespace->addUseFunction('str_starts_with');
@@ -216,10 +211,21 @@ class OperatorClassGenerator extends OperatorGenerator
 
                     PHP);
                 }
-            }
 
-            // Set property from constructor argument
-            $constructor->addBody('$this->' . $argument->propertyName . ' = $' . $argument->propertyName . ';');
+                if ($typeClassName !== null) {
+                    $namespace->addUseFunction('is_array');
+                    $propName = $argument->propertyName;
+                    $constructor->addBody(<<<PHP
+                    if (is_array(\${$propName})) {
+                        \${$propName} = new {$typeShortName}(...\${$propName});
+                    }
+
+                    PHP);
+                }
+
+                // buildPropertyAndParam handles types/docs/defaults and adds the setter body last
+                $this->buildPropertyAndParam($namespace, $property, $constructorParam, $constructor, $argument, $type);
+            }
         }
 
         if ($encodeNames !== []) {
@@ -241,17 +247,19 @@ class OperatorClassGenerator extends OperatorGenerator
         $namespace = new PhpNamespace('MongoDB\\Builder\\Type');
         $class = $namespace->addClass($typeShortClassName);
         $class->setFinal();
+        $class->addImplement(TypeInterface::class);
         $class->addComment(sprintf(
             'Type class for the $%s argument of the %s operator.',
             $argument->propertyName,
             $operator->name,
         ));
         $class->addComment('@see ' . $operator->link);
-        $class->addComment('@internal');
 
+        $encodeNames = [];
         $constructor = $class->addMethod('__construct');
 
         foreach ($argument->arguments as $subArg) {
+            $encodeNames[$subArg->propertyName] = $subArg->mergeObject ? null : $subArg->name;
             $subType = $this->getAcceptedTypes($subArg);
             foreach ($subType->use as $use) {
                 $namespace->addUse($use);
@@ -261,88 +269,115 @@ class OperatorClassGenerator extends OperatorGenerator
             $property->setReadOnly();
             $constructorParam = $constructor->addParameter($subArg->propertyName);
 
-            if ($subArg->variadic === VariadicType::Object) {
-                $namespace->addUse(stdClass::class);
-                $namespace->addUseFunction('is_array');
-                $prefix = ($subArg->variadicMin ?? 0) > 0 ? 'non-empty-array' : 'array';
-                $mapDocType = $prefix . '<string, ' . $subType->doc . '>';
-
-                if ($subArg->optional) {
-                    $namespace->addUse(Optional::class);
-                    $property->setType(Optional::class . '|' . stdClass::class);
-                    $property->addComment('@var Optional|stdClass $' . $subArg->propertyName . rtrim(' ' . $subArg->description));
-                    $constructorParam->setType(Optional::class . '|' . stdClass::class . '|array');
-                    $constructorParam->setDefaultValue(new Literal('Optional::Undefined'));
-                    $constructor->addComment('@param ' . $mapDocType . '|Optional|stdClass $' . $subArg->propertyName . rtrim(' ' . $subArg->description));
-                    $propName = $subArg->propertyName;
-                    $constructor->addBody('$this->' . $propName . ' = is_array($' . $propName . ') ? (object) $' . $propName . ' : $' . $propName . ';');
-                } else {
-                    $property->setType(stdClass::class);
-                    $property->addComment('@var stdClass<' . $subType->doc . '> $' . $subArg->propertyName . rtrim(' ' . $subArg->description));
-                    $constructorParam->setType(stdClass::class . '|array');
-                    $constructor->addComment('@param ' . $mapDocType . '|stdClass $' . $subArg->propertyName . rtrim(' ' . $subArg->description));
-
-                    $propName = $subArg->propertyName;
-                    if (($subArg->variadicMin ?? 0) > 0) {
-                        $min = $subArg->variadicMin;
-                        $namespace->addUse(InvalidArgumentException::class);
-                        $constructor->addBody(<<<PHP
-                        if (\count((array) \${$propName}) < {$min}) {
-                            throw new InvalidArgumentException(\sprintf('Expected at least %d entries for \${$propName}, got %d.', {$min}, \count((array) \${$propName})));
-                        }
-
-                        PHP);
-                    }
-
-                    $constructor->addBody('$this->' . $propName . ' = is_array($' . $propName . ') ? (object) $' . $propName . ' : $' . $propName . ';');
-                }
-            } elseif ($subArg->variadic === VariadicType::Array) {
-                $namespace->addUseFunction('array_is_list');
-                $namespace->addUse(InvalidArgumentException::class);
-                $prefix = ($subArg->variadicMin ?? 0) > 0 ? 'non-empty-list' : 'list';
-                $listDocType = $prefix . '<' . $subType->doc . '>';
-
-                $propName = $subArg->propertyName;
-                if ($subArg->optional) {
-                    $namespace->addUse(Optional::class);
-                    $property->setType(Optional::class . '|array');
-                    $property->addComment('@var Optional|' . $listDocType . ' $' . $propName . rtrim(' ' . $subArg->description));
-                    $constructorParam->setType(Optional::class . '|array');
-                    $constructorParam->setDefaultValue(new Literal('Optional::Undefined'));
-                    $constructor->addComment('@param Optional|' . $listDocType . ' $' . $propName . rtrim(' ' . $subArg->description));
-                } else {
-                    $property->setType('array');
-                    $property->addComment('@var ' . $listDocType . ' $' . $propName . rtrim(' ' . $subArg->description));
-                    $constructorParam->setType('array');
-                    $constructor->addComment('@param ' . $listDocType . ' $' . $propName . rtrim(' ' . $subArg->description));
-                }
-
-                $constructor->addBody(<<<PHP
-                if (is_array(\${$propName}) && ! array_is_list(\${$propName})) {
-                    throw new InvalidArgumentException('Expected \${$propName} argument to be a list, got an associative array.');
-                }
-
-                PHP);
-                $constructor->addBody('$this->' . $propName . ' = $' . $propName . ';');
-            } else {
-                // Regular (non-variadic) sub-argument
-                $property->setType($subType->native);
-                $property->addComment('@var ' . $subType->doc . ' $' . $subArg->propertyName . rtrim(' ' . $subArg->description));
-                $constructorParam->setType($subType->native);
-                $constructor->addComment('@param ' . $subType->doc . ' $' . $subArg->propertyName . rtrim(' ' . $subArg->description));
-
-                if ($subArg->optional) {
-                    $namespace->addUse(Optional::class);
-                    $constructorParam->setDefaultValue(new Literal('Optional::Undefined'));
-                } elseif ($subArg->default !== null) {
-                    $constructorParam->setDefaultValue($subArg->default);
-                }
-
-                $constructor->addBody('$this->' . $subArg->propertyName . ' = $' . $subArg->propertyName . ';');
-            }
+            $this->buildPropertyAndParam($namespace, $property, $constructorParam, $constructor, $subArg, $subType);
         }
 
+        $class->addConstant('PROPERTIES', $encodeNames);
+
         return $namespace;
+    }
+
+    /**
+     * Shared helper: sets up a property, constructor parameter, PHPDoc, default value, validation body, and property
+     * setter. Handles variadic:object (map) and variadic:array (list) sub-argument patterns, as well as regular
+     * non-variadic arguments.
+     */
+    private function buildPropertyAndParam(
+        PhpNamespace $namespace,
+        Property $property,
+        Parameter $param,
+        Method $constructor,
+        ArgumentDefinition $arg,
+        stdClass $type,
+    ): void {
+        $propName = $arg->propertyName;
+
+        if ($arg->variadic === VariadicType::Object) {
+            $namespace->addUse(stdClass::class);
+            $namespace->addUseFunction('is_array');
+
+            // Compute map VALUE doc type without Optional (optionality is at the parameter level)
+            $baseArg = clone $arg;
+            $baseArg->optional = false;
+            $baseType = $this->getAcceptedTypes($baseArg);
+            $prefix = ($arg->variadicMin ?? 0) > 0 ? 'non-empty-array' : 'array';
+            $mapDocType = $prefix . '<string, ' . $baseType->doc . '>';
+
+            if ($arg->optional) {
+                $namespace->addUse(Optional::class);
+                $property->setType(Optional::class . '|' . stdClass::class);
+                $property->addComment('@var Optional|stdClass $' . $propName . rtrim(' ' . $arg->description));
+                $param->setType(Optional::class . '|' . stdClass::class . '|array');
+                $param->setDefaultValue(new Literal('Optional::Undefined'));
+                $constructor->addComment('@param ' . $mapDocType . '|Optional|stdClass $' . $propName . rtrim(' ' . $arg->description));
+            } else {
+                $property->setType(stdClass::class);
+                $property->addComment('@var stdClass<' . $baseType->doc . '> $' . $propName . rtrim(' ' . $arg->description));
+                $param->setType(stdClass::class . '|array');
+                $constructor->addComment('@param ' . $mapDocType . '|stdClass $' . $propName . rtrim(' ' . $arg->description));
+
+                if (($arg->variadicMin ?? 0) > 0) {
+                    $min = $arg->variadicMin;
+                    $namespace->addUse(InvalidArgumentException::class);
+                    $constructor->addBody(<<<PHP
+                    if (\count((array) \${$propName}) < {$min}) {
+                        throw new InvalidArgumentException(\sprintf('Expected at least %d entries for \${$propName}, got %d.', {$min}, \count((array) \${$propName})));
+                    }
+
+                    PHP);
+                }
+            }
+
+            $constructor->addBody('$this->' . $propName . ' = is_array($' . $propName . ') ? (object) $' . $propName . ' : $' . $propName . ';');
+        } elseif ($arg->variadic === VariadicType::Array) {
+            $namespace->addUseFunction('is_array');
+            $namespace->addUseFunction('array_is_list');
+            $namespace->addUse(InvalidArgumentException::class);
+
+            // Compute list element doc type without Optional
+            $baseArg = clone $arg;
+            $baseArg->optional = false;
+            $baseType = $this->getAcceptedTypes($baseArg);
+            $prefix = ($arg->variadicMin ?? 0) > 0 ? 'non-empty-list' : 'list';
+            $listDocType = $prefix . '<' . $baseType->doc . '>';
+
+            if ($arg->optional) {
+                $namespace->addUse(Optional::class);
+                $property->setType(Optional::class . '|array');
+                $property->addComment('@var Optional|' . $listDocType . ' $' . $propName . rtrim(' ' . $arg->description));
+                $param->setType(Optional::class . '|array');
+                $param->setDefaultValue(new Literal('Optional::Undefined'));
+                $constructor->addComment('@param Optional|' . $listDocType . ' $' . $propName . rtrim(' ' . $arg->description));
+            } else {
+                $property->setType('array');
+                $property->addComment('@var ' . $listDocType . ' $' . $propName . rtrim(' ' . $arg->description));
+                $param->setType('array');
+                $constructor->addComment('@param ' . $listDocType . ' $' . $propName . rtrim(' ' . $arg->description));
+            }
+
+            $constructor->addBody(<<<PHP
+            if (is_array(\${$propName}) && ! array_is_list(\${$propName})) {
+                throw new InvalidArgumentException('Expected \${$propName} argument to be a list, got an associative array.');
+            }
+
+            PHP);
+            $constructor->addBody('$this->' . $propName . ' = $' . $propName . ';');
+        } else {
+            // Non-variadic
+            $property->setType($type->native);
+            $property->addComment('@var ' . $type->doc . ' $' . $propName . rtrim(' ' . $arg->description));
+            $param->setType($type->native);
+            $constructor->addComment('@param ' . $type->doc . ' $' . $propName . rtrim(' ' . $arg->description));
+
+            if ($arg->optional) {
+                $namespace->addUse(Optional::class);
+                $param->setDefaultValue(new Literal('Optional::Undefined'));
+            } elseif ($arg->default !== null) {
+                $param->setDefaultValue($arg->default);
+            }
+
+            $constructor->addBody('$this->' . $propName . ' = $' . $propName . ';');
+        }
     }
 
     /**
