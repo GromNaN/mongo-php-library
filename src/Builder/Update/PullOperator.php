@@ -34,9 +34,7 @@ final class PullOperator implements UpdateInterface, OperatorInterface
     /** @var stdClass<DateTimeInterface|FieldQueryInterface|Type|array|bool|float|int|null|stdClass|string> $field */
     public readonly stdClass $field;
 
-    /**
-     * @param DateTimeInterface|FieldQueryInterface|Type|array|bool|float|int|null|stdClass|string ...$field
-     */
+    /** @param DateTimeInterface|FieldQueryInterface|Type|array|bool|float|int|null|stdClass|string ...$field */
     public function __construct(
         DateTimeInterface|Type|FieldQueryInterface|stdClass|array|bool|float|int|null|string ...$field,
     ) {

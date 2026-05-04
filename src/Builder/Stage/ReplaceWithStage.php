@@ -37,9 +37,7 @@ final class ReplaceWithStage implements StageInterface, UpdateStageInterface, Op
     /** @var Document|ResolvesToObject|Serializable|array|stdClass|string $expression */
     public readonly Document|Serializable|ResolvesToObject|stdClass|array|string $expression;
 
-    /**
-     * @param Document|ResolvesToObject|Serializable|array|stdClass|string $expression
-     */
+    /** @param Document|ResolvesToObject|Serializable|array|stdClass|string $expression */
     public function __construct(Document|Serializable|ResolvesToObject|stdClass|array|string $expression)
     {
         if (is_string($expression) && ! str_starts_with($expression, '$')) {

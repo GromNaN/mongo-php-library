@@ -29,9 +29,7 @@ final class BinarySizeOperator implements ResolvesToInt, OperatorInterface
     /** @var Binary|ResolvesToBinData|ResolvesToNull|ResolvesToString|null|string $expression */
     public readonly Binary|ResolvesToBinData|ResolvesToNull|ResolvesToString|null|string $expression;
 
-    /**
-     * @param Binary|ResolvesToBinData|ResolvesToNull|ResolvesToString|null|string $expression
-     */
+    /** @param Binary|ResolvesToBinData|ResolvesToNull|ResolvesToString|null|string $expression */
     public function __construct(Binary|ResolvesToBinData|ResolvesToNull|ResolvesToString|null|string $expression)
     {
         $this->expression = $expression;

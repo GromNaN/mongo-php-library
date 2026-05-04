@@ -32,9 +32,7 @@ final class ToHashedIndexKeyOperator implements ResolvesToLong, OperatorInterfac
     /** @var DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $value key or string to hash */
     public readonly DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $value;
 
-    /**
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $value key or string to hash
-     */
+    /** @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $value key or string to hash */
     public function __construct(
         DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $value,
     ) {

@@ -31,9 +31,7 @@ final class RenameOperator implements UpdateInterface, OperatorInterface
     /** @var stdClass<string> $field */
     public readonly stdClass $field;
 
-    /**
-     * @param string ...$field
-     */
+    /** @param string ...$field */
     public function __construct(string ...$field)
     {
         if (\count($field) < 1) {
