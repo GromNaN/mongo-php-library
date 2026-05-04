@@ -37,10 +37,10 @@ trait FactoryTrait
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/query/all/
      * @no-named-arguments
-     * @param DateTimeInterface|FieldQueryInterface|Type|array|bool|float|int|null|stdClass|string ...$value
+     * @param DateTimeInterface|FieldQueryInterface|Type|array|bool|float|int|stdClass|string|null ...$value
      */
     public static function all(
-        DateTimeInterface|Type|FieldQueryInterface|stdClass|array|bool|float|int|null|string ...$value,
+        DateTimeInterface|Type|FieldQueryInterface|stdClass|array|bool|float|int|string|null ...$value,
     ): AllOperator {
         return new AllOperator(...$value);
     }
@@ -149,10 +149,10 @@ trait FactoryTrait
      * The $elemMatch operator matches documents that contain an array field with at least one element that matches all the specified query criteria.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/query/elemMatch/
-     * @param DateTimeInterface|FieldQueryInterface|QueryInterface|Type|array|bool|float|int|null|stdClass|string $query
+     * @param DateTimeInterface|FieldQueryInterface|QueryInterface|Type|array|bool|float|int|stdClass|string|null $query
      */
     public static function elemMatch(
-        DateTimeInterface|Type|FieldQueryInterface|QueryInterface|stdClass|array|bool|float|int|null|string $query,
+        DateTimeInterface|Type|FieldQueryInterface|QueryInterface|stdClass|array|bool|float|int|string|null $query,
     ): ElemMatchOperator {
         return new ElemMatchOperator($query);
     }
@@ -161,9 +161,9 @@ trait FactoryTrait
      * Matches values that are equal to a specified value.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/query/eq/
-     * @param DateTimeInterface|Type|array|bool|float|int|null|stdClass|string $value
+     * @param DateTimeInterface|Type|array|bool|float|int|stdClass|string|null $value
      */
-    public static function eq(DateTimeInterface|Type|stdClass|array|bool|float|int|null|string $value): EqOperator
+    public static function eq(DateTimeInterface|Type|stdClass|array|bool|float|int|string|null $value): EqOperator
     {
         return new EqOperator($value);
     }
@@ -183,10 +183,10 @@ trait FactoryTrait
      * Allows use of aggregation expressions within the query language.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/query/expr/
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $expression
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $expression
      */
     public static function expr(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $expression,
     ): ExprOperator {
         return new ExprOperator($expression);
     }
@@ -235,9 +235,9 @@ trait FactoryTrait
      * Matches values that are greater than a specified value.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/query/gt/
-     * @param DateTimeInterface|Type|array|bool|float|int|null|stdClass|string $value
+     * @param DateTimeInterface|Type|array|bool|float|int|stdClass|string|null $value
      */
-    public static function gt(DateTimeInterface|Type|stdClass|array|bool|float|int|null|string $value): GtOperator
+    public static function gt(DateTimeInterface|Type|stdClass|array|bool|float|int|string|null $value): GtOperator
     {
         return new GtOperator($value);
     }
@@ -246,9 +246,9 @@ trait FactoryTrait
      * Matches values that are greater than or equal to a specified value.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/query/gte/
-     * @param DateTimeInterface|Type|array|bool|float|int|null|stdClass|string $value
+     * @param DateTimeInterface|Type|array|bool|float|int|stdClass|string|null $value
      */
-    public static function gte(DateTimeInterface|Type|stdClass|array|bool|float|int|null|string $value): GteOperator
+    public static function gte(DateTimeInterface|Type|stdClass|array|bool|float|int|string|null $value): GteOperator
     {
         return new GteOperator($value);
     }
@@ -279,9 +279,9 @@ trait FactoryTrait
      * Matches values that are less than a specified value.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/query/lt/
-     * @param DateTimeInterface|Type|array|bool|float|int|null|stdClass|string $value
+     * @param DateTimeInterface|Type|array|bool|float|int|stdClass|string|null $value
      */
-    public static function lt(DateTimeInterface|Type|stdClass|array|bool|float|int|null|string $value): LtOperator
+    public static function lt(DateTimeInterface|Type|stdClass|array|bool|float|int|string|null $value): LtOperator
     {
         return new LtOperator($value);
     }
@@ -290,9 +290,9 @@ trait FactoryTrait
      * Matches values that are less than or equal to a specified value.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/query/lte/
-     * @param DateTimeInterface|Type|array|bool|float|int|null|stdClass|string $value
+     * @param DateTimeInterface|Type|array|bool|float|int|stdClass|string|null $value
      */
-    public static function lte(DateTimeInterface|Type|stdClass|array|bool|float|int|null|string $value): LteOperator
+    public static function lte(DateTimeInterface|Type|stdClass|array|bool|float|int|string|null $value): LteOperator
     {
         return new LteOperator($value);
     }
@@ -337,9 +337,9 @@ trait FactoryTrait
      * Matches all values that are not equal to a specified value.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/query/ne/
-     * @param DateTimeInterface|Type|array|bool|float|int|null|stdClass|string $value
+     * @param DateTimeInterface|Type|array|bool|float|int|stdClass|string|null $value
      */
-    public static function ne(DateTimeInterface|Type|stdClass|array|bool|float|int|null|string $value): NeOperator
+    public static function ne(DateTimeInterface|Type|stdClass|array|bool|float|int|string|null $value): NeOperator
     {
         return new NeOperator($value);
     }
@@ -403,10 +403,10 @@ trait FactoryTrait
      * Inverts the effect of a query expression and returns documents that do not match the query expression.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/query/not/
-     * @param DateTimeInterface|FieldQueryInterface|Type|array|bool|float|int|null|stdClass|string $expression
+     * @param DateTimeInterface|FieldQueryInterface|Type|array|bool|float|int|stdClass|string|null $expression
      */
     public static function not(
-        DateTimeInterface|Type|FieldQueryInterface|stdClass|array|bool|float|int|null|string $expression,
+        DateTimeInterface|Type|FieldQueryInterface|stdClass|array|bool|float|int|string|null $expression,
     ): NotOperator {
         return new NotOperator($expression);
     }

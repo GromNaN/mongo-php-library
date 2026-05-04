@@ -41,20 +41,20 @@ final class InOperator implements SearchOperatorInterface, OperatorInterface
     /** @var array|string $path */
     public readonly array|string $path;
 
-    /** @var BSONArray|DateTimeInterface|PackedArray|Type|array|bool|float|int|null|stdClass|string $value */
-    public readonly DateTimeInterface|PackedArray|Type|BSONArray|stdClass|array|bool|float|int|null|string $value;
+    /** @var BSONArray|DateTimeInterface|PackedArray|Type|array|bool|float|int|stdClass|string|null $value */
+    public readonly DateTimeInterface|PackedArray|Type|BSONArray|stdClass|array|bool|float|int|string|null $value;
 
     /** @var Optional|Document|Serializable|array|stdClass $score */
     public readonly Optional|Document|Serializable|stdClass|array $score;
 
     /**
      * @param array|string $path
-     * @param BSONArray|DateTimeInterface|PackedArray|Type|array|bool|float|int|null|stdClass|string $value
+     * @param BSONArray|DateTimeInterface|PackedArray|Type|array|bool|float|int|stdClass|string|null $value
      * @param Optional|Document|Serializable|array|stdClass $score
      */
     public function __construct(
         array|string $path,
-        DateTimeInterface|PackedArray|Type|BSONArray|stdClass|array|bool|float|int|null|string $value,
+        DateTimeInterface|PackedArray|Type|BSONArray|stdClass|array|bool|float|int|string|null $value,
         Optional|Document|Serializable|stdClass|array $score = Optional::Undefined,
     ) {
         $this->path = $path;

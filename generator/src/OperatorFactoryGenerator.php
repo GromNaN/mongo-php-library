@@ -95,19 +95,21 @@ final class OperatorFactoryGenerator extends OperatorGenerator
                     $type->use[] = '\\' . $typeClassName;
                     [, $typeShortName] = $this->splitNamespaceAndClassName($typeClassName);
 
+                    $shapeTypeName = $typeShortName . 'Shape';
+                    $trait->addComment('@psalm-import-type ' . $shapeTypeName . ' from ' . $typeShortName);
+
                     if ($argument->optional) {
                         $optionalNative = '\\' . Optional::class . '|';
-                        $optionalDoc = 'Optional|';
                         if (str_starts_with($type->native, $optionalNative)) {
                             $type->native = $optionalNative . '\\' . $typeClassName . '|' . substr($type->native, strlen($optionalNative));
                         }
 
-                        if (str_starts_with($type->doc, $optionalDoc)) {
-                            $type->doc = $optionalDoc . $typeShortName . '|' . substr($type->doc, strlen($optionalDoc));
-                        }
+                        // @param: Optional + shape (shape already contains TypeClass and BSON types)
+                        $type->doc = 'Optional|' . $shapeTypeName;
                     } else {
                         $type->native = '\\' . $typeClassName . '|' . $type->native;
-                        $type->doc = $typeShortName . '|' . $type->doc;
+                        // @param: just the shape (shape already contains TypeClass and BSON types)
+                        $type->doc = $shapeTypeName;
                     }
 
                     $parameter->setType($type->native);
@@ -117,6 +119,7 @@ final class OperatorFactoryGenerator extends OperatorGenerator
                 }
 
                 $method->addComment('@param ' . $type->doc . ' $' . $argument->propertyName . rtrim(' ' . $argument->description));
+
                 $args[] = '$' . $argument->propertyName;
             }
         }

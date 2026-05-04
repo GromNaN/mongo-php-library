@@ -34,21 +34,21 @@ final class CondOperator implements ResolvesToAny, OperatorInterface
     /** @var ResolvesToBool|bool|string $if */
     public readonly ResolvesToBool|bool|string $if;
 
-    /** @var DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $then */
-    public readonly DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $then;
+    /** @var DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $then */
+    public readonly DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $then;
 
-    /** @var DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $else */
-    public readonly DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $else;
+    /** @var DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $else */
+    public readonly DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $else;
 
     /**
      * @param ResolvesToBool|bool|string $if
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $then
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $else
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $then
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $else
      */
     public function __construct(
         ResolvesToBool|bool|string $if,
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $then,
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $else,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $then,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $else,
     ) {
         if (is_string($if) && ! str_starts_with($if, '$')) {
             throw new InvalidArgumentException('Argument $if can be an expression, field paths and variable names must be prefixed by "$" or "$$".');

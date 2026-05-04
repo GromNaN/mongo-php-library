@@ -30,15 +30,15 @@ final class OrOperator implements ResolvesToBool, OperatorInterface
     public const NAME = '$or';
     public const PROPERTIES = ['expression' => 'expression'];
 
-    /** @var list<DateTimeInterface|ExpressionInterface|ResolvesToBool|Type|array|bool|float|int|null|stdClass|string> $expression */
+    /** @var list<DateTimeInterface|ExpressionInterface|ResolvesToBool|Type|array|bool|float|int|stdClass|string|null> $expression */
     public readonly array $expression;
 
     /**
-     * @param DateTimeInterface|ExpressionInterface|ResolvesToBool|Type|array|bool|float|int|null|stdClass|string ...$expression
+     * @param DateTimeInterface|ExpressionInterface|ResolvesToBool|Type|array|bool|float|int|stdClass|string|null ...$expression
      * @no-named-arguments
      */
     public function __construct(
-        DateTimeInterface|Type|ResolvesToBool|ExpressionInterface|stdClass|array|bool|float|int|null|string ...$expression,
+        DateTimeInterface|Type|ResolvesToBool|ExpressionInterface|stdClass|array|bool|float|int|string|null ...$expression,
     ) {
         if (\count($expression) < 1) {
             throw new InvalidArgumentException(\sprintf('Expected at least %d values for $expression, got %d.', 1, \count($expression)));

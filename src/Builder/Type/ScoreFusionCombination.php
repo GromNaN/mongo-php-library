@@ -20,6 +20,7 @@ use function is_array;
  * Type class for the $combination argument of the $scoreFusion operator.
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/scoreFusion/
+ * @psalm-type ScoreFusionCombinationShape = array{weights?: array<string, Decimal128|Int64|float|int>, method?: string, expression?: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null}|object{weights?: array<string, Decimal128|Int64|float|int>|stdClass, method?: string, expression?: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null}&stdClass|ScoreFusionCombination|\MongoDB\BSON\Document|\MongoDB\BSON\Serializable
  */
 final class ScoreFusionCombination implements TypeInterface
 {

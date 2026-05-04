@@ -32,12 +32,12 @@ final class ProjectStage implements StageInterface, UpdateStageInterface, Operat
     public const NAME = '$project';
     public const PROPERTIES = ['specification' => 'specification'];
 
-    /** @var stdClass<DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string> $specification */
+    /** @var stdClass<DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null> $specification */
     public readonly stdClass $specification;
 
-    /** @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string ...$specification */
+    /** @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null ...$specification */
     public function __construct(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string ...$specification,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null ...$specification,
     ) {
         if (\count($specification) < 1) {
             throw new InvalidArgumentException(\sprintf('Expected at least %d values for $specification, got %d.', 1, \count($specification)));

@@ -22,6 +22,7 @@ use function sprintf;
  * Type class for the $input argument of the $rankFusion operator.
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/rankFusion/
+ * @psalm-type RankFusionInputShape = array{pipelines: non-empty-array<string, BSONArray|PackedArray|Pipeline|array>}|object{pipelines: non-empty-array<string, BSONArray|PackedArray|Pipeline|array>|stdClass}&stdClass|RankFusionInput|\MongoDB\BSON\Document|\MongoDB\BSON\Serializable
  */
 final class RankFusionInput implements TypeInterface
 {

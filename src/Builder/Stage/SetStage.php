@@ -33,12 +33,12 @@ final class SetStage implements StageInterface, UpdateStageInterface, OperatorIn
     public const NAME = '$set';
     public const PROPERTIES = ['field' => 'field'];
 
-    /** @var stdClass<DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string> $field */
+    /** @var stdClass<DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null> $field */
     public readonly stdClass $field;
 
-    /** @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string ...$field */
+    /** @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null ...$field */
     public function __construct(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string ...$field,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null ...$field,
     ) {
         if (\count($field) < 1) {
             throw new InvalidArgumentException(\sprintf('Expected at least %d values for $field, got %d.', 1, \count($field)));

@@ -108,12 +108,12 @@ trait FactoryTrait
      *
      * @see https://www.mongodb.com/docs/atlas/atlas-search/equals/
      * @param array|string $path
-     * @param Binary|DateTimeInterface|Decimal128|Int64|ObjectId|UTCDateTime|bool|float|int|null|string $value
+     * @param Binary|DateTimeInterface|Decimal128|Int64|ObjectId|UTCDateTime|bool|float|int|string|null $value
      * @param Optional|Document|Serializable|array|stdClass $score
      */
     public static function equals(
         array|string $path,
-        DateTimeInterface|Binary|Decimal128|Int64|ObjectId|UTCDateTime|bool|float|int|null|string $value,
+        DateTimeInterface|Binary|Decimal128|Int64|ObjectId|UTCDateTime|bool|float|int|string|null $value,
         Optional|Document|Serializable|stdClass|array $score = Optional::Undefined,
     ): EqualsOperator {
         return new EqualsOperator($path, $value, $score);
@@ -204,12 +204,12 @@ trait FactoryTrait
      *
      * @see https://www.mongodb.com/docs/atlas/atlas-search/in/
      * @param array|string $path
-     * @param BSONArray|DateTimeInterface|PackedArray|Type|array|bool|float|int|null|stdClass|string $value
+     * @param BSONArray|DateTimeInterface|PackedArray|Type|array|bool|float|int|stdClass|string|null $value
      * @param Optional|Document|Serializable|array|stdClass $score
      */
     public static function in(
         array|string $path,
-        DateTimeInterface|PackedArray|Type|BSONArray|stdClass|array|bool|float|int|null|string $value,
+        DateTimeInterface|PackedArray|Type|BSONArray|stdClass|array|bool|float|int|string|null $value,
         Optional|Document|Serializable|stdClass|array $score = Optional::Undefined,
     ): InOperator {
         return new InOperator($path, $value, $score);

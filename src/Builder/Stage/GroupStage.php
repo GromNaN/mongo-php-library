@@ -34,18 +34,18 @@ final class GroupStage implements StageInterface, OperatorInterface
     public const NAME = '$group';
     public const PROPERTIES = ['_id' => '_id', 'field' => null];
 
-    /** @var DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $_id The _id expression specifies the group key. If you specify an _id value of null, or any other constant value, the $group stage returns a single document that aggregates values across all of the input documents. */
-    public readonly DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $_id;
+    /** @var DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $_id The _id expression specifies the group key. If you specify an _id value of null, or any other constant value, the $group stage returns a single document that aggregates values across all of the input documents. */
+    public readonly DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $_id;
 
     /** @var stdClass<AccumulatorInterface|Document|Serializable|array|stdClass> $field Computed using the accumulator operators. */
     public readonly stdClass $field;
 
     /**
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $_id The _id expression specifies the group key. If you specify an _id value of null, or any other constant value, the $group stage returns a single document that aggregates values across all of the input documents.
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $_id The _id expression specifies the group key. If you specify an _id value of null, or any other constant value, the $group stage returns a single document that aggregates values across all of the input documents.
      * @param AccumulatorInterface|Document|Serializable|array|stdClass ...$field Computed using the accumulator operators.
      */
     public function __construct(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $_id,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $_id,
         Document|Serializable|AccumulatorInterface|stdClass|array ...$field,
     ) {
         $this->_id = $_id;

@@ -35,18 +35,18 @@ final class InOperator implements ResolvesToBool, OperatorInterface
     public const NAME = '$in';
     public const PROPERTIES = ['expression' => 'expression', 'array' => 'array'];
 
-    /** @var DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $expression Any valid expression expression. */
-    public readonly DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression;
+    /** @var DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $expression Any valid expression expression. */
+    public readonly DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $expression;
 
     /** @var BSONArray|PackedArray|ResolvesToArray|array|string $array Any valid expression that resolves to an array. */
     public readonly PackedArray|ResolvesToArray|BSONArray|array|string $array;
 
     /**
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $expression Any valid expression expression.
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $expression Any valid expression expression.
      * @param BSONArray|PackedArray|ResolvesToArray|array|string $array Any valid expression that resolves to an array.
      */
     public function __construct(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $expression,
         PackedArray|ResolvesToArray|BSONArray|array|string $array,
     ) {
         $this->expression = $expression;

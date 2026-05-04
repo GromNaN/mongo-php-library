@@ -24,10 +24,6 @@ use MongoDB\Builder\Type\AccumulatorInterface;
 use MongoDB\Builder\Type\ExpressionInterface;
 use MongoDB\Builder\Type\Optional;
 use MongoDB\Builder\Type\QueryInterface;
-use MongoDB\Builder\Type\RankFusionCombination;
-use MongoDB\Builder\Type\RankFusionInput;
-use MongoDB\Builder\Type\ScoreFusionCombination;
-use MongoDB\Builder\Type\ScoreFusionInput;
 use MongoDB\Builder\Type\SearchOperatorInterface;
 use MongoDB\Builder\Type\Sort;
 use MongoDB\Model\BSONArray;
@@ -42,10 +38,10 @@ trait FactoryTrait
      * Adds new fields to documents. Outputs documents that contain all existing fields from the input documents and newly added fields.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/addFields/
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string ...$expression Specify the name of each field to add and set its value to an aggregation expression or an empty object.
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null ...$expression Specify the name of each field to add and set its value to an aggregation expression or an empty object.
      */
     public static function addFields(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string ...$expression,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null ...$expression,
     ): AddFieldsStage {
         return new AddFieldsStage(...$expression);
     }
@@ -54,11 +50,11 @@ trait FactoryTrait
      * Categorizes incoming documents into groups, called buckets, based on a specified expression and bucket boundaries.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/bucket/
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $groupBy An expression to group documents by. To specify a field path, prefix the field name with a dollar sign $ and enclose it in quotes.
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $groupBy An expression to group documents by. To specify a field path, prefix the field name with a dollar sign $ and enclose it in quotes.
      * Unless $bucket includes a default specification, each input document must resolve the groupBy field path or expression to a value that falls within one of the ranges specified by the boundaries.
      * @param BSONArray|PackedArray|array $boundaries An array of values based on the groupBy expression that specify the boundaries for each bucket. Each adjacent pair of values acts as the inclusive lower boundary and the exclusive upper boundary for the bucket. You must specify at least two boundaries.
      * The specified values must be in ascending order and all of the same type. The exception is if the values are of mixed numeric types, such as:
-     * @param Optional|DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $default A literal that specifies the _id of an additional bucket that contains all documents whose groupBy expression result does not fall into a bucket specified by boundaries.
+     * @param Optional|DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $default A literal that specifies the _id of an additional bucket that contains all documents whose groupBy expression result does not fall into a bucket specified by boundaries.
      * If unspecified, each input document must resolve the groupBy expression to a value within one of the bucket ranges specified by boundaries or the operation throws an error.
      * The default value must be less than the lowest boundaries value, or greater than or equal to the highest boundaries value.
      * The default value can be of a different type than the entries in boundaries.
@@ -67,9 +63,9 @@ trait FactoryTrait
      * If you specify an output document, only the fields specified in the document are returned; i.e. the count field is not returned unless it is explicitly included in the output document.
      */
     public static function bucket(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $groupBy,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $groupBy,
         PackedArray|BSONArray|array $boundaries,
-        Optional|DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $default = Optional::Undefined,
+        Optional|DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $default = Optional::Undefined,
         Optional|Document|Serializable|stdClass|array $output = Optional::Undefined,
     ): BucketStage {
         return new BucketStage($groupBy, $boundaries, $default, $output);
@@ -79,7 +75,7 @@ trait FactoryTrait
      * Categorizes incoming documents into a specific number of groups, called buckets, based on a specified expression. Bucket boundaries are automatically determined in an attempt to evenly distribute the documents into the specified number of buckets.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/bucketAuto/
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $groupBy An expression to group documents by. To specify a field path, prefix the field name with a dollar sign $ and enclose it in quotes.
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $groupBy An expression to group documents by. To specify a field path, prefix the field name with a dollar sign $ and enclose it in quotes.
      * @param int $buckets A positive 32-bit integer that specifies the number of buckets into which input documents are grouped.
      * @param Optional|Document|Serializable|array|stdClass $output A document that specifies the fields to include in the output documents in addition to the _id field. To specify the field to include, you must use accumulator expressions.
      * The default count field is not included in the output document when output is specified. Explicitly specify the count expression as part of the output document to include it.
@@ -87,7 +83,7 @@ trait FactoryTrait
      * Available only if the all groupBy values are numeric and none of them are NaN.
      */
     public static function bucketAuto(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $groupBy,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $groupBy,
         int $buckets,
         Optional|Document|Serializable|stdClass|array $output = Optional::Undefined,
         Optional|string $granularity = Optional::Undefined,
@@ -297,7 +293,7 @@ trait FactoryTrait
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/graphLookup/
      * @param string $from Target collection for the $graphLookup operation to search, recursively matching the connectFromField to the connectToField. The from collection must be in the same database as any other collections used in the operation.
      * Starting in MongoDB 5.1, the collection specified in the from parameter can be sharded.
-     * @param BSONArray|DateTimeInterface|ExpressionInterface|PackedArray|Type|array|bool|float|int|null|stdClass|string $startWith Expression that specifies the value of the connectFromField with which to start the recursive search. Optionally, startWith may be array of values, each of which is individually followed through the traversal process.
+     * @param BSONArray|DateTimeInterface|ExpressionInterface|PackedArray|Type|array|bool|float|int|stdClass|string|null $startWith Expression that specifies the value of the connectFromField with which to start the recursive search. Optionally, startWith may be array of values, each of which is individually followed through the traversal process.
      * @param string $connectFromField Field name whose value $graphLookup uses to recursively match against the connectToField of other documents in the collection. If the value is an array, each element is individually followed through the traversal process.
      * @param string $connectToField Field name in other documents against which to match the value of the field specified by the connectFromField parameter.
      * @param string $as Name of the array field added to each output document. Contains the documents traversed in the $graphLookup stage to reach the document.
@@ -307,7 +303,7 @@ trait FactoryTrait
      */
     public static function graphLookup(
         string $from,
-        DateTimeInterface|PackedArray|Type|ExpressionInterface|BSONArray|stdClass|array|bool|float|int|null|string $startWith,
+        DateTimeInterface|PackedArray|Type|ExpressionInterface|BSONArray|stdClass|array|bool|float|int|string|null $startWith,
         string $connectFromField,
         string $connectToField,
         string $as,
@@ -322,11 +318,11 @@ trait FactoryTrait
      * Groups input documents by a specified identifier expression and applies the accumulator expression(s), if specified, to each group. Consumes all input documents and outputs one document per each distinct group. The output documents only contain the identifier field and, if specified, accumulated fields.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/group/
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $_id The _id expression specifies the group key. If you specify an _id value of null, or any other constant value, the $group stage returns a single document that aggregates values across all of the input documents.
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $_id The _id expression specifies the group key. If you specify an _id value of null, or any other constant value, the $group stage returns a single document that aggregates values across all of the input documents.
      * @param AccumulatorInterface|Document|Serializable|array|stdClass ...$field Computed using the accumulator operators.
      */
     public static function group(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $_id,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $_id,
         Document|Serializable|AccumulatorInterface|stdClass|array ...$field,
     ): GroupStage {
         return new GroupStage($_id, ...$field);
@@ -495,10 +491,10 @@ trait FactoryTrait
      * Reshapes each document in the stream, such as by adding new fields or removing existing fields. For each input document, outputs one document.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/project/
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string ...$specification
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null ...$specification
      */
     public static function project(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string ...$specification,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null ...$specification,
     ): ProjectStage {
         return new ProjectStage(...$specification);
     }
@@ -509,14 +505,16 @@ trait FactoryTrait
      * New in MongoDB 8.1
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/rankFusion/
-     * @param RankFusionInput|Document|Serializable|array|stdClass $input An object that specifies the pipelines to combine with rank fusion.
+     * @param Document|Serializable|array|stdClass $input An object with the following required fields:
+     * - input.pipelines: Map from name to ranked input pipeline. Each pipeline must operate on the same collection. Minimum of one pipeline.
      * @param bool $scoreDetails Set to true to include detailed scoring information.
-     * @param Optional|RankFusionCombination|Document|Serializable|array|stdClass $combination An object that specifies how to combine the ranked results.
+     * @param Optional|Document|Serializable|array|stdClass $combination An object with the following optional fields:
+     * - combination.weights: Map from pipeline name to numbers (non-negative). If unspecified, default weight is 1 for each pipeline.
      */
     public static function rankFusion(
-        RankFusionInput|Document|Serializable|stdClass|array $input,
+        Document|Serializable|stdClass|array $input,
         bool $scoreDetails = false,
-        Optional|RankFusionCombination|Document|Serializable|stdClass|array $combination = Optional::Undefined,
+        Optional|Document|Serializable|stdClass|array $combination = Optional::Undefined,
     ): RankFusionStage {
         return new RankFusionStage($input, $scoreDetails, $combination);
     }
@@ -525,10 +523,10 @@ trait FactoryTrait
      * Reshapes each document in the stream by restricting the content for each document based on information stored in the documents themselves. Incorporates the functionality of $project and $match. Can be used to implement field level redaction. For each input document, outputs either one or zero documents.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/redact/
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $expression
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $expression
      */
     public static function redact(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $expression,
     ): RedactStage {
         return new RedactStage($expression);
     }
@@ -575,14 +573,19 @@ trait FactoryTrait
      * New in MongoDB 8.0
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/scoreFusion/
-     * @param ScoreFusionInput|Document|Serializable|array|stdClass $input An object that specifies the pipelines to combine with score fusion.
+     * @param Document|Serializable|array|stdClass $input An object with the following required fields:
+     * - input.pipelines: Map from name to input pipeline. Each pipeline must be operating on the same collection. Minimum of one pipeline.
+     * - input.normalization: Normalizes the score to the range 0 to 1 before combining the results. Value can be none, sigmoid or minMaxScaler.
      * @param bool $scoreDetails Set to true to include detailed scoring information.
-     * @param Optional|ScoreFusionCombination|Document|Serializable|array|stdClass $combination An object that specifies how to combine the scores.
+     * @param Optional|Document|Serializable|array|stdClass $combination An object with the following optional fields:
+     * - combination.weights: Map from pipeline name to numbers (non-negative). If unspecified, default weight is 1 for each pipeline.
+     * - combination.method: Specifies method for combining scores. Value can be avg or expression. Default is avg.
+     * - combination.expression: This is the custom expression that is used when combination.method is set to expression.
      */
     public static function scoreFusion(
-        ScoreFusionInput|Document|Serializable|stdClass|array $input,
+        Document|Serializable|stdClass|array $input,
         bool $scoreDetails = false,
-        Optional|ScoreFusionCombination|Document|Serializable|stdClass|array $combination = Optional::Undefined,
+        Optional|Document|Serializable|stdClass|array $combination = Optional::Undefined,
     ): ScoreFusionStage {
         return new ScoreFusionStage($input, $scoreDetails, $combination);
     }
@@ -650,10 +653,10 @@ trait FactoryTrait
      * Alias for $addFields.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/set/
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string ...$field
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null ...$field
      */
     public static function set(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string ...$field,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null ...$field,
     ): SetStage {
         return new SetStage(...$field);
     }
@@ -667,12 +670,12 @@ trait FactoryTrait
      * @param Document|Serializable|array|stdClass $sortBy Specifies the field(s) to sort the documents by in the partition. Uses the same syntax as the $sort stage. Default is no sorting.
      * @param Document|Serializable|array|stdClass $output Specifies the field(s) to append to the documents in the output returned by the $setWindowFields stage. Each field is set to the result returned by the window operator.
      * A field can contain dots to specify embedded document fields and array fields. The semantics for the embedded document dotted notation in the $setWindowFields stage are the same as the $addFields and $set stages.
-     * @param Optional|DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $partitionBy Specifies an expression to group the documents. In the $setWindowFields stage, the group of documents is known as a partition. Default is one partition for the entire collection.
+     * @param Optional|DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $partitionBy Specifies an expression to group the documents. In the $setWindowFields stage, the group of documents is known as a partition. Default is one partition for the entire collection.
      */
     public static function setWindowFields(
         Document|Serializable|stdClass|array $sortBy,
         Document|Serializable|stdClass|array $output,
-        Optional|DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $partitionBy = Optional::Undefined,
+        Optional|DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $partitionBy = Optional::Undefined,
     ): SetWindowFieldsStage {
         return new SetWindowFieldsStage($sortBy, $output, $partitionBy);
     }
@@ -704,10 +707,10 @@ trait FactoryTrait
      * Reorders the document stream by a specified sort key. Only the order changes; the documents remain unmodified. For each input document, outputs one document.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/sort/
-     * @param DateTimeInterface|ExpressionInterface|Sort|Type|array|bool|float|int|null|stdClass|string ...$sort
+     * @param DateTimeInterface|ExpressionInterface|Sort|Type|array|bool|float|int|stdClass|string|null ...$sort
      */
     public static function sort(
-        DateTimeInterface|Type|ExpressionInterface|Sort|stdClass|array|bool|float|int|null|string ...$sort,
+        DateTimeInterface|Type|ExpressionInterface|Sort|stdClass|array|bool|float|int|string|null ...$sort,
     ): SortStage {
         return new SortStage(...$sort);
     }
@@ -716,10 +719,10 @@ trait FactoryTrait
      * Groups incoming documents based on the value of a specified expression, then computes the count of documents in each distinct group.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/sortByCount/
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $expression
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $expression
      */
     public static function sortByCount(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $expression,
     ): SortByCountStage {
         return new SortByCountStage($expression);
     }

@@ -30,8 +30,8 @@ final class ShiftAccumulator implements WindowInterface, OperatorInterface
     public const NAME = '$shift';
     public const PROPERTIES = ['output' => 'output', 'by' => 'by', 'default' => 'default'];
 
-    /** @var DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $output Specifies an expression to evaluate and return in the output. */
-    public readonly DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $output;
+    /** @var DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $output Specifies an expression to evaluate and return in the output. */
+    public readonly DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $output;
 
     /**
      * @var int $by Specifies an integer with a numeric document position relative to the current document in the output.
@@ -43,27 +43,27 @@ final class ShiftAccumulator implements WindowInterface, OperatorInterface
     public readonly int $by;
 
     /**
-     * @var DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $default Specifies an optional default expression to evaluate if the document position is outside of the implicit $setWindowFields stage window. The implicit window contains all the documents in the partition.
+     * @var DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $default Specifies an optional default expression to evaluate if the document position is outside of the implicit $setWindowFields stage window. The implicit window contains all the documents in the partition.
      * The default expression must evaluate to a constant value.
      * If you do not specify a default expression, $shift returns null for documents whose positions are outside of the implicit $setWindowFields stage window.
      */
-    public readonly DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $default;
+    public readonly DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $default;
 
     /**
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $output Specifies an expression to evaluate and return in the output.
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $output Specifies an expression to evaluate and return in the output.
      * @param int $by Specifies an integer with a numeric document position relative to the current document in the output.
      * For example:
      * 1 specifies the document position after the current document.
      * -1 specifies the document position before the current document.
      * -2 specifies the document position that is two positions before the current document.
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $default Specifies an optional default expression to evaluate if the document position is outside of the implicit $setWindowFields stage window. The implicit window contains all the documents in the partition.
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $default Specifies an optional default expression to evaluate if the document position is outside of the implicit $setWindowFields stage window. The implicit window contains all the documents in the partition.
      * The default expression must evaluate to a constant value.
      * If you do not specify a default expression, $shift returns null for documents whose positions are outside of the implicit $setWindowFields stage window.
      */
     public function __construct(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $output,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $output,
         int $by,
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $default,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $default,
     ) {
         $this->output = $output;
         $this->by = $by;

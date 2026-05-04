@@ -11,6 +11,7 @@ use MongoDB\CodeGenerator\Definition\ArgumentDefinition;
 use MongoDB\CodeGenerator\Definition\ExpressionDefinition;
 use MongoDB\CodeGenerator\Definition\GeneratorDefinition;
 use MongoDB\CodeGenerator\Definition\OperatorDefinition;
+use MongoDB\CodeGenerator\Definition\VariadicType;
 use MongoDB\CodeGenerator\Definition\YamlReader;
 use Nette\PhpGenerator\Type;
 use stdClass;
@@ -21,6 +22,7 @@ use function array_merge;
 use function array_unique;
 use function assert;
 use function class_exists;
+use function implode;
 use function in_array;
 use function interface_exists;
 use function ltrim;
@@ -151,6 +153,44 @@ abstract class OperatorGenerator extends AbstractGenerator
     }
 
     /**
+     * Computes the psalm type alias (array-shape|object-shape) for an argument's sub-fields.
+     * The alias is declared as @psalm-type in the type class and imported via @import-psalm-type in consumers.
+     */
+    final protected function computeArgumentShapeDoc(ArgumentDefinition $argument): string
+    {
+        $arrayFields = [];
+        $objectFields = [];
+
+        foreach ($argument->arguments as $subArg) {
+            $key = $subArg->name . ($subArg->optional ? '?' : '');
+
+            $baseSubArg = clone $subArg;
+            $baseSubArg->optional = false;
+            $baseType = $this->getAcceptedTypes($baseSubArg);
+
+            if ($subArg->variadic === VariadicType::Object) {
+                $prefix = ($subArg->variadicMin ?? 0) > 0 ? 'non-empty-array' : 'array';
+                $mapType = $prefix . '<string, ' . $baseType->doc . '>';
+                $arrayFields[] = $key . ': ' . $mapType;
+                $objectFields[] = $key . ': ' . $mapType . '|stdClass';
+            } elseif ($subArg->variadic === VariadicType::Array) {
+                $prefix = ($subArg->variadicMin ?? 0) > 0 ? 'non-empty-list' : 'list';
+                $listType = $prefix . '<' . $baseType->doc . '>';
+                $arrayFields[] = $key . ': ' . $listType;
+                $objectFields[] = $key . ': ' . $listType;
+            } else {
+                $arrayFields[] = $key . ': ' . $baseType->doc;
+                $objectFields[] = $key . ': ' . $baseType->doc;
+            }
+        }
+
+        $arrayShape = 'array{' . implode(', ', $arrayFields) . '}';
+        $objectShape = 'object{' . implode(', ', $objectFields) . '}&stdClass';
+
+        return $arrayShape . '|' . $objectShape;
+    }
+
+    /**
      * Returns the fully qualified class name for the generated type class for an argument with sub-fields.
      * Returns null if the argument has no sub-arguments.
      */
@@ -176,6 +216,14 @@ abstract class OperatorGenerator extends AbstractGenerator
 
         if ($type2 === 'Optional' || $type2 === '\\' . Optional::class) {
             return 1;
+        }
+
+        if ($type1 === 'null') {
+            return 1;
+        }
+
+        if ($type2 === 'null') {
+            return -1;
         }
 
         return $type1 <=> $type2;

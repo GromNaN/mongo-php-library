@@ -27,11 +27,11 @@ final class GtOperator implements FieldQueryInterface, OperatorInterface
     public const NAME = '$gt';
     public const PROPERTIES = ['value' => 'value'];
 
-    /** @var DateTimeInterface|Type|array|bool|float|int|null|stdClass|string $value */
-    public readonly DateTimeInterface|Type|stdClass|array|bool|float|int|null|string $value;
+    /** @var DateTimeInterface|Type|array|bool|float|int|stdClass|string|null $value */
+    public readonly DateTimeInterface|Type|stdClass|array|bool|float|int|string|null $value;
 
-    /** @param DateTimeInterface|Type|array|bool|float|int|null|stdClass|string $value */
-    public function __construct(DateTimeInterface|Type|stdClass|array|bool|float|int|null|string $value)
+    /** @param DateTimeInterface|Type|array|bool|float|int|stdClass|string|null $value */
+    public function __construct(DateTimeInterface|Type|stdClass|array|bool|float|int|string|null $value)
     {
         $this->value = $value;
     }

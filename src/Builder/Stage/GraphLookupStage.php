@@ -53,8 +53,8 @@ final class GraphLookupStage implements StageInterface, OperatorInterface
      */
     public readonly string $from;
 
-    /** @var BSONArray|DateTimeInterface|ExpressionInterface|PackedArray|Type|array|bool|float|int|null|stdClass|string $startWith Expression that specifies the value of the connectFromField with which to start the recursive search. Optionally, startWith may be array of values, each of which is individually followed through the traversal process. */
-    public readonly DateTimeInterface|PackedArray|Type|ExpressionInterface|BSONArray|stdClass|array|bool|float|int|null|string $startWith;
+    /** @var BSONArray|DateTimeInterface|ExpressionInterface|PackedArray|Type|array|bool|float|int|stdClass|string|null $startWith Expression that specifies the value of the connectFromField with which to start the recursive search. Optionally, startWith may be array of values, each of which is individually followed through the traversal process. */
+    public readonly DateTimeInterface|PackedArray|Type|ExpressionInterface|BSONArray|stdClass|array|bool|float|int|string|null $startWith;
 
     /** @var string $connectFromField Field name whose value $graphLookup uses to recursively match against the connectToField of other documents in the collection. If the value is an array, each element is individually followed through the traversal process. */
     public readonly string $connectFromField;
@@ -77,7 +77,7 @@ final class GraphLookupStage implements StageInterface, OperatorInterface
     /**
      * @param string $from Target collection for the $graphLookup operation to search, recursively matching the connectFromField to the connectToField. The from collection must be in the same database as any other collections used in the operation.
      * Starting in MongoDB 5.1, the collection specified in the from parameter can be sharded.
-     * @param BSONArray|DateTimeInterface|ExpressionInterface|PackedArray|Type|array|bool|float|int|null|stdClass|string $startWith Expression that specifies the value of the connectFromField with which to start the recursive search. Optionally, startWith may be array of values, each of which is individually followed through the traversal process.
+     * @param BSONArray|DateTimeInterface|ExpressionInterface|PackedArray|Type|array|bool|float|int|stdClass|string|null $startWith Expression that specifies the value of the connectFromField with which to start the recursive search. Optionally, startWith may be array of values, each of which is individually followed through the traversal process.
      * @param string $connectFromField Field name whose value $graphLookup uses to recursively match against the connectToField of other documents in the collection. If the value is an array, each element is individually followed through the traversal process.
      * @param string $connectToField Field name in other documents against which to match the value of the field specified by the connectFromField parameter.
      * @param string $as Name of the array field added to each output document. Contains the documents traversed in the $graphLookup stage to reach the document.
@@ -87,7 +87,7 @@ final class GraphLookupStage implements StageInterface, OperatorInterface
      */
     public function __construct(
         string $from,
-        DateTimeInterface|PackedArray|Type|ExpressionInterface|BSONArray|stdClass|array|bool|float|int|null|string $startWith,
+        DateTimeInterface|PackedArray|Type|ExpressionInterface|BSONArray|stdClass|array|bool|float|int|string|null $startWith,
         string $connectFromField,
         string $connectToField,
         string $as,

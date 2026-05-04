@@ -42,21 +42,21 @@ final class SetFieldOperator implements ResolvesToObject, OperatorInterface
     public readonly Document|Serializable|ResolvesToObject|stdClass|array|string $input;
 
     /**
-     * @var DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $value The value that you want to assign to field. value can be any valid expression.
+     * @var DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $value The value that you want to assign to field. value can be any valid expression.
      * Set to $$REMOVE to remove field from the input document.
      */
-    public readonly DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $value;
+    public readonly DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $value;
 
     /**
      * @param ResolvesToString|string $field Field in the input object that you want to add, update, or remove. field can be any valid expression that resolves to a string constant.
      * @param Document|ResolvesToObject|Serializable|array|stdClass|string $input Document that contains the field that you want to add or update. input must resolve to an object, missing, null, or undefined.
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $value The value that you want to assign to field. value can be any valid expression.
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $value The value that you want to assign to field. value can be any valid expression.
      * Set to $$REMOVE to remove field from the input document.
      */
     public function __construct(
         ResolvesToString|string $field,
         Document|Serializable|ResolvesToObject|stdClass|array|string $input,
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $value,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $value,
     ) {
         $this->field = $field;
         if (is_string($input) && ! str_starts_with($input, '$')) {

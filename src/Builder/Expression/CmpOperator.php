@@ -27,19 +27,19 @@ final class CmpOperator implements ResolvesToInt, OperatorInterface
     public const NAME = '$cmp';
     public const PROPERTIES = ['expression1' => 'expression1', 'expression2' => 'expression2'];
 
-    /** @var DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $expression1 */
-    public readonly DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression1;
+    /** @var DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $expression1 */
+    public readonly DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $expression1;
 
-    /** @var DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $expression2 */
-    public readonly DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression2;
+    /** @var DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $expression2 */
+    public readonly DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $expression2;
 
     /**
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $expression1
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $expression2
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $expression1
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $expression2
      */
     public function __construct(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression1,
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression2,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $expression1,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $expression2,
     ) {
         $this->expression1 = $expression1;
         $this->expression2 = $expression2;

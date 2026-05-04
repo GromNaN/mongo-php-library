@@ -29,12 +29,12 @@ final class ToHashedIndexKeyOperator implements ResolvesToLong, OperatorInterfac
     public const NAME = '$toHashedIndexKey';
     public const PROPERTIES = ['value' => 'value'];
 
-    /** @var DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $value key or string to hash */
-    public readonly DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $value;
+    /** @var DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $value key or string to hash */
+    public readonly DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $value;
 
-    /** @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $value key or string to hash */
+    /** @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $value key or string to hash */
     public function __construct(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $value,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $value,
     ) {
         $this->value = $value;
     }

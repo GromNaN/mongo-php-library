@@ -31,12 +31,12 @@ final class PullOperator implements UpdateInterface, OperatorInterface
     public const NAME = '$pull';
     public const PROPERTIES = ['field' => 'field'];
 
-    /** @var stdClass<DateTimeInterface|FieldQueryInterface|Type|array|bool|float|int|null|stdClass|string> $field */
+    /** @var stdClass<DateTimeInterface|FieldQueryInterface|Type|array|bool|float|int|stdClass|string|null> $field */
     public readonly stdClass $field;
 
-    /** @param DateTimeInterface|FieldQueryInterface|Type|array|bool|float|int|null|stdClass|string ...$field */
+    /** @param DateTimeInterface|FieldQueryInterface|Type|array|bool|float|int|stdClass|string|null ...$field */
     public function __construct(
-        DateTimeInterface|Type|FieldQueryInterface|stdClass|array|bool|float|int|null|string ...$field,
+        DateTimeInterface|Type|FieldQueryInterface|stdClass|array|bool|float|int|string|null ...$field,
     ) {
         if (\count($field) < 1) {
             throw new InvalidArgumentException(\sprintf('Expected at least %d values for $field, got %d.', 1, \count($field)));

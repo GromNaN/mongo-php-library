@@ -32,12 +32,12 @@ final class AddFieldsStage implements StageInterface, UpdateStageInterface, Oper
     public const NAME = '$addFields';
     public const PROPERTIES = ['expression' => 'expression'];
 
-    /** @var stdClass<DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string> $expression Specify the name of each field to add and set its value to an aggregation expression or an empty object. */
+    /** @var stdClass<DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null> $expression Specify the name of each field to add and set its value to an aggregation expression or an empty object. */
     public readonly stdClass $expression;
 
-    /** @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string ...$expression Specify the name of each field to add and set its value to an aggregation expression or an empty object. */
+    /** @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null ...$expression Specify the name of each field to add and set its value to an aggregation expression or an empty object. */
     public function __construct(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string ...$expression,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null ...$expression,
     ) {
         if (\count($expression) < 1) {
             throw new InvalidArgumentException(\sprintf('Expected at least %d values for $expression, got %d.', 1, \count($expression)));

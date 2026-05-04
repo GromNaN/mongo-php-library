@@ -24,10 +24,19 @@ use RuntimeException;
 use stdClass;
 use Throwable;
 
+use function array_filter;
+use function array_map;
+use function array_values;
 use function assert;
+use function count;
+use function explode;
+use function implode;
 use function interface_exists;
+use function ltrim;
+use function max;
 use function rtrim;
 use function sprintf;
+use function str_repeat;
 use function str_starts_with;
 use function strlen;
 use function substr;
@@ -91,20 +100,22 @@ class OperatorClassGenerator extends OperatorGenerator
                 $type->use[] = '\\' . $typeClassName;
                 [, $typeShortName] = $this->splitNamespaceAndClassName($typeClassName);
 
+                $shapeTypeName = $typeShortName . 'Shape';
+                $class->addComment('@psalm-import-type ' . $shapeTypeName . ' from ' . $typeShortName);
+
                 if ($argument->optional) {
-                    // Insert the type class right after Optional
+                    // Insert the type class right after Optional in native type
                     $optionalNative = '\\' . Optional::class . '|';
-                    $optionalDoc = 'Optional|';
                     if (str_starts_with($type->native, $optionalNative)) {
                         $type->native = $optionalNative . '\\' . $typeClassName . '|' . substr($type->native, strlen($optionalNative));
                     }
 
-                    if (str_starts_with($type->doc, $optionalDoc)) {
-                        $type->doc = $optionalDoc . $typeShortName . '|' . substr($type->doc, strlen($optionalDoc));
-                    }
+                    // @var/@param: Optional + shape (shape already contains TypeClass and BSON types)
+                    $type->doc = 'Optional|' . $shapeTypeName;
                 } else {
                     $type->native = '\\' . $typeClassName . '|' . $type->native;
-                    $type->doc = $typeShortName . '|' . $type->doc;
+                    // @var/@param: just the shape (shape already contains TypeClass and BSON types)
+                    $type->doc = $shapeTypeName;
                 }
             }
 
@@ -214,17 +225,19 @@ class OperatorClassGenerator extends OperatorGenerator
 
                 if ($typeClassName !== null) {
                     $namespace->addUseFunction('is_array');
+                    $namespace->addUse(stdClass::class);
                     $propName = $argument->propertyName;
                     $constructor->addBody(<<<PHP
-                    if (is_array(\${$propName})) {
-                        \${$propName} = new {$typeShortName}(...\${$propName});
+                    if (is_array(\${$propName}) || \${$propName} instanceof stdClass) {
+                        \${$propName} = new {$typeShortName}(...(array) \${$propName});
                     }
 
                     PHP);
                 }
 
                 // buildPropertyAndParam handles types/docs/defaults and adds the setter body last
-                $this->buildPropertyAndParam($namespace, $property, $constructorParam, $constructor, $argument, $type);
+                $info = $this->buildPropertyAndParam($namespace, $property, $constructorParam, $constructor, $argument, $type);
+                $constructor->addComment('@param ' . $info['typeDoc'] . ' $' . $info['name'] . rtrim(' ' . $info['desc']));
             }
         }
 
@@ -253,10 +266,31 @@ class OperatorClassGenerator extends OperatorGenerator
             $argument->propertyName,
             $operator->name,
         ));
+        $class->addComment('');
         $class->addComment('@see ' . $operator->link);
+        // Build the shape type: array/object shapes + TypeClass + other accepted types (e.g. Document|Serializable)
+        // Use FQCNs for parent-level types so no extra imports are needed in the type class file.
+        $parentType = $this->getAcceptedTypes($argument);
+        $shortToFqcn = [];
+        foreach ($parentType->use as $fqcn) {
+            $shortName = $this->splitNamespaceAndClassName(ltrim($fqcn, '\\'))[1];
+            $shortToFqcn[$shortName] = ltrim($fqcn, '\\');
+        }
+
+        $nonArrayParts = array_values(array_filter(
+            explode('|', $parentType->doc),
+            fn ($p) => $p !== 'array' && $p !== 'stdClass' && $p !== 'Optional',
+        ));
+        // Use FQCNs for non-array parts (e.g. \MongoDB\BSON\Document); TypeClass uses short name (same namespace)
+        $nonArrayPartsFqcn = array_map(fn ($p) => isset($shortToFqcn[$p]) ? '\\' . $shortToFqcn[$p] : $p, $nonArrayParts);
+
+        $shapeDoc = $this->computeArgumentShapeDoc($argument);
+        $shapeDoc .= '|' . $typeShortClassName . '|' . implode('|', $nonArrayPartsFqcn);
+        $class->addComment('@psalm-type ' . $typeShortClassName . 'Shape = ' . $shapeDoc);
 
         $encodeNames = [];
         $constructor = $class->addMethod('__construct');
+        $paramInfos = [];
 
         foreach ($argument->arguments as $subArg) {
             $encodeNames[$subArg->propertyName] = $subArg->mergeObject ? null : $subArg->name;
@@ -269,8 +303,10 @@ class OperatorClassGenerator extends OperatorGenerator
             $property->setReadOnly();
             $constructorParam = $constructor->addParameter($subArg->propertyName);
 
-            $this->buildPropertyAndParam($namespace, $property, $constructorParam, $constructor, $subArg, $subType);
+            $paramInfos[] = $this->buildPropertyAndParam($namespace, $property, $constructorParam, $constructor, $subArg, $subType);
         }
+
+        $this->addAlignedParamComments($constructor, $paramInfos);
 
         $class->addConstant('PROPERTIES', $encodeNames);
 
@@ -278,9 +314,13 @@ class OperatorClassGenerator extends OperatorGenerator
     }
 
     /**
-     * Shared helper: sets up a property, constructor parameter, PHPDoc, default value, validation body, and property
+     * Sets up a property, constructor parameter, PHPDoc, default value, validation body, and property
      * setter. Handles variadic:object (map) and variadic:array (list) sub-argument patterns, as well as regular
      * non-variadic arguments.
+     *
+     * Returns the @param annotation info (typeDoc, name, desc) for the caller to add, allowing alignment.
+     *
+     * @return array{typeDoc: string, name: string, desc: string}
      */
     private function buildPropertyAndParam(
         PhpNamespace $namespace,
@@ -289,8 +329,10 @@ class OperatorClassGenerator extends OperatorGenerator
         Method $constructor,
         ArgumentDefinition $arg,
         stdClass $type,
-    ): void {
+    ): array {
         $propName = $arg->propertyName;
+        $paramTypeDoc = '';
+        $paramDesc = rtrim((string) $arg->description);
 
         if ($arg->variadic === VariadicType::Object) {
             $namespace->addUse(stdClass::class);
@@ -309,19 +351,21 @@ class OperatorClassGenerator extends OperatorGenerator
                 $property->addComment('@var Optional|stdClass $' . $propName . rtrim(' ' . $arg->description));
                 $param->setType(Optional::class . '|' . stdClass::class . '|array');
                 $param->setDefaultValue(new Literal('Optional::Undefined'));
-                $constructor->addComment('@param ' . $mapDocType . '|Optional|stdClass $' . $propName . rtrim(' ' . $arg->description));
+                $paramTypeDoc = $mapDocType . '|Optional|stdClass';
             } else {
                 $property->setType(stdClass::class);
                 $property->addComment('@var stdClass<' . $baseType->doc . '> $' . $propName . rtrim(' ' . $arg->description));
                 $param->setType(stdClass::class . '|array');
-                $constructor->addComment('@param ' . $mapDocType . '|stdClass $' . $propName . rtrim(' ' . $arg->description));
+                $paramTypeDoc = $mapDocType . '|stdClass';
 
                 if (($arg->variadicMin ?? 0) > 0) {
                     $min = $arg->variadicMin;
                     $namespace->addUse(InvalidArgumentException::class);
+                    $namespace->addUseFunction('count');
+                    $namespace->addUseFunction('sprintf');
                     $constructor->addBody(<<<PHP
-                    if (\count((array) \${$propName}) < {$min}) {
-                        throw new InvalidArgumentException(\sprintf('Expected at least %d entries for \${$propName}, got %d.', {$min}, \count((array) \${$propName})));
+                    if (count((array) \${$propName}) < {$min}) {
+                        throw new InvalidArgumentException(sprintf('Expected at least %d entries for \${$propName}, got %d.', {$min}, count((array) \${$propName})));
                     }
 
                     PHP);
@@ -347,12 +391,12 @@ class OperatorClassGenerator extends OperatorGenerator
                 $property->addComment('@var Optional|' . $listDocType . ' $' . $propName . rtrim(' ' . $arg->description));
                 $param->setType(Optional::class . '|array');
                 $param->setDefaultValue(new Literal('Optional::Undefined'));
-                $constructor->addComment('@param Optional|' . $listDocType . ' $' . $propName . rtrim(' ' . $arg->description));
+                $paramTypeDoc = 'Optional|' . $listDocType;
             } else {
                 $property->setType('array');
                 $property->addComment('@var ' . $listDocType . ' $' . $propName . rtrim(' ' . $arg->description));
                 $param->setType('array');
-                $constructor->addComment('@param ' . $listDocType . ' $' . $propName . rtrim(' ' . $arg->description));
+                $paramTypeDoc = $listDocType;
             }
 
             $constructor->addBody(<<<PHP
@@ -367,7 +411,7 @@ class OperatorClassGenerator extends OperatorGenerator
             $property->setType($type->native);
             $property->addComment('@var ' . $type->doc . ' $' . $propName . rtrim(' ' . $arg->description));
             $param->setType($type->native);
-            $constructor->addComment('@param ' . $type->doc . ' $' . $propName . rtrim(' ' . $arg->description));
+            $paramTypeDoc = $type->doc;
 
             if ($arg->optional) {
                 $namespace->addUse(Optional::class);
@@ -377,6 +421,30 @@ class OperatorClassGenerator extends OperatorGenerator
             }
 
             $constructor->addBody('$this->' . $propName . ' = $' . $propName . ';');
+        }
+
+        return ['typeDoc' => $paramTypeDoc, 'name' => $propName, 'desc' => $paramDesc];
+    }
+
+    /**
+     * Adds aligned @param comments to the constructor, padding type and name columns to consistent widths.
+     * When there is only one param, no padding is needed (single-space separation).
+     *
+     * @param array<array{typeDoc: string, name: string, desc: string}> $paramInfos
+     */
+    private function addAlignedParamComments(Method $constructor, array $paramInfos): void
+    {
+        if (count($paramInfos) === 0) {
+            return;
+        }
+
+        $maxTypeLen = max(array_map(fn ($i) => strlen($i['typeDoc']), $paramInfos));
+        $maxNameLen = max(array_map(fn ($i) => strlen($i['name']), $paramInfos));
+
+        foreach ($paramInfos as $info) {
+            $typeSpaces = str_repeat(' ', $maxTypeLen - strlen($info['typeDoc']) + 1);
+            $nameSpaces = str_repeat(' ', $maxNameLen - strlen($info['name']) + 1);
+            $constructor->addComment(rtrim('@param ' . $info['typeDoc'] . $typeSpaces . '$' . $info['name'] . $nameSpaces . $info['desc']));
         }
     }
 

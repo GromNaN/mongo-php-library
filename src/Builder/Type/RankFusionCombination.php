@@ -18,6 +18,7 @@ use function is_array;
  * Type class for the $combination argument of the $rankFusion operator.
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/rankFusion/
+ * @psalm-type RankFusionCombinationShape = array{weights?: array<string, Decimal128|Int64|float|int>}|object{weights?: array<string, Decimal128|Int64|float|int>|stdClass}&stdClass|RankFusionCombination|\MongoDB\BSON\Document|\MongoDB\BSON\Serializable
  */
 final class RankFusionCombination implements TypeInterface
 {

@@ -28,10 +28,10 @@ trait FactoryTrait
      * Adds a value to an array unless the value is already present.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/update/addToSet/
-     * @param DateTimeInterface|Type|array|bool|float|int|null|stdClass|string ...$field
+     * @param DateTimeInterface|Type|array|bool|float|int|stdClass|string|null ...$field
      */
     public static function addToSet(
-        DateTimeInterface|Type|stdClass|array|bool|float|int|null|string ...$field,
+        DateTimeInterface|Type|stdClass|array|bool|float|int|string|null ...$field,
     ): AddToSetOperator {
         return new AddToSetOperator(...$field);
     }
@@ -76,10 +76,10 @@ trait FactoryTrait
      * Updates a field only if the specified value is greater than the current field value.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/update/max/
-     * @param DateTimeInterface|Type|array|bool|float|int|null|stdClass|string ...$field
+     * @param DateTimeInterface|Type|array|bool|float|int|stdClass|string|null ...$field
      */
     public static function max(
-        DateTimeInterface|Type|stdClass|array|bool|float|int|null|string ...$field,
+        DateTimeInterface|Type|stdClass|array|bool|float|int|string|null ...$field,
     ): MaxOperator {
         return new MaxOperator(...$field);
     }
@@ -88,10 +88,10 @@ trait FactoryTrait
      * Updates a field only if the specified value is less than the current field value.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/update/min/
-     * @param DateTimeInterface|Type|array|bool|float|int|null|stdClass|string ...$field
+     * @param DateTimeInterface|Type|array|bool|float|int|stdClass|string|null ...$field
      */
     public static function min(
-        DateTimeInterface|Type|stdClass|array|bool|float|int|null|string ...$field,
+        DateTimeInterface|Type|stdClass|array|bool|float|int|string|null ...$field,
     ): MinOperator {
         return new MinOperator(...$field);
     }
@@ -122,10 +122,10 @@ trait FactoryTrait
      * Removes all array elements that match a specified value or condition.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/update/pull/
-     * @param DateTimeInterface|FieldQueryInterface|Type|array|bool|float|int|null|stdClass|string ...$field
+     * @param DateTimeInterface|FieldQueryInterface|Type|array|bool|float|int|stdClass|string|null ...$field
      */
     public static function pull(
-        DateTimeInterface|Type|FieldQueryInterface|stdClass|array|bool|float|int|null|string ...$field,
+        DateTimeInterface|Type|FieldQueryInterface|stdClass|array|bool|float|int|string|null ...$field,
     ): PullOperator {
         return new PullOperator(...$field);
     }
@@ -145,10 +145,10 @@ trait FactoryTrait
      * Appends a specified value to an array, with optional modifiers.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/update/push/
-     * @param DateTimeInterface|Type|array|bool|float|int|null|stdClass|string ...$field
+     * @param DateTimeInterface|Type|array|bool|float|int|stdClass|string|null ...$field
      */
     public static function push(
-        DateTimeInterface|Type|stdClass|array|bool|float|int|null|string ...$field,
+        DateTimeInterface|Type|stdClass|array|bool|float|int|string|null ...$field,
     ): PushOperator {
         return new PushOperator(...$field);
     }
@@ -168,10 +168,10 @@ trait FactoryTrait
      * Sets the value of a field.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/update/set/
-     * @param DateTimeInterface|Type|array|bool|float|int|null|stdClass|string ...$field
+     * @param DateTimeInterface|Type|array|bool|float|int|stdClass|string|null ...$field
      */
     public static function set(
-        DateTimeInterface|Type|stdClass|array|bool|float|int|null|string ...$field,
+        DateTimeInterface|Type|stdClass|array|bool|float|int|string|null ...$field,
     ): SetOperator {
         return new SetOperator(...$field);
     }
@@ -180,10 +180,10 @@ trait FactoryTrait
      * Sets the value of a field if an update with upsert creates a new document.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/update/setOnInsert/
-     * @param DateTimeInterface|Type|array|bool|float|int|null|stdClass|string ...$field
+     * @param DateTimeInterface|Type|array|bool|float|int|stdClass|string|null ...$field
      */
     public static function setOnInsert(
-        DateTimeInterface|Type|stdClass|array|bool|float|int|null|string ...$field,
+        DateTimeInterface|Type|stdClass|array|bool|float|int|string|null ...$field,
     ): SetOnInsertOperator {
         return new SetOnInsertOperator(...$field);
     }
@@ -192,10 +192,10 @@ trait FactoryTrait
      * Removes the specified field from a document.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/update/unset/
-     * @param DateTimeInterface|Type|array|bool|float|int|null|stdClass|string ...$field
+     * @param DateTimeInterface|Type|array|bool|float|int|stdClass|string|null ...$field
      */
     public static function unset(
-        DateTimeInterface|Type|stdClass|array|bool|float|int|null|string ...$field,
+        DateTimeInterface|Type|stdClass|array|bool|float|int|string|null ...$field,
     ): UnsetOperator {
         return new UnsetOperator(...$field);
     }

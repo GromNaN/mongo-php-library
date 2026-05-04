@@ -27,12 +27,12 @@ final class NotOperator implements ResolvesToBool, OperatorInterface
     public const NAME = '$not';
     public const PROPERTIES = ['expression' => 'expression'];
 
-    /** @var DateTimeInterface|ExpressionInterface|ResolvesToBool|Type|array|bool|float|int|null|stdClass|string $expression */
-    public readonly DateTimeInterface|Type|ResolvesToBool|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression;
+    /** @var DateTimeInterface|ExpressionInterface|ResolvesToBool|Type|array|bool|float|int|stdClass|string|null $expression */
+    public readonly DateTimeInterface|Type|ResolvesToBool|ExpressionInterface|stdClass|array|bool|float|int|string|null $expression;
 
-    /** @param DateTimeInterface|ExpressionInterface|ResolvesToBool|Type|array|bool|float|int|null|stdClass|string $expression */
+    /** @param DateTimeInterface|ExpressionInterface|ResolvesToBool|Type|array|bool|float|int|stdClass|string|null $expression */
     public function __construct(
-        DateTimeInterface|Type|ResolvesToBool|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression,
+        DateTimeInterface|Type|ResolvesToBool|ExpressionInterface|stdClass|array|bool|float|int|string|null $expression,
     ) {
         $this->expression = $expression;
     }

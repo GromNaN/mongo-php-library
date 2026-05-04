@@ -31,12 +31,12 @@ final class LocfAccumulator implements WindowInterface, OperatorInterface
     public const NAME = '$locf';
     public const PROPERTIES = ['expression' => 'expression'];
 
-    /** @var DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $expression */
-    public readonly DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression;
+    /** @var DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $expression */
+    public readonly DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $expression;
 
-    /** @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $expression */
+    /** @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $expression */
     public function __construct(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $expression,
     ) {
         $this->expression = $expression;
     }

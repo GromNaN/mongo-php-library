@@ -22,6 +22,7 @@ use function sprintf;
  * Type class for the $input argument of the $scoreFusion operator.
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/scoreFusion/
+ * @psalm-type ScoreFusionInputShape = array{pipelines: non-empty-array<string, BSONArray|PackedArray|Pipeline|array>, normalization: string}|object{pipelines: non-empty-array<string, BSONArray|PackedArray|Pipeline|array>|stdClass, normalization: string}&stdClass|ScoreFusionInput|\MongoDB\BSON\Document|\MongoDB\BSON\Serializable
  */
 final class ScoreFusionInput implements TypeInterface
 {

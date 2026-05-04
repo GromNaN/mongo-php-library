@@ -26,11 +26,11 @@ final class BinarySizeOperator implements ResolvesToInt, OperatorInterface
     public const NAME = '$binarySize';
     public const PROPERTIES = ['expression' => 'expression'];
 
-    /** @var Binary|ResolvesToBinData|ResolvesToNull|ResolvesToString|null|string $expression */
-    public readonly Binary|ResolvesToBinData|ResolvesToNull|ResolvesToString|null|string $expression;
+    /** @var Binary|ResolvesToBinData|ResolvesToNull|ResolvesToString|string|null $expression */
+    public readonly Binary|ResolvesToBinData|ResolvesToNull|ResolvesToString|string|null $expression;
 
-    /** @param Binary|ResolvesToBinData|ResolvesToNull|ResolvesToString|null|string $expression */
-    public function __construct(Binary|ResolvesToBinData|ResolvesToNull|ResolvesToString|null|string $expression)
+    /** @param Binary|ResolvesToBinData|ResolvesToNull|ResolvesToString|string|null $expression */
+    public function __construct(Binary|ResolvesToBinData|ResolvesToNull|ResolvesToString|string|null $expression)
     {
         $this->expression = $expression;
     }

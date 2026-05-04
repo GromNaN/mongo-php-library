@@ -37,20 +37,20 @@ final class GetFieldOperator implements ResolvesToAny, OperatorInterface
     public readonly ResolvesToString|string $field;
 
     /**
-     * @var Optional|DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $input Default: $$CURRENT
+     * @var Optional|DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $input Default: $$CURRENT
      * A valid expression that contains the field for which you want to return a value. input must resolve to an object, missing, null, or undefined. If omitted, defaults to the document currently being processed in the pipeline ($$CURRENT).
      */
-    public readonly Optional|DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $input;
+    public readonly Optional|DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $input;
 
     /**
      * @param ResolvesToString|string $field Field in the input object for which you want to return a value. field can be any valid expression that resolves to a string constant.
      * If field begins with a dollar sign ($), place the field name inside of a $literal expression to return its value.
-     * @param Optional|DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $input Default: $$CURRENT
+     * @param Optional|DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $input Default: $$CURRENT
      * A valid expression that contains the field for which you want to return a value. input must resolve to an object, missing, null, or undefined. If omitted, defaults to the document currently being processed in the pipeline ($$CURRENT).
      */
     public function __construct(
         ResolvesToString|string $field,
-        Optional|DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $input = Optional::Undefined,
+        Optional|DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $input = Optional::Undefined,
     ) {
         $this->field = $field;
         $this->input = $input;

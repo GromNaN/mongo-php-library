@@ -32,12 +32,12 @@ final class BsonSizeOperator implements ResolvesToInt, OperatorInterface
     public const NAME = '$bsonSize';
     public const PROPERTIES = ['object' => 'object'];
 
-    /** @var Document|ResolvesToNull|ResolvesToObject|Serializable|array|null|stdClass|string $object */
-    public readonly Document|Serializable|ResolvesToNull|ResolvesToObject|stdClass|array|null|string $object;
+    /** @var Document|ResolvesToNull|ResolvesToObject|Serializable|array|stdClass|string|null $object */
+    public readonly Document|Serializable|ResolvesToNull|ResolvesToObject|stdClass|array|string|null $object;
 
-    /** @param Document|ResolvesToNull|ResolvesToObject|Serializable|array|null|stdClass|string $object */
+    /** @param Document|ResolvesToNull|ResolvesToObject|Serializable|array|stdClass|string|null $object */
     public function __construct(
-        Document|Serializable|ResolvesToNull|ResolvesToObject|stdClass|array|null|string $object,
+        Document|Serializable|ResolvesToNull|ResolvesToObject|stdClass|array|string|null $object,
     ) {
         if (is_string($object) && ! str_starts_with($object, '$')) {
             throw new InvalidArgumentException('Argument $object can be an expression, field paths and variable names must be prefixed by "$" or "$$".');

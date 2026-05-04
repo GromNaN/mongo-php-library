@@ -153,6 +153,14 @@
       <code><![CDATA[stdClass]]></code>
     </TooManyTemplateParams>
   </file>
+  <file src="src/Builder/Stage/FactoryTrait.php">
+    <MismatchingDocblockParamType>
+      <code><![CDATA[Optional|RankFusionCombinationShape]]></code>
+      <code><![CDATA[Optional|ScoreFusionCombinationShape]]></code>
+      <code><![CDATA[RankFusionInputShape]]></code>
+      <code><![CDATA[ScoreFusionInputShape]]></code>
+    </MismatchingDocblockParamType>
+  </file>
   <file src="src/Builder/Stage/GeoNearStage.php">
     <MixedArgumentTypeCoercion>
       <code><![CDATA[$query]]></code>
@@ -185,18 +193,34 @@
     </TooManyTemplateParams>
   </file>
   <file src="src/Builder/Stage/RankFusionStage.php">
+    <MismatchingDocblockParamType>
+      <code><![CDATA[Optional|RankFusionCombinationShape]]></code>
+      <code><![CDATA[RankFusionInputShape]]></code>
+    </MismatchingDocblockParamType>
+    <MismatchingDocblockPropertyType>
+      <code><![CDATA[Optional|RankFusionCombination|Document|Serializable|stdClass|array]]></code>
+      <code><![CDATA[RankFusionInput|Document|Serializable|stdClass|array]]></code>
+    </MismatchingDocblockPropertyType>
     <MixedArgument>
-      <code><![CDATA[$combination]]></code>
-      <code><![CDATA[$input]]></code>
+      <code><![CDATA[(array) $combination]]></code>
+      <code><![CDATA[(array) $input]]></code>
     </MixedArgument>
   </file>
   <file src="src/Builder/Stage/ScoreFusionStage.php">
+    <MismatchingDocblockParamType>
+      <code><![CDATA[Optional|ScoreFusionCombinationShape]]></code>
+      <code><![CDATA[ScoreFusionInputShape]]></code>
+    </MismatchingDocblockParamType>
+    <MismatchingDocblockPropertyType>
+      <code><![CDATA[Optional|ScoreFusionCombination|Document|Serializable|stdClass|array]]></code>
+      <code><![CDATA[ScoreFusionInput|Document|Serializable|stdClass|array]]></code>
+    </MismatchingDocblockPropertyType>
     <MixedArgument>
-      <code><![CDATA[$combination]]></code>
-      <code><![CDATA[$combination]]></code>
-      <code><![CDATA[$combination]]></code>
-      <code><![CDATA[$input]]></code>
-      <code><![CDATA[$input]]></code>
+      <code><![CDATA[(array) $combination]]></code>
+      <code><![CDATA[(array) $combination]]></code>
+      <code><![CDATA[(array) $combination]]></code>
+      <code><![CDATA[(array) $input]]></code>
+      <code><![CDATA[(array) $input]]></code>
     </MixedArgument>
   </file>
   <file src="src/Builder/Stage/SetStage.php">
@@ -251,11 +275,17 @@
     </UndefinedConstant>
   </file>
   <file src="src/Builder/Type/RankFusionCombination.php">
+    <InvalidClassConstantType>
+      <code><![CDATA[PROPERTIES]]></code>
+    </InvalidClassConstantType>
     <PropertyTypeCoercion>
       <code><![CDATA[is_array($weights) ? (object) $weights : $weights]]></code>
     </PropertyTypeCoercion>
   </file>
   <file src="src/Builder/Type/RankFusionInput.php">
+    <InvalidClassConstantType>
+      <code><![CDATA[PROPERTIES]]></code>
+    </InvalidClassConstantType>
     <PropertyTypeCoercion>
       <code><![CDATA[is_array($pipelines) ? (object) $pipelines : $pipelines]]></code>
     </PropertyTypeCoercion>
@@ -264,11 +294,17 @@
     </TooManyTemplateParams>
   </file>
   <file src="src/Builder/Type/ScoreFusionCombination.php">
+    <InvalidClassConstantType>
+      <code><![CDATA[PROPERTIES]]></code>
+    </InvalidClassConstantType>
     <PropertyTypeCoercion>
       <code><![CDATA[is_array($weights) ? (object) $weights : $weights]]></code>
     </PropertyTypeCoercion>
   </file>
   <file src="src/Builder/Type/ScoreFusionInput.php">
+    <InvalidClassConstantType>
+      <code><![CDATA[PROPERTIES]]></code>
+    </InvalidClassConstantType>
     <PropertyTypeCoercion>
       <code><![CDATA[is_array($pipelines) ? (object) $pipelines : $pipelines]]></code>
     </PropertyTypeCoercion>

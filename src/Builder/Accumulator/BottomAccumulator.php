@@ -36,16 +36,16 @@ final class BottomAccumulator implements AccumulatorInterface, WindowInterface, 
     /** @var Document|Serializable|array|stdClass $sortBy Specifies the order of results, with syntax similar to $sort. */
     public readonly Document|Serializable|stdClass|array $sortBy;
 
-    /** @var DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $output Represents the output for each element in the group and can be any expression. */
-    public readonly DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $output;
+    /** @var DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $output Represents the output for each element in the group and can be any expression. */
+    public readonly DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $output;
 
     /**
      * @param Document|Serializable|array|stdClass $sortBy Specifies the order of results, with syntax similar to $sort.
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $output Represents the output for each element in the group and can be any expression.
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $output Represents the output for each element in the group and can be any expression.
      */
     public function __construct(
         Document|Serializable|stdClass|array $sortBy,
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $output,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $output,
     ) {
         $this->sortBy = $sortBy;
         $this->output = $output;

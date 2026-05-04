@@ -38,18 +38,18 @@ final class FirstNAccumulator implements AccumulatorInterface, WindowInterface, 
     public const NAME = '$firstN';
     public const PROPERTIES = ['input' => 'input', 'n' => 'n'];
 
-    /** @var DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $input An expression that resolves to the array from which to return n elements. */
-    public readonly DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $input;
+    /** @var DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $input An expression that resolves to the array from which to return n elements. */
+    public readonly DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $input;
 
     /** @var ResolvesToInt|int|string $n A positive integral expression that is either a constant or depends on the _id value for $group. */
     public readonly ResolvesToInt|int|string $n;
 
     /**
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $input An expression that resolves to the array from which to return n elements.
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $input An expression that resolves to the array from which to return n elements.
      * @param ResolvesToInt|int|string $n A positive integral expression that is either a constant or depends on the _id value for $group.
      */
     public function __construct(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $input,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $input,
         ResolvesToInt|int|string $n,
     ) {
         $this->input = $input;

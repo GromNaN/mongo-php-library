@@ -33,7 +33,7 @@ abstract class AbstractGenerator
     public function __construct(
         private string $rootDir,
     ) {
-        $this->printer = new ClassPrinter();
+        $this->printer = new TypeClassPrinter();
     }
 
     /**

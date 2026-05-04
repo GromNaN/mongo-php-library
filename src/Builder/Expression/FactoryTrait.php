@@ -100,10 +100,10 @@ trait FactoryTrait
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/and/
      * @no-named-arguments
-     * @param DateTimeInterface|Decimal128|ExpressionInterface|Int64|ResolvesToBool|ResolvesToNull|ResolvesToNumber|ResolvesToString|Type|array|bool|float|int|null|stdClass|string ...$expression
+     * @param DateTimeInterface|Decimal128|ExpressionInterface|Int64|ResolvesToBool|ResolvesToNull|ResolvesToNumber|ResolvesToString|Type|array|bool|float|int|stdClass|string|null ...$expression
      */
     public static function and(
-        DateTimeInterface|Decimal128|Int64|Type|ResolvesToBool|ResolvesToNull|ResolvesToNumber|ResolvesToString|ExpressionInterface|stdClass|array|bool|float|int|null|string ...$expression,
+        DateTimeInterface|Decimal128|Int64|Type|ResolvesToBool|ResolvesToNull|ResolvesToNumber|ResolvesToString|ExpressionInterface|stdClass|array|bool|float|int|string|null ...$expression,
     ): AndOperator {
         return new AndOperator(...$expression);
     }
@@ -233,10 +233,10 @@ trait FactoryTrait
      * New in MongoDB 4.4
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/binarySize/
-     * @param Binary|ResolvesToBinData|ResolvesToNull|ResolvesToString|null|string $expression
+     * @param Binary|ResolvesToBinData|ResolvesToNull|ResolvesToString|string|null $expression
      */
     public static function binarySize(
-        Binary|ResolvesToBinData|ResolvesToNull|ResolvesToString|null|string $expression,
+        Binary|ResolvesToBinData|ResolvesToNull|ResolvesToString|string|null $expression,
     ): BinarySizeOperator {
         return new BinarySizeOperator($expression);
     }
@@ -302,10 +302,10 @@ trait FactoryTrait
      * New in MongoDB 4.4
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/bsonSize/
-     * @param Document|ResolvesToNull|ResolvesToObject|Serializable|array|null|stdClass|string $object
+     * @param Document|ResolvesToNull|ResolvesToObject|Serializable|array|stdClass|string|null $object
      */
     public static function bsonSize(
-        Document|Serializable|ResolvesToNull|ResolvesToObject|stdClass|array|null|string $object,
+        Document|Serializable|ResolvesToNull|ResolvesToObject|stdClass|array|string|null $object,
     ): BsonSizeOperator {
         return new BsonSizeOperator($object);
     }
@@ -315,11 +315,11 @@ trait FactoryTrait
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/switch/
      * @param ResolvesToBool|bool|string $case Can be any valid expression that resolves to a boolean. If the result is not a boolean, it is coerced to a boolean value. More information about how MongoDB evaluates expressions as either true or false can be found here.
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $then Can be any valid expression.
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $then Can be any valid expression.
      */
     public static function case(
         ResolvesToBool|bool|string $case,
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $then,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $then,
     ): CaseOperator {
         return new CaseOperator($case, $then);
     }
@@ -339,12 +339,12 @@ trait FactoryTrait
      * Returns 0 if the two values are equivalent, 1 if the first value is greater than the second, and -1 if the first value is less than the second.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/cmp/
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $expression1
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $expression2
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $expression1
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $expression2
      */
     public static function cmp(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression1,
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression2,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $expression1,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $expression2,
     ): CmpOperator {
         return new CmpOperator($expression1, $expression2);
     }
@@ -379,13 +379,13 @@ trait FactoryTrait
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/cond/
      * @param ResolvesToBool|bool|string $if
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $then
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $else
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $then
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $else
      */
     public static function cond(
         ResolvesToBool|bool|string $if,
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $then,
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $else,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $then,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $else,
     ): CondOperator {
         return new CondOperator($if, $then, $else);
     }
@@ -394,18 +394,18 @@ trait FactoryTrait
      * Converts a value to a specified type.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/convert/
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $input
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $input
      * @param ResolvesToInt|ResolvesToString|int|string $to
-     * @param Optional|DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $onError The value to return on encountering an error during conversion, including unsupported type conversions. The arguments can be any valid expression.
+     * @param Optional|DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $onError The value to return on encountering an error during conversion, including unsupported type conversions. The arguments can be any valid expression.
      * If unspecified, the operation throws an error upon encountering an error and stops.
-     * @param Optional|DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $onNull The value to return if the input is null or missing. The arguments can be any valid expression.
+     * @param Optional|DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $onNull The value to return if the input is null or missing. The arguments can be any valid expression.
      * If unspecified, $convert returns null if the input is null or missing.
      */
     public static function convert(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $input,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $input,
         ResolvesToInt|ResolvesToString|int|string $to,
-        Optional|DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $onError = Optional::Undefined,
-        Optional|DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $onNull = Optional::Undefined,
+        Optional|DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $onError = Optional::Undefined,
+        Optional|DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $onNull = Optional::Undefined,
     ): ConvertOperator {
         return new ConvertOperator($input, $to, $onError, $onNull);
     }
@@ -528,9 +528,9 @@ trait FactoryTrait
      * @param Optional|ResolvesToString|string $format The date format specification of the dateString. The format can be any expression that evaluates to a string literal, containing 0 or more format specifiers.
      * If unspecified, $dateFromString uses "%Y-%m-%dT%H:%M:%S.%LZ" as the default format but accepts a variety of formats and attempts to parse the dateString if possible.
      * @param Optional|ResolvesToString|string $timezone The time zone to use to format the date.
-     * @param Optional|DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $onError If $dateFromString encounters an error while parsing the given dateString, it outputs the result value of the provided onError expression. This result value can be of any type.
+     * @param Optional|DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $onError If $dateFromString encounters an error while parsing the given dateString, it outputs the result value of the provided onError expression. This result value can be of any type.
      * If you do not specify onError, $dateFromString throws an error if it cannot parse dateString.
-     * @param Optional|DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $onNull If the dateString provided to $dateFromString is null or missing, it outputs the result value of the provided onNull expression. This result value can be of any type.
+     * @param Optional|DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $onNull If the dateString provided to $dateFromString is null or missing, it outputs the result value of the provided onNull expression. This result value can be of any type.
      * If you do not specify onNull and dateString is null or missing, then $dateFromString outputs null.
      *
      * New in MongoDB 5.0
@@ -539,8 +539,8 @@ trait FactoryTrait
         ResolvesToString|string $dateString,
         Optional|ResolvesToString|string $format = Optional::Undefined,
         Optional|ResolvesToString|string $timezone = Optional::Undefined,
-        Optional|DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $onError = Optional::Undefined,
-        Optional|DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $onNull = Optional::Undefined,
+        Optional|DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $onError = Optional::Undefined,
+        Optional|DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $onNull = Optional::Undefined,
     ): DateFromStringOperator {
         return new DateFromStringOperator($dateString, $format, $timezone, $onError, $onNull);
     }
@@ -589,7 +589,7 @@ trait FactoryTrait
      * @param Optional|ResolvesToString|string $format The date format specification of the dateString. The format can be any expression that evaluates to a string literal, containing 0 or more format specifiers.
      * If unspecified, $dateFromString uses "%Y-%m-%dT%H:%M:%S.%LZ" as the default format but accepts a variety of formats and attempts to parse the dateString if possible.
      * @param Optional|ResolvesToString|string $timezone The time zone to use to format the date.
-     * @param Optional|DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $onNull The value to return if the date is null or missing.
+     * @param Optional|DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $onNull The value to return if the date is null or missing.
      * If unspecified, $dateToString returns null if the date is null or missing.
      *
      * New in MongoDB 5.0
@@ -598,7 +598,7 @@ trait FactoryTrait
         DateTimeInterface|ObjectId|Timestamp|UTCDateTime|ResolvesToDate|ResolvesToObjectId|ResolvesToTimestamp|int|string $date,
         Optional|ResolvesToString|string $format = Optional::Undefined,
         Optional|ResolvesToString|string $timezone = Optional::Undefined,
-        Optional|DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $onNull = Optional::Undefined,
+        Optional|DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $onNull = Optional::Undefined,
     ): DateToStringOperator {
         return new DateToStringOperator($date, $format, $timezone, $onNull);
     }
@@ -701,12 +701,12 @@ trait FactoryTrait
      * Returns true if the values are equivalent.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/eq/
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $expression1
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $expression2
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $expression1
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $expression2
      */
     public static function eq(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression1,
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression2,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $expression1,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $expression2,
     ): EqOperator {
         return new EqOperator($expression1, $expression2);
     }
@@ -808,12 +808,12 @@ trait FactoryTrait
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/getField/
      * @param ResolvesToString|string $field Field in the input object for which you want to return a value. field can be any valid expression that resolves to a string constant.
      * If field begins with a dollar sign ($), place the field name inside of a $literal expression to return its value.
-     * @param Optional|DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $input Default: $$CURRENT
+     * @param Optional|DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $input Default: $$CURRENT
      * A valid expression that contains the field for which you want to return a value. input must resolve to an object, missing, null, or undefined. If omitted, defaults to the document currently being processed in the pipeline ($$CURRENT).
      */
     public static function getField(
         ResolvesToString|string $field,
-        Optional|DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $input = Optional::Undefined,
+        Optional|DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $input = Optional::Undefined,
     ): GetFieldOperator {
         return new GetFieldOperator($field, $input);
     }
@@ -822,12 +822,12 @@ trait FactoryTrait
      * Returns true if the first value is greater than the second.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/gt/
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $expression1
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $expression2
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $expression1
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $expression2
      */
     public static function gt(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression1,
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression2,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $expression1,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $expression2,
     ): GtOperator {
         return new GtOperator($expression1, $expression2);
     }
@@ -836,12 +836,12 @@ trait FactoryTrait
      * Returns true if the first value is greater than or equal to the second.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/gte/
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $expression1
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $expression2
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $expression1
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $expression2
      */
     public static function gte(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression1,
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression2,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $expression1,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $expression2,
     ): GteOperator {
         return new GteOperator($expression1, $expression2);
     }
@@ -865,10 +865,10 @@ trait FactoryTrait
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/ifNull/
      * @no-named-arguments
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string ...$expression
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null ...$expression
      */
     public static function ifNull(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string ...$expression,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null ...$expression,
     ): IfNullOperator {
         return new IfNullOperator(...$expression);
     }
@@ -877,11 +877,11 @@ trait FactoryTrait
      * Returns a boolean indicating whether a specified value is in an array.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/in/
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $expression Any valid expression expression.
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $expression Any valid expression expression.
      * @param BSONArray|PackedArray|ResolvesToArray|array|string $array Any valid expression that resolves to an array.
      */
     public static function in(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $expression,
         PackedArray|ResolvesToArray|BSONArray|array|string $array,
     ): InOperator {
         return new InOperator($expression, $array);
@@ -894,7 +894,7 @@ trait FactoryTrait
      * @param BSONArray|PackedArray|ResolvesToArray|array|string $array Can be any valid expression as long as it resolves to an array.
      * If the array expression resolves to a value of null or refers to a field that is missing, $indexOfArray returns null.
      * If the array expression does not resolve to an array or null nor refers to a missing field, $indexOfArray returns an error.
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $search
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $search
      * @param Optional|ResolvesToInt|int|string $start An integer, or a number that can be represented as integers (such as 2.0), that specifies the starting index position for the search. Can be any valid expression that resolves to a non-negative integral number.
      * If unspecified, the starting index position for the search is the beginning of the string.
      * @param Optional|ResolvesToInt|int|string $end An integer, or a number that can be represented as integers (such as 2.0), that specifies the ending index position for the search. Can be any valid expression that resolves to a non-negative integral number. If you specify a <end> index value, you should also specify a <start> index value; otherwise, $indexOfArray uses the <end> value as the <start> index value instead of the <end> value.
@@ -902,7 +902,7 @@ trait FactoryTrait
      */
     public static function indexOfArray(
         PackedArray|ResolvesToArray|BSONArray|array|string $array,
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $search,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $search,
         Optional|ResolvesToInt|int|string $start = Optional::Undefined,
         Optional|ResolvesToInt|int|string $end = Optional::Undefined,
     ): IndexOfArrayOperator {
@@ -959,10 +959,10 @@ trait FactoryTrait
      * New in MongoDB 4.4
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/isArray/
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $expression
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $expression
      */
     public static function isArray(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $expression,
     ): IsArrayOperator {
         return new IsArrayOperator($expression);
     }
@@ -974,10 +974,10 @@ trait FactoryTrait
      * New in MongoDB 4.4
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/isNumber/
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $expression
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $expression
      */
     public static function isNumber(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $expression,
     ): IsNumberOperator {
         return new IsNumberOperator($expression);
     }
@@ -1060,11 +1060,11 @@ trait FactoryTrait
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/let/
      * @param Document|Serializable|array|stdClass $vars Assignment block for the variables accessible in the in expression. To assign a variable, specify a string for the variable name and assign a valid expression for the value.
      * The variable assignments have no meaning outside the in expression, not even within the vars block itself.
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $in The expression to evaluate.
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $in The expression to evaluate.
      */
     public static function let(
         Document|Serializable|stdClass|array $vars,
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $in,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $in,
     ): LetOperator {
         return new LetOperator($vars, $in);
     }
@@ -1073,10 +1073,10 @@ trait FactoryTrait
      * Return a value without parsing. Use for values that the aggregation pipeline may interpret as an expression. For example, use a $literal expression to a string that starts with a dollar sign ($) to avoid parsing as a field path.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/literal/
-     * @param DateTimeInterface|Type|array|bool|float|int|null|stdClass|string $value If the value is an expression, $literal does not evaluate the expression but instead returns the unparsed expression.
+     * @param DateTimeInterface|Type|array|bool|float|int|stdClass|string|null $value If the value is an expression, $literal does not evaluate the expression but instead returns the unparsed expression.
      */
     public static function literal(
-        DateTimeInterface|Type|stdClass|array|bool|float|int|null|string $value,
+        DateTimeInterface|Type|stdClass|array|bool|float|int|string|null $value,
     ): LiteralOperator {
         return new LiteralOperator($value);
     }
@@ -1122,12 +1122,12 @@ trait FactoryTrait
      * Returns true if the first value is less than the second.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/lt/
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $expression1
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $expression2
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $expression1
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $expression2
      */
     public static function lt(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression1,
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression2,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $expression1,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $expression2,
     ): LtOperator {
         return new LtOperator($expression1, $expression2);
     }
@@ -1136,12 +1136,12 @@ trait FactoryTrait
      * Returns true if the first value is less than or equal to the second.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/lte/
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $expression1
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $expression2
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $expression1
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $expression2
      */
     public static function lte(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression1,
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression2,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $expression1,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $expression2,
     ): LteOperator {
         return new LteOperator($expression1, $expression2);
     }
@@ -1167,12 +1167,12 @@ trait FactoryTrait
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/map/
      * @param BSONArray|PackedArray|ResolvesToArray|array|string $input An expression that resolves to an array.
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $in An expression that is applied to each element of the input array. The expression references each element individually with the variable name specified in as.
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $in An expression that is applied to each element of the input array. The expression references each element individually with the variable name specified in as.
      * @param Optional|ResolvesToString|string $as A name for the variable that represents each individual element of the input array. If no name is specified, the variable name defaults to this.
      */
     public static function map(
         PackedArray|ResolvesToArray|BSONArray|array|string $input,
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $in,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $in,
         Optional|ResolvesToString|string $as = Optional::Undefined,
     ): MapOperator {
         return new MapOperator($input, $in, $as);
@@ -1184,10 +1184,10 @@ trait FactoryTrait
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/max/
      * @no-named-arguments
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string ...$expression
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null ...$expression
      */
     public static function max(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string ...$expression,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null ...$expression,
     ): MaxOperator {
         return new MaxOperator(...$expression);
     }
@@ -1274,10 +1274,10 @@ trait FactoryTrait
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/min/
      * @no-named-arguments
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string ...$expression
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null ...$expression
      */
     public static function min(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string ...$expression,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null ...$expression,
     ): MinOperator {
         return new MinOperator(...$expression);
     }
@@ -1358,12 +1358,12 @@ trait FactoryTrait
      * Returns true if the values are not equivalent.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/ne/
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $expression1
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $expression2
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $expression1
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $expression2
      */
     public static function ne(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression1,
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression2,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $expression1,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $expression2,
     ): NeOperator {
         return new NeOperator($expression1, $expression2);
     }
@@ -1372,10 +1372,10 @@ trait FactoryTrait
      * Returns the boolean value that is the opposite of its argument expression. Accepts a single argument expression.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/not/
-     * @param DateTimeInterface|ExpressionInterface|ResolvesToBool|Type|array|bool|float|int|null|stdClass|string $expression
+     * @param DateTimeInterface|ExpressionInterface|ResolvesToBool|Type|array|bool|float|int|stdClass|string|null $expression
      */
     public static function not(
-        DateTimeInterface|Type|ResolvesToBool|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression,
+        DateTimeInterface|Type|ResolvesToBool|ExpressionInterface|stdClass|array|bool|float|int|string|null $expression,
     ): NotOperator {
         return new NotOperator($expression);
     }
@@ -1397,10 +1397,10 @@ trait FactoryTrait
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/or/
      * @no-named-arguments
-     * @param DateTimeInterface|ExpressionInterface|ResolvesToBool|Type|array|bool|float|int|null|stdClass|string ...$expression
+     * @param DateTimeInterface|ExpressionInterface|ResolvesToBool|Type|array|bool|float|int|stdClass|string|null ...$expression
      */
     public static function or(
-        DateTimeInterface|Type|ResolvesToBool|ExpressionInterface|stdClass|array|bool|float|int|null|string ...$expression,
+        DateTimeInterface|Type|ResolvesToBool|ExpressionInterface|stdClass|array|bool|float|int|string|null ...$expression,
     ): OrOperator {
         return new OrOperator(...$expression);
     }
@@ -1489,16 +1489,16 @@ trait FactoryTrait
      * @param BSONArray|PackedArray|ResolvesToArray|array|string $input Can be any valid expression that resolves to an array.
      * If the argument resolves to a value of null or refers to a missing field, $reduce returns null.
      * If the argument does not resolve to an array or null nor refers to a missing field, $reduce returns an error.
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $initialValue The initial cumulative value set before in is applied to the first element of the input array.
-     * @param DateTimeInterface|Document|ExpressionInterface|Serializable|Type|array|bool|float|int|null|stdClass|string $in A valid expression that $reduce applies to each element in the input array in left-to-right order. Wrap the input value with $reverseArray to yield the equivalent of applying the combining expression from right-to-left.
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $initialValue The initial cumulative value set before in is applied to the first element of the input array.
+     * @param DateTimeInterface|Document|ExpressionInterface|Serializable|Type|array|bool|float|int|stdClass|string|null $in A valid expression that $reduce applies to each element in the input array in left-to-right order. Wrap the input value with $reverseArray to yield the equivalent of applying the combining expression from right-to-left.
      * During evaluation of the in expression, two variables will be available:
      * - value is the variable that represents the cumulative value of the expression.
      * - this is the variable that refers to the element being processed.
      */
     public static function reduce(
         PackedArray|ResolvesToArray|BSONArray|array|string $input,
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $initialValue,
-        DateTimeInterface|Document|Serializable|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $in,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $initialValue,
+        DateTimeInterface|Document|Serializable|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $in,
     ): ReduceOperator {
         return new ReduceOperator($input, $initialValue, $in);
     }
@@ -1558,14 +1558,14 @@ trait FactoryTrait
      * New in MongoDB 4.4
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/replaceAll/
-     * @param ResolvesToNull|ResolvesToString|null|string $input The string on which you wish to apply the find. Can be any valid expression that resolves to a string or a null. If input refers to a field that is missing, $replaceAll returns null.
-     * @param Regex|ResolvesToNull|ResolvesToRegex|ResolvesToString|null|string $find The string to search for within the given input. Can be any valid expression that resolves to a string or a null. If find refers to a field that is missing, $replaceAll returns null.
-     * @param ResolvesToNull|ResolvesToString|null|string $replacement The string to use to replace all matched instances of find in input. Can be any valid expression that resolves to a string or a null.
+     * @param ResolvesToNull|ResolvesToString|string|null $input The string on which you wish to apply the find. Can be any valid expression that resolves to a string or a null. If input refers to a field that is missing, $replaceAll returns null.
+     * @param Regex|ResolvesToNull|ResolvesToRegex|ResolvesToString|string|null $find The string to search for within the given input. Can be any valid expression that resolves to a string or a null. If find refers to a field that is missing, $replaceAll returns null.
+     * @param ResolvesToNull|ResolvesToString|string|null $replacement The string to use to replace all matched instances of find in input. Can be any valid expression that resolves to a string or a null.
      */
     public static function replaceAll(
-        ResolvesToNull|ResolvesToString|null|string $input,
-        Regex|ResolvesToNull|ResolvesToRegex|ResolvesToString|null|string $find,
-        ResolvesToNull|ResolvesToString|null|string $replacement,
+        ResolvesToNull|ResolvesToString|string|null $input,
+        Regex|ResolvesToNull|ResolvesToRegex|ResolvesToString|string|null $find,
+        ResolvesToNull|ResolvesToString|string|null $replacement,
     ): ReplaceAllOperator {
         return new ReplaceAllOperator($input, $find, $replacement);
     }
@@ -1576,14 +1576,14 @@ trait FactoryTrait
      * New in MongoDB 4.4
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/replaceOne/
-     * @param ResolvesToNull|ResolvesToString|null|string $input The string on which you wish to apply the find. Can be any valid expression that resolves to a string or a null. If input refers to a field that is missing, $replaceAll returns null.
-     * @param ResolvesToNull|ResolvesToString|null|string $find The string to search for within the given input. Can be any valid expression that resolves to a string or a null. If find refers to a field that is missing, $replaceAll returns null.
-     * @param ResolvesToNull|ResolvesToString|null|string $replacement The string to use to replace all matched instances of find in input. Can be any valid expression that resolves to a string or a null.
+     * @param ResolvesToNull|ResolvesToString|string|null $input The string on which you wish to apply the find. Can be any valid expression that resolves to a string or a null. If input refers to a field that is missing, $replaceAll returns null.
+     * @param ResolvesToNull|ResolvesToString|string|null $find The string to search for within the given input. Can be any valid expression that resolves to a string or a null. If find refers to a field that is missing, $replaceAll returns null.
+     * @param ResolvesToNull|ResolvesToString|string|null $replacement The string to use to replace all matched instances of find in input. Can be any valid expression that resolves to a string or a null.
      */
     public static function replaceOne(
-        ResolvesToNull|ResolvesToString|null|string $input,
-        ResolvesToNull|ResolvesToString|null|string $find,
-        ResolvesToNull|ResolvesToString|null|string $replacement,
+        ResolvesToNull|ResolvesToString|string|null $input,
+        ResolvesToNull|ResolvesToString|string|null $find,
+        ResolvesToNull|ResolvesToString|string|null $replacement,
     ): ReplaceOneOperator {
         return new ReplaceOneOperator($input, $find, $replacement);
     }
@@ -1680,13 +1680,13 @@ trait FactoryTrait
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/setField/
      * @param ResolvesToString|string $field Field in the input object that you want to add, update, or remove. field can be any valid expression that resolves to a string constant.
      * @param Document|ResolvesToObject|Serializable|array|stdClass|string $input Document that contains the field that you want to add or update. input must resolve to an object, missing, null, or undefined.
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $value The value that you want to assign to field. value can be any valid expression.
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $value The value that you want to assign to field. value can be any valid expression.
      * Set to $$REMOVE to remove field from the input document.
      */
     public static function setField(
         ResolvesToString|string $field,
         Document|Serializable|ResolvesToObject|stdClass|array|string $input,
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $value,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $value,
     ): SetFieldOperator {
         return new SetFieldOperator($field, $input, $value);
     }
@@ -1995,12 +1995,12 @@ trait FactoryTrait
      * - case Can be any valid expression that resolves to a boolean. If the result is not a boolean, it is coerced to a boolean value. More information about how MongoDB evaluates expressions as either true or false can be found here.
      * - then Can be any valid expression.
      * The branches array must contain at least one branch document.
-     * @param Optional|DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $default The path to take if no branch case expression evaluates to true.
+     * @param Optional|DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $default The path to take if no branch case expression evaluates to true.
      * Although optional, if default is unspecified and no branch case evaluates to true, $switch returns an error.
      */
     public static function switch(
         PackedArray|BSONArray|array $branches,
-        Optional|DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $default = Optional::Undefined,
+        Optional|DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $default = Optional::Undefined,
     ): SwitchOperator {
         return new SwitchOperator($branches, $default);
     }
@@ -2033,10 +2033,10 @@ trait FactoryTrait
      * Converts value to a boolean.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/toBool/
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $expression
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $expression
      */
     public static function toBool(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $expression,
     ): ToBoolOperator {
         return new ToBoolOperator($expression);
     }
@@ -2045,10 +2045,10 @@ trait FactoryTrait
      * Converts value to a Date.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/toDate/
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $expression
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $expression
      */
     public static function toDate(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $expression,
     ): ToDateOperator {
         return new ToDateOperator($expression);
     }
@@ -2057,10 +2057,10 @@ trait FactoryTrait
      * Converts value to a Decimal128.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/toDecimal/
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $expression
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $expression
      */
     public static function toDecimal(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $expression,
     ): ToDecimalOperator {
         return new ToDecimalOperator($expression);
     }
@@ -2069,10 +2069,10 @@ trait FactoryTrait
      * Converts value to a double.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/toDouble/
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $expression
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $expression
      */
     public static function toDouble(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $expression,
     ): ToDoubleOperator {
         return new ToDoubleOperator($expression);
     }
@@ -2083,10 +2083,10 @@ trait FactoryTrait
      * New in MongoDB 4.4
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/toHashedIndexKey/
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $value key or string to hash
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $value key or string to hash
      */
     public static function toHashedIndexKey(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $value,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $value,
     ): ToHashedIndexKeyOperator {
         return new ToHashedIndexKeyOperator($value);
     }
@@ -2095,10 +2095,10 @@ trait FactoryTrait
      * Converts value to an integer.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/toInt/
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $expression
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $expression
      */
     public static function toInt(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $expression,
     ): ToIntOperator {
         return new ToIntOperator($expression);
     }
@@ -2107,10 +2107,10 @@ trait FactoryTrait
      * Converts value to a long.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/toLong/
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $expression
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $expression
      */
     public static function toLong(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $expression,
     ): ToLongOperator {
         return new ToLongOperator($expression);
     }
@@ -2130,10 +2130,10 @@ trait FactoryTrait
      * Converts value to an ObjectId.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/toObjectId/
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $expression
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $expression
      */
     public static function toObjectId(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $expression,
     ): ToObjectIdOperator {
         return new ToObjectIdOperator($expression);
     }
@@ -2142,10 +2142,10 @@ trait FactoryTrait
      * Converts value to a string.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/toString/
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $expression
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $expression
      */
     public static function toString(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $expression,
     ): ToStringOperator {
         return new ToStringOperator($expression);
     }
@@ -2222,10 +2222,10 @@ trait FactoryTrait
      * Return the BSON data type of the field.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/type/
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $expression
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $expression
      */
     public static function type(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $expression,
     ): TypeOperator {
         return new TypeOperator($expression);
     }

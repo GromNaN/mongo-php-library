@@ -65,10 +65,10 @@ trait FactoryTrait
      * Changed in MongoDB 5.0: Available in the $setWindowFields stage.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/addToSet/
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $expression
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $expression
      */
     public static function addToSet(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $expression,
     ): AddToSetAccumulator {
         return new AddToSetAccumulator($expression);
     }
@@ -92,11 +92,11 @@ trait FactoryTrait
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/bottom/
      * @param Document|Serializable|array|stdClass $sortBy Specifies the order of results, with syntax similar to $sort.
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $output Represents the output for each element in the group and can be any expression.
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $output Represents the output for each element in the group and can be any expression.
      */
     public static function bottom(
         Document|Serializable|stdClass|array $sortBy,
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $output,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $output,
     ): BottomAccumulator {
         return new BottomAccumulator($sortBy, $output);
     }
@@ -110,12 +110,12 @@ trait FactoryTrait
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/bottomN/
      * @param ResolvesToInt|int|string $n Limits the number of results per group and has to be a positive integral expression that is either a constant or depends on the _id value for $group.
      * @param Document|Serializable|array|stdClass $sortBy Specifies the order of results, with syntax similar to $sort.
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $output Represents the output for each element in the group and can be any expression.
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $output Represents the output for each element in the group and can be any expression.
      */
     public static function bottomN(
         ResolvesToInt|int|string $n,
         Document|Serializable|stdClass|array $sortBy,
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $output,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $output,
     ): BottomNAccumulator {
         return new BottomNAccumulator($n, $sortBy, $output);
     }
@@ -248,10 +248,10 @@ trait FactoryTrait
      * Changed in MongoDB 5.0: Available in the $setWindowFields stage.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/first/
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $expression
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $expression
      */
     public static function first(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $expression,
     ): FirstAccumulator {
         return new FirstAccumulator($expression);
     }
@@ -264,11 +264,11 @@ trait FactoryTrait
      * New in MongoDB 5.2
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/firstN/
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $input An expression that resolves to the array from which to return n elements.
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $input An expression that resolves to the array from which to return n elements.
      * @param ResolvesToInt|int|string $n A positive integral expression that is either a constant or depends on the _id value for $group.
      */
     public static function firstN(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $input,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $input,
         ResolvesToInt|int|string $n,
     ): FirstNAccumulator {
         return new FirstNAccumulator($input, $n);
@@ -296,10 +296,10 @@ trait FactoryTrait
      * Changed in MongoDB 5.0: Available in the $setWindowFields stage.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/last/
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $expression
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $expression
      */
     public static function last(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $expression,
     ): LastAccumulator {
         return new LastAccumulator($expression);
     }
@@ -344,10 +344,10 @@ trait FactoryTrait
      * New in MongoDB 5.2
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/locf/
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $expression
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $expression
      */
     public static function locf(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $expression,
     ): LocfAccumulator {
         return new LocfAccumulator($expression);
     }
@@ -357,10 +357,10 @@ trait FactoryTrait
      * Changed in MongoDB 5.0: Available in the $setWindowFields stage.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/max/
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $expression
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $expression
      */
     public static function max(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $expression,
     ): MaxAccumulator {
         return new MaxAccumulator($expression);
     }
@@ -418,10 +418,10 @@ trait FactoryTrait
      * Changed in MongoDB 5.0: Available in the $setWindowFields stage.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/min/
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $expression
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $expression
      */
     public static function min(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $expression,
     ): MinAccumulator {
         return new MinAccumulator($expression);
     }
@@ -470,10 +470,10 @@ trait FactoryTrait
      * Changed in MongoDB 5.0: Available in the $setWindowFields stage.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/push/
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $expression
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $expression
      */
     public static function push(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $expression,
     ): PushAccumulator {
         return new PushAccumulator($expression);
     }
@@ -510,20 +510,20 @@ trait FactoryTrait
      * New in MongoDB 5.0
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/shift/
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $output Specifies an expression to evaluate and return in the output.
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $output Specifies an expression to evaluate and return in the output.
      * @param int $by Specifies an integer with a numeric document position relative to the current document in the output.
      * For example:
      * 1 specifies the document position after the current document.
      * -1 specifies the document position before the current document.
      * -2 specifies the document position that is two positions before the current document.
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $default Specifies an optional default expression to evaluate if the document position is outside of the implicit $setWindowFields stage window. The implicit window contains all the documents in the partition.
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $default Specifies an optional default expression to evaluate if the document position is outside of the implicit $setWindowFields stage window. The implicit window contains all the documents in the partition.
      * The default expression must evaluate to a constant value.
      * If you do not specify a default expression, $shift returns null for documents whose positions are outside of the implicit $setWindowFields stage window.
      */
     public static function shift(
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $output,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $output,
         int $by,
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $default,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $default,
     ): ShiftAccumulator {
         return new ShiftAccumulator($output, $by, $default);
     }
@@ -576,11 +576,11 @@ trait FactoryTrait
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/top/
      * @param Document|Serializable|array|stdClass $sortBy Specifies the order of results, with syntax similar to $sort.
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $output Represents the output for each element in the group and can be any expression.
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $output Represents the output for each element in the group and can be any expression.
      */
     public static function top(
         Document|Serializable|stdClass|array $sortBy,
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $output,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $output,
     ): TopAccumulator {
         return new TopAccumulator($sortBy, $output);
     }
@@ -594,12 +594,12 @@ trait FactoryTrait
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/topN/
      * @param ResolvesToInt|int|string $n limits the number of results per group and has to be a positive integral expression that is either a constant or depends on the _id value for $group.
      * @param Document|Serializable|array|stdClass $sortBy Specifies the order of results, with syntax similar to $sort.
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $output Represents the output for each element in the group and can be any expression.
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null $output Represents the output for each element in the group and can be any expression.
      */
     public static function topN(
         ResolvesToInt|int|string $n,
         Document|Serializable|stdClass|array $sortBy,
-        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $output,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|string|null $output,
     ): TopNAccumulator {
         return new TopNAccumulator($n, $sortBy, $output);
     }

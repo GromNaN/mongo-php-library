@@ -26,11 +26,11 @@ final class LiteralOperator implements ResolvesToAny, OperatorInterface
     public const NAME = '$literal';
     public const PROPERTIES = ['value' => 'value'];
 
-    /** @var DateTimeInterface|Type|array|bool|float|int|null|stdClass|string $value If the value is an expression, $literal does not evaluate the expression but instead returns the unparsed expression. */
-    public readonly DateTimeInterface|Type|stdClass|array|bool|float|int|null|string $value;
+    /** @var DateTimeInterface|Type|array|bool|float|int|stdClass|string|null $value If the value is an expression, $literal does not evaluate the expression but instead returns the unparsed expression. */
+    public readonly DateTimeInterface|Type|stdClass|array|bool|float|int|string|null $value;
 
-    /** @param DateTimeInterface|Type|array|bool|float|int|null|stdClass|string $value If the value is an expression, $literal does not evaluate the expression but instead returns the unparsed expression. */
-    public function __construct(DateTimeInterface|Type|stdClass|array|bool|float|int|null|string $value)
+    /** @param DateTimeInterface|Type|array|bool|float|int|stdClass|string|null $value If the value is an expression, $literal does not evaluate the expression but instead returns the unparsed expression. */
+    public function __construct(DateTimeInterface|Type|stdClass|array|bool|float|int|string|null $value)
     {
         $this->value = $value;
     }

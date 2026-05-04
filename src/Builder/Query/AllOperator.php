@@ -30,15 +30,15 @@ final class AllOperator implements FieldQueryInterface, OperatorInterface
     public const NAME = '$all';
     public const PROPERTIES = ['value' => 'value'];
 
-    /** @var list<DateTimeInterface|FieldQueryInterface|Type|array|bool|float|int|null|stdClass|string> $value */
+    /** @var list<DateTimeInterface|FieldQueryInterface|Type|array|bool|float|int|stdClass|string|null> $value */
     public readonly array $value;
 
     /**
-     * @param DateTimeInterface|FieldQueryInterface|Type|array|bool|float|int|null|stdClass|string ...$value
+     * @param DateTimeInterface|FieldQueryInterface|Type|array|bool|float|int|stdClass|string|null ...$value
      * @no-named-arguments
      */
     public function __construct(
-        DateTimeInterface|Type|FieldQueryInterface|stdClass|array|bool|float|int|null|string ...$value,
+        DateTimeInterface|Type|FieldQueryInterface|stdClass|array|bool|float|int|string|null ...$value,
     ) {
         if (\count($value) < 1) {
             throw new InvalidArgumentException(\sprintf('Expected at least %d values for $value, got %d.', 1, \count($value)));

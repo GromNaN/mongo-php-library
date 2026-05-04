@@ -32,12 +32,12 @@ final class SortStage implements StageInterface, OperatorInterface
     public const NAME = '$sort';
     public const PROPERTIES = ['sort' => 'sort'];
 
-    /** @var stdClass<DateTimeInterface|ExpressionInterface|Sort|Type|array|bool|float|int|null|stdClass|string> $sort */
+    /** @var stdClass<DateTimeInterface|ExpressionInterface|Sort|Type|array|bool|float|int|stdClass|string|null> $sort */
     public readonly stdClass $sort;
 
-    /** @param DateTimeInterface|ExpressionInterface|Sort|Type|array|bool|float|int|null|stdClass|string ...$sort */
+    /** @param DateTimeInterface|ExpressionInterface|Sort|Type|array|bool|float|int|stdClass|string|null ...$sort */
     public function __construct(
-        DateTimeInterface|Type|ExpressionInterface|Sort|stdClass|array|bool|float|int|null|string ...$sort,
+        DateTimeInterface|Type|ExpressionInterface|Sort|stdClass|array|bool|float|int|string|null ...$sort,
     ) {
         if (\count($sort) < 1) {
             throw new InvalidArgumentException(\sprintf('Expected at least %d values for $sort, got %d.', 1, \count($sort)));
