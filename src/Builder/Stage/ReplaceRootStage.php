@@ -36,9 +36,7 @@ final class ReplaceRootStage implements StageInterface, UpdateStageInterface, Op
     /** @var Document|ResolvesToObject|Serializable|array|stdClass|string $newRoot */
     public readonly Document|Serializable|ResolvesToObject|stdClass|array|string $newRoot;
 
-    /**
-     * @param Document|ResolvesToObject|Serializable|array|stdClass|string $newRoot
-     */
+    /** @param Document|ResolvesToObject|Serializable|array|stdClass|string $newRoot */
     public function __construct(Document|Serializable|ResolvesToObject|stdClass|array|string $newRoot)
     {
         if (is_string($newRoot) && ! str_starts_with($newRoot, '$')) {

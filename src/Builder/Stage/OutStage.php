@@ -30,9 +30,7 @@ final class OutStage implements OutputStageInterface, OperatorInterface
     /** @var Document|Serializable|array|stdClass|string $coll Target database name to write documents from $out to. */
     public readonly Document|Serializable|stdClass|array|string $coll;
 
-    /**
-     * @param Document|Serializable|array|stdClass|string $coll Target database name to write documents from $out to.
-     */
+    /** @param Document|Serializable|array|stdClass|string $coll Target database name to write documents from $out to. */
     public function __construct(Document|Serializable|stdClass|array|string $coll)
     {
         $this->coll = $coll;

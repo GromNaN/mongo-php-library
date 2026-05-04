@@ -33,9 +33,7 @@ final class SetOperator implements UpdateInterface, OperatorInterface
     /** @var stdClass<DateTimeInterface|Type|array|bool|float|int|null|stdClass|string> $field */
     public readonly stdClass $field;
 
-    /**
-     * @param DateTimeInterface|Type|array|bool|float|int|null|stdClass|string ...$field
-     */
+    /** @param DateTimeInterface|Type|array|bool|float|int|null|stdClass|string ...$field */
     public function __construct(DateTimeInterface|Type|stdClass|array|bool|float|int|null|string ...$field)
     {
         if (\count($field) < 1) {

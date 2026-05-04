@@ -30,9 +30,7 @@ final class ListSampledQueriesStage implements StageInterface, OperatorInterface
     /** @var Optional|string $namespace */
     public readonly Optional|string $namespace;
 
-    /**
-     * @param Optional|string $namespace
-     */
+    /** @param Optional|string $namespace */
     public function __construct(Optional|string $namespace = Optional::Undefined)
     {
         $this->namespace = $namespace;

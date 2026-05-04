@@ -35,9 +35,7 @@ final class BsonSizeOperator implements ResolvesToInt, OperatorInterface
     /** @var Document|ResolvesToNull|ResolvesToObject|Serializable|array|null|stdClass|string $object */
     public readonly Document|Serializable|ResolvesToNull|ResolvesToObject|stdClass|array|null|string $object;
 
-    /**
-     * @param Document|ResolvesToNull|ResolvesToObject|Serializable|array|null|stdClass|string $object
-     */
+    /** @param Document|ResolvesToNull|ResolvesToObject|Serializable|array|null|stdClass|string $object */
     public function __construct(
         Document|Serializable|ResolvesToNull|ResolvesToObject|stdClass|array|null|string $object,
     ) {

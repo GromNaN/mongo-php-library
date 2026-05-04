@@ -33,9 +33,7 @@ final class BitNotOperator implements ResolvesToInt, ResolvesToLong, OperatorInt
     /** @var Int64|ResolvesToInt|ResolvesToLong|int|string $expression */
     public readonly Int64|ResolvesToInt|ResolvesToLong|int|string $expression;
 
-    /**
-     * @param Int64|ResolvesToInt|ResolvesToLong|int|string $expression
-     */
+    /** @param Int64|ResolvesToInt|ResolvesToLong|int|string $expression */
     public function __construct(Int64|ResolvesToInt|ResolvesToLong|int|string $expression)
     {
         if (is_string($expression) && ! str_starts_with($expression, '$')) {

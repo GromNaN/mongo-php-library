@@ -36,9 +36,7 @@ final class SetStage implements StageInterface, UpdateStageInterface, OperatorIn
     /** @var stdClass<DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string> $field */
     public readonly stdClass $field;
 
-    /**
-     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string ...$field
-     */
+    /** @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string ...$field */
     public function __construct(
         DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string ...$field,
     ) {

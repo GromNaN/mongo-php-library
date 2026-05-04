@@ -28,9 +28,7 @@ final class MetaOperator implements ResolvesToAny, OperatorInterface
     /** @var string $keyword */
     public readonly string $keyword;
 
-    /**
-     * @param string $keyword
-     */
+    /** @param string $keyword */
     public function __construct(string $keyword)
     {
         $this->keyword = $keyword;
