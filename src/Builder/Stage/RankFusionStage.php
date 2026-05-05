@@ -13,8 +13,12 @@ use MongoDB\BSON\Serializable;
 use MongoDB\Builder\Type\Encode;
 use MongoDB\Builder\Type\OperatorInterface;
 use MongoDB\Builder\Type\Optional;
+use MongoDB\Builder\Type\RankFusionCombination;
+use MongoDB\Builder\Type\RankFusionInput;
 use MongoDB\Builder\Type\StageInterface;
 use stdClass;
+
+use function is_array;
 
 /**
  * Combines multiple pipelines using rank-based fusion to create hybrid search results.
@@ -23,6 +27,8 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/rankFusion/
  * @internal
+ * @psalm-import-type RankFusionInputShape from RankFusionInput
+ * @psalm-import-type RankFusionCombinationShape from RankFusionCombination
  */
 final class RankFusionStage implements StageInterface, OperatorInterface
 {
@@ -30,35 +36,35 @@ final class RankFusionStage implements StageInterface, OperatorInterface
     public const NAME = '$rankFusion';
     public const PROPERTIES = ['input' => 'input', 'scoreDetails' => 'scoreDetails', 'combination' => 'combination'];
 
-    /**
-     * @var Document|Serializable|array|stdClass $input An object with the following required fields:
-     * - input.pipelines: Map from name to ranked input pipeline. Each pipeline must operate on the same collection. Minimum of one pipeline.
-     */
-    public readonly Document|Serializable|stdClass|array $input;
+    /** @var RankFusionInputShape $input An object that specifies the pipelines to combine with rank fusion. */
+    public readonly RankFusionInput|Document|Serializable|stdClass|array $input;
 
     /** @var bool $scoreDetails Set to true to include detailed scoring information. */
     public readonly bool $scoreDetails;
 
-    /**
-     * @var Optional|Document|Serializable|array|stdClass $combination An object with the following optional fields:
-     * - combination.weights: Map from pipeline name to numbers (non-negative). If unspecified, default weight is 1 for each pipeline.
-     */
-    public readonly Optional|Document|Serializable|stdClass|array $combination;
+    /** @var Optional|RankFusionCombinationShape $combination An object that specifies how to combine the ranked results. */
+    public readonly Optional|RankFusionCombination|Document|Serializable|stdClass|array $combination;
 
     /**
-     * @param Document|Serializable|array|stdClass $input An object with the following required fields:
-     * - input.pipelines: Map from name to ranked input pipeline. Each pipeline must operate on the same collection. Minimum of one pipeline.
+     * @param RankFusionInputShape $input An object that specifies the pipelines to combine with rank fusion.
      * @param bool $scoreDetails Set to true to include detailed scoring information.
-     * @param Optional|Document|Serializable|array|stdClass $combination An object with the following optional fields:
-     * - combination.weights: Map from pipeline name to numbers (non-negative). If unspecified, default weight is 1 for each pipeline.
+     * @param Optional|RankFusionCombinationShape $combination An object that specifies how to combine the ranked results.
      */
     public function __construct(
-        Document|Serializable|stdClass|array $input,
+        RankFusionInput|Document|Serializable|stdClass|array $input,
         bool $scoreDetails = false,
-        Optional|Document|Serializable|stdClass|array $combination = Optional::Undefined,
+        Optional|RankFusionCombination|Document|Serializable|stdClass|array $combination = Optional::Undefined,
     ) {
+        if (is_array($input) || $input instanceof stdClass) {
+            $input = new RankFusionInput(...(array) $input);
+        }
+
         $this->input = $input;
         $this->scoreDetails = $scoreDetails;
+        if (is_array($combination) || $combination instanceof stdClass) {
+            $combination = new RankFusionCombination(...(array) $combination);
+        }
+
         $this->combination = $combination;
     }
 }

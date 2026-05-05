@@ -28,18 +28,18 @@ final class HashOperator implements ResolvesToBinData, OperatorInterface
     public const NAME = '$hash';
     public const PROPERTIES = ['input' => 'input', 'algorithm' => 'algorithm'];
 
-    /** @var Binary|ResolvesToBinData|ResolvesToNull|ResolvesToString|null|string $input */
-    public readonly Binary|ResolvesToBinData|ResolvesToNull|ResolvesToString|null|string $input;
+    /** @var Binary|ResolvesToBinData|ResolvesToNull|ResolvesToString|string|null $input */
+    public readonly Binary|ResolvesToBinData|ResolvesToNull|ResolvesToString|string|null $input;
 
     /** @var string $algorithm */
     public readonly string $algorithm;
 
     /**
-     * @param Binary|ResolvesToBinData|ResolvesToNull|ResolvesToString|null|string $input
+     * @param Binary|ResolvesToBinData|ResolvesToNull|ResolvesToString|string|null $input
      * @param string $algorithm
      */
     public function __construct(
-        Binary|ResolvesToBinData|ResolvesToNull|ResolvesToString|null|string $input,
+        Binary|ResolvesToBinData|ResolvesToNull|ResolvesToString|string|null $input,
         string $algorithm,
     ) {
         $this->input = $input;
