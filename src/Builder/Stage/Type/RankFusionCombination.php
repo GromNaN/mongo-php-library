@@ -6,10 +6,11 @@
 
 declare(strict_types=1);
 
-namespace MongoDB\Builder\Type;
+namespace MongoDB\Builder\Stage\Type;
 
 use MongoDB\BSON\Decimal128;
 use MongoDB\BSON\Int64;
+use MongoDB\Builder\Type\Optional;
 use stdClass;
 
 use function is_array;
@@ -20,7 +21,7 @@ use function is_array;
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/rankFusion/
  * @psalm-type RankFusionCombinationShape = array{weights?: array<string, Decimal128|Int64|float|int>}|object{weights?: array<string, Decimal128|Int64|float|int>|stdClass}&stdClass|RankFusionCombination|\MongoDB\BSON\Document|\MongoDB\BSON\Serializable
  */
-final class RankFusionCombination implements TypeInterface
+final class RankFusionCombination implements \MongoDB\Builder\Type\TypeInterface
 {
     public const PROPERTIES = ['weights' => 'weights'];
 

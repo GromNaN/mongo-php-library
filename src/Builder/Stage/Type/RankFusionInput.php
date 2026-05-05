@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace MongoDB\Builder\Type;
+namespace MongoDB\Builder\Stage\Type;
 
 use MongoDB\BSON\PackedArray;
 use MongoDB\Builder\Pipeline;
@@ -24,7 +24,7 @@ use function sprintf;
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/rankFusion/
  * @psalm-type RankFusionInputShape = array{pipelines: non-empty-array<string, BSONArray|PackedArray|Pipeline|array>}|object{pipelines: non-empty-array<string, BSONArray|PackedArray|Pipeline|array>|stdClass}&stdClass|RankFusionInput|\MongoDB\BSON\Document|\MongoDB\BSON\Serializable
  */
-final class RankFusionInput implements TypeInterface
+final class RankFusionInput implements \MongoDB\Builder\Type\TypeInterface
 {
     public const PROPERTIES = ['pipelines' => 'pipelines'];
 

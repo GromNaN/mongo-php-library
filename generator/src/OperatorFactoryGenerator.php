@@ -89,7 +89,7 @@ final class OperatorFactoryGenerator extends OperatorGenerator
                 }
 
                 // If the argument has sub-fields, inject the generated type class into the union
-                $typeClassName = $this->getArgumentTypeClassName($operator, $argument);
+                $typeClassName = $this->getArgumentTypeClassName($operator, $argument, $definition->namespace);
                 if ($typeClassName !== null) {
                     $namespace->addUse('\\' . $typeClassName);
                     $type->use[] = '\\' . $typeClassName;

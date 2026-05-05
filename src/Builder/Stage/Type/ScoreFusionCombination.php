@@ -6,12 +6,14 @@
 
 declare(strict_types=1);
 
-namespace MongoDB\Builder\Type;
+namespace MongoDB\Builder\Stage\Type;
 
 use DateTimeInterface;
 use MongoDB\BSON\Decimal128;
 use MongoDB\BSON\Int64;
 use MongoDB\BSON\Type;
+use MongoDB\Builder\Type\ExpressionInterface;
+use MongoDB\Builder\Type\Optional;
 use stdClass;
 
 use function is_array;
@@ -22,7 +24,7 @@ use function is_array;
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/scoreFusion/
  * @psalm-type ScoreFusionCombinationShape = array{weights?: array<string, Decimal128|Int64|float|int>, method?: string, expression?: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null}|object{weights?: array<string, Decimal128|Int64|float|int>|stdClass, method?: string, expression?: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null}&stdClass|ScoreFusionCombination|\MongoDB\BSON\Document|\MongoDB\BSON\Serializable
  */
-final class ScoreFusionCombination implements TypeInterface
+final class ScoreFusionCombination implements \MongoDB\Builder\Type\TypeInterface
 {
     public const PROPERTIES = ['weights' => 'weights', 'method' => 'method', 'expression' => 'expression'];
 

@@ -53,7 +53,7 @@ class OperatorClassGenerator extends OperatorGenerator
                 $this->writeFile($this->createClass($definition, $operator));
                 foreach ($operator->arguments as $argument) {
                     if ($argument->arguments) {
-                        $this->writeFile($this->createArgumentTypeClass($operator, $argument));
+                        $this->writeFile($this->createArgumentTypeClass($definition, $operator, $argument));
                     }
                 }
             } catch (Throwable $e) {
@@ -94,7 +94,7 @@ class OperatorClassGenerator extends OperatorGenerator
             $type = $this->getAcceptedTypes($argument);
 
             // If the argument has sub-fields, inject the generated type class into the union
-            $typeClassName = $this->getArgumentTypeClassName($operator, $argument);
+            $typeClassName = $this->getArgumentTypeClassName($operator, $argument, $definition->namespace);
             if ($typeClassName !== null) {
                 $namespace->addUse('\\' . $typeClassName);
                 $type->use[] = '\\' . $typeClassName;
@@ -250,14 +250,14 @@ class OperatorClassGenerator extends OperatorGenerator
 
     /**
      * Generates a dedicated type class for an operator argument with sub-fields.
-     * The class is placed in MongoDB\Builder\Type namespace.
+     * The class is placed in a Type sub-namespace of the operator's namespace (e.g. MongoDB\Builder\Stage\Type).
      */
-    private function createArgumentTypeClass(OperatorDefinition $operator, ArgumentDefinition $argument): PhpNamespace
+    private function createArgumentTypeClass(GeneratorDefinition $definition, OperatorDefinition $operator, ArgumentDefinition $argument): PhpNamespace
     {
-        $typeClassName = $this->getArgumentTypeClassName($operator, $argument);
+        $typeClassName = $this->getArgumentTypeClassName($operator, $argument, $definition->namespace);
         [, $typeShortClassName] = $this->splitNamespaceAndClassName($typeClassName);
 
-        $namespace = new PhpNamespace('MongoDB\\Builder\\Type');
+        $namespace = new PhpNamespace($definition->namespace . '\\Type');
         $class = $namespace->addClass($typeShortClassName);
         $class->setFinal();
         $class->addImplement(TypeInterface::class);

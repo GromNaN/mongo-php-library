@@ -239,6 +239,44 @@
       <code><![CDATA[stdClass]]></code>
     </TooManyTemplateParams>
   </file>
+  <file src="src/Builder/Stage/Type/RankFusionCombination.php">
+    <InvalidClassConstantType>
+      <code><![CDATA[PROPERTIES]]></code>
+    </InvalidClassConstantType>
+    <PropertyTypeCoercion>
+      <code><![CDATA[is_array($weights) ? (object) $weights : $weights]]></code>
+    </PropertyTypeCoercion>
+  </file>
+  <file src="src/Builder/Stage/Type/RankFusionInput.php">
+    <InvalidClassConstantType>
+      <code><![CDATA[PROPERTIES]]></code>
+    </InvalidClassConstantType>
+    <PropertyTypeCoercion>
+      <code><![CDATA[is_array($pipelines) ? (object) $pipelines : $pipelines]]></code>
+    </PropertyTypeCoercion>
+    <TooManyTemplateParams>
+      <code><![CDATA[stdClass]]></code>
+    </TooManyTemplateParams>
+  </file>
+  <file src="src/Builder/Stage/Type/ScoreFusionCombination.php">
+    <InvalidClassConstantType>
+      <code><![CDATA[PROPERTIES]]></code>
+    </InvalidClassConstantType>
+    <PropertyTypeCoercion>
+      <code><![CDATA[is_array($weights) ? (object) $weights : $weights]]></code>
+    </PropertyTypeCoercion>
+  </file>
+  <file src="src/Builder/Stage/Type/ScoreFusionInput.php">
+    <InvalidClassConstantType>
+      <code><![CDATA[PROPERTIES]]></code>
+    </InvalidClassConstantType>
+    <PropertyTypeCoercion>
+      <code><![CDATA[is_array($pipelines) ? (object) $pipelines : $pipelines]]></code>
+    </PropertyTypeCoercion>
+    <TooManyTemplateParams>
+      <code><![CDATA[stdClass]]></code>
+    </TooManyTemplateParams>
+  </file>
   <file src="src/Builder/Stage/VectorSearchStage.php">
     <MixedArgumentTypeCoercion>
       <code><![CDATA[$filter]]></code>
@@ -273,44 +311,6 @@
       <code><![CDATA[$query::NAME]]></code>
       <code><![CDATA[$query::NAME]]></code>
     </UndefinedConstant>
-  </file>
-  <file src="src/Builder/Type/RankFusionCombination.php">
-    <InvalidClassConstantType>
-      <code><![CDATA[PROPERTIES]]></code>
-    </InvalidClassConstantType>
-    <PropertyTypeCoercion>
-      <code><![CDATA[is_array($weights) ? (object) $weights : $weights]]></code>
-    </PropertyTypeCoercion>
-  </file>
-  <file src="src/Builder/Type/RankFusionInput.php">
-    <InvalidClassConstantType>
-      <code><![CDATA[PROPERTIES]]></code>
-    </InvalidClassConstantType>
-    <PropertyTypeCoercion>
-      <code><![CDATA[is_array($pipelines) ? (object) $pipelines : $pipelines]]></code>
-    </PropertyTypeCoercion>
-    <TooManyTemplateParams>
-      <code><![CDATA[stdClass]]></code>
-    </TooManyTemplateParams>
-  </file>
-  <file src="src/Builder/Type/ScoreFusionCombination.php">
-    <InvalidClassConstantType>
-      <code><![CDATA[PROPERTIES]]></code>
-    </InvalidClassConstantType>
-    <PropertyTypeCoercion>
-      <code><![CDATA[is_array($weights) ? (object) $weights : $weights]]></code>
-    </PropertyTypeCoercion>
-  </file>
-  <file src="src/Builder/Type/ScoreFusionInput.php">
-    <InvalidClassConstantType>
-      <code><![CDATA[PROPERTIES]]></code>
-    </InvalidClassConstantType>
-    <PropertyTypeCoercion>
-      <code><![CDATA[is_array($pipelines) ? (object) $pipelines : $pipelines]]></code>
-    </PropertyTypeCoercion>
-    <TooManyTemplateParams>
-      <code><![CDATA[stdClass]]></code>
-    </TooManyTemplateParams>
   </file>
   <file src="src/Builder/Update.php">
     <MixedReturnStatement>

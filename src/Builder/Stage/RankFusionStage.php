@@ -10,11 +10,11 @@ namespace MongoDB\Builder\Stage;
 
 use MongoDB\BSON\Document;
 use MongoDB\BSON\Serializable;
+use MongoDB\Builder\Stage\Type\RankFusionCombination;
+use MongoDB\Builder\Stage\Type\RankFusionInput;
 use MongoDB\Builder\Type\Encode;
 use MongoDB\Builder\Type\OperatorInterface;
 use MongoDB\Builder\Type\Optional;
-use MongoDB\Builder\Type\RankFusionCombination;
-use MongoDB\Builder\Type\RankFusionInput;
 use MongoDB\Builder\Type\StageInterface;
 use stdClass;
 

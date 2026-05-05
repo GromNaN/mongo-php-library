@@ -193,14 +193,15 @@ abstract class OperatorGenerator extends AbstractGenerator
     /**
      * Returns the fully qualified class name for the generated type class for an argument with sub-fields.
      * Returns null if the argument has no sub-arguments.
+     * The class is placed in a Type sub-namespace of the operator's namespace (e.g. MongoDB\Builder\Stage\Type).
      */
-    final protected function getArgumentTypeClassName(OperatorDefinition $operator, ArgumentDefinition $argument): string|null
+    final protected function getArgumentTypeClassName(OperatorDefinition $operator, ArgumentDefinition $argument, string $namespace): string|null
     {
         if (! $argument->arguments) {
             return null;
         }
 
-        return 'MongoDB\\Builder\\Type\\' . ucfirst(ltrim($operator->name, '$')) . ucfirst($argument->propertyName);
+        return $namespace . '\\Type\\' . ucfirst(ltrim($operator->name, '$')) . ucfirst($argument->propertyName);
     }
 
     /**

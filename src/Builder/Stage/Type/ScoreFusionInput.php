@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace MongoDB\Builder\Type;
+namespace MongoDB\Builder\Stage\Type;
 
 use MongoDB\BSON\PackedArray;
 use MongoDB\Builder\Pipeline;
@@ -24,7 +24,7 @@ use function sprintf;
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/scoreFusion/
  * @psalm-type ScoreFusionInputShape = array{pipelines: non-empty-array<string, BSONArray|PackedArray|Pipeline|array>, normalization: string}|object{pipelines: non-empty-array<string, BSONArray|PackedArray|Pipeline|array>|stdClass, normalization: string}&stdClass|ScoreFusionInput|\MongoDB\BSON\Document|\MongoDB\BSON\Serializable
  */
-final class ScoreFusionInput implements TypeInterface
+final class ScoreFusionInput implements \MongoDB\Builder\Type\TypeInterface
 {
     public const PROPERTIES = ['pipelines' => 'pipelines', 'normalization' => 'normalization'];
 
