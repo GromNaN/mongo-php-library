@@ -21,6 +21,7 @@ use function array_is_list;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/setIntersection/
  * @internal
+ * @psalm-type SetIntersectionOperatorShape = non-empty-list<BSONArray|PackedArray|ResolvesToArray|array|string>|SetIntersectionOperator
  */
 final class SetIntersectionOperator implements ResolvesToArray, OperatorInterface
 {

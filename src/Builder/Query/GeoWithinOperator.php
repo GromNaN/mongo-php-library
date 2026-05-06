@@ -21,6 +21,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/query/geoWithin/
  * @internal
+ * @psalm-type GeoWithinOperatorShape = array{geometry: Document|GeometryInterface|Serializable|array|stdClass}|object{geometry: Document|GeometryInterface|Serializable|array|stdClass}&stdClass|GeoWithinOperator
  */
 final class GeoWithinOperator implements FieldQueryInterface, OperatorInterface
 {

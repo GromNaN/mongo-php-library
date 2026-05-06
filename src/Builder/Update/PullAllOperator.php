@@ -23,6 +23,7 @@ use function is_string;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/update/pullAll/
  * @internal
+ * @psalm-type PullAllOperatorShape = non-empty-array<string, BSONArray|PackedArray|array>|stdClass|PullAllOperator
  */
 final class PullAllOperator implements UpdateInterface, OperatorInterface
 {

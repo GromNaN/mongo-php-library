@@ -29,6 +29,7 @@ use function is_array;
  *
  * @see https://www.mongodb.com/docs/atlas/atlas-search/phrase/
  * @internal
+ * @psalm-type PhraseOperatorShape = array{path: array|string, query: BSONArray|PackedArray|array|string, slop?: int, synonyms?: string, score?: Document|Serializable|array|stdClass}|object{path: array|string, query: BSONArray|PackedArray|array|string, slop?: int, synonyms?: string, score?: Document|Serializable|array|stdClass}&stdClass|PhraseOperator
  */
 final class PhraseOperator implements SearchOperatorInterface, OperatorInterface
 {

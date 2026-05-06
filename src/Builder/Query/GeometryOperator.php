@@ -27,6 +27,7 @@ use function is_array;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/query/geometry/
  * @internal
+ * @psalm-type GeometryOperatorShape = array{type: string, coordinates: BSONArray|PackedArray|array, crs?: Document|Serializable|array|stdClass}|object{type: string, coordinates: BSONArray|PackedArray|array, crs?: Document|Serializable|array|stdClass}&stdClass|GeometryOperator
  */
 final class GeometryOperator implements GeometryInterface, OperatorInterface
 {

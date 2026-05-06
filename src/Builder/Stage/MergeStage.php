@@ -28,6 +28,7 @@ use function is_array;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/merge/
  * @internal
+ * @psalm-type MergeStageShape = array{into: Document|Serializable|array|stdClass|string, on?: BSONArray|PackedArray|array|string, let?: Document|Serializable|array|stdClass, whenMatched?: BSONArray|PackedArray|Pipeline|array|string, whenNotMatched?: string}|object{into: Document|Serializable|array|stdClass|string, on?: BSONArray|PackedArray|array|string, let?: Document|Serializable|array|stdClass, whenMatched?: BSONArray|PackedArray|Pipeline|array|string, whenNotMatched?: string}&stdClass|MergeStage
  */
 final class MergeStage implements OutputStageInterface, OperatorInterface
 {

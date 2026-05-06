@@ -20,6 +20,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/not/
  * @internal
+ * @psalm-type NotOperatorShape = list{DateTimeInterface|ExpressionInterface|ResolvesToBool|Type|array|bool|float|int|stdClass|string|null}|NotOperator
  */
 final class NotOperator implements ResolvesToBool, OperatorInterface
 {

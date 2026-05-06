@@ -19,6 +19,7 @@ use MongoDB\Builder\Type\WindowInterface;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/denseRank/
  * @internal
+ * @psalm-type DenseRankAccumulatorShape = DenseRankAccumulator
  */
 final class DenseRankAccumulator implements WindowInterface, OperatorInterface
 {

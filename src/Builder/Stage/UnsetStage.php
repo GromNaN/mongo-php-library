@@ -22,6 +22,7 @@ use function array_is_list;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/unset/
  * @internal
+ * @psalm-type UnsetStageShape = non-empty-list<string>|UnsetStage
  */
 final class UnsetStage implements StageInterface, UpdateStageInterface, OperatorInterface
 {

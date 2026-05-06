@@ -21,6 +21,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/collStats/
  * @internal
+ * @psalm-type CollStatsStageShape = array{latencyStats?: Document|Serializable|array|stdClass, storageStats?: Document|Serializable|array|stdClass, count?: Document|Serializable|array|stdClass, queryExecStats?: Document|Serializable|array|stdClass}|object{latencyStats?: Document|Serializable|array|stdClass, storageStats?: Document|Serializable|array|stdClass, count?: Document|Serializable|array|stdClass, queryExecStats?: Document|Serializable|array|stdClass}&stdClass|CollStatsStage
  */
 final class CollStatsStage implements InputStageInterface, OperatorInterface
 {

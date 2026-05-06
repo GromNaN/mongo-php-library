@@ -32,6 +32,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/integral/
  * @internal
+ * @psalm-type IntegralAccumulatorShape = array{input: DateTimeInterface|Decimal128|Int64|ResolvesToDate|ResolvesToNumber|UTCDateTime|float|int|string, unit?: ResolvesToString|TimeUnit|string}|object{input: DateTimeInterface|Decimal128|Int64|ResolvesToDate|ResolvesToNumber|UTCDateTime|float|int|string, unit?: ResolvesToString|TimeUnit|string}&stdClass|IntegralAccumulator
  */
 final class IntegralAccumulator implements WindowInterface, OperatorInterface
 {

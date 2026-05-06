@@ -27,6 +27,7 @@ use function is_array;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/switch/
  * @internal
+ * @psalm-type SwitchOperatorShape = array{branches: BSONArray|PackedArray|array, default?: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null}|object{branches: BSONArray|PackedArray|array, default?: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null}&stdClass|SwitchOperator
  */
 final class SwitchOperator implements ResolvesToAny, OperatorInterface
 {

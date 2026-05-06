@@ -23,6 +23,7 @@ use function is_string;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/update/unset/
  * @internal
+ * @psalm-type UnsetOperatorShape = non-empty-array<string, DateTimeInterface|Type|array|bool|float|int|stdClass|string|null>|stdClass|UnsetOperator
  */
 final class UnsetOperator implements UpdateInterface, OperatorInterface
 {

@@ -23,6 +23,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/push/
  * @internal
+ * @psalm-type PushAccumulatorShape = DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null|PushAccumulator
  */
 final class PushAccumulator implements AccumulatorInterface, WindowInterface, OperatorInterface
 {

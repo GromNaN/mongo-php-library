@@ -24,6 +24,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/cond/
  * @internal
+ * @psalm-type CondOperatorShape = array{if: ResolvesToBool|bool|string, then: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null, else: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null}|object{if: ResolvesToBool|bool|string, then: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null, else: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null}&stdClass|CondOperator
  */
 final class CondOperator implements ResolvesToAny, OperatorInterface
 {

@@ -20,6 +20,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/query/ne/
  * @internal
+ * @psalm-type NeOperatorShape = DateTimeInterface|Type|array|bool|float|int|stdClass|string|null|NeOperator
  */
 final class NeOperator implements FieldQueryInterface, OperatorInterface
 {

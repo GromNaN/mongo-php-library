@@ -22,6 +22,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/floor/
  * @internal
+ * @psalm-type FloorOperatorShape = Decimal128|Int64|ResolvesToNumber|float|int|string|FloorOperator
  */
 final class FloorOperator implements ResolvesToInt, OperatorInterface
 {

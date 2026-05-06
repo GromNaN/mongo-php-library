@@ -23,6 +23,7 @@ use function is_string;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/update/bit/
  * @internal
+ * @psalm-type BitOperatorShape = non-empty-array<string, Document|Serializable|array|stdClass>|stdClass|BitOperator
  */
 final class BitOperator implements UpdateInterface, OperatorInterface
 {

@@ -19,6 +19,7 @@ use MongoDB\Builder\Type\StageInterface;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/unwind/
  * @internal
+ * @psalm-type UnwindStageShape = array{path: ArrayFieldPath|string, includeArrayIndex?: string, preserveNullAndEmptyArrays?: bool}|object{path: ArrayFieldPath|string, includeArrayIndex?: string, preserveNullAndEmptyArrays?: bool}&stdClass|UnwindStage
  */
 final class UnwindStage implements StageInterface, OperatorInterface
 {

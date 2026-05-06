@@ -25,6 +25,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/slice/
  * @internal
+ * @psalm-type SliceOperatorShape = list{BSONArray|PackedArray|ResolvesToArray|array|string, ResolvesToInt|int|string, ResolvesToInt|int|string|null}|SliceOperator
  */
 final class SliceOperator implements ResolvesToArray, OperatorInterface
 {

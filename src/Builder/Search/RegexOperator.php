@@ -24,6 +24,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/atlas/atlas-search/regex/
  * @internal
+ * @psalm-type RegexOperatorShape = array{path: array|string, query: string, allowAnalyzedField?: bool, score?: Document|Serializable|array|stdClass}|object{path: array|string, query: string, allowAnalyzedField?: bool, score?: Document|Serializable|array|stdClass}&stdClass|RegexOperator
  */
 final class RegexOperator implements SearchOperatorInterface, OperatorInterface
 {

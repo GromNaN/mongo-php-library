@@ -24,6 +24,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/bucketAuto/
  * @internal
+ * @psalm-type BucketAutoStageShape = array{groupBy: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null, buckets: int, output?: Document|Serializable|array|stdClass, granularity?: string}|object{groupBy: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null, buckets: int, output?: Document|Serializable|array|stdClass, granularity?: string}&stdClass|BucketAutoStage
  */
 final class BucketAutoStage implements StageInterface, OperatorInterface
 {

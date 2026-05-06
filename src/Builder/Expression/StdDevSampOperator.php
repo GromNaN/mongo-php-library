@@ -24,6 +24,7 @@ use function array_is_list;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/stdDevSamp/
  * @internal
+ * @psalm-type StdDevSampOperatorShape = non-empty-list<Decimal128|Int64|ResolvesToNumber|float|int|string>|StdDevSampOperator
  */
 final class StdDevSampOperator implements ResolvesToDouble, OperatorInterface
 {

@@ -22,6 +22,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/sqrt/
  * @internal
+ * @psalm-type SqrtOperatorShape = Decimal128|Int64|ResolvesToNumber|float|int|string|SqrtOperator
  */
 final class SqrtOperator implements ResolvesToDouble, OperatorInterface
 {

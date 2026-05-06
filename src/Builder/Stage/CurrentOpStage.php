@@ -18,6 +18,7 @@ use MongoDB\Builder\Type\Optional;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/currentOp/
  * @internal
+ * @psalm-type CurrentOpStageShape = array{allUsers?: bool, idleConnections?: bool, idleCursors?: bool, idleSessions?: bool, localOps?: bool}|object{allUsers?: bool, idleConnections?: bool, idleCursors?: bool, idleSessions?: bool, localOps?: bool}&stdClass|CurrentOpStage
  */
 final class CurrentOpStage implements InputStageInterface, OperatorInterface
 {

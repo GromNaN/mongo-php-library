@@ -29,6 +29,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/atlas/atlas-search/equals/
  * @internal
+ * @psalm-type EqualsOperatorShape = array{path: array|string, value: Binary|DateTimeInterface|Decimal128|Int64|ObjectId|UTCDateTime|bool|float|int|string|null, score?: Document|Serializable|array|stdClass}|object{path: array|string, value: Binary|DateTimeInterface|Decimal128|Int64|ObjectId|UTCDateTime|bool|float|int|string|null, score?: Document|Serializable|array|stdClass}&stdClass|EqualsOperator
  */
 final class EqualsOperator implements SearchOperatorInterface, OperatorInterface
 {

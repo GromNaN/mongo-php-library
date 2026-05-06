@@ -21,6 +21,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/convert/
  * @internal
+ * @psalm-type ConvertOperatorShape = array{input: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null, to: ResolvesToInt|ResolvesToString|int|string, onError?: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null, onNull?: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null}|object{input: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null, to: ResolvesToInt|ResolvesToString|int|string, onError?: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null, onNull?: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null}&stdClass|ConvertOperator
  */
 final class ConvertOperator implements ResolvesToAny, OperatorInterface
 {

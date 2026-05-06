@@ -26,6 +26,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/avg/
  * @internal
+ * @psalm-type AvgAccumulatorShape = Decimal128|Int64|ResolvesToNumber|float|int|string|AvgAccumulator
  */
 final class AvgAccumulator implements AccumulatorInterface, WindowInterface, OperatorInterface
 {

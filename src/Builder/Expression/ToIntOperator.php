@@ -20,6 +20,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/toInt/
  * @internal
+ * @psalm-type ToIntOperatorShape = DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null|ToIntOperator
  */
 final class ToIntOperator implements ResolvesToInt, OperatorInterface
 {

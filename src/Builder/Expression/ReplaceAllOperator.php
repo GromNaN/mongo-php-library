@@ -20,6 +20,7 @@ use MongoDB\Builder\Type\OperatorInterface;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/replaceAll/
  * @internal
+ * @psalm-type ReplaceAllOperatorShape = array{input: ResolvesToNull|ResolvesToString|string|null, find: Regex|ResolvesToNull|ResolvesToRegex|ResolvesToString|string|null, replacement: ResolvesToNull|ResolvesToString|string|null}|object{input: ResolvesToNull|ResolvesToString|string|null, find: Regex|ResolvesToNull|ResolvesToRegex|ResolvesToString|string|null, replacement: ResolvesToNull|ResolvesToString|string|null}&stdClass|ReplaceAllOperator
  */
 final class ReplaceAllOperator implements ResolvesToString, OperatorInterface
 {

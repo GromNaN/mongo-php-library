@@ -22,6 +22,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/abs/
  * @internal
+ * @psalm-type AbsOperatorShape = Decimal128|Int64|ResolvesToNumber|float|int|string|AbsOperator
  */
 final class AbsOperator implements ResolvesToNumber, OperatorInterface
 {

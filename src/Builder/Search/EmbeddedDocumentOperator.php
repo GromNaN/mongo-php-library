@@ -26,6 +26,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/atlas/atlas-search/embedded-document/
  * @internal
+ * @psalm-type EmbeddedDocumentOperatorShape = array{path: array|string, operator: Document|SearchOperatorInterface|Serializable|array|stdClass, score?: Document|Serializable|array|stdClass}|object{path: array|string, operator: Document|SearchOperatorInterface|Serializable|array|stdClass, score?: Document|Serializable|array|stdClass}&stdClass|EmbeddedDocumentOperator
  */
 final class EmbeddedDocumentOperator implements SearchOperatorInterface, OperatorInterface
 {

@@ -21,6 +21,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/indexOfBytes/
  * @internal
+ * @psalm-type IndexOfBytesOperatorShape = list{ResolvesToString|string, ResolvesToString|string, ResolvesToInt|int|string|null, ResolvesToInt|int|string|null}|IndexOfBytesOperator
  */
 final class IndexOfBytesOperator implements ResolvesToInt, OperatorInterface
 {

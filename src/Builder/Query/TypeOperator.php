@@ -20,6 +20,7 @@ use function array_is_list;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/query/type/
  * @internal
+ * @psalm-type TypeOperatorShape = non-empty-list<int|string>|TypeOperator
  */
 final class TypeOperator implements FieldQueryInterface, OperatorInterface
 {

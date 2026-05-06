@@ -16,6 +16,7 @@ use MongoDB\Builder\Type\OperatorInterface;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/strLenBytes/
  * @internal
+ * @psalm-type StrLenBytesOperatorShape = ResolvesToString|string|StrLenBytesOperator
  */
 final class StrLenBytesOperator implements ResolvesToInt, OperatorInterface
 {

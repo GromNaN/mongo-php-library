@@ -23,6 +23,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/tsSecond/
  * @internal
+ * @psalm-type TsSecondOperatorShape = ResolvesToTimestamp|Timestamp|int|string|TsSecondOperator
  */
 final class TsSecondOperator implements ResolvesToLong, OperatorInterface
 {

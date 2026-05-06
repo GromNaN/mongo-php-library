@@ -26,6 +26,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/replaceRoot/
  * @internal
+ * @psalm-type ReplaceRootStageShape = array{newRoot: Document|ResolvesToObject|Serializable|array|stdClass|string}|object{newRoot: Document|ResolvesToObject|Serializable|array|stdClass|string}&stdClass|ReplaceRootStage
  */
 final class ReplaceRootStage implements StageInterface, UpdateStageInterface, OperatorInterface
 {

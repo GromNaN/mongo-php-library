@@ -26,6 +26,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/lastN/#array-operator
  * @internal
+ * @psalm-type LastNOperatorShape = array{n: ResolvesToInt|int|string, input: BSONArray|PackedArray|ResolvesToArray|array|string}|object{n: ResolvesToInt|int|string, input: BSONArray|PackedArray|ResolvesToArray|array|string}&stdClass|LastNOperator
  */
 final class LastNOperator implements ResolvesToArray, OperatorInterface
 {

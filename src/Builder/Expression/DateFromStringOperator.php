@@ -21,6 +21,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/dateFromString/
  * @internal
+ * @psalm-type DateFromStringOperatorShape = array{dateString: ResolvesToString|string, format?: ResolvesToString|string, timezone?: ResolvesToString|string, onError?: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null, onNull?: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null}|object{dateString: ResolvesToString|string, format?: ResolvesToString|string, timezone?: ResolvesToString|string, onError?: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null, onNull?: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null}&stdClass|DateFromStringOperator
  */
 final class DateFromStringOperator implements ResolvesToDate, OperatorInterface
 {

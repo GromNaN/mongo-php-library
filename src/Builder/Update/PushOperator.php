@@ -23,6 +23,7 @@ use function is_string;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/update/push/
  * @internal
+ * @psalm-type PushOperatorShape = non-empty-array<string, DateTimeInterface|Type|array|bool|float|int|stdClass|string|null>|stdClass|PushOperator
  */
 final class PushOperator implements UpdateInterface, OperatorInterface
 {

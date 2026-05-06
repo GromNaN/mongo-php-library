@@ -25,6 +25,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/month/
  * @internal
+ * @psalm-type MonthOperatorShape = array{date: DateTimeInterface|ObjectId|ResolvesToDate|ResolvesToObjectId|ResolvesToTimestamp|Timestamp|UTCDateTime|int|string, timezone?: ResolvesToString|string}|object{date: DateTimeInterface|ObjectId|ResolvesToDate|ResolvesToObjectId|ResolvesToTimestamp|Timestamp|UTCDateTime|int|string, timezone?: ResolvesToString|string}&stdClass|MonthOperator
  */
 final class MonthOperator implements ResolvesToInt, OperatorInterface
 {

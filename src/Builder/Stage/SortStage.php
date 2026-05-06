@@ -25,6 +25,7 @@ use function is_string;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/sort/
  * @internal
+ * @psalm-type SortStageShape = non-empty-array<string, DateTimeInterface|ExpressionInterface|Sort|Type|array|bool|float|int|stdClass|string|null>|stdClass|SortStage
  */
 final class SortStage implements StageInterface, OperatorInterface
 {

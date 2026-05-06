@@ -24,6 +24,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/setIsSubset/
  * @internal
+ * @psalm-type SetIsSubsetOperatorShape = list{BSONArray|PackedArray|ResolvesToArray|array|string, BSONArray|PackedArray|ResolvesToArray|array|string}|SetIsSubsetOperator
  */
 final class SetIsSubsetOperator implements ResolvesToBool, OperatorInterface
 {

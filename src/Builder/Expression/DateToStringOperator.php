@@ -28,6 +28,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/dateToString/
  * @internal
+ * @psalm-type DateToStringOperatorShape = array{date: DateTimeInterface|ObjectId|ResolvesToDate|ResolvesToObjectId|ResolvesToTimestamp|Timestamp|UTCDateTime|int|string, format?: ResolvesToString|string, timezone?: ResolvesToString|string, onNull?: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null}|object{date: DateTimeInterface|ObjectId|ResolvesToDate|ResolvesToObjectId|ResolvesToTimestamp|Timestamp|UTCDateTime|int|string, format?: ResolvesToString|string, timezone?: ResolvesToString|string, onNull?: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null}&stdClass|DateToStringOperator
  */
 final class DateToStringOperator implements ResolvesToString, OperatorInterface
 {

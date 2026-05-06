@@ -20,6 +20,7 @@ use MongoDB\Builder\Type\StageInterface;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/listSearchIndexes/
  * @internal
+ * @psalm-type ListSearchIndexesStageShape = array{id?: string, name?: string}|object{id?: string, name?: string}&stdClass|ListSearchIndexesStage
  */
 final class ListSearchIndexesStage implements StageInterface, OperatorInterface
 {

@@ -23,6 +23,7 @@ use function is_array;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/query/nin/
  * @internal
+ * @psalm-type NinOperatorShape = BSONArray|PackedArray|array|NinOperator
  */
 final class NinOperator implements FieldQueryInterface, OperatorInterface
 {

@@ -29,6 +29,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/dateAdd/
  * @internal
+ * @psalm-type DateAddOperatorShape = array{startDate: DateTimeInterface|ObjectId|ResolvesToDate|ResolvesToObjectId|ResolvesToTimestamp|Timestamp|UTCDateTime|int|string, unit: ResolvesToString|TimeUnit|string, amount: Int64|ResolvesToInt|ResolvesToLong|int|string, timezone?: ResolvesToString|string}|object{startDate: DateTimeInterface|ObjectId|ResolvesToDate|ResolvesToObjectId|ResolvesToTimestamp|Timestamp|UTCDateTime|int|string, unit: ResolvesToString|TimeUnit|string, amount: Int64|ResolvesToInt|ResolvesToLong|int|string, timezone?: ResolvesToString|string}&stdClass|DateAddOperator
  */
 final class DateAddOperator implements ResolvesToDate, OperatorInterface
 {

@@ -23,6 +23,7 @@ use function is_string;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/update/currentDate/
  * @internal
+ * @psalm-type CurrentDateOperatorShape = non-empty-array<string, Document|Serializable|array|bool|stdClass>|stdClass|CurrentDateOperator
  */
 final class CurrentDateOperator implements UpdateInterface, OperatorInterface
 {

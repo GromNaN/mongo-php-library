@@ -20,6 +20,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/query/jsonSchema/
  * @internal
+ * @psalm-type JsonSchemaOperatorShape = Document|Serializable|array|stdClass|JsonSchemaOperator
  */
 final class JsonSchemaOperator implements QueryInterface, OperatorInterface
 {

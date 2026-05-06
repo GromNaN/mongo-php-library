@@ -22,6 +22,7 @@ use function array_is_list;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/bitAnd/
  * @internal
+ * @psalm-type BitAndOperatorShape = non-empty-list<Int64|ResolvesToInt|ResolvesToLong|int|string>|BitAndOperator
  */
 final class BitAndOperator implements ResolvesToInt, ResolvesToLong, OperatorInterface
 {

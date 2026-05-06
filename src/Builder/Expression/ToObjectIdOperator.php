@@ -20,6 +20,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/toObjectId/
  * @internal
+ * @psalm-type ToObjectIdOperatorShape = DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null|ToObjectIdOperator
  */
 final class ToObjectIdOperator implements ResolvesToObjectId, OperatorInterface
 {

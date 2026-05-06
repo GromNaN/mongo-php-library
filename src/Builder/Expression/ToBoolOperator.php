@@ -20,6 +20,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/toBool/
  * @internal
+ * @psalm-type ToBoolOperatorShape = DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null|ToBoolOperator
  */
 final class ToBoolOperator implements ResolvesToBool, OperatorInterface
 {

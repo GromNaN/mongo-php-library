@@ -17,6 +17,7 @@ use MongoDB\Builder\Type\OperatorInterface;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/indexStats/
  * @internal
+ * @psalm-type IndexStatsStageShape = IndexStatsStage
  */
 final class IndexStatsStage implements InputStageInterface, OperatorInterface
 {

@@ -36,6 +36,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/percentile/
  * @internal
+ * @psalm-type PercentileAccumulatorShape = array{input: Decimal128|Int64|ResolvesToNumber|float|int|string, p: BSONArray|PackedArray|ResolvesToArray|array|string, method: string}|object{input: Decimal128|Int64|ResolvesToNumber|float|int|string, p: BSONArray|PackedArray|ResolvesToArray|array|string, method: string}&stdClass|PercentileAccumulator
  */
 final class PercentileAccumulator implements AccumulatorInterface, WindowInterface, OperatorInterface
 {

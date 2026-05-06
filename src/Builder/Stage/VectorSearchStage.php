@@ -28,6 +28,7 @@ use function is_array;
  *
  * @see https://www.mongodb.com/docs/atlas/atlas-vector-search/vector-search-stage/
  * @internal
+ * @psalm-type VectorSearchStageShape = array{index: string, limit: int, path: string, queryVector: BSONArray|PackedArray|array, exact?: bool, filter?: QueryInterface|array, numCandidates?: int}|object{index: string, limit: int, path: string, queryVector: BSONArray|PackedArray|array, exact?: bool, filter?: QueryInterface|array, numCandidates?: int}&stdClass|VectorSearchStage
  */
 final class VectorSearchStage implements InputStageInterface, OperatorInterface
 {

@@ -23,6 +23,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/shift/
  * @internal
+ * @psalm-type ShiftAccumulatorShape = array{output: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null, by: int, default: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null}|object{output: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null, by: int, default: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null}&stdClass|ShiftAccumulator
  */
 final class ShiftAccumulator implements WindowInterface, OperatorInterface
 {

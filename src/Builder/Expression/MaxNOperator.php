@@ -26,6 +26,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/maxN-array-element/
  * @internal
+ * @psalm-type MaxNOperatorShape = array{input: BSONArray|PackedArray|ResolvesToArray|array|string, n: ResolvesToInt|int|string}|object{input: BSONArray|PackedArray|ResolvesToArray|array|string, n: ResolvesToInt|int|string}&stdClass|MaxNOperator
  */
 final class MaxNOperator implements ResolvesToArray, OperatorInterface
 {

@@ -29,6 +29,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/map/
  * @internal
+ * @psalm-type MapOperatorShape = array{input: BSONArray|PackedArray|ResolvesToArray|array|string, in: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null, 'as'?: ResolvesToString|string}|object{input: BSONArray|PackedArray|ResolvesToArray|array|string, in: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null, 'as'?: ResolvesToString|string}&stdClass|MapOperator
  */
 final class MapOperator implements ResolvesToArray, OperatorInterface
 {

@@ -25,6 +25,7 @@ use function array_is_list;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/and/
  * @internal
+ * @psalm-type AndOperatorShape = non-empty-list<DateTimeInterface|Decimal128|ExpressionInterface|Int64|ResolvesToBool|ResolvesToNull|ResolvesToNumber|ResolvesToString|Type|array|bool|float|int|stdClass|string|null>|AndOperator
  */
 final class AndOperator implements ResolvesToBool, OperatorInterface
 {

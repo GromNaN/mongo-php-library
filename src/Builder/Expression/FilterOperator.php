@@ -25,6 +25,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/filter/
  * @internal
+ * @psalm-type FilterOperatorShape = array{input: BSONArray|PackedArray|ResolvesToArray|array|string, cond: ResolvesToBool|bool|string, 'as'?: string, limit?: ResolvesToInt|int|string}|object{input: BSONArray|PackedArray|ResolvesToArray|array|string, cond: ResolvesToBool|bool|string, 'as'?: string, limit?: ResolvesToInt|int|string}&stdClass|FilterOperator
  */
 final class FilterOperator implements ResolvesToArray, OperatorInterface
 {

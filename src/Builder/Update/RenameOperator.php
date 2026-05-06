@@ -21,6 +21,7 @@ use function is_string;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/update/rename/
  * @internal
+ * @psalm-type RenameOperatorShape = non-empty-array<string, string>|stdClass|RenameOperator
  */
 final class RenameOperator implements UpdateInterface, OperatorInterface
 {

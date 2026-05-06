@@ -29,6 +29,7 @@ use function is_array;
  * @internal
  * @psalm-import-type RankFusionInputShape from RankFusionInput
  * @psalm-import-type RankFusionCombinationShape from RankFusionCombination
+ * @psalm-type RankFusionStageShape = array{input: RankFusionInputShape, scoreDetails?: bool, combination?: RankFusionCombinationShape}|object{input: RankFusionInputShape, scoreDetails?: bool, combination?: RankFusionCombinationShape}&stdClass|RankFusionStage
  */
 final class RankFusionStage implements StageInterface, OperatorInterface
 {

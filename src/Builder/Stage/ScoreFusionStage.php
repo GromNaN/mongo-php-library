@@ -29,6 +29,7 @@ use function is_array;
  * @internal
  * @psalm-import-type ScoreFusionInputShape from ScoreFusionInput
  * @psalm-import-type ScoreFusionCombinationShape from ScoreFusionCombination
+ * @psalm-type ScoreFusionStageShape = array{input: ScoreFusionInputShape, scoreDetails?: bool, combination?: ScoreFusionCombinationShape}|object{input: ScoreFusionInputShape, scoreDetails?: bool, combination?: ScoreFusionCombinationShape}&stdClass|ScoreFusionStage
  */
 final class ScoreFusionStage implements StageInterface, OperatorInterface
 {

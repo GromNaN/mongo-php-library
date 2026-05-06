@@ -20,6 +20,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/query/gte/
  * @internal
+ * @psalm-type GteOperatorShape = DateTimeInterface|Type|array|bool|float|int|stdClass|string|null|GteOperator
  */
 final class GteOperator implements FieldQueryInterface, OperatorInterface
 {

@@ -30,6 +30,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/maxN/
  * @internal
+ * @psalm-type MaxNAccumulatorShape = array{input: BSONArray|PackedArray|ResolvesToArray|array|string, n: ResolvesToInt|int|string}|object{input: BSONArray|PackedArray|ResolvesToArray|array|string, n: ResolvesToInt|int|string}&stdClass|MaxNAccumulator
  */
 final class MaxNAccumulator implements AccumulatorInterface, WindowInterface, OperatorInterface
 {

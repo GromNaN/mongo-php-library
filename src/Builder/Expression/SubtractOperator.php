@@ -24,6 +24,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/subtract/
  * @internal
+ * @psalm-type SubtractOperatorShape = list{DateTimeInterface|Decimal128|Int64|ResolvesToDate|ResolvesToNumber|UTCDateTime|float|int|string, DateTimeInterface|Decimal128|Int64|ResolvesToDate|ResolvesToNumber|UTCDateTime|float|int|string}|SubtractOperator
  */
 final class SubtractOperator implements ResolvesToInt, ResolvesToLong, ResolvesToDouble, ResolvesToDecimal, ResolvesToDate, OperatorInterface
 {

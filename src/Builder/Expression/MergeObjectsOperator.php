@@ -22,6 +22,7 @@ use function array_is_list;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/mergeObjects/
  * @internal
+ * @psalm-type MergeObjectsOperatorShape = non-empty-list<Document|ResolvesToObject|Serializable|array|stdClass|string>|MergeObjectsOperator
  */
 final class MergeObjectsOperator implements ResolvesToObject, OperatorInterface
 {

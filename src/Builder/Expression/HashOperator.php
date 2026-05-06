@@ -21,6 +21,7 @@ use MongoDB\Builder\Type\OperatorInterface;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/hash/
  * @internal
+ * @psalm-type HashOperatorShape = array{input: Binary|ResolvesToBinData|ResolvesToNull|ResolvesToString|string|null, algorithm: string}|object{input: Binary|ResolvesToBinData|ResolvesToNull|ResolvesToString|string|null, algorithm: string}&stdClass|HashOperator
  */
 final class HashOperator implements ResolvesToBinData, OperatorInterface
 {

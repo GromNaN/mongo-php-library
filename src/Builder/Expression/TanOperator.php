@@ -22,6 +22,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/tan/
  * @internal
+ * @psalm-type TanOperatorShape = Decimal128|Int64|ResolvesToNumber|float|int|string|TanOperator
  */
 final class TanOperator implements ResolvesToDouble, ResolvesToDecimal, OperatorInterface
 {

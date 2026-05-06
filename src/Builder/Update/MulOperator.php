@@ -23,6 +23,7 @@ use function is_string;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/update/mul/
  * @internal
+ * @psalm-type MulOperatorShape = non-empty-array<string, Decimal128|Int64|float|int>|stdClass|MulOperator
  */
 final class MulOperator implements UpdateInterface, OperatorInterface
 {

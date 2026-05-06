@@ -27,6 +27,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/stdDevSamp/
  * @internal
+ * @psalm-type StdDevSampAccumulatorShape = Decimal128|Int64|ResolvesToNumber|float|int|string|StdDevSampAccumulator
  */
 final class StdDevSampAccumulator implements AccumulatorInterface, WindowInterface, OperatorInterface
 {

@@ -26,6 +26,7 @@ use function is_string;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/set/
  * @internal
+ * @psalm-type SetStageShape = non-empty-array<string, DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null>|stdClass|SetStage
  */
 final class SetStage implements StageInterface, UpdateStageInterface, OperatorInterface
 {

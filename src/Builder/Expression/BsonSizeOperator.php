@@ -25,6 +25,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/bsonSize/
  * @internal
+ * @psalm-type BsonSizeOperatorShape = Document|ResolvesToNull|ResolvesToObject|Serializable|array|stdClass|string|null|BsonSizeOperator
  */
 final class BsonSizeOperator implements ResolvesToInt, OperatorInterface
 {

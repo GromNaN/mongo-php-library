@@ -31,6 +31,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/topN/
  * @internal
+ * @psalm-type TopNAccumulatorShape = array{n: ResolvesToInt|int|string, sortBy: Document|Serializable|array|stdClass, output: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null}|object{n: ResolvesToInt|int|string, sortBy: Document|Serializable|array|stdClass, output: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null}&stdClass|TopNAccumulator
  */
 final class TopNAccumulator implements AccumulatorInterface, OperatorInterface
 {

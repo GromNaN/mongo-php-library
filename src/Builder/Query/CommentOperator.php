@@ -17,6 +17,7 @@ use MongoDB\Builder\Type\QueryInterface;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/query/comment/
  * @internal
+ * @psalm-type CommentOperatorShape = string|CommentOperator
  */
 final class CommentOperator implements QueryInterface, OperatorInterface
 {

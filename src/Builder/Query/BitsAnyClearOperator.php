@@ -24,6 +24,7 @@ use function is_array;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/query/bitsAnyClear/
  * @internal
+ * @psalm-type BitsAnyClearOperatorShape = BSONArray|Binary|PackedArray|array|int|string|BitsAnyClearOperator
  */
 final class BitsAnyClearOperator implements FieldQueryInterface, OperatorInterface
 {

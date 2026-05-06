@@ -23,6 +23,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/ln/
  * @internal
+ * @psalm-type LnOperatorShape = Decimal128|Int64|ResolvesToNumber|float|int|string|LnOperator
  */
 final class LnOperator implements ResolvesToDouble, OperatorInterface
 {

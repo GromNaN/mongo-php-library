@@ -19,6 +19,7 @@ use MongoDB\Builder\Type\OperatorInterface;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/binarySize/
  * @internal
+ * @psalm-type BinarySizeOperatorShape = Binary|ResolvesToBinData|ResolvesToNull|ResolvesToString|string|null|BinarySizeOperator
  */
 final class BinarySizeOperator implements ResolvesToInt, OperatorInterface
 {

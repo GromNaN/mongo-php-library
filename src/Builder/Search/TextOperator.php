@@ -24,6 +24,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/atlas/atlas-search/text/
  * @internal
+ * @psalm-type TextOperatorShape = array{path: array|string, query: string, fuzzy?: Document|Serializable|array|stdClass, matchCriteria?: string, synonyms?: string, score?: Document|Serializable|array|stdClass}|object{path: array|string, query: string, fuzzy?: Document|Serializable|array|stdClass, matchCriteria?: string, synonyms?: string, score?: Document|Serializable|array|stdClass}&stdClass|TextOperator
  */
 final class TextOperator implements SearchOperatorInterface, OperatorInterface
 {

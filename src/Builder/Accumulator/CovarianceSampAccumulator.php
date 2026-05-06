@@ -26,6 +26,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/covarianceSamp/
  * @internal
+ * @psalm-type CovarianceSampAccumulatorShape = list{Decimal128|Int64|ResolvesToNumber|float|int|string, Decimal128|Int64|ResolvesToNumber|float|int|string}|CovarianceSampAccumulator
  */
 final class CovarianceSampAccumulator implements WindowInterface, OperatorInterface
 {

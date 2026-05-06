@@ -25,6 +25,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/second/
  * @internal
+ * @psalm-type SecondOperatorShape = array{date: DateTimeInterface|ObjectId|ResolvesToDate|ResolvesToObjectId|ResolvesToTimestamp|Timestamp|UTCDateTime|int|string, timezone?: ResolvesToString|string}|object{date: DateTimeInterface|ObjectId|ResolvesToDate|ResolvesToObjectId|ResolvesToTimestamp|Timestamp|UTCDateTime|int|string, timezone?: ResolvesToString|string}&stdClass|SecondOperator
  */
 final class SecondOperator implements ResolvesToInt, OperatorInterface
 {

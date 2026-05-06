@@ -26,6 +26,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/sum/
  * @internal
+ * @psalm-type SumAccumulatorShape = Decimal128|Int64|ResolvesToNumber|float|int|string|SumAccumulator
  */
 final class SumAccumulator implements AccumulatorInterface, WindowInterface, OperatorInterface
 {

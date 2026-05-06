@@ -20,6 +20,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/ne/
  * @internal
+ * @psalm-type NeOperatorShape = list{DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null, DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null}|NeOperator
  */
 final class NeOperator implements ResolvesToBool, OperatorInterface
 {

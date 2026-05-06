@@ -23,6 +23,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/tsIncrement/
  * @internal
+ * @psalm-type TsIncrementOperatorShape = ResolvesToTimestamp|Timestamp|int|string|TsIncrementOperator
  */
 final class TsIncrementOperator implements ResolvesToLong, OperatorInterface
 {

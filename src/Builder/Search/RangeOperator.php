@@ -29,6 +29,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/atlas/atlas-search/range/
  * @internal
+ * @psalm-type RangeOperatorShape = array{path: array|string, gt?: DateTimeInterface|Decimal128|Int64|ObjectId|UTCDateTime|float|int|string, gte?: DateTimeInterface|Decimal128|Int64|ObjectId|UTCDateTime|float|int|string, lt?: DateTimeInterface|Decimal128|Int64|ObjectId|UTCDateTime|float|int|string, lte?: DateTimeInterface|Decimal128|Int64|ObjectId|UTCDateTime|float|int|string, score?: Document|Serializable|array|stdClass}|object{path: array|string, gt?: DateTimeInterface|Decimal128|Int64|ObjectId|UTCDateTime|float|int|string, gte?: DateTimeInterface|Decimal128|Int64|ObjectId|UTCDateTime|float|int|string, lt?: DateTimeInterface|Decimal128|Int64|ObjectId|UTCDateTime|float|int|string, lte?: DateTimeInterface|Decimal128|Int64|ObjectId|UTCDateTime|float|int|string, score?: Document|Serializable|array|stdClass}&stdClass|RangeOperator
  */
 final class RangeOperator implements SearchOperatorInterface, OperatorInterface
 {

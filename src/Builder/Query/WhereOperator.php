@@ -20,6 +20,7 @@ use function is_string;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/query/where/
  * @internal
+ * @psalm-type WhereOperatorShape = Javascript|string|WhereOperator
  */
 final class WhereOperator implements QueryInterface, OperatorInterface
 {

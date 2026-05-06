@@ -24,6 +24,7 @@ use function is_array;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/listSessions/
  * @internal
+ * @psalm-type ListSessionsStageShape = array{users?: BSONArray|PackedArray|array, allUsers?: bool}|object{users?: BSONArray|PackedArray|array, allUsers?: bool}&stdClass|ListSessionsStage
  */
 final class ListSessionsStage implements InputStageInterface, OperatorInterface
 {

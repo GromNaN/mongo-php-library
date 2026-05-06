@@ -25,6 +25,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/isoDayOfWeek/
  * @internal
+ * @psalm-type IsoDayOfWeekOperatorShape = array{date: DateTimeInterface|ObjectId|ResolvesToDate|ResolvesToObjectId|ResolvesToTimestamp|Timestamp|UTCDateTime|int|string, timezone?: ResolvesToString|string}|object{date: DateTimeInterface|ObjectId|ResolvesToDate|ResolvesToObjectId|ResolvesToTimestamp|Timestamp|UTCDateTime|int|string, timezone?: ResolvesToString|string}&stdClass|IsoDayOfWeekOperator
  */
 final class IsoDayOfWeekOperator implements ResolvesToInt, OperatorInterface
 {

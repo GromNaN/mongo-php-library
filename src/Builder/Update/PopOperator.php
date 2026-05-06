@@ -21,6 +21,7 @@ use function is_string;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/update/pop/
  * @internal
+ * @psalm-type PopOperatorShape = non-empty-array<string, int>|stdClass|PopOperator
  */
 final class PopOperator implements UpdateInterface, OperatorInterface
 {

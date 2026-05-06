@@ -26,6 +26,7 @@ use function array_is_list;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/concatArrays/
  * @internal
+ * @psalm-type ConcatArraysAccumulatorShape = non-empty-list<BSONArray|PackedArray|ResolvesToArray|array|string>|ConcatArraysAccumulator
  */
 final class ConcatArraysAccumulator implements AccumulatorInterface, WindowInterface, ResolvesToArray, OperatorInterface
 {

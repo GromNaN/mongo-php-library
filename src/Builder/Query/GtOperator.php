@@ -20,6 +20,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/query/gt/
  * @internal
+ * @psalm-type GtOperatorShape = DateTimeInterface|Type|array|bool|float|int|stdClass|string|null|GtOperator
  */
 final class GtOperator implements FieldQueryInterface, OperatorInterface
 {

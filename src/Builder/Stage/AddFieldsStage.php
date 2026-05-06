@@ -25,6 +25,7 @@ use function is_string;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/addFields/
  * @internal
+ * @psalm-type AddFieldsStageShape = non-empty-array<string, DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null>|stdClass|AddFieldsStage
  */
 final class AddFieldsStage implements StageInterface, UpdateStageInterface, OperatorInterface
 {

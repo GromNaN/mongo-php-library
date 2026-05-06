@@ -17,6 +17,7 @@ use MongoDB\Builder\Type\StageInterface;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/sample/
  * @internal
+ * @psalm-type SampleStageShape = array{size: int}|object{size: int}&stdClass|SampleStage
  */
 final class SampleStage implements StageInterface, OperatorInterface
 {

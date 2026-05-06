@@ -23,6 +23,7 @@ use function array_is_list;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/query/all/
  * @internal
+ * @psalm-type AllOperatorShape = non-empty-list<DateTimeInterface|FieldQueryInterface|Type|array|bool|float|int|stdClass|string|null>|AllOperator
  */
 final class AllOperator implements FieldQueryInterface, OperatorInterface
 {

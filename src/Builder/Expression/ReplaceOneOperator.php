@@ -18,6 +18,7 @@ use MongoDB\Builder\Type\OperatorInterface;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/replaceOne/
  * @internal
+ * @psalm-type ReplaceOneOperatorShape = array{input: ResolvesToNull|ResolvesToString|string|null, find: ResolvesToNull|ResolvesToString|string|null, replacement: ResolvesToNull|ResolvesToString|string|null}|object{input: ResolvesToNull|ResolvesToString|string|null, find: ResolvesToNull|ResolvesToString|string|null, replacement: ResolvesToNull|ResolvesToString|string|null}&stdClass|ReplaceOneOperator
  */
 final class ReplaceOneOperator implements ResolvesToString, OperatorInterface
 {

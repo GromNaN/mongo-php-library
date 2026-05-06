@@ -22,6 +22,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/sinh/
  * @internal
+ * @psalm-type SinhOperatorShape = Decimal128|Int64|ResolvesToNumber|float|int|string|SinhOperator
  */
 final class SinhOperator implements ResolvesToDouble, ResolvesToDecimal, OperatorInterface
 {

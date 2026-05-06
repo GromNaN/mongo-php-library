@@ -26,6 +26,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/last/
  * @internal
+ * @psalm-type LastOperatorShape = BSONArray|PackedArray|ResolvesToArray|array|string|LastOperator
  */
 final class LastOperator implements ResolvesToAny, OperatorInterface
 {

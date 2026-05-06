@@ -23,6 +23,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/let/
  * @internal
+ * @psalm-type LetOperatorShape = array{vars: Document|Serializable|array|stdClass, in: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null}|object{vars: Document|Serializable|array|stdClass, in: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null}&stdClass|LetOperator
  */
 final class LetOperator implements ResolvesToAny, OperatorInterface
 {

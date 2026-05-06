@@ -20,6 +20,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/type/
  * @internal
+ * @psalm-type TypeOperatorShape = DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null|TypeOperator
  */
 final class TypeOperator implements ResolvesToString, OperatorInterface
 {

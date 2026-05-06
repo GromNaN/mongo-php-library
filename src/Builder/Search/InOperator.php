@@ -31,6 +31,7 @@ use function is_array;
  *
  * @see https://www.mongodb.com/docs/atlas/atlas-search/in/
  * @internal
+ * @psalm-type InOperatorShape = array{path: array|string, value: BSONArray|DateTimeInterface|PackedArray|Type|array|bool|float|int|stdClass|string|null, score?: Document|Serializable|array|stdClass}|object{path: array|string, value: BSONArray|DateTimeInterface|PackedArray|Type|array|bool|float|int|stdClass|string|null, score?: Document|Serializable|array|stdClass}&stdClass|InOperator
  */
 final class InOperator implements SearchOperatorInterface, OperatorInterface
 {

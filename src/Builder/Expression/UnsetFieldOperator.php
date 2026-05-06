@@ -26,6 +26,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/unsetField/
  * @internal
+ * @psalm-type UnsetFieldOperatorShape = array{field: ResolvesToString|string, input: Document|ResolvesToObject|Serializable|array|stdClass|string}|object{field: ResolvesToString|string, input: Document|ResolvesToObject|Serializable|array|stdClass|string}&stdClass|UnsetFieldOperator
  */
 final class UnsetFieldOperator implements ResolvesToObject, OperatorInterface
 {

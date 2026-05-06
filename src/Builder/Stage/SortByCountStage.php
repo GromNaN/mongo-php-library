@@ -21,6 +21,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/sortByCount/
  * @internal
+ * @psalm-type SortByCountStageShape = DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null|SortByCountStage
  */
 final class SortByCountStage implements StageInterface, OperatorInterface
 {

@@ -23,6 +23,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/min/
  * @internal
+ * @psalm-type MinAccumulatorShape = DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null|MinAccumulator
  */
 final class MinAccumulator implements AccumulatorInterface, WindowInterface, OperatorInterface
 {

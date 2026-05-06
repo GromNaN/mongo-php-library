@@ -24,6 +24,7 @@ use function is_string;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/update/pull/
  * @internal
+ * @psalm-type PullOperatorShape = non-empty-array<string, DateTimeInterface|FieldQueryInterface|Type|array|bool|float|int|stdClass|string|null>|stdClass|PullOperator
  */
 final class PullOperator implements UpdateInterface, OperatorInterface
 {

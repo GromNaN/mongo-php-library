@@ -25,6 +25,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/atlas/atlas-search/geoShape/
  * @internal
+ * @psalm-type GeoShapeOperatorShape = array{path: array|string, relation: string, geometry: Document|GeometryInterface|Serializable|array|stdClass, score?: Document|Serializable|array|stdClass}|object{path: array|string, relation: string, geometry: Document|GeometryInterface|Serializable|array|stdClass, score?: Document|Serializable|array|stdClass}&stdClass|GeoShapeOperator
  */
 final class GeoShapeOperator implements SearchOperatorInterface, OperatorInterface
 {

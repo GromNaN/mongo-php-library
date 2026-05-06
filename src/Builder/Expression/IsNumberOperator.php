@@ -23,6 +23,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/isNumber/
  * @internal
+ * @psalm-type IsNumberOperatorShape = DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null|IsNumberOperator
  */
 final class IsNumberOperator implements ResolvesToBool, OperatorInterface
 {

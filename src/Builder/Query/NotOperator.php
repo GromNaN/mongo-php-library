@@ -20,6 +20,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/query/not/
  * @internal
+ * @psalm-type NotOperatorShape = DateTimeInterface|FieldQueryInterface|Type|array|bool|float|int|stdClass|string|null|NotOperator
  */
 final class NotOperator implements FieldQueryInterface, OperatorInterface
 {

@@ -19,6 +19,7 @@ use MongoDB\Builder\Type\WindowInterface;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/rank/
  * @internal
+ * @psalm-type RankAccumulatorShape = RankAccumulator
  */
 final class RankAccumulator implements WindowInterface, OperatorInterface
 {

@@ -16,6 +16,7 @@ use MongoDB\Builder\Type\OperatorInterface;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/strcasecmp/
  * @internal
+ * @psalm-type StrcasecmpOperatorShape = list{ResolvesToString|string, ResolvesToString|string}|StrcasecmpOperator
  */
 final class StrcasecmpOperator implements ResolvesToInt, OperatorInterface
 {

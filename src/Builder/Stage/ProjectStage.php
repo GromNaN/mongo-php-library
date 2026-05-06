@@ -25,6 +25,7 @@ use function is_string;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/project/
  * @internal
+ * @psalm-type ProjectStageShape = non-empty-array<string, DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null>|stdClass|ProjectStage
  */
 final class ProjectStage implements StageInterface, UpdateStageInterface, OperatorInterface
 {

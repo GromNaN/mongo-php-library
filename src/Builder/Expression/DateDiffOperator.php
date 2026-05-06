@@ -28,6 +28,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/dateDiff/
  * @internal
+ * @psalm-type DateDiffOperatorShape = array{startDate: DateTimeInterface|ObjectId|ResolvesToDate|ResolvesToObjectId|ResolvesToTimestamp|Timestamp|UTCDateTime|int|string, endDate: DateTimeInterface|ObjectId|ResolvesToDate|ResolvesToObjectId|ResolvesToTimestamp|Timestamp|UTCDateTime|int|string, unit: ResolvesToString|TimeUnit|string, timezone?: ResolvesToString|string, startOfWeek?: ResolvesToString|string}|object{startDate: DateTimeInterface|ObjectId|ResolvesToDate|ResolvesToObjectId|ResolvesToTimestamp|Timestamp|UTCDateTime|int|string, endDate: DateTimeInterface|ObjectId|ResolvesToDate|ResolvesToObjectId|ResolvesToTimestamp|Timestamp|UTCDateTime|int|string, unit: ResolvesToString|TimeUnit|string, timezone?: ResolvesToString|string, startOfWeek?: ResolvesToString|string}&stdClass|DateDiffOperator
  */
 final class DateDiffOperator implements ResolvesToInt, OperatorInterface
 {

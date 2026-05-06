@@ -23,6 +23,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/trunc/
  * @internal
+ * @psalm-type TruncOperatorShape = list{Decimal128|Int64|ResolvesToNumber|float|int|string, ResolvesToInt|int|string|null}|TruncOperator
  */
 final class TruncOperator implements ResolvesToString, OperatorInterface
 {

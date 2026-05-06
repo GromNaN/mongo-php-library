@@ -20,6 +20,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/out/
  * @internal
+ * @psalm-type OutStageShape = Document|Serializable|array|stdClass|string|OutStage
  */
 final class OutStage implements OutputStageInterface, OperatorInterface
 {

@@ -31,6 +31,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/median/
  * @internal
+ * @psalm-type MedianAccumulatorShape = array{input: Decimal128|Int64|ResolvesToNumber|float|int|string, method: string}|object{input: Decimal128|Int64|ResolvesToNumber|float|int|string, method: string}&stdClass|MedianAccumulator
  */
 final class MedianAccumulator implements AccumulatorInterface, WindowInterface, OperatorInterface
 {

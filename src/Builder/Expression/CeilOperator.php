@@ -22,6 +22,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/ceil/
  * @internal
+ * @psalm-type CeilOperatorShape = Decimal128|Int64|ResolvesToNumber|float|int|string|CeilOperator
  */
 final class CeilOperator implements ResolvesToInt, OperatorInterface
 {

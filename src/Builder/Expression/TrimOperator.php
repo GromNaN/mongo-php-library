@@ -17,6 +17,7 @@ use MongoDB\Builder\Type\Optional;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/trim/
  * @internal
+ * @psalm-type TrimOperatorShape = array{input: ResolvesToString|string, chars?: ResolvesToString|string}|object{input: ResolvesToString|string, chars?: ResolvesToString|string}&stdClass|TrimOperator
  */
 final class TrimOperator implements ResolvesToString, OperatorInterface
 {

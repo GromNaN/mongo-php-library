@@ -22,6 +22,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/exp/
  * @internal
+ * @psalm-type ExpOperatorShape = Decimal128|Int64|ResolvesToNumber|float|int|string|ExpOperator
  */
 final class ExpOperator implements ResolvesToDouble, OperatorInterface
 {

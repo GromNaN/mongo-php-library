@@ -162,7 +162,7 @@ abstract class OperatorGenerator extends AbstractGenerator
         $objectFields = [];
 
         foreach ($argument->arguments as $subArg) {
-            $key = $subArg->name . ($subArg->optional ? '?' : '');
+            $key = self::shapeKey($subArg->name, $subArg->optional);
 
             $baseSubArg = clone $subArg;
             $baseSubArg->optional = false;
@@ -202,6 +202,17 @@ abstract class OperatorGenerator extends AbstractGenerator
         }
 
         return $namespace . '\\Type\\' . ucfirst(ltrim($operator->name, '$')) . ucfirst($argument->propertyName);
+    }
+
+    /**
+     * Returns a shape field key, quoting it when the name is a Psalm type-parser keyword.
+     * "as" is a keyword in Psalm's type syntax (@psalm-import-type Foo as Bar) and must be quoted.
+     */
+    protected static function shapeKey(string $name, bool $optional): string
+    {
+        $quoted = $name === 'as' ? "'as'" : $name;
+
+        return $quoted . ($optional ? '?' : '');
     }
 
     /**

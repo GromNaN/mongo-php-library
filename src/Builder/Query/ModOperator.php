@@ -19,6 +19,7 @@ use MongoDB\Builder\Type\OperatorInterface;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/query/mod/
  * @internal
+ * @psalm-type ModOperatorShape = list{Decimal128|Int64|float|int, Decimal128|Int64|float|int}|ModOperator
  */
 final class ModOperator implements FieldQueryInterface, OperatorInterface
 {

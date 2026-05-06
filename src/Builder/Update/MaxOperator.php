@@ -23,6 +23,7 @@ use function is_string;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/update/max/
  * @internal
+ * @psalm-type MaxOperatorShape = non-empty-array<string, DateTimeInterface|Type|array|bool|float|int|stdClass|string|null>|stdClass|MaxOperator
  */
 final class MaxOperator implements UpdateInterface, OperatorInterface
 {

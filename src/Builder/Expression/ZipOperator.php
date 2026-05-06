@@ -25,6 +25,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/zip/
  * @internal
+ * @psalm-type ZipOperatorShape = array{inputs: BSONArray|PackedArray|ResolvesToArray|array|string, useLongestLength?: bool, defaults?: BSONArray|PackedArray|array}|object{inputs: BSONArray|PackedArray|ResolvesToArray|array|string, useLongestLength?: bool, defaults?: BSONArray|PackedArray|array}&stdClass|ZipOperator
  */
 final class ZipOperator implements ResolvesToArray, OperatorInterface
 {

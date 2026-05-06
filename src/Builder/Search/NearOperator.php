@@ -28,6 +28,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/atlas/atlas-search/near/
  * @internal
+ * @psalm-type NearOperatorShape = array{path: array|string, origin: DateTimeInterface|Decimal128|Document|GeometryInterface|Int64|Serializable|UTCDateTime|array|float|int|stdClass, pivot: Decimal128|Int64|float|int, score?: Document|Serializable|array|stdClass}|object{path: array|string, origin: DateTimeInterface|Decimal128|Document|GeometryInterface|Int64|Serializable|UTCDateTime|array|float|int|stdClass, pivot: Decimal128|Int64|float|int, score?: Document|Serializable|array|stdClass}&stdClass|NearOperator
  */
 final class NearOperator implements SearchOperatorInterface, OperatorInterface
 {

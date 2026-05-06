@@ -30,6 +30,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/minN/
  * @internal
+ * @psalm-type MinNAccumulatorShape = array{input: BSONArray|PackedArray|ResolvesToArray|array|string, n: ResolvesToInt|int|string}|object{input: BSONArray|PackedArray|ResolvesToArray|array|string, n: ResolvesToInt|int|string}&stdClass|MinNAccumulator
  */
 final class MinNAccumulator implements AccumulatorInterface, WindowInterface, OperatorInterface
 {

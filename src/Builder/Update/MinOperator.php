@@ -23,6 +23,7 @@ use function is_string;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/update/min/
  * @internal
+ * @psalm-type MinOperatorShape = non-empty-array<string, DateTimeInterface|Type|array|bool|float|int|stdClass|string|null>|stdClass|MinOperator
  */
 final class MinOperator implements UpdateInterface, OperatorInterface
 {

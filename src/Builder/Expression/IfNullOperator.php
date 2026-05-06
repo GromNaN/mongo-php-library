@@ -23,6 +23,7 @@ use function array_is_list;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/ifNull/
  * @internal
+ * @psalm-type IfNullOperatorShape = non-empty-list<DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null>|IfNullOperator
  */
 final class IfNullOperator implements ResolvesToAny, OperatorInterface
 {

@@ -20,6 +20,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/substrCP/
  * @internal
+ * @psalm-type SubstrCPOperatorShape = list{ResolvesToString|string, ResolvesToInt|int|string, ResolvesToInt|int|string}|SubstrCPOperator
  */
 final class SubstrCPOperator implements ResolvesToString, OperatorInterface
 {

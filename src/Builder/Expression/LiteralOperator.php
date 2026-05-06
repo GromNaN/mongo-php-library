@@ -19,6 +19,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/literal/
  * @internal
+ * @psalm-type LiteralOperatorShape = DateTimeInterface|Type|array|bool|float|int|stdClass|string|null|LiteralOperator
  */
 final class LiteralOperator implements ResolvesToAny, OperatorInterface
 {

@@ -19,6 +19,7 @@ use MongoDB\Builder\Type\OperatorInterface;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/query/rand/
  * @internal
+ * @psalm-type RandOperatorShape = RandOperator
  */
 final class RandOperator implements ResolvesToDouble, OperatorInterface
 {

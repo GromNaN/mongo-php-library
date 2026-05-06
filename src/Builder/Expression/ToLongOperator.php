@@ -20,6 +20,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/toLong/
  * @internal
+ * @psalm-type ToLongOperatorShape = DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null|ToLongOperator
  */
 final class ToLongOperator implements ResolvesToLong, OperatorInterface
 {

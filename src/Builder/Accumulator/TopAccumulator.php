@@ -26,6 +26,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/top/
  * @internal
+ * @psalm-type TopAccumulatorShape = array{sortBy: Document|Serializable|array|stdClass, output: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null}|object{sortBy: Document|Serializable|array|stdClass, output: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null}&stdClass|TopAccumulator
  */
 final class TopAccumulator implements AccumulatorInterface, OperatorInterface
 {

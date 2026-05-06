@@ -24,6 +24,7 @@ use function is_array;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/query/bitsAllSet/
  * @internal
+ * @psalm-type BitsAllSetOperatorShape = BSONArray|Binary|PackedArray|array|int|string|BitsAllSetOperator
  */
 final class BitsAllSetOperator implements FieldQueryInterface, OperatorInterface
 {

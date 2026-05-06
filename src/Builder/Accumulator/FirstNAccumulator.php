@@ -31,6 +31,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/firstN/
  * @internal
+ * @psalm-type FirstNAccumulatorShape = array{input: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null, n: ResolvesToInt|int|string}|object{input: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null, n: ResolvesToInt|int|string}&stdClass|FirstNAccumulator
  */
 final class FirstNAccumulator implements AccumulatorInterface, WindowInterface, OperatorInterface
 {

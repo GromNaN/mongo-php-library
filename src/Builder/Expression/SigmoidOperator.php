@@ -24,6 +24,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/sigmoid/
  * @internal
+ * @psalm-type SigmoidOperatorShape = Decimal128|Int64|ResolvesToNumber|float|int|string|SigmoidOperator
  */
 final class SigmoidOperator implements ResolvesToDouble, OperatorInterface
 {

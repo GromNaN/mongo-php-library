@@ -27,6 +27,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/replaceWith/
  * @internal
+ * @psalm-type ReplaceWithStageShape = Document|ResolvesToObject|Serializable|array|stdClass|string|ReplaceWithStage
  */
 final class ReplaceWithStage implements StageInterface, UpdateStageInterface, OperatorInterface
 {

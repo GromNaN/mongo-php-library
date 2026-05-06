@@ -28,6 +28,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/documents/
  * @internal
+ * @psalm-type DocumentsStageShape = BSONArray|PackedArray|ResolvesToArray|array|string|DocumentsStage
  */
 final class DocumentsStage implements InputStageInterface, OperatorInterface
 {

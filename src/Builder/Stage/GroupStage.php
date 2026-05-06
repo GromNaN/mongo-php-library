@@ -27,6 +27,7 @@ use function is_string;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/group/
  * @internal
+ * @psalm-type GroupStageShape = array{_id: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null, field: array<string, AccumulatorInterface|Document|Serializable|array|stdClass>}|object{_id: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null, field: array<string, AccumulatorInterface|Document|Serializable|array|stdClass>|stdClass}&stdClass|GroupStage
  */
 final class GroupStage implements StageInterface, OperatorInterface
 {

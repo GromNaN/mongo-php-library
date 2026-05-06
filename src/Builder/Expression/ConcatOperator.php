@@ -19,6 +19,7 @@ use function array_is_list;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/concat/
  * @internal
+ * @psalm-type ConcatOperatorShape = non-empty-list<ResolvesToString|string>|ConcatOperator
  */
 final class ConcatOperator implements ResolvesToString, OperatorInterface
 {

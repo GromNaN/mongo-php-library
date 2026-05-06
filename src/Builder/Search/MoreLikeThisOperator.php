@@ -27,6 +27,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/atlas/atlas-search/moreLikeThis/
  * @internal
+ * @psalm-type MoreLikeThisOperatorShape = array{like: BSONArray|Document|PackedArray|Serializable|array|stdClass, score?: Document|Serializable|array|stdClass}|object{like: BSONArray|Document|PackedArray|Serializable|array|stdClass, score?: Document|Serializable|array|stdClass}&stdClass|MoreLikeThisOperator
  */
 final class MoreLikeThisOperator implements SearchOperatorInterface, OperatorInterface
 {

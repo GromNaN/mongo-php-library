@@ -18,6 +18,7 @@ use MongoDB\Builder\Type\StageInterface;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/count/
  * @internal
+ * @psalm-type CountStageShape = string|CountStage
  */
 final class CountStage implements StageInterface, OperatorInterface
 {

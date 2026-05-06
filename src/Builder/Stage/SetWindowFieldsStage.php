@@ -26,6 +26,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/setWindowFields/
  * @internal
+ * @psalm-type SetWindowFieldsStageShape = array{sortBy: Document|Serializable|array|stdClass, output: Document|Serializable|array|stdClass, partitionBy?: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null}|object{sortBy: Document|Serializable|array|stdClass, output: Document|Serializable|array|stdClass, partitionBy?: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null}&stdClass|SetWindowFieldsStage
  */
 final class SetWindowFieldsStage implements StageInterface, OperatorInterface
 {

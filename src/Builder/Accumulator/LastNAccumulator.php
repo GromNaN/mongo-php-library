@@ -32,6 +32,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/lastN/
  * @internal
+ * @psalm-type LastNAccumulatorShape = array{input: BSONArray|PackedArray|ResolvesToArray|array|string, n: ResolvesToInt|int|string}|object{input: BSONArray|PackedArray|ResolvesToArray|array|string, n: ResolvesToInt|int|string}&stdClass|LastNAccumulator
  */
 final class LastNAccumulator implements AccumulatorInterface, WindowInterface, OperatorInterface
 {

@@ -21,6 +21,7 @@ use function array_is_list;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/setUnion/
  * @internal
+ * @psalm-type SetUnionOperatorShape = non-empty-list<BSONArray|PackedArray|ResolvesToArray|array|string>|SetUnionOperator
  */
 final class SetUnionOperator implements ResolvesToArray, OperatorInterface
 {

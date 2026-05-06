@@ -27,6 +27,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/atlas/atlas-search/compound/
  * @internal
+ * @psalm-type CompoundOperatorShape = array{must?: BSONArray|Document|PackedArray|SearchOperatorInterface|Serializable|array|stdClass, mustNot?: BSONArray|Document|PackedArray|SearchOperatorInterface|Serializable|array|stdClass, should?: BSONArray|Document|PackedArray|SearchOperatorInterface|Serializable|array|stdClass, filter?: BSONArray|Document|PackedArray|SearchOperatorInterface|Serializable|array|stdClass, minimumShouldMatch?: int, score?: Document|Serializable|array|stdClass}|object{must?: BSONArray|Document|PackedArray|SearchOperatorInterface|Serializable|array|stdClass, mustNot?: BSONArray|Document|PackedArray|SearchOperatorInterface|Serializable|array|stdClass, should?: BSONArray|Document|PackedArray|SearchOperatorInterface|Serializable|array|stdClass, filter?: BSONArray|Document|PackedArray|SearchOperatorInterface|Serializable|array|stdClass, minimumShouldMatch?: int, score?: Document|Serializable|array|stdClass}&stdClass|CompoundOperator
  */
 final class CompoundOperator implements SearchOperatorInterface, OperatorInterface
 {

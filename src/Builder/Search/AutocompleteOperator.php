@@ -26,6 +26,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/atlas/atlas-search/autocomplete/
  * @internal
+ * @psalm-type AutocompleteOperatorShape = array{path: array|string, query: string, tokenOrder?: string, fuzzy?: Document|Serializable|array|stdClass, score?: Document|Serializable|array|stdClass}|object{path: array|string, query: string, tokenOrder?: string, fuzzy?: Document|Serializable|array|stdClass, score?: Document|Serializable|array|stdClass}&stdClass|AutocompleteOperator
  */
 final class AutocompleteOperator implements SearchOperatorInterface, OperatorInterface
 {

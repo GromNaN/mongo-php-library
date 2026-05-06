@@ -29,6 +29,7 @@ use function is_array;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/densify/
  * @internal
+ * @psalm-type DensifyStageShape = array{field: string, range: Document|Serializable|array|stdClass, partitionByFields?: BSONArray|PackedArray|array}|object{field: string, range: Document|Serializable|array|stdClass, partitionByFields?: BSONArray|PackedArray|array}&stdClass|DensifyStage
  */
 final class DensifyStage implements StageInterface, OperatorInterface
 {

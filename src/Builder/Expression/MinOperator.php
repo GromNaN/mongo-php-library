@@ -24,6 +24,7 @@ use function array_is_list;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/min/
  * @internal
+ * @psalm-type MinOperatorShape = non-empty-list<DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null>|MinOperator
  */
 final class MinOperator implements ResolvesToAny, OperatorInterface
 {

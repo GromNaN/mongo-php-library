@@ -29,6 +29,7 @@ use function is_array;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/fill/
  * @internal
+ * @psalm-type FillStageShape = array{output: Document|Serializable|array|stdClass, partitionBy?: Document|Serializable|array|stdClass|string, partitionByFields?: BSONArray|PackedArray|array, sortBy?: Document|Serializable|array|stdClass}|object{output: Document|Serializable|array|stdClass, partitionBy?: Document|Serializable|array|stdClass|string, partitionByFields?: BSONArray|PackedArray|array, sortBy?: Document|Serializable|array|stdClass}&stdClass|FillStage
  */
 final class FillStage implements StageInterface, OperatorInterface
 {

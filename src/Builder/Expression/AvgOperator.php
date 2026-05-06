@@ -22,6 +22,7 @@ use function array_is_list;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/avg/
  * @internal
+ * @psalm-type AvgOperatorShape = non-empty-list<Decimal128|Int64|ResolvesToNumber|float|int|string>|AvgOperator
  */
 final class AvgOperator implements ResolvesToNumber, OperatorInterface
 {

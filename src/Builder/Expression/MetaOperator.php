@@ -18,6 +18,7 @@ use MongoDB\Builder\Type\OperatorInterface;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/meta/
  * @internal
+ * @psalm-type MetaOperatorShape = string|MetaOperator
  */
 final class MetaOperator implements ResolvesToAny, OperatorInterface
 {

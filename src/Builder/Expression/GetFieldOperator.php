@@ -23,6 +23,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/getField/
  * @internal
+ * @psalm-type GetFieldOperatorShape = array{field: ResolvesToString|string, input?: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null}|object{field: ResolvesToString|string, input?: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null}&stdClass|GetFieldOperator
  */
 final class GetFieldOperator implements ResolvesToAny, OperatorInterface
 {

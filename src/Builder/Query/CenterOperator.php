@@ -23,6 +23,7 @@ use function is_array;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/query/center/
  * @internal
+ * @psalm-type CenterOperatorShape = BSONArray|PackedArray|array|CenterOperator
  */
 final class CenterOperator implements GeometryInterface, OperatorInterface
 {

@@ -23,6 +23,7 @@ use function is_array;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/query/box/
  * @internal
+ * @psalm-type BoxOperatorShape = BSONArray|PackedArray|array|BoxOperator
  */
 final class BoxOperator implements GeometryInterface, OperatorInterface
 {

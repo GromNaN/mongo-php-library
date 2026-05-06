@@ -18,6 +18,7 @@ use MongoDB\Builder\Type\OperatorInterface;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/createObjectId/
  * @internal
+ * @psalm-type CreateObjectIdOperatorShape = CreateObjectIdOperator
  */
 final class CreateObjectIdOperator implements ResolvesToObjectId, OperatorInterface
 {

@@ -23,6 +23,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/objectToArray/
  * @internal
+ * @psalm-type ObjectToArrayOperatorShape = Document|ResolvesToObject|Serializable|array|stdClass|string|ObjectToArrayOperator
  */
 final class ObjectToArrayOperator implements ResolvesToArray, OperatorInterface
 {

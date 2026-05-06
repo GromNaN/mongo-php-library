@@ -18,6 +18,7 @@ use MongoDB\Builder\Type\QueryInterface;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/query/text/
  * @internal
+ * @psalm-type TextOperatorShape = array{$search: string, $language?: string, $caseSensitive?: bool, $diacriticSensitive?: bool}|object{$search: string, $language?: string, $caseSensitive?: bool, $diacriticSensitive?: bool}&stdClass|TextOperator
  */
 final class TextOperator implements QueryInterface, OperatorInterface
 {

@@ -23,6 +23,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/bitNot/
  * @internal
+ * @psalm-type BitNotOperatorShape = Int64|ResolvesToInt|ResolvesToLong|int|string|BitNotOperator
  */
 final class BitNotOperator implements ResolvesToInt, ResolvesToLong, OperatorInterface
 {

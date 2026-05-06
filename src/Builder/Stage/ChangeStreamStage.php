@@ -22,6 +22,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/changeStream/
  * @internal
+ * @psalm-type ChangeStreamStageShape = array{allChangesForCluster?: bool, fullDocument?: string, fullDocumentBeforeChange?: string, resumeAfter?: int, showExpandedEvents?: bool, startAfter?: Document|Serializable|array|stdClass, startAtOperationTime?: Timestamp|int}|object{allChangesForCluster?: bool, fullDocument?: string, fullDocumentBeforeChange?: string, resumeAfter?: int, showExpandedEvents?: bool, startAfter?: Document|Serializable|array|stdClass, startAtOperationTime?: Timestamp|int}&stdClass|ChangeStreamStage
  */
 final class ChangeStreamStage implements InputStageInterface, OperatorInterface
 {

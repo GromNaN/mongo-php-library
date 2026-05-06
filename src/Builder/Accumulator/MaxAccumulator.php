@@ -23,6 +23,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/max/
  * @internal
+ * @psalm-type MaxAccumulatorShape = DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null|MaxAccumulator
  */
 final class MaxAccumulator implements AccumulatorInterface, WindowInterface, OperatorInterface
 {

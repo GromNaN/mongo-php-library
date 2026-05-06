@@ -21,6 +21,7 @@ use MongoDB\Builder\Type\WindowInterface;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/count-accumulator/
  * @internal
+ * @psalm-type CountAccumulatorShape = CountAccumulator
  */
 final class CountAccumulator implements AccumulatorInterface, WindowInterface, OperatorInterface
 {

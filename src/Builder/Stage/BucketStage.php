@@ -30,6 +30,7 @@ use function is_array;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/bucket/
  * @internal
+ * @psalm-type BucketStageShape = array{groupBy: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null, boundaries: BSONArray|PackedArray|array, default?: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null, output?: Document|Serializable|array|stdClass}|object{groupBy: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null, boundaries: BSONArray|PackedArray|array, default?: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null, output?: Document|Serializable|array|stdClass}&stdClass|BucketStage
  */
 final class BucketStage implements StageInterface, OperatorInterface
 {

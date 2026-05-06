@@ -24,6 +24,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/query/near/
  * @internal
+ * @psalm-type NearOperatorShape = array{geometry: Document|GeometryInterface|Serializable|array|stdClass, $maxDistance?: Decimal128|Int64|float|int, $minDistance?: Decimal128|Int64|float|int}|object{geometry: Document|GeometryInterface|Serializable|array|stdClass, $maxDistance?: Decimal128|Int64|float|int, $minDistance?: Decimal128|Int64|float|int}&stdClass|NearOperator
  */
 final class NearOperator implements FieldQueryInterface, OperatorInterface
 {

@@ -20,6 +20,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/eq/
  * @internal
+ * @psalm-type EqOperatorShape = list{DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null, DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null}|EqOperator
  */
 final class EqOperator implements ResolvesToBool, OperatorInterface
 {

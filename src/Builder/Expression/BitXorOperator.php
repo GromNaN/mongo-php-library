@@ -22,6 +22,7 @@ use function array_is_list;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/bitXor/
  * @internal
+ * @psalm-type BitXorOperatorShape = non-empty-list<Int64|ResolvesToInt|ResolvesToLong|int|string>|BitXorOperator
  */
 final class BitXorOperator implements ResolvesToInt, ResolvesToLong, OperatorInterface
 {

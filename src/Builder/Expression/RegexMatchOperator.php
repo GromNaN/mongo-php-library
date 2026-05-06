@@ -18,6 +18,7 @@ use MongoDB\Builder\Type\Optional;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/regexMatch/
  * @internal
+ * @psalm-type RegexMatchOperatorShape = array{input: ResolvesToString|string, regex: Regex|ResolvesToString|string, options?: string}|object{input: ResolvesToString|string, regex: Regex|ResolvesToString|string, options?: string}&stdClass|RegexMatchOperator
  */
 final class RegexMatchOperator implements ResolvesToBool, OperatorInterface
 {

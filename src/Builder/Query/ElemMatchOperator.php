@@ -24,6 +24,7 @@ use function is_array;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/query/elemMatch/
  * @internal
+ * @psalm-type ElemMatchOperatorShape = DateTimeInterface|FieldQueryInterface|QueryInterface|Type|array|bool|float|int|stdClass|string|null|ElemMatchOperator
  */
 final class ElemMatchOperator implements FieldQueryInterface, OperatorInterface
 {

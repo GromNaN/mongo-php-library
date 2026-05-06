@@ -23,6 +23,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/last/
  * @internal
+ * @psalm-type LastAccumulatorShape = DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null|LastAccumulator
  */
 final class LastAccumulator implements AccumulatorInterface, WindowInterface, OperatorInterface
 {

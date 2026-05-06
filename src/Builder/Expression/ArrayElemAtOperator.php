@@ -24,6 +24,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/arrayElemAt/
  * @internal
+ * @psalm-type ArrayElemAtOperatorShape = list{BSONArray|PackedArray|ResolvesToArray|array|string, ResolvesToInt|int|string}|ArrayElemAtOperator
  */
 final class ArrayElemAtOperator implements ResolvesToAny, OperatorInterface
 {

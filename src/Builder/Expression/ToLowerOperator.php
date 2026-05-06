@@ -16,6 +16,7 @@ use MongoDB\Builder\Type\OperatorInterface;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/toLower/
  * @internal
+ * @psalm-type ToLowerOperatorShape = ResolvesToString|string|ToLowerOperator
  */
 final class ToLowerOperator implements ResolvesToString, OperatorInterface
 {

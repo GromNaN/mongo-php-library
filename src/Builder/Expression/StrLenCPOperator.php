@@ -16,6 +16,7 @@ use MongoDB\Builder\Type\OperatorInterface;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/strLenCP/
  * @internal
+ * @psalm-type StrLenCPOperatorShape = ResolvesToString|string|StrLenCPOperator
  */
 final class StrLenCPOperator implements ResolvesToInt, OperatorInterface
 {

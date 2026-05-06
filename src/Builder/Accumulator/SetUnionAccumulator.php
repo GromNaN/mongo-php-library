@@ -26,6 +26,7 @@ use function array_is_list;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/setUnion/
  * @internal
+ * @psalm-type SetUnionAccumulatorShape = non-empty-list<BSONArray|PackedArray|ResolvesToArray|array|string>|SetUnionAccumulator
  */
 final class SetUnionAccumulator implements AccumulatorInterface, WindowInterface, ResolvesToArray, OperatorInterface
 {

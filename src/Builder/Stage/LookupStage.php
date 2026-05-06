@@ -28,6 +28,7 @@ use function is_array;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/lookup/
  * @internal
+ * @psalm-type LookupStageShape = array{'as': string, from?: string, localField?: string, foreignField?: string, let?: Document|Serializable|array|stdClass, pipeline?: BSONArray|PackedArray|Pipeline|array}|object{'as': string, from?: string, localField?: string, foreignField?: string, let?: Document|Serializable|array|stdClass, pipeline?: BSONArray|PackedArray|Pipeline|array}&stdClass|LookupStage
  */
 final class LookupStage implements StageInterface, OperatorInterface
 {

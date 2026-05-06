@@ -31,6 +31,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/geoNear/
  * @internal
+ * @psalm-type GeoNearStageShape = array{near: Document|ResolvesToObject|Serializable|array|stdClass|string, distanceField?: string, distanceMultiplier?: Decimal128|Int64|float|int, includeLocs?: string, key?: string, maxDistance?: Decimal128|Int64|float|int, minDistance?: Decimal128|Int64|float|int, query?: QueryInterface|array, spherical?: bool}|object{near: Document|ResolvesToObject|Serializable|array|stdClass|string, distanceField?: string, distanceMultiplier?: Decimal128|Int64|float|int, includeLocs?: string, key?: string, maxDistance?: Decimal128|Int64|float|int, minDistance?: Decimal128|Int64|float|int, query?: QueryInterface|array, spherical?: bool}&stdClass|GeoNearStage
  */
 final class GeoNearStage implements InputStageInterface, OperatorInterface
 {

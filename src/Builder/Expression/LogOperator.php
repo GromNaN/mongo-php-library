@@ -22,6 +22,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/log/
  * @internal
+ * @psalm-type LogOperatorShape = list{Decimal128|Int64|ResolvesToNumber|float|int|string, Decimal128|Int64|ResolvesToNumber|float|int|string}|LogOperator
  */
 final class LogOperator implements ResolvesToDouble, OperatorInterface
 {

@@ -25,6 +25,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/dateToParts/
  * @internal
+ * @psalm-type DateToPartsOperatorShape = array{date: DateTimeInterface|ObjectId|ResolvesToDate|ResolvesToObjectId|ResolvesToTimestamp|Timestamp|UTCDateTime|int|string, timezone?: ResolvesToString|string, iso8601?: bool}|object{date: DateTimeInterface|ObjectId|ResolvesToDate|ResolvesToObjectId|ResolvesToTimestamp|Timestamp|UTCDateTime|int|string, timezone?: ResolvesToString|string, iso8601?: bool}&stdClass|DateToPartsOperator
  */
 final class DateToPartsOperator implements ResolvesToObject, OperatorInterface
 {

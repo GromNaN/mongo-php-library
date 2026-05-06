@@ -23,6 +23,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/addToSet/
  * @internal
+ * @psalm-type AddToSetAccumulatorShape = DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null|AddToSetAccumulator
  */
 final class AddToSetAccumulator implements AccumulatorInterface, WindowInterface, OperatorInterface
 {

@@ -23,6 +23,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/atlas/atlas-search/exists/
  * @internal
+ * @psalm-type ExistsOperatorShape = array{path: array|string, score?: Document|Serializable|array|stdClass}|object{path: array|string, score?: Document|Serializable|array|stdClass}&stdClass|ExistsOperator
  */
 final class ExistsOperator implements SearchOperatorInterface, OperatorInterface
 {

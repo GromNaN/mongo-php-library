@@ -19,6 +19,7 @@ use MongoDB\Builder\Type\OperatorInterface;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/query/maxDistance/
  * @internal
+ * @psalm-type MaxDistanceOperatorShape = Decimal128|Int64|float|int|MaxDistanceOperator
  */
 final class MaxDistanceOperator implements FieldQueryInterface, OperatorInterface
 {

@@ -24,6 +24,7 @@ use function is_string;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/facet/
  * @internal
+ * @psalm-type FacetStageShape = non-empty-array<string, BSONArray|PackedArray|Pipeline|array>|stdClass|FacetStage
  */
 final class FacetStage implements StageInterface, OperatorInterface
 {

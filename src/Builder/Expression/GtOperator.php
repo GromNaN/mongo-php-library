@@ -20,6 +20,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/gt/
  * @internal
+ * @psalm-type GtOperatorShape = list{DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null, DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null}|GtOperator
  */
 final class GtOperator implements ResolvesToBool, OperatorInterface
 {

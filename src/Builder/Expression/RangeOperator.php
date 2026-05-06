@@ -21,6 +21,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/range/
  * @internal
+ * @psalm-type RangeOperatorShape = list{ResolvesToInt|int|string, ResolvesToInt|int|string, ResolvesToInt|int|string|null}|RangeOperator
  */
 final class RangeOperator implements ResolvesToArray, OperatorInterface
 {

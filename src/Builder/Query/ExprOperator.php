@@ -21,6 +21,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/query/expr/
  * @internal
+ * @psalm-type ExprOperatorShape = DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null|ExprOperator
  */
 final class ExprOperator implements QueryInterface, OperatorInterface
 {

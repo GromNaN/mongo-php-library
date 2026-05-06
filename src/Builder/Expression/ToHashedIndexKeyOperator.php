@@ -22,6 +22,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/toHashedIndexKey/
  * @internal
+ * @psalm-type ToHashedIndexKeyOperatorShape = DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null|ToHashedIndexKeyOperator
  */
 final class ToHashedIndexKeyOperator implements ResolvesToLong, OperatorInterface
 {

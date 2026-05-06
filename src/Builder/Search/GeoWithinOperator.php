@@ -26,6 +26,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/atlas/atlas-search/geoWithin/
  * @internal
+ * @psalm-type GeoWithinOperatorShape = array{path: array|string, box?: Document|Serializable|array|stdClass, circle?: Document|Serializable|array|stdClass, geometry?: Document|GeometryInterface|Serializable|array|stdClass, score?: Document|Serializable|array|stdClass}|object{path: array|string, box?: Document|Serializable|array|stdClass, circle?: Document|Serializable|array|stdClass, geometry?: Document|GeometryInterface|Serializable|array|stdClass, score?: Document|Serializable|array|stdClass}&stdClass|GeoWithinOperator
  */
 final class GeoWithinOperator implements SearchOperatorInterface, OperatorInterface
 {

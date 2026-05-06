@@ -17,6 +17,7 @@ use MongoDB\Builder\Type\OperatorInterface;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/split/
  * @internal
+ * @psalm-type SplitOperatorShape = list{ResolvesToString|string, Regex|ResolvesToRegex|ResolvesToString|string}|SplitOperator
  */
 final class SplitOperator implements ResolvesToArray, OperatorInterface
 {

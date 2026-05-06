@@ -28,6 +28,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/setField/
  * @internal
+ * @psalm-type SetFieldOperatorShape = array{field: ResolvesToString|string, input: Document|ResolvesToObject|Serializable|array|stdClass|string, value: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null}|object{field: ResolvesToString|string, input: Document|ResolvesToObject|Serializable|array|stdClass|string, value: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null}&stdClass|SetFieldOperator
  */
 final class SetFieldOperator implements ResolvesToObject, OperatorInterface
 {

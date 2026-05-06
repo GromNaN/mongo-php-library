@@ -20,6 +20,7 @@ use function array_is_list;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/query/and/
  * @internal
+ * @psalm-type AndOperatorShape = non-empty-list<QueryInterface|array>|AndOperator
  */
 final class AndOperator implements QueryInterface, OperatorInterface
 {

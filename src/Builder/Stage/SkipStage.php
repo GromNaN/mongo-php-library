@@ -17,6 +17,7 @@ use MongoDB\Builder\Type\StageInterface;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/skip/
  * @internal
+ * @psalm-type SkipStageShape = int|SkipStage
  */
 final class SkipStage implements StageInterface, OperatorInterface
 {

@@ -30,6 +30,7 @@ use function is_array;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/graphLookup/
  * @internal
+ * @psalm-type GraphLookupStageShape = array{from: string, startWith: BSONArray|DateTimeInterface|ExpressionInterface|PackedArray|Type|array|bool|float|int|stdClass|string|null, connectFromField: string, connectToField: string, 'as': string, maxDepth?: int, depthField?: string, restrictSearchWithMatch?: QueryInterface|array}|object{from: string, startWith: BSONArray|DateTimeInterface|ExpressionInterface|PackedArray|Type|array|bool|float|int|stdClass|string|null, connectFromField: string, connectToField: string, 'as': string, maxDepth?: int, depthField?: string, restrictSearchWithMatch?: QueryInterface|array}&stdClass|GraphLookupStage
  */
 final class GraphLookupStage implements StageInterface, OperatorInterface
 {

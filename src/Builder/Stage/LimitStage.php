@@ -17,6 +17,7 @@ use MongoDB\Builder\Type\StageInterface;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/limit/
  * @internal
+ * @psalm-type LimitStageShape = int|LimitStage
  */
 final class LimitStage implements StageInterface, OperatorInterface
 {

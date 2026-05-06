@@ -19,6 +19,7 @@ use MongoDB\Builder\Type\WindowInterface;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/documentNumber/
  * @internal
+ * @psalm-type DocumentNumberAccumulatorShape = DocumentNumberAccumulator
  */
 final class DocumentNumberAccumulator implements WindowInterface, OperatorInterface
 {

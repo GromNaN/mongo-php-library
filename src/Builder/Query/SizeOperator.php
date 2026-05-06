@@ -17,6 +17,7 @@ use MongoDB\Builder\Type\OperatorInterface;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/query/size/
  * @internal
+ * @psalm-type SizeOperatorShape = int|SizeOperator
  */
 final class SizeOperator implements FieldQueryInterface, OperatorInterface
 {

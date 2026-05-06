@@ -21,6 +21,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/redact/
  * @internal
+ * @psalm-type RedactStageShape = DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null|RedactStage
  */
 final class RedactStage implements StageInterface, OperatorInterface
 {

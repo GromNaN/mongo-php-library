@@ -17,6 +17,7 @@ use MongoDB\Builder\Type\OperatorInterface;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/query/exists/
  * @internal
+ * @psalm-type ExistsOperatorShape = bool|ExistsOperator
  */
 final class ExistsOperator implements FieldQueryInterface, OperatorInterface
 {

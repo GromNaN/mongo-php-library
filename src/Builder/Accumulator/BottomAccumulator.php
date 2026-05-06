@@ -26,6 +26,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/bottom/
  * @internal
+ * @psalm-type BottomAccumulatorShape = array{sortBy: Document|Serializable|array|stdClass, output: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null}|object{sortBy: Document|Serializable|array|stdClass, output: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null}&stdClass|BottomAccumulator
  */
 final class BottomAccumulator implements AccumulatorInterface, WindowInterface, OperatorInterface
 {

@@ -22,6 +22,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/asinh/
  * @internal
+ * @psalm-type AsinhOperatorShape = Decimal128|Int64|ResolvesToNumber|float|int|string|AsinhOperator
  */
 final class AsinhOperator implements ResolvesToDouble, ResolvesToDecimal, OperatorInterface
 {

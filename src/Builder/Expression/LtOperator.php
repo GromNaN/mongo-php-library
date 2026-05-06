@@ -20,6 +20,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/lt/
  * @internal
+ * @psalm-type LtOperatorShape = list{DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null, DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null}|LtOperator
  */
 final class LtOperator implements ResolvesToBool, OperatorInterface
 {

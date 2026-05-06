@@ -23,6 +23,7 @@ use function is_string;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/update/inc/
  * @internal
+ * @psalm-type IncOperatorShape = non-empty-array<string, Decimal128|Int64|float|int>|stdClass|IncOperator
  */
 final class IncOperator implements UpdateInterface, OperatorInterface
 {

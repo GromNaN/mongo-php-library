@@ -25,6 +25,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/switch/
  * @internal
+ * @psalm-type CaseOperatorShape = array{case: ResolvesToBool|bool|string, then: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null}|object{case: ResolvesToBool|bool|string, then: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null}&stdClass|CaseOperator
  */
 final class CaseOperator implements SwitchBranchInterface, OperatorInterface
 {

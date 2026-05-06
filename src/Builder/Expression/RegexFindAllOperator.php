@@ -18,6 +18,7 @@ use MongoDB\Builder\Type\Optional;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/regexFindAll/
  * @internal
+ * @psalm-type RegexFindAllOperatorShape = array{input: ResolvesToString|string, regex: Regex|ResolvesToString|string, options?: string}|object{input: ResolvesToString|string, regex: Regex|ResolvesToString|string, options?: string}&stdClass|RegexFindAllOperator
  */
 final class RegexFindAllOperator implements ResolvesToArray, OperatorInterface
 {

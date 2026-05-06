@@ -17,6 +17,7 @@ use MongoDB\Builder\Type\Optional;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/rtrim/
  * @internal
+ * @psalm-type RtrimOperatorShape = array{input: ResolvesToString|string, chars?: ResolvesToString|string}|object{input: ResolvesToString|string, chars?: ResolvesToString|string}&stdClass|RtrimOperator
  */
 final class RtrimOperator implements ResolvesToString, OperatorInterface
 {

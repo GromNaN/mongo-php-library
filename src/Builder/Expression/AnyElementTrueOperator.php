@@ -24,6 +24,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/anyElementTrue/
  * @internal
+ * @psalm-type AnyElementTrueOperatorShape = list{BSONArray|PackedArray|ResolvesToArray|array|string}|AnyElementTrueOperator
  */
 final class AnyElementTrueOperator implements ResolvesToBool, OperatorInterface
 {

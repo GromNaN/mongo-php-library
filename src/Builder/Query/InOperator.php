@@ -23,6 +23,7 @@ use function is_array;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/query/in/
  * @internal
+ * @psalm-type InOperatorShape = BSONArray|PackedArray|array|InOperator
  */
 final class InOperator implements FieldQueryInterface, OperatorInterface
 {

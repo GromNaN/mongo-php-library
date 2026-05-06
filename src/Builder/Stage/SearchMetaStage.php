@@ -25,6 +25,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/searchMeta/
  * @internal
+ * @psalm-type SearchMetaStageShape = array{operator: Document|SearchOperatorInterface|Serializable|array|stdClass, index?: string, count?: Document|Serializable|array|stdClass}|object{operator: Document|SearchOperatorInterface|Serializable|array|stdClass, index?: string, count?: Document|Serializable|array|stdClass}&stdClass|SearchMetaStage
  */
 final class SearchMetaStage implements InputStageInterface, OperatorInterface
 {

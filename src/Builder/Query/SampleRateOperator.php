@@ -25,6 +25,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/sampleRate/
  * @internal
+ * @psalm-type SampleRateOperatorShape = Int64|ResolvesToDouble|float|int|string|SampleRateOperator
  */
 final class SampleRateOperator implements QueryInterface, OperatorInterface
 {

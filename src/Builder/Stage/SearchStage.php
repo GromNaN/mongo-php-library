@@ -25,6 +25,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/search/
  * @internal
+ * @psalm-type SearchStageShape = array{operator: Document|SearchOperatorInterface|Serializable|array|stdClass, index?: string, highlight?: Document|Serializable|array|stdClass, concurrent?: bool, count?: Document|Serializable|array|stdClass, searchAfter?: string, searchBefore?: string, scoreDetails?: bool, sort?: Document|Serializable|array|stdClass, returnStoredSource?: bool, tracking?: Document|Serializable|array|stdClass}|object{operator: Document|SearchOperatorInterface|Serializable|array|stdClass, index?: string, highlight?: Document|Serializable|array|stdClass, concurrent?: bool, count?: Document|Serializable|array|stdClass, searchAfter?: string, searchBefore?: string, scoreDetails?: bool, sort?: Document|Serializable|array|stdClass, returnStoredSource?: bool, tracking?: Document|Serializable|array|stdClass}&stdClass|SearchStage
  */
 final class SearchStage implements InputStageInterface, OperatorInterface
 {

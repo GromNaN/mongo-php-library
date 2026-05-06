@@ -22,6 +22,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/divide/
  * @internal
+ * @psalm-type DivideOperatorShape = list{Decimal128|Int64|ResolvesToNumber|float|int|string, Decimal128|Int64|ResolvesToNumber|float|int|string}|DivideOperator
  */
 final class DivideOperator implements ResolvesToDouble, OperatorInterface
 {

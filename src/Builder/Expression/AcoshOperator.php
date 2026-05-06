@@ -22,6 +22,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/acosh/
  * @internal
+ * @psalm-type AcoshOperatorShape = Decimal128|Int64|ResolvesToNumber|float|int|string|AcoshOperator
  */
 final class AcoshOperator implements ResolvesToDouble, ResolvesToDecimal, OperatorInterface
 {

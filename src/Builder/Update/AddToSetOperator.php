@@ -23,6 +23,7 @@ use function is_string;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/update/addToSet/
  * @internal
+ * @psalm-type AddToSetOperatorShape = non-empty-array<string, DateTimeInterface|Type|array|bool|float|int|stdClass|string|null>|stdClass|AddToSetOperator
  */
 final class AddToSetOperator implements UpdateInterface, OperatorInterface
 {

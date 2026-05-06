@@ -20,6 +20,7 @@ use MongoDB\Builder\Type\OutputStageInterface;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/changeStreamSplitLargeEvent/
  * @internal
+ * @psalm-type ChangeStreamSplitLargeEventStageShape = ChangeStreamSplitLargeEventStage
  */
 final class ChangeStreamSplitLargeEventStage implements OutputStageInterface, OperatorInterface
 {

@@ -18,6 +18,7 @@ use MongoDB\Builder\Type\OperatorInterface;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/query/regex/
  * @internal
+ * @psalm-type RegexOperatorShape = Regex|RegexOperator
  */
 final class RegexOperator implements FieldQueryInterface, OperatorInterface
 {

@@ -22,6 +22,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/atan/
  * @internal
+ * @psalm-type AtanOperatorShape = Decimal128|Int64|ResolvesToNumber|float|int|string|AtanOperator
  */
 final class AtanOperator implements ResolvesToDouble, ResolvesToDecimal, OperatorInterface
 {

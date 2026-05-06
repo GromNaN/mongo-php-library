@@ -27,6 +27,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/expMovingAvg/
  * @internal
+ * @psalm-type ExpMovingAvgAccumulatorShape = array{input: Decimal128|Int64|ResolvesToNumber|float|int|string, N?: int, alpha?: Int64|float|int}|object{input: Decimal128|Int64|ResolvesToNumber|float|int|string, N?: int, alpha?: Int64|float|int}&stdClass|ExpMovingAvgAccumulator
  */
 final class ExpMovingAvgAccumulator implements WindowInterface, OperatorInterface
 {

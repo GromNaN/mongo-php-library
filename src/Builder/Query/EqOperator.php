@@ -20,6 +20,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/query/eq/
  * @internal
+ * @psalm-type EqOperatorShape = DateTimeInterface|Type|array|bool|float|int|stdClass|string|null|EqOperator
  */
 final class EqOperator implements FieldQueryInterface, OperatorInterface
 {

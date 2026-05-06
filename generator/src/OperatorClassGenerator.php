@@ -245,6 +245,11 @@ class OperatorClassGenerator extends OperatorGenerator
             $class->addConstant('PROPERTIES', $encodeNames);
         }
 
+        // Add @psalm-type shape for this operator class
+        $operatorClassName = $this->getOperatorClassName($definition, $operator);
+        $shapeDoc = $this->computeOperatorShapeDoc($definition, $operator, $operatorClassName);
+        $class->addComment('@psalm-type ' . $operatorClassName . 'Shape = ' . $shapeDoc);
+
         return $namespace;
     }
 
@@ -311,6 +316,105 @@ class OperatorClassGenerator extends OperatorGenerator
         $class->addConstant('PROPERTIES', $encodeNames);
 
         return $namespace;
+    }
+
+    /**
+     * Computes the @psalm-type shape string for an operator class.
+     * The shape describes all valid array/stdClass representations of the operator.
+     */
+    private function computeOperatorShapeDoc(
+        GeneratorDefinition $definition,
+        OperatorDefinition $operator,
+        string $operatorClassName,
+    ): string {
+        if ($operator->encode === Encode::Single) {
+            $argument = $operator->arguments[0];
+            $baseArg = clone $argument;
+            $baseArg->optional = false;
+            $baseType = $this->getAcceptedTypes($baseArg);
+
+            $typeClassName = $this->getArgumentTypeClassName($operator, $argument, $definition->namespace);
+            if ($typeClassName !== null) {
+                [, $typeShortName] = $this->splitNamespaceAndClassName($typeClassName);
+
+                return $typeShortName . 'Shape|' . $operatorClassName;
+            }
+
+            if ($argument->variadic === VariadicType::Array) {
+                $prefix = ($argument->variadicMin ?? 0) > 0 ? 'non-empty-list' : 'list';
+
+                return $prefix . '<' . $baseType->doc . '>|' . $operatorClassName;
+            }
+
+            if ($argument->variadic === VariadicType::Object) {
+                $prefix = ($argument->variadicMin ?? 0) > 0 ? 'non-empty-array' : 'array';
+
+                return $prefix . '<string, ' . $baseType->doc . '>|stdClass|' . $operatorClassName;
+            }
+
+            return $baseType->doc . '|' . $operatorClassName;
+        }
+
+        if ($operator->encode === Encode::Array) {
+            // Positional array encoding: list{type1, type2, ...}
+            $types = [];
+            foreach ($operator->arguments as $argument) {
+                $baseArg = clone $argument;
+                $baseArg->optional = false;
+                $baseType = $this->getAcceptedTypes($baseArg);
+                $optional = $argument->optional || $argument->default !== null;
+                $types[] = $baseType->doc . ($optional ? '|null' : '');
+            }
+
+            return 'list{' . implode(', ', $types) . '}|' . $operatorClassName;
+        }
+
+        // Encode::Object: named property shapes
+        $arrayFields = [];
+        $objectFields = [];
+        foreach ($operator->arguments as $argument) {
+            $optional = $argument->optional || $argument->default !== null;
+            $key = self::shapeKey($argument->name, $optional);
+
+            $typeClassName = $this->getArgumentTypeClassName($operator, $argument, $definition->namespace);
+            if ($typeClassName !== null) {
+                [, $typeShortName] = $this->splitNamespaceAndClassName($typeClassName);
+                $fieldType = $typeShortName . 'Shape';
+                $arrayFields[] = $key . ': ' . $fieldType;
+                $objectFields[] = $key . ': ' . $fieldType;
+            } elseif ($argument->variadic === VariadicType::Object) {
+                $baseArg = clone $argument;
+                $baseArg->optional = false;
+                $baseType = $this->getAcceptedTypes($baseArg);
+                $prefix = ($argument->variadicMin ?? 0) > 0 ? 'non-empty-array' : 'array';
+                $mapType = $prefix . '<string, ' . $baseType->doc . '>';
+                $arrayFields[] = $key . ': ' . $mapType;
+                $objectFields[] = $key . ': ' . $mapType . '|stdClass';
+            } elseif ($argument->variadic === VariadicType::Array) {
+                $baseArg = clone $argument;
+                $baseArg->optional = false;
+                $baseType = $this->getAcceptedTypes($baseArg);
+                $prefix = ($argument->variadicMin ?? 0) > 0 ? 'non-empty-list' : 'list';
+                $listType = $prefix . '<' . $baseType->doc . '>';
+                $arrayFields[] = $key . ': ' . $listType;
+                $objectFields[] = $key . ': ' . $listType;
+            } else {
+                $baseArg = clone $argument;
+                $baseArg->optional = false;
+                $baseType = $this->getAcceptedTypes($baseArg);
+                $arrayFields[] = $key . ': ' . $baseType->doc;
+                $objectFields[] = $key . ': ' . $baseType->doc;
+            }
+        }
+
+        if (count($arrayFields) === 0) {
+            return $operatorClassName;
+        }
+
+        $arrayShape = 'array{' . implode(', ', $arrayFields) . '}';
+        $objectShape = 'object{' . implode(', ', $objectFields) . '}&stdClass';
+
+        return $arrayShape . '|' . $objectShape . '|' . $operatorClassName;
     }
 
     /**

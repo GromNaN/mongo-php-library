@@ -30,6 +30,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/dateTrunc/
  * @internal
+ * @psalm-type DateTruncOperatorShape = array{date: DateTimeInterface|ObjectId|ResolvesToDate|ResolvesToObjectId|ResolvesToTimestamp|Timestamp|UTCDateTime|int|string, unit: ResolvesToString|TimeUnit|string, binSize?: Decimal128|Int64|ResolvesToNumber|float|int|string, timezone?: ResolvesToString|string, startOfWeek?: string}|object{date: DateTimeInterface|ObjectId|ResolvesToDate|ResolvesToObjectId|ResolvesToTimestamp|Timestamp|UTCDateTime|int|string, unit: ResolvesToString|TimeUnit|string, binSize?: Decimal128|Int64|ResolvesToNumber|float|int|string, timezone?: ResolvesToString|string, startOfWeek?: string}&stdClass|DateTruncOperator
  */
 final class DateTruncOperator implements ResolvesToDate, OperatorInterface
 {

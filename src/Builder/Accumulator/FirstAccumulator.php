@@ -23,6 +23,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/first/
  * @internal
+ * @psalm-type FirstAccumulatorShape = DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null|FirstAccumulator
  */
 final class FirstAccumulator implements AccumulatorInterface, WindowInterface, OperatorInterface
 {

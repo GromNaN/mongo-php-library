@@ -16,6 +16,7 @@ use MongoDB\Builder\Type\OperatorInterface;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/toUpper/
  * @internal
+ * @psalm-type ToUpperOperatorShape = ResolvesToString|string|ToUpperOperator
  */
 final class ToUpperOperator implements ResolvesToString, OperatorInterface
 {

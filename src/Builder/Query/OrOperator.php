@@ -20,6 +20,7 @@ use function array_is_list;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/query/or/
  * @internal
+ * @psalm-type OrOperatorShape = non-empty-list<QueryInterface|array>|OrOperator
  */
 final class OrOperator implements QueryInterface, OperatorInterface
 {

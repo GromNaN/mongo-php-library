@@ -22,6 +22,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/isArray/
  * @internal
+ * @psalm-type IsArrayOperatorShape = list{DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null}|IsArrayOperator
  */
 final class IsArrayOperator implements ResolvesToBool, OperatorInterface
 {

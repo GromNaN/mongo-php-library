@@ -21,6 +21,7 @@ use function is_array;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/match/
  * @internal
+ * @psalm-type MatchStageShape = QueryInterface|array|MatchStage
  */
 final class MatchStage implements StageInterface, OperatorInterface
 {

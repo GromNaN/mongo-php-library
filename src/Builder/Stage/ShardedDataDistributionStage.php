@@ -19,6 +19,7 @@ use MongoDB\Builder\Type\StageInterface;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/shardedDataDistribution/
  * @internal
+ * @psalm-type ShardedDataDistributionStageShape = ShardedDataDistributionStage
  */
 final class ShardedDataDistributionStage implements StageInterface, OperatorInterface
 {

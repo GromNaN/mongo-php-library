@@ -24,6 +24,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/locf/
  * @internal
+ * @psalm-type LocfAccumulatorShape = DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null|LocfAccumulator
  */
 final class LocfAccumulator implements WindowInterface, OperatorInterface
 {

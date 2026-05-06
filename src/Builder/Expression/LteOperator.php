@@ -20,6 +20,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/lte/
  * @internal
+ * @psalm-type LteOperatorShape = list{DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null, DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null}|LteOperator
  */
 final class LteOperator implements ResolvesToBool, OperatorInterface
 {

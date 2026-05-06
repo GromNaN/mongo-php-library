@@ -23,6 +23,7 @@ use function is_array;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/query/polygon/
  * @internal
+ * @psalm-type PolygonOperatorShape = BSONArray|PackedArray|array|PolygonOperator
  */
 final class PolygonOperator implements GeometryInterface, OperatorInterface
 {

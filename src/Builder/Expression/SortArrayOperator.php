@@ -30,6 +30,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/sortArray/
  * @internal
+ * @psalm-type SortArrayOperatorShape = array{input: BSONArray|PackedArray|ResolvesToArray|array|string, sortBy: Document|Serializable|Sort|array|int|stdClass}|object{input: BSONArray|PackedArray|ResolvesToArray|array|string, sortBy: Document|Serializable|Sort|array|int|stdClass}&stdClass|SortArrayOperator
  */
 final class SortArrayOperator implements ResolvesToArray, OperatorInterface
 {

@@ -21,6 +21,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/indexOfCP/
  * @internal
+ * @psalm-type IndexOfCPOperatorShape = list{ResolvesToString|string, ResolvesToString|string, ResolvesToInt|int|string|null, ResolvesToInt|int|string|null}|IndexOfCPOperator
  */
 final class IndexOfCPOperator implements ResolvesToInt, OperatorInterface
 {

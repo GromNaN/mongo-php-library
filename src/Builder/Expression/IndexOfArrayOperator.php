@@ -29,6 +29,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/indexOfArray/
  * @internal
+ * @psalm-type IndexOfArrayOperatorShape = list{BSONArray|PackedArray|ResolvesToArray|array|string, DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null, ResolvesToInt|int|string|null, ResolvesToInt|int|string|null}|IndexOfArrayOperator
  */
 final class IndexOfArrayOperator implements ResolvesToInt, OperatorInterface
 {

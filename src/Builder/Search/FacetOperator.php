@@ -24,6 +24,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/atlas/atlas-search/facet/
  * @internal
+ * @psalm-type FacetOperatorShape = array{facets: Document|Serializable|array|stdClass, operator?: Document|SearchOperatorInterface|Serializable|array|stdClass}|object{facets: Document|Serializable|array|stdClass, operator?: Document|SearchOperatorInterface|Serializable|array|stdClass}&stdClass|FacetOperator
  */
 final class FacetOperator implements SearchOperatorInterface, OperatorInterface
 {

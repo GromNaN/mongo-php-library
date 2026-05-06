@@ -24,6 +24,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/reverseArray/
  * @internal
+ * @psalm-type ReverseArrayOperatorShape = BSONArray|PackedArray|ResolvesToArray|array|string|ReverseArrayOperator
  */
 final class ReverseArrayOperator implements ResolvesToArray, OperatorInterface
 {

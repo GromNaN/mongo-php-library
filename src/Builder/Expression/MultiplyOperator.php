@@ -21,6 +21,7 @@ use function array_is_list;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/multiply/
  * @internal
+ * @psalm-type MultiplyOperatorShape = non-empty-list<Decimal128|Int64|ResolvesToNumber|float|int|string>|MultiplyOperator
  */
 final class MultiplyOperator implements ResolvesToDecimal, OperatorInterface
 {

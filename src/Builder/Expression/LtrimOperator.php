@@ -17,6 +17,7 @@ use MongoDB\Builder\Type\Optional;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/ltrim/
  * @internal
+ * @psalm-type LtrimOperatorShape = array{input: ResolvesToString|string, chars?: ResolvesToString|string}|object{input: ResolvesToString|string, chars?: ResolvesToString|string}&stdClass|LtrimOperator
  */
 final class LtrimOperator implements ResolvesToString, OperatorInterface
 {

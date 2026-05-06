@@ -17,6 +17,7 @@ use MongoDB\Builder\Type\SearchOperatorInterface;
  *
  * @see https://www.mongodb.com/docs/atlas/atlas-search/queryString/
  * @internal
+ * @psalm-type QueryStringOperatorShape = array{defaultPath: array|string, query: string}|object{defaultPath: array|string, query: string}&stdClass|QueryStringOperator
  */
 final class QueryStringOperator implements SearchOperatorInterface, OperatorInterface
 {

@@ -32,6 +32,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/percentile/
  * @internal
+ * @psalm-type PercentileOperatorShape = array{input: BSONArray|Decimal128|Int64|PackedArray|ResolvesToNumber|array|float|int|string, p: BSONArray|PackedArray|ResolvesToArray|array|string, method: string}|object{input: BSONArray|Decimal128|Int64|PackedArray|ResolvesToNumber|array|float|int|string, p: BSONArray|PackedArray|ResolvesToArray|array|string, method: string}&stdClass|PercentileOperator
  */
 final class PercentileOperator implements ResolvesToArray, OperatorInterface
 {

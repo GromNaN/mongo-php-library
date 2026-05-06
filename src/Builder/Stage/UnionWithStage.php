@@ -27,6 +27,7 @@ use function is_array;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/unionWith/
  * @internal
+ * @psalm-type UnionWithStageShape = array{coll: string, pipeline?: BSONArray|PackedArray|Pipeline|array}|object{coll: string, pipeline?: BSONArray|PackedArray|Pipeline|array}&stdClass|UnionWithStage
  */
 final class UnionWithStage implements StageInterface, OperatorInterface
 {

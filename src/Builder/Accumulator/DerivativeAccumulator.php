@@ -32,6 +32,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/derivative/
  * @internal
+ * @psalm-type DerivativeAccumulatorShape = array{input: DateTimeInterface|Decimal128|Int64|ResolvesToDate|ResolvesToNumber|UTCDateTime|float|int|string, unit?: ResolvesToString|TimeUnit|string}|object{input: DateTimeInterface|Decimal128|Int64|ResolvesToDate|ResolvesToNumber|UTCDateTime|float|int|string, unit?: ResolvesToString|TimeUnit|string}&stdClass|DerivativeAccumulator
  */
 final class DerivativeAccumulator implements WindowInterface, OperatorInterface
 {

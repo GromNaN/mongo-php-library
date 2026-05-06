@@ -21,6 +21,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/query/geoIntersects/
  * @internal
+ * @psalm-type GeoIntersectsOperatorShape = array{geometry: Document|GeometryInterface|Serializable|array|stdClass}|object{geometry: Document|GeometryInterface|Serializable|array|stdClass}&stdClass|GeoIntersectsOperator
  */
 final class GeoIntersectsOperator implements FieldQueryInterface, OperatorInterface
 {

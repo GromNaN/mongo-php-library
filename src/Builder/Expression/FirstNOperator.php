@@ -26,6 +26,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/firstN-array-element/
  * @internal
+ * @psalm-type FirstNOperatorShape = array{n: ResolvesToInt|int|string, input: BSONArray|PackedArray|ResolvesToArray|array|string}|object{n: ResolvesToInt|int|string, input: BSONArray|PackedArray|ResolvesToArray|array|string}&stdClass|FirstNOperator
  */
 final class FirstNOperator implements ResolvesToArray, OperatorInterface
 {

@@ -20,6 +20,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/toDecimal/
  * @internal
+ * @psalm-type ToDecimalOperatorShape = DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null|ToDecimalOperator
  */
 final class ToDecimalOperator implements ResolvesToDecimal, OperatorInterface
 {

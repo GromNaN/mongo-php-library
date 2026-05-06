@@ -30,6 +30,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/reduce/
  * @internal
+ * @psalm-type ReduceOperatorShape = array{input: BSONArray|PackedArray|ResolvesToArray|array|string, initialValue: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null, in: DateTimeInterface|Document|ExpressionInterface|Serializable|Type|array|bool|float|int|stdClass|string|null}|object{input: BSONArray|PackedArray|ResolvesToArray|array|string, initialValue: DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null, in: DateTimeInterface|Document|ExpressionInterface|Serializable|Type|array|bool|float|int|stdClass|string|null}&stdClass|ReduceOperator
  */
 final class ReduceOperator implements ResolvesToAny, OperatorInterface
 {

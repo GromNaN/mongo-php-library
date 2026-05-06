@@ -20,6 +20,7 @@ use MongoDB\Builder\Type\StageInterface;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/listSampledQueries/
  * @internal
+ * @psalm-type ListSampledQueriesStageShape = array{namespace?: string}|object{namespace?: string}&stdClass|ListSampledQueriesStage
  */
 final class ListSampledQueriesStage implements StageInterface, OperatorInterface
 {

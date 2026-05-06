@@ -20,6 +20,7 @@ use function array_is_list;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/query/nor/
  * @internal
+ * @psalm-type NorOperatorShape = non-empty-list<QueryInterface|array>|NorOperator
  */
 final class NorOperator implements QueryInterface, OperatorInterface
 {

@@ -26,6 +26,7 @@ use function is_string;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/function/
  * @internal
+ * @psalm-type FunctionOperatorShape = array{body: Javascript|string, args?: BSONArray|PackedArray|array, lang?: string}|object{body: Javascript|string, args?: BSONArray|PackedArray|array, lang?: string}&stdClass|FunctionOperator
  */
 final class FunctionOperator implements ResolvesToAny, OperatorInterface
 {

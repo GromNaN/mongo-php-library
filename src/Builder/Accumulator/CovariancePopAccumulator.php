@@ -26,6 +26,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/covariancePop/
  * @internal
+ * @psalm-type CovariancePopAccumulatorShape = list{Decimal128|Int64|ResolvesToNumber|float|int|string, Decimal128|Int64|ResolvesToNumber|float|int|string}|CovariancePopAccumulator
  */
 final class CovariancePopAccumulator implements WindowInterface, OperatorInterface
 {

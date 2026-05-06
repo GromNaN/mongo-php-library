@@ -24,6 +24,7 @@ use function array_is_list;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/sum/
  * @internal
+ * @psalm-type SumOperatorShape = non-empty-list<BSONArray|Decimal128|Int64|PackedArray|ResolvesToArray|ResolvesToNumber|array|float|int|string>|SumOperator
  */
 final class SumOperator implements ResolvesToNumber, OperatorInterface
 {

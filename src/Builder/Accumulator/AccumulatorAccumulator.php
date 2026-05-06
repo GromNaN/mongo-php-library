@@ -30,6 +30,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/accumulator/
  * @internal
+ * @psalm-type AccumulatorAccumulatorShape = array{init: Javascript|string, accumulate: Javascript|string, accumulateArgs: BSONArray|PackedArray|ResolvesToArray|array|string, merge: Javascript|string, lang: string, initArgs?: BSONArray|PackedArray|ResolvesToArray|array|string, finalize?: Javascript|string}|object{init: Javascript|string, accumulate: Javascript|string, accumulateArgs: BSONArray|PackedArray|ResolvesToArray|array|string, merge: Javascript|string, lang: string, initArgs?: BSONArray|PackedArray|ResolvesToArray|array|string, finalize?: Javascript|string}&stdClass|AccumulatorAccumulator
  */
 final class AccumulatorAccumulator implements AccumulatorInterface, OperatorInterface
 {

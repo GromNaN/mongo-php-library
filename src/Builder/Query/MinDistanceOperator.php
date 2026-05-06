@@ -18,6 +18,7 @@ use MongoDB\Builder\Type\OperatorInterface;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/query/minDistance/
  * @internal
+ * @psalm-type MinDistanceOperatorShape = Int64|float|int|MinDistanceOperator
  */
 final class MinDistanceOperator implements FieldQueryInterface, OperatorInterface
 {

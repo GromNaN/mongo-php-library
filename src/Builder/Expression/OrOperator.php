@@ -23,6 +23,7 @@ use function array_is_list;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/or/
  * @internal
+ * @psalm-type OrOperatorShape = non-empty-list<DateTimeInterface|ExpressionInterface|ResolvesToBool|Type|array|bool|float|int|stdClass|string|null>|OrOperator
  */
 final class OrOperator implements ResolvesToBool, OperatorInterface
 {

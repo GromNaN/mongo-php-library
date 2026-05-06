@@ -20,6 +20,7 @@ use stdClass;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/toDouble/
  * @internal
+ * @psalm-type ToDoubleOperatorShape = DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|stdClass|string|null|ToDoubleOperator
  */
 final class ToDoubleOperator implements ResolvesToDouble, OperatorInterface
 {

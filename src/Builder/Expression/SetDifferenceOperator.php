@@ -24,6 +24,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/setDifference/
  * @internal
+ * @psalm-type SetDifferenceOperatorShape = list{BSONArray|PackedArray|ResolvesToArray|array|string, BSONArray|PackedArray|ResolvesToArray|array|string}|SetDifferenceOperator
  */
 final class SetDifferenceOperator implements ResolvesToArray, OperatorInterface
 {

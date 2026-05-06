@@ -25,6 +25,7 @@ use function str_starts_with;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/mergeObjects/
  * @internal
+ * @psalm-type MergeObjectsAccumulatorShape = Document|ResolvesToObject|Serializable|array|stdClass|string|MergeObjectsAccumulator
  */
 final class MergeObjectsAccumulator implements AccumulatorInterface, OperatorInterface
 {

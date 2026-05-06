@@ -21,6 +21,7 @@ use MongoDB\Builder\Type\OperatorInterface;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/hexHash/
  * @internal
+ * @psalm-type HexHashOperatorShape = array{input: Binary|ResolvesToBinData|ResolvesToNull|ResolvesToString|string|null, algorithm: string}|object{input: Binary|ResolvesToBinData|ResolvesToNull|ResolvesToString|string|null, algorithm: string}&stdClass|HexHashOperator
  */
 final class HexHashOperator implements ResolvesToString, OperatorInterface
 {

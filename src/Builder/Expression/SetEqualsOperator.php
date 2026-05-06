@@ -21,6 +21,7 @@ use function array_is_list;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/setEquals/
  * @internal
+ * @psalm-type SetEqualsOperatorShape = non-empty-list<BSONArray|PackedArray|ResolvesToArray|array|string>|SetEqualsOperator
  */
 final class SetEqualsOperator implements ResolvesToBool, OperatorInterface
 {

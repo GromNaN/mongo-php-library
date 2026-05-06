@@ -18,6 +18,7 @@ use MongoDB\Builder\Type\Optional;
  *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/regexFind/
  * @internal
+ * @psalm-type RegexFindOperatorShape = array{input: ResolvesToString|string, regex: Regex|ResolvesToString|string, options?: string}|object{input: ResolvesToString|string, regex: Regex|ResolvesToString|string, options?: string}&stdClass|RegexFindOperator
  */
 final class RegexFindOperator implements ResolvesToObject, OperatorInterface
 {
