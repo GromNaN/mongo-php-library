@@ -82,4 +82,38 @@ class VectorSearchStageTest extends PipelineTestCase
 
         $this->assertSamePipeline(Pipelines::VectorSearchENN, $pipeline);
     }
+
+    public function testStoredSource(): void
+    {
+        $pipeline = new Pipeline(
+            Stage::vectorSearch(
+                index: 'vector_index',
+                path: 'plot_embedding',
+                queryVector: [-0.03994801267981529, -0.016522614285349846, -0.008775344118475914],
+                filter: Query::and(
+                    Query::query(
+                        year: Query::gt(1970),
+                    ),
+                    Query::query(
+                        year: Query::lt(2020),
+                    ),
+                    Query::query(
+                        genres: Query::in(['Action', 'Drama', 'Comedy']),
+                    ),
+                ),
+                limit: 10,
+                numCandidates: 1000,
+                returnStoredSource: true,
+            ),
+            Stage::project(
+                _id: 0,
+                plot: 1,
+                title: 1,
+                genres: 1,
+                score: ['$meta' => 'vectorSearchScore'],
+            ),
+        );
+
+        $this->assertSamePipeline(Pipelines::VectorSearchStoredSource, $pipeline);
+    }
 }

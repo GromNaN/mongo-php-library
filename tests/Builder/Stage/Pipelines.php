@@ -4096,7 +4096,7 @@ enum Pipelines: string
     /**
      * ANN Basic
      *
-     * @see https://www.mongodb.com/docs/atlas/atlas-vector-search/vector-search-stage/#ann-examples
+     * @see https://www.mongodb.com/docs/atlas/atlas-vector-search/vector-search-stage/#examples
      */
     case VectorSearchANNBasic = <<<'JSON'
     [
@@ -4145,7 +4145,7 @@ enum Pipelines: string
     /**
      * ANN Filter
      *
-     * @see https://www.mongodb.com/docs/atlas/atlas-vector-search/vector-search-stage/#ann-examples
+     * @see https://www.mongodb.com/docs/atlas/atlas-vector-search/vector-search-stage/#examples
      */
     case VectorSearchANNFilter = <<<'JSON'
     [
@@ -4208,7 +4208,7 @@ enum Pipelines: string
     /**
      * ENN
      *
-     * @see https://www.mongodb.com/docs/atlas/atlas-vector-search/vector-search-stage/#enn-examples
+     * @see https://www.mongodb.com/docs/atlas/atlas-vector-search/vector-search-stage/#examples
      */
     case VectorSearchENN = <<<'JSON'
     [
@@ -4242,6 +4242,86 @@ enum Pipelines: string
                     "$numberInt": "1"
                 },
                 "title": {
+                    "$numberInt": "1"
+                },
+                "score": {
+                    "$meta": "vectorSearchScore"
+                }
+            }
+        }
+    ]
+    JSON;
+
+    /**
+     * Stored Source
+     *
+     * @see https://www.mongodb.com/docs/atlas/atlas-vector-search/vector-search-stage/#examples
+     */
+    case VectorSearchStoredSource = <<<'JSON'
+    [
+        {
+            "$vectorSearch": {
+                "index": "vector_index",
+                "path": "plot_embedding",
+                "queryVector": [
+                    {
+                        "$numberDouble": "-0.039948012679815292358"
+                    },
+                    {
+                        "$numberDouble": "-0.016522614285349845886"
+                    },
+                    {
+                        "$numberDouble": "-0.0087753441184759140015"
+                    }
+                ],
+                "filter": {
+                    "$and": [
+                        {
+                            "year": {
+                                "$gt": {
+                                    "$numberInt": "1970"
+                                }
+                            }
+                        },
+                        {
+                            "year": {
+                                "$lt": {
+                                    "$numberInt": "2020"
+                                }
+                            }
+                        },
+                        {
+                            "genres": {
+                                "$in": [
+                                    "Action",
+                                    "Drama",
+                                    "Comedy"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                "limit": {
+                    "$numberInt": "10"
+                },
+                "numCandidates": {
+                    "$numberInt": "1000"
+                },
+                "returnStoredSource": true
+            }
+        },
+        {
+            "$project": {
+                "_id": {
+                    "$numberInt": "0"
+                },
+                "plot": {
+                    "$numberInt": "1"
+                },
+                "title": {
+                    "$numberInt": "1"
+                },
+                "genres": {
                     "$numberInt": "1"
                 },
                 "score": {
