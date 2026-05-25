@@ -79,7 +79,42 @@ use function is_array;
 use function is_bool;
 use function strlen;
 
-/** @phpstan-import-type OperationType from BulkWrite */
+/**
+ * @psalm-import-type OperationShape from BulkWrite
+ * @psalm-type SearchIndexShape = array{
+ *     analyzer?: string,
+ *     analyzers?: list<array{
+ *         name: string,
+ *         charFilters?: list<array{type: 'icuNormalize'|'persian'}|array{type: 'htmlStrip', ignoredTags?: list<string>}|array{type: 'mapping', mappings?: array<string, string>}>,
+ *         tokenizer: array{type: string},
+ *         tokenFilters?: list<array{type: string, ...}>,
+ *     }>,
+ *     searchAnalyzer?: string,
+ *     mappings: array{
+ *         dynamic?: bool,
+ *         fields?: array<string,
+ *             array{type: 'boolean'|'date'|'dateFacet'|'objectId'|'stringFacet'|'uuid'} |
+ *             array{type: 'autocomplete', analyzer?: string, maxGrams?: int, minGrams?: int, tokenization?: 'edgeGram'|'rightEdgeGram'|'nGram', foldDiacritics?: bool, similarity?: array{type: 'bm25'|'boolean'|'stableTfl'}} |
+ *             array{type: 'document'|'embeddedDocuments', dynamic?: bool, fields: array<string, array<mixed>>} |
+ *             array{type: 'geo', indexShapes?: bool} |
+ *             array{type: 'number'|'numberFacet', representation?: 'int64'|'double', indexIntegers?: bool, indexDoubles?: bool} |
+ *             array{type: 'token', normalizer?: 'lowercase'|'none'} |
+ *             array{type: 'string', analyzer?: string, searchAnalyzer?: string, indexOptions?: 'docs'|'freqs'|'positions'|'offsets', store?: bool, ignoreAbove?: int, multi?: array<string, array<string, mixed>>, norms?: 'include'|'omit', similarity?: array{type: 'bm25'|'boolean'|'stableTfl'}} |
+ *             list<array{type: string, ...}>
+ *         >,
+ *     },
+ *     storedSource?: bool|array{include: list<string>}|array{exclude: list<string>},
+ *     synonyms?: list<array{analyzer: string, name: string, source?: array{collection: string}}>,
+ * }
+ * @psalm-type VectorSearchIndexShape = array{
+ *     fields: list<
+ *         array{type: 'vector', path: string, numDimensions: int, similarity: 'euclidean'|'cosine'|'dotProduct', quantization?: 'none'|'scalar'|'binary', indexingMethod?: 'flat'|'hnsw', hnswOptions?: array{maxEdges?: int, numEdgeCandidates?: int}} |
+ *         array{type: 'filter', path: string}
+ *     >,
+ *     storedSource?: bool|array{include: list<string>}|array{exclude: list<string>},
+ * }
+ * @psalm-type SearchIndexSpecShape = array{definition: SearchIndexShape|VectorSearchIndexShape|object, name?: string, type?: string}
+ */
 class Collection implements Stringable
 {
     private const DEFAULT_TYPE_MAP = [
@@ -255,7 +290,7 @@ class Collection implements Stringable
      * Executes multiple write operations.
      *
      * @param list<array{deleteMany: list<array|object>}|array{deleteOne: list<array|object>}|array{insertOne: list<array|object>}|array{replaceOne: list<array|object>}|array{updateMany: list<array|object>}|array{updateOne: list<array|object>}> $operations List of write operations
-     * @psalm-param list<OperationType> $operations List of write operations
+     * @psalm-param list<OperationShape> $operations List of write operations
      * @param array                                                                                                                                                                                                                                  $options    Command options
      * @throws UnsupportedException if options are not supported by the selected server
      * @throws InvalidArgumentException for parameter/option parsing errors
@@ -380,8 +415,8 @@ class Collection implements Stringable
      * Only available when used against a 7.0+ Atlas cluster.
      *
      * @see https://www.mongodb.com/docs/manual/reference/command/createSearchIndexes/
-     * @see https://mongodb.com/docs/manual/reference/method/db.collection.createSearchIndex/
-     * @param array|object                                         $definition Atlas Search index mapping definition
+     * @see https://www.mongodb.com/docs/manual/reference/method/db.collection.createSearchIndex/
+     * @param SearchIndexShape|VectorSearchIndexShape|object       $definition Atlas Search index mapping definition
      * @param array{comment?: mixed, name?: string, type?: string} $options    Index and command options
      * @return string The name of the created search index
      * @throws UnsupportedException if options are not supported by the selected server
@@ -396,7 +431,9 @@ class Collection implements Stringable
         /** @psalm-var array{comment?: mixed} */
         $operationOptions = array_diff_key($options, $indexOptionKeys);
 
-        $names = $this->createSearchIndexes([['definition' => $definition] + $indexOptions], $operationOptions);
+        /** @psalm-var list<SearchIndexSpecShape> */
+        $indexes = [['definition' => $definition] + $indexOptions];
+        $names = $this->createSearchIndexes($indexes, $operationOptions);
 
         return current($names);
     }
@@ -418,8 +455,8 @@ class Collection implements Stringable
      *
      * @see https://www.mongodb.com/docs/manual/reference/command/createSearchIndexes/
      * @see https://mongodb.com/docs/manual/reference/method/db.collection.createSearchIndex/
-     * @param list<array{definition: array|object, name?: string, type?: string}> $indexes List of search index specifications
-     * @param array{comment?: mixed}                                              $options Command options
+     * @param list<SearchIndexSpecShape> $indexes List of search index specifications
+     * @param array{comment?: mixed}     $options Command options
      * @return string[] The names of the created search indexes
      * @throws UnsupportedException if options are not supported by the selected server
      * @throws InvalidArgumentException for parameter/option parsing errors
@@ -1009,9 +1046,9 @@ class Collection implements Stringable
      * Update a single Atlas Search index in the collection.
      * Only available when used against a 7.0+ Atlas cluster.
      *
-     * @param string                 $name       Search index name
-     * @param array|object           $definition Atlas Search index definition
-     * @param array{comment?: mixed} $options    Command options
+     * @param string                                         $name       Search index name
+     * @param SearchIndexShape|VectorSearchIndexShape|object $definition Atlas Search index definition
+     * @param array{comment?: mixed}                         $options    Command options
      * @throws UnsupportedException if options are not supported by the selected server
      * @throws InvalidArgumentException for parameter parsing errors
      * @throws DriverRuntimeException for other driver errors (e.g. connection errors)
