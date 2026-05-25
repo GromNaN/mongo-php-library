@@ -4813,6 +4813,162 @@ enum Pipelines: string
     /**
      * Example
      *
+     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/similarityCosine/#example
+     */
+    case SimilarityCosineExample = <<<'JSON'
+    [
+        {
+            "$project": {
+                "raw": {
+                    "$similarityCosine": {
+                        "vectors": [
+                            "$a",
+                            "$b"
+                        ],
+                        "score": false
+                    }
+                },
+                "normalized": {
+                    "$similarityCosine": {
+                        "vectors": [
+                            "$a",
+                            "$b"
+                        ],
+                        "score": true
+                    }
+                }
+            }
+        }
+    ]
+    JSON;
+
+    /**
+     * Short Syntax
+     *
+     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/similarityCosine/#example
+     */
+    case SimilarityCosineShortSyntax = <<<'JSON'
+    [
+        {
+            "$project": {
+                "raw": {
+                    "$similarityCosine": [
+                        "$a",
+                        "$b"
+                    ]
+                }
+            }
+        }
+    ]
+    JSON;
+
+    /**
+     * Example
+     *
+     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/similarityDotProduct/#example
+     */
+    case SimilarityDotProductExample = <<<'JSON'
+    [
+        {
+            "$project": {
+                "raw": {
+                    "$similarityDotProduct": {
+                        "vectors": [
+                            "$a",
+                            "$b"
+                        ],
+                        "score": false
+                    }
+                },
+                "normalized": {
+                    "$similarityDotProduct": {
+                        "vectors": [
+                            "$a",
+                            "$b"
+                        ],
+                        "score": true
+                    }
+                }
+            }
+        }
+    ]
+    JSON;
+
+    /**
+     * Short Syntax
+     *
+     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/similarityDotProduct/#example
+     */
+    case SimilarityDotProductShortSyntax = <<<'JSON'
+    [
+        {
+            "$project": {
+                "raw": {
+                    "$similarityDotProduct": [
+                        "$a",
+                        "$b"
+                    ]
+                }
+            }
+        }
+    ]
+    JSON;
+
+    /**
+     * Example
+     *
+     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/similarityEuclidean/#example
+     */
+    case SimilarityEuclideanExample = <<<'JSON'
+    [
+        {
+            "$project": {
+                "raw": {
+                    "$similarityEuclidean": {
+                        "vectors": [
+                            "$a",
+                            "$b"
+                        ],
+                        "score": false
+                    }
+                },
+                "normalized": {
+                    "$similarityEuclidean": {
+                        "vectors": [
+                            "$a",
+                            "$b"
+                        ],
+                        "score": true
+                    }
+                }
+            }
+        }
+    ]
+    JSON;
+
+    /**
+     * Short Syntax
+     *
+     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/similarityEuclidean/#example
+     */
+    case SimilarityEuclideanShortSyntax = <<<'JSON'
+    [
+        {
+            "$project": {
+                "raw": {
+                    "$similarityEuclidean": [
+                        "$a",
+                        "$b"
+                    ]
+                }
+            }
+        }
+    ]
+    JSON;
+
+    /**
+     * Example
+     *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/sin/#example
      */
     case SinExample = <<<'JSON'
