@@ -189,7 +189,7 @@ final class UnifiedTestRunner
         $context = $this->createContext();
 
         if (isset($initialData)) {
-            $this->prepareInitialData($initialData, $context, $this->isAdvanceClusterTimeNeeded($test->operations));
+            $this->prepareInitialData($initialData, $context, $this->isAdvanceClusterTimeNeeded($test->operations, $createEntities));
         }
 
         /* If an EntityMap observer has been configured, assign the Context's
@@ -435,8 +435,12 @@ final class UnifiedTestRunner
 
     /**
      * Work around potential MigrationConflict errors on sharded clusters.
+     *
+     * Cluster time advancement is also needed for snapshot sessions, since initialData uses an internal client that
+     * does not gossip its cluster time to test entities. Without advancement, a snapshot session may establish its
+     * atClusterTime before the initial data is visible, causing snapshot reads to return no results.
      */
-    private function isAdvanceClusterTimeNeeded(array $operations): bool
+    private function isAdvanceClusterTimeNeeded(array $operations, ?array $createEntities = null): bool
     {
         if (! in_array($this->getPrimaryServer()->getType(), [Server::TYPE_MONGOS, Server::TYPE_LOAD_BALANCER], true)) {
             return false;
@@ -447,6 +451,17 @@ final class UnifiedTestRunner
                 case 'startTransaction':
                 case 'withTransaction':
                     return true;
+            }
+        }
+
+        foreach ($createEntities ?? [] as $entity) {
+            $session = $entity->session ?? null;
+            if ($session === null) {
+                continue;
+            }
+
+            if (($session->sessionOptions?->snapshot ?? false) === true) {
+                return true;
             }
         }
 
