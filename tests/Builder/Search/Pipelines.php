@@ -2881,6 +2881,165 @@ enum Pipelines: string
     JSON;
 
     /**
+     * ANN Basic
+     *
+     * @see https://www.mongodb.com/docs/atlas/atlas-search/vector-search/#basic-example
+     */
+    case VectorSearchANNBasic = <<<'JSON'
+    [
+        {
+            "$search": {
+                "vectorSearch": {
+                    "path": "plot_embedding",
+                    "queryVector": [
+                        {
+                            "$numberDouble": "-0.0016261311999999999121"
+                        },
+                        {
+                            "$numberDouble": "-0.028070756999999998266"
+                        },
+                        {
+                            "$numberDouble": "-0.011342932000000000015"
+                        }
+                    ],
+                    "numCandidates": {
+                        "$numberInt": "150"
+                    },
+                    "limit": {
+                        "$numberInt": "10"
+                    }
+                }
+            }
+        },
+        {
+            "$project": {
+                "_id": {
+                    "$numberInt": "0"
+                },
+                "plot": {
+                    "$numberInt": "1"
+                },
+                "title": {
+                    "$numberInt": "1"
+                },
+                "score": {
+                    "$meta": "searchScore"
+                }
+            }
+        }
+    ]
+    JSON;
+
+    /**
+     * ANN Filter
+     *
+     * @see https://www.mongodb.com/docs/atlas/atlas-search/vector-search/#filter-example
+     */
+    case VectorSearchANNFilter = <<<'JSON'
+    [
+        {
+            "$search": {
+                "vectorSearch": {
+                    "path": "plot_embedding",
+                    "queryVector": [
+                        {
+                            "$numberDouble": "0.024210530000000000939"
+                        },
+                        {
+                            "$numberDouble": "-0.022372592000000000173"
+                        },
+                        {
+                            "$numberDouble": "-0.0062311370000000003075"
+                        }
+                    ],
+                    "filter": {
+                        "range": {
+                            "path": "year",
+                            "lt": {
+                                "$numberInt": "1975"
+                            }
+                        }
+                    },
+                    "numCandidates": {
+                        "$numberInt": "150"
+                    },
+                    "limit": {
+                        "$numberInt": "10"
+                    }
+                }
+            }
+        },
+        {
+            "$project": {
+                "_id": {
+                    "$numberInt": "0"
+                },
+                "title": {
+                    "$numberInt": "1"
+                },
+                "plot": {
+                    "$numberInt": "1"
+                },
+                "year": {
+                    "$numberInt": "1"
+                },
+                "score": {
+                    "$meta": "searchScore"
+                }
+            }
+        }
+    ]
+    JSON;
+
+    /**
+     * ENN
+     *
+     * @see https://www.mongodb.com/docs/atlas/atlas-search/vector-search/#enn-example
+     */
+    case VectorSearchENN = <<<'JSON'
+    [
+        {
+            "$search": {
+                "vectorSearch": {
+                    "path": "plot_embedding",
+                    "queryVector": [
+                        {
+                            "$numberDouble": "-0.0069540970000000002296"
+                        },
+                        {
+                            "$numberDouble": "-0.009932498999999999148"
+                        },
+                        {
+                            "$numberDouble": "-0.0013114739999999999731"
+                        }
+                    ],
+                    "exact": true,
+                    "limit": {
+                        "$numberInt": "10"
+                    }
+                }
+            }
+        },
+        {
+            "$project": {
+                "_id": {
+                    "$numberInt": "0"
+                },
+                "plot": {
+                    "$numberInt": "1"
+                },
+                "title": {
+                    "$numberInt": "1"
+                },
+                "score": {
+                    "$meta": "searchScore"
+                }
+            }
+        }
+    ]
+    JSON;
+
+    /**
      * Wildcard Path
      *
      * @see https://www.mongodb.com/docs/atlas/atlas-search/wildcard/#index-definition
