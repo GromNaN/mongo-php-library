@@ -33,6 +33,8 @@ final class ArgumentDefinition
         public mixed $default = null,
         public bool $mergeObject = false,
         public string|null $minVersion = null,
+        public int|null $minItems = null,
+        public int|null $maxItems = null,
         mixed ...$ignoredOtherArgs,
     ) {
         assert($this->optional === false || $this->default === null, 'Optional arguments cannot have a default value');
