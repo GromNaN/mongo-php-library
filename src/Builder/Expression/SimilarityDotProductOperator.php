@@ -16,8 +16,10 @@ use MongoDB\Exception\InvalidArgumentException;
 use MongoDB\Model\BSONArray;
 
 use function array_is_list;
+use function count;
 use function is_array;
 use function is_string;
+use function sprintf;
 use function str_starts_with;
 
 /**
@@ -59,6 +61,11 @@ final class SimilarityDotProductOperator implements ResolvesToDouble, OperatorIn
 
         if (is_array($vectors) && ! array_is_list($vectors)) {
             throw new InvalidArgumentException('Expected $vectors argument to be a list, got an associative array.');
+        }
+
+        /** @psalm-suppress RedundantCondition $vectors can also be ResolvesToArray, BSONArray, PackedArray */
+        if (is_array($vectors) && count($vectors) !== 2) {
+            throw new InvalidArgumentException(sprintf('Expected exactly %d items for $vectors, got %d.', 2, count($vectors)));
         }
 
         $this->vectors = $vectors;
