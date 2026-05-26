@@ -1781,6 +1781,60 @@ trait FactoryTrait
     }
 
     /**
+     * Returns the cosine similarity between two vectors. If the score argument is true, the result
+     * is normalized to a value between 0 and 1 for use as a vector search score.
+     *
+     * New in MongoDB 8.3
+     *
+     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/similarityCosine/
+     * @param BSONArray|PackedArray|ResolvesToArray|array|string $vectors An array of exactly two expressions that each resolve to an array of numbers.
+     * Both arrays must have the same length.
+     * @param Optional|bool $score If true, normalizes the result to a value between 0 and 1 for use as a vector search score. Defaults to false.
+     */
+    public static function similarityCosine(
+        PackedArray|ResolvesToArray|BSONArray|array|string $vectors,
+        Optional|bool $score = Optional::Undefined,
+    ): SimilarityCosineOperator {
+        return new SimilarityCosineOperator($vectors, $score);
+    }
+
+    /**
+     * Returns the dot product similarity between two vectors. If the score argument is true, the result
+     * is normalized to a value between 0 and 1 for use as a vector search score.
+     *
+     * New in MongoDB 8.3
+     *
+     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/similarityDotProduct/
+     * @param BSONArray|PackedArray|ResolvesToArray|array|string $vectors An array of exactly two expressions that each resolve to an array of numbers.
+     * Both arrays must have the same length.
+     * @param Optional|bool $score If true, normalizes the result to a value between 0 and 1 for use as a vector search score. Defaults to false.
+     */
+    public static function similarityDotProduct(
+        PackedArray|ResolvesToArray|BSONArray|array|string $vectors,
+        Optional|bool $score = Optional::Undefined,
+    ): SimilarityDotProductOperator {
+        return new SimilarityDotProductOperator($vectors, $score);
+    }
+
+    /**
+     * Returns the Euclidean similarity between two vectors. If the score argument is true, the result
+     * is normalized to a value between 0 and 1 for use as a vector search score.
+     *
+     * New in MongoDB 8.3
+     *
+     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/similarityEuclidean/
+     * @param BSONArray|PackedArray|ResolvesToArray|array|string $vectors An array of exactly two expressions that each resolve to an array of numbers.
+     * Both arrays must have the same length.
+     * @param Optional|bool $score If true, normalizes the result to a value between 0 and 1 for use as a vector search score. Defaults to false.
+     */
+    public static function similarityEuclidean(
+        PackedArray|ResolvesToArray|BSONArray|array|string $vectors,
+        Optional|bool $score = Optional::Undefined,
+    ): SimilarityEuclideanOperator {
+        return new SimilarityEuclideanOperator($vectors, $score);
+    }
+
+    /**
      * Returns the sine of a value that is measured in radians.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/sin/
