@@ -3231,6 +3231,33 @@ enum Pipelines: string
     JSON;
 
     /**
+     * Use Array Index
+     *
+     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/map/
+     */
+    case MapUseArrayIndex = <<<'JSON'
+    [
+        {
+            "$project": {
+                "result": {
+                    "$map": {
+                        "input": "$scores",
+                        "as": "score",
+                        "arrayIndexAs": "idx",
+                        "in": {
+                            "$add": [
+                                "$$score",
+                                "$$idx"
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    ]
+    JSON;
+
+    /**
      * Use in $project Stage
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/max/#use-in--project-stage
@@ -5736,6 +5763,23 @@ enum Pipelines: string
                             "$numberInt": "300000"
                         }
                     ]
+                }
+            }
+        }
+    ]
+    JSON;
+
+    /**
+     * Example
+     *
+     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/subtype/
+     */
+    case SubtypeExample = <<<'JSON'
+    [
+        {
+            "$project": {
+                "result": {
+                    "$subtype": "$myBinDataField"
                 }
             }
         }

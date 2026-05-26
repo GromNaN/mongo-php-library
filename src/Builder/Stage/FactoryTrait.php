@@ -516,15 +516,15 @@ trait FactoryTrait
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/rankFusion/
      * @param Document|Serializable|array|stdClass $input An object that specifies the pipelines to combine with rank fusion.
-     * @param bool $scoreDetails Set to true to include detailed scoring information.
      * @param Optional|Document|Serializable|array|stdClass $combination An object that specifies how to combine the ranked results.
+     * @param Optional|bool $scoreDetails Set to true to include detailed scoring information.
      */
     public static function rankFusion(
         Document|Serializable|stdClass|array $input,
-        bool $scoreDetails,
         Optional|Document|Serializable|stdClass|array $combination = Optional::Undefined,
+        Optional|bool $scoreDetails = Optional::Undefined,
     ): RankFusionStage {
-        return new RankFusionStage($input, $scoreDetails, $combination);
+        return new RankFusionStage($input, $combination, $scoreDetails);
     }
 
     /**
@@ -628,15 +628,15 @@ trait FactoryTrait
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/scoreFusion/
      * @param Document|Serializable|array|stdClass $input An object that specifies the pipelines to combine with score fusion.
-     * @param bool $scoreDetails Set to true to include detailed scoring information.
      * @param Optional|Document|Serializable|array|stdClass $combination An object that specifies how to combine the scores.
+     * @param Optional|bool $scoreDetails Set to true to include detailed scoring information.
      */
     public static function scoreFusion(
         Document|Serializable|stdClass|array $input,
-        bool $scoreDetails,
         Optional|Document|Serializable|stdClass|array $combination = Optional::Undefined,
+        Optional|bool $scoreDetails = Optional::Undefined,
     ): ScoreFusionStage {
-        return new ScoreFusionStage($input, $scoreDetails, $combination);
+        return new ScoreFusionStage($input, $combination, $scoreDetails);
     }
 
     /**

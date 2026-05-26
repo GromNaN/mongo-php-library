@@ -579,15 +579,15 @@ trait FluentFactoryTrait
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/rankFusion/
      * @param Document|Serializable|array|stdClass $input An object that specifies the pipelines to combine with rank fusion.
-     * @param bool $scoreDetails Set to true to include detailed scoring information.
      * @param Optional|Document|Serializable|array|stdClass $combination An object that specifies how to combine the ranked results.
+     * @param Optional|bool $scoreDetails Set to true to include detailed scoring information.
      */
     public function rankFusion(
         Document|Serializable|stdClass|array $input,
-        bool $scoreDetails,
         Optional|Document|Serializable|stdClass|array $combination = Optional::Undefined,
+        Optional|bool $scoreDetails = Optional::Undefined,
     ): static {
-        $this->pipeline[] = Stage::rankFusion($input, $scoreDetails, $combination);
+        $this->pipeline[] = Stage::rankFusion($input, $combination, $scoreDetails);
 
         return $this;
     }
@@ -703,15 +703,15 @@ trait FluentFactoryTrait
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/scoreFusion/
      * @param Document|Serializable|array|stdClass $input An object that specifies the pipelines to combine with score fusion.
-     * @param bool $scoreDetails Set to true to include detailed scoring information.
      * @param Optional|Document|Serializable|array|stdClass $combination An object that specifies how to combine the scores.
+     * @param Optional|bool $scoreDetails Set to true to include detailed scoring information.
      */
     public function scoreFusion(
         Document|Serializable|stdClass|array $input,
-        bool $scoreDetails,
         Optional|Document|Serializable|stdClass|array $combination = Optional::Undefined,
+        Optional|bool $scoreDetails = Optional::Undefined,
     ): static {
-        $this->pipeline[] = Stage::scoreFusion($input, $scoreDetails, $combination);
+        $this->pipeline[] = Stage::scoreFusion($input, $combination, $scoreDetails);
 
         return $this;
     }

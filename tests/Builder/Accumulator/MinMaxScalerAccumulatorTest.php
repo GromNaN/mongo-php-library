@@ -24,10 +24,10 @@ class MinMaxScalerAccumulatorTest extends PipelineTestCase
                 sortBy: object(a: 1),
                 output: object(
                     scaled: Accumulator::minMaxScaler(
-                        input: Expression::fieldPath('a'),
+                        input: Expression::numberFieldPath('a'),
                     ),
                     scaledTo100: Accumulator::minMaxScaler(
-                        input: Expression::fieldPath('a'),
+                        input: Expression::numberFieldPath('a'),
                         min: 0,
                         max: 100,
                     ),

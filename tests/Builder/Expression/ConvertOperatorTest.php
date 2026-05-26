@@ -35,7 +35,7 @@ class ConvertOperatorTest extends PipelineTestCase
         $pipeline = new Pipeline(
             Stage::project(
                 binaryString: Expression::convert(
-                    input: Expression::stringFieldPath('value'),
+                    input: Expression::intFieldPath('value'),
                     to: 'string',
                     base: 2,
                 ),
