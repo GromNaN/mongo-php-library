@@ -41,13 +41,13 @@ final class SimilarityDotProductOperator implements ResolvesToDouble, OperatorIn
      */
     public readonly PackedArray|ResolvesToArray|BSONArray|array|string $vectors;
 
-    /** @var Optional|bool $score If true, normalizes the result to a value between 0 and 1 for use as a vector search score. */
+    /** @var Optional|bool $score If true, normalizes the result to a value between 0 and 1 for use as a vector search score. Defaults to false. */
     public readonly Optional|bool $score;
 
     /**
      * @param BSONArray|PackedArray|ResolvesToArray|array|string $vectors An array of exactly two expressions that each resolve to an array of numbers.
      * Both arrays must have the same length.
-     * @param Optional|bool $score If true, normalizes the result to a value between 0 and 1 for use as a vector search score.
+     * @param Optional|bool $score If true, normalizes the result to a value between 0 and 1 for use as a vector search score. Defaults to false.
      */
     public function __construct(
         PackedArray|ResolvesToArray|BSONArray|array|string $vectors,

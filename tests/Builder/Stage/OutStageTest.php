@@ -10,8 +10,6 @@ use MongoDB\Builder\Pipeline;
 use MongoDB\Builder\Stage;
 use MongoDB\Tests\Builder\PipelineTestCase;
 
-use function MongoDB\object;
-
 /**
  * Test $out stage
  */
@@ -36,13 +34,13 @@ class OutStageTest extends PipelineTestCase
     {
         $pipeline = new Pipeline(
             Stage::out(
-                coll: 'sensorData',
                 db: 'reporting',
-                timeseries: object(
-                    timeField: 'timestamp',
-                    metaField: 'sensorId',
-                    granularity: 'hours',
-                ),
+                coll: 'sensorData',
+                timeseries: [
+                    'timeField' => 'timestamp',
+                    'metaField' => 'sensorId',
+                    'granularity' => 'hours',
+                ],
             ),
         );
 
