@@ -25,9 +25,4 @@ class SimilarityEuclideanOperatorTest extends PipelineTestCase
 
         $this->assertSamePipeline(Pipelines::SimilarityEuclideanExample, $pipeline);
     }
-
-    public function testShortSyntax(): void
-    {
-        $this->markTestSkipped('The builder does not support the short syntax for $similarityEuclidean');
-    }
 }

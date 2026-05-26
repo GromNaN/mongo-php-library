@@ -11,6 +11,7 @@ namespace MongoDB\Builder\Expression;
 use MongoDB\BSON\PackedArray;
 use MongoDB\Builder\Type\Encode;
 use MongoDB\Builder\Type\OperatorInterface;
+use MongoDB\Builder\Type\Optional;
 use MongoDB\Exception\InvalidArgumentException;
 use MongoDB\Model\BSONArray;
 
@@ -40,16 +41,18 @@ final class SimilarityCosineOperator implements ResolvesToDouble, OperatorInterf
      */
     public readonly PackedArray|ResolvesToArray|BSONArray|array|string $vectors;
 
-    /** @var bool $score If true, normalizes the result to a value between 0 and 1 for use as a vector search score. */
-    public readonly bool $score;
+    /** @var Optional|bool $score If true, normalizes the result to a value between 0 and 1 for use as a vector search score. */
+    public readonly Optional|bool $score;
 
     /**
      * @param BSONArray|PackedArray|ResolvesToArray|array|string $vectors An array of exactly two expressions that each resolve to an array of numbers.
      * Both arrays must have the same length.
-     * @param bool $score If true, normalizes the result to a value between 0 and 1 for use as a vector search score.
+     * @param Optional|bool $score If true, normalizes the result to a value between 0 and 1 for use as a vector search score.
      */
-    public function __construct(PackedArray|ResolvesToArray|BSONArray|array|string $vectors, bool $score = false)
-    {
+    public function __construct(
+        PackedArray|ResolvesToArray|BSONArray|array|string $vectors,
+        Optional|bool $score = Optional::Undefined,
+    ) {
         if (is_string($vectors) && ! str_starts_with($vectors, '$')) {
             throw new InvalidArgumentException('Argument $vectors can be an expression, field paths and variable names must be prefixed by "$" or "$$".');
         }

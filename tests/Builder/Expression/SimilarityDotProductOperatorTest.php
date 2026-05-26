@@ -25,9 +25,4 @@ class SimilarityDotProductOperatorTest extends PipelineTestCase
 
         $this->assertSamePipeline(Pipelines::SimilarityDotProductExample, $pipeline);
     }
-
-    public function testShortSyntax(): void
-    {
-        $this->markTestSkipped('The builder does not support the short syntax for $similarityDotProduct');
-    }
 }

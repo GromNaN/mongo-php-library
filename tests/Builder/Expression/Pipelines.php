@@ -4824,8 +4824,7 @@ enum Pipelines: string
                         "vectors": [
                             "$a",
                             "$b"
-                        ],
-                        "score": false
+                        ]
                     }
                 },
                 "normalized": {
@@ -4836,26 +4835,6 @@ enum Pipelines: string
                         ],
                         "score": true
                     }
-                }
-            }
-        }
-    ]
-    JSON;
-
-    /**
-     * Short Syntax
-     *
-     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/similarityCosine/#example
-     */
-    case SimilarityCosineShortSyntax = <<<'JSON'
-    [
-        {
-            "$project": {
-                "raw": {
-                    "$similarityCosine": [
-                        "$a",
-                        "$b"
-                    ]
                 }
             }
         }
@@ -4876,8 +4855,7 @@ enum Pipelines: string
                         "vectors": [
                             "$a",
                             "$b"
-                        ],
-                        "score": false
+                        ]
                     }
                 },
                 "normalized": {
@@ -4888,26 +4866,6 @@ enum Pipelines: string
                         ],
                         "score": true
                     }
-                }
-            }
-        }
-    ]
-    JSON;
-
-    /**
-     * Short Syntax
-     *
-     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/similarityDotProduct/#example
-     */
-    case SimilarityDotProductShortSyntax = <<<'JSON'
-    [
-        {
-            "$project": {
-                "raw": {
-                    "$similarityDotProduct": [
-                        "$a",
-                        "$b"
-                    ]
                 }
             }
         }
@@ -4928,8 +4886,7 @@ enum Pipelines: string
                         "vectors": [
                             "$a",
                             "$b"
-                        ],
-                        "score": false
+                        ]
                     }
                 },
                 "normalized": {
@@ -4940,26 +4897,6 @@ enum Pipelines: string
                         ],
                         "score": true
                     }
-                }
-            }
-        }
-    ]
-    JSON;
-
-    /**
-     * Short Syntax
-     *
-     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/similarityEuclidean/#example
-     */
-    case SimilarityEuclideanShortSyntax = <<<'JSON'
-    [
-        {
-            "$project": {
-                "raw": {
-                    "$similarityEuclidean": [
-                        "$a",
-                        "$b"
-                    ]
                 }
             }
         }
