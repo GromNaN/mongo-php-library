@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace MongoDB\Builder\Stage;
 
 use DateTimeInterface;
+use MongoDB\BSON\Binary;
 use MongoDB\BSON\Decimal128;
 use MongoDB\BSON\Document;
 use MongoDB\BSON\Int64;
@@ -18,6 +19,7 @@ use MongoDB\BSON\Timestamp;
 use MongoDB\BSON\Type;
 use MongoDB\Builder\Expression\ArrayFieldPath;
 use MongoDB\Builder\Expression\ResolvesToArray;
+use MongoDB\Builder\Expression\ResolvesToBinData;
 use MongoDB\Builder\Expression\ResolvesToObject;
 use MongoDB\Builder\Pipeline;
 use MongoDB\Builder\Stage;
@@ -582,7 +584,7 @@ trait FluentFactoryTrait
      */
     public function rankFusion(
         Document|Serializable|stdClass|array $input,
-        bool $scoreDetails = false,
+        bool $scoreDetails,
         Optional|Document|Serializable|stdClass|array $combination = Optional::Undefined,
     ): static {
         $this->pipeline[] = Stage::rankFusion($input, $scoreDetails, $combination);
@@ -667,6 +669,34 @@ trait FluentFactoryTrait
     }
 
     /**
+     * Computes and returns a new score as metadata. It also optionally normalizes the input
+     * scores, by default to a range between zero and one.
+     *
+     * New in MongoDB 8.2
+     *
+     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/score/
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $score Computes a new value from the input scores and stores the value in the $meta keyword
+     * score. Returns an error for non-numeric inputs.
+     * @param Optional|string $normalization Normalizes the score to the range of 0 to 1. Value can be:
+     * - none: Doesn't normalize. If omitted, defaults to none.
+     * - sigmoid: Applies the sigmoid expression: 1 / (1 + e^-x).
+     * - minMaxScaler: Applies the $minMaxScaler window function.
+     * @param Optional|DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $weight Number to multiply the score expression by after normalization.
+     * @param Optional|bool $scoreDetails Specifies if $score computes and populates the $scoreDetails metadata field for each
+     * output document.
+     */
+    public function score(
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|string|int|float|bool|null $score,
+        Optional|string $normalization = Optional::Undefined,
+        Optional|DateTimeInterface|Type|ExpressionInterface|stdClass|array|string|int|float|bool|null $weight = Optional::Undefined,
+        Optional|bool $scoreDetails = Optional::Undefined,
+    ): static {
+        $this->pipeline[] = Stage::score($score, $normalization, $weight, $scoreDetails);
+
+        return $this;
+    }
+
+    /**
      * Combines multiple pipelines using relative score fusion to create hybrid search results.
      *
      * New in MongoDB 8.0
@@ -678,7 +708,7 @@ trait FluentFactoryTrait
      */
     public function scoreFusion(
         Document|Serializable|stdClass|array $input,
-        bool $scoreDetails = false,
+        bool $scoreDetails,
         Optional|Document|Serializable|stdClass|array $combination = Optional::Undefined,
     ): static {
         $this->pipeline[] = Stage::scoreFusion($input, $scoreDetails, $combination);
@@ -908,7 +938,8 @@ trait FluentFactoryTrait
      * @param string $index Name of the Atlas Vector Search index to use.
      * @param int $limit Number of documents to return in the results. This value can't exceed the value of numCandidates if you specify numCandidates.
      * @param string $path Indexed vector type field to search.
-     * @param BSONArray|PackedArray|array $queryVector Array of numbers that represent the query vector. The number type must match the indexed field value type.
+     * @param BSONArray|Binary|PackedArray|ResolvesToBinData|array|string $queryVector Array of numbers or a BinData value that represent the query vector. The number type
+     * must match the indexed field value type.
      * @param Optional|bool $exact This is required if numCandidates is omitted. false to run ANN search. true to run ENN search.
      * @param Optional|QueryInterface|array $filter Any match query that compares an indexed field with a boolean, date, objectId, number (not decimals), string, or UUID to use as a pre-filter.
      * @param Optional|int $numCandidates This field is required if exact is false or omitted.
@@ -919,7 +950,7 @@ trait FluentFactoryTrait
         string $index,
         int $limit,
         string $path,
-        PackedArray|BSONArray|array $queryVector,
+        Binary|PackedArray|ResolvesToBinData|BSONArray|array|string $queryVector,
         Optional|bool $exact = Optional::Undefined,
         Optional|QueryInterface|array $filter = Optional::Undefined,
         Optional|int $numCandidates = Optional::Undefined,

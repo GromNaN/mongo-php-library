@@ -427,6 +427,28 @@ trait FactoryTrait
     }
 
     /**
+     * Normalizes a numeric expression within a window of values. By default, values can range
+     * between zero and one. The smallest value becomes zero, the largest value becomes one, and
+     * all other values scale proportionally in between. You can also specify a custom minimum
+     * and maximum value for the normalized output range.
+     * Available only in the $setWindowFields stage.
+     *
+     * New in MongoDB 8.2
+     *
+     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/minMaxScaler/
+     * @param Decimal128|Int64|ResolvesToNumber|float|int|string $input Numeric expression containing the value that you want to normalize.
+     * @param Optional|Decimal128|Int64|float|int $min Minimum value that you want in the output. If omitted, defaults to 0.
+     * @param Optional|Decimal128|Int64|float|int $max Maximum value that you want in the output. If omitted, defaults to 1.
+     */
+    public static function minMaxScaler(
+        Decimal128|Int64|ResolvesToNumber|float|int|string $input,
+        Optional|Decimal128|Int64|float|int $min = Optional::Undefined,
+        Optional|Decimal128|Int64|float|int $max = Optional::Undefined,
+    ): MinMaxScalerAccumulator {
+        return new MinMaxScalerAccumulator($input, $min, $max);
+    }
+
+    /**
      * Returns the n smallest values in an array. Distinct from the $minN accumulator.
      *
      * New in MongoDB 5.2

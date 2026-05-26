@@ -430,7 +430,11 @@ trait FactoryTrait
     }
 
     /**
-     * Converts a value to a specified type.
+     * Converts a value to a specified type. Any type can be converted to string.
+     * If the optional base argument is specified, $convert interprets the input string as a
+     * number in the given base and converts it to a decimal, or converts a numeric value to a
+     * string representation in that base. Supported bases are 2 (binary), 8 (octal), 10
+     * (decimal), and 16 (hexadecimal).
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/convert/
      * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $input
@@ -439,14 +443,24 @@ trait FactoryTrait
      * If unspecified, the operation throws an error upon encountering an error and stops.
      * @param Optional|DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $onNull The value to return if the input is null or missing. The arguments can be any valid expression.
      * If unspecified, $convert returns null if the input is null or missing.
+     * @param Optional|ResolvesToInt|int|string $base The numeric base to use when converting between strings and integers. Must be one of
+     * 2 (binary), 8 (octal), 10 (decimal), or 16 (hexadecimal).
+     * When converting a string to a number, $convert interprets the string as a number in
+     * the given base and returns the decimal equivalent.
+     * When converting a number to a string, $convert returns the string representation of
+     * the number in the given base.
+     * If unspecified, $convert uses base 10.
+     *
+     * New in MongoDB 8.3
      */
     public static function convert(
         DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $input,
         ResolvesToInt|ResolvesToString|int|string $to,
         Optional|DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $onError = Optional::Undefined,
         Optional|DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $onNull = Optional::Undefined,
+        Optional|ResolvesToInt|int|string $base = Optional::Undefined,
     ): ConvertOperator {
-        return new ConvertOperator($input, $to, $onError, $onNull);
+        return new ConvertOperator($input, $to, $onError, $onNull, $base);
     }
 
     /**
@@ -1244,13 +1258,18 @@ trait FactoryTrait
      * @param BSONArray|PackedArray|ResolvesToArray|array|string $input An expression that resolves to an array.
      * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $in An expression that is applied to each element of the input array. The expression references each element individually with the variable name specified in as.
      * @param Optional|ResolvesToString|string $as A name for the variable that represents each individual element of the input array. If no name is specified, the variable name defaults to this.
+     * @param Optional|string $arrayIndexAs A name for the variable that represents the index of the current element in
+     * the input array. If specified, this variable is available within the in expression.
+     *
+     * New in MongoDB 8.3
      */
     public static function map(
         PackedArray|ResolvesToArray|BSONArray|array|string $input,
         DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $in,
         Optional|ResolvesToString|string $as = Optional::Undefined,
+        Optional|string $arrayIndexAs = Optional::Undefined,
     ): MapOperator {
-        return new MapOperator($input, $in, $as);
+        return new MapOperator($input, $in, $as, $arrayIndexAs);
     }
 
     /**
@@ -2100,6 +2119,20 @@ trait FactoryTrait
         DateTimeInterface|Decimal128|Int64|UTCDateTime|ResolvesToDate|ResolvesToNumber|float|int|string $expression2,
     ): SubtractOperator {
         return new SubtractOperator($expression1, $expression2);
+    }
+
+    /**
+     * Returns the subtype of a given value as an integer. In MongoDB 8.3, the only expression
+     * that contains a subtype is a BinData expression.
+     *
+     * New in MongoDB 8.3
+     *
+     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/subtype/
+     * @param Binary|ResolvesToBinData|string $expression An expression that resolves to a BinData value.
+     */
+    public static function subtype(Binary|ResolvesToBinData|string $expression): SubtypeOperator
+    {
+        return new SubtypeOperator($expression);
     }
 
     /**

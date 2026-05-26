@@ -46,7 +46,7 @@ final class ScoreFusionStage implements StageInterface, OperatorInterface
      */
     public function __construct(
         Document|Serializable|stdClass|array $input,
-        bool $scoreDetails = false,
+        bool $scoreDetails,
         Optional|Document|Serializable|stdClass|array $combination = Optional::Undefined,
     ) {
         $this->input = $input;

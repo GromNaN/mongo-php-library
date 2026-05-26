@@ -927,6 +927,52 @@ enum Pipelines: string
     JSON;
 
     /**
+     * Convert Hexadecimal String to Integer
+     *
+     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/convert/#base-conversion
+     */
+    case ConvertConvertHexadecimalStringToInteger = <<<'JSON'
+    [
+        {
+            "$project": {
+                "decimalValue": {
+                    "$convert": {
+                        "input": "$hexString",
+                        "to": "int",
+                        "base": {
+                            "$numberInt": "16"
+                        }
+                    }
+                }
+            }
+        }
+    ]
+    JSON;
+
+    /**
+     * Convert Integer to Binary String
+     *
+     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/convert/#base-conversion
+     */
+    case ConvertConvertIntegerToBinaryString = <<<'JSON'
+    [
+        {
+            "$project": {
+                "binaryString": {
+                    "$convert": {
+                        "input": "$value",
+                        "to": "string",
+                        "base": {
+                            "$numberInt": "2"
+                        }
+                    }
+                }
+            }
+        }
+    ]
+    JSON;
+
+    /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/cos/#example
