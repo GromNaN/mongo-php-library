@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace MongoDB\Builder\Expression;
 
-use Countable;
 use MongoDB\BSON\PackedArray;
 use MongoDB\Builder\Type\Encode;
 use MongoDB\Builder\Type\OperatorInterface;
@@ -19,6 +18,7 @@ use MongoDB\Model\BSONArray;
 use function array_is_list;
 use function count;
 use function is_array;
+use function is_countable;
 use function is_string;
 use function sprintf;
 use function str_starts_with;
@@ -65,7 +65,7 @@ final class SimilarityDotProductOperator implements ResolvesToDouble, OperatorIn
         }
 
         /** @psalm-suppress RedundantCondition */
-        if ((is_array($vectors) || $vectors instanceof Countable) && count($vectors) !== 2) {
+        if (is_countable($vectors) && count($vectors) !== 2) {
             throw new InvalidArgumentException(sprintf('Expected exactly %d items for $vectors, got %d.', 2, count($vectors)));
         }
 

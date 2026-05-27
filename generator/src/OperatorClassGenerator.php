@@ -162,14 +162,13 @@ class OperatorClassGenerator extends OperatorGenerator
 
                 if ($argument->minItems !== null || $argument->maxItems !== null) {
                     $namespace->addUseFunction('count');
-                    $namespace->addUseFunction('is_array');
+                    $namespace->addUseFunction('is_countable');
                     $namespace->addUseFunction('sprintf');
                     $namespace->addUse(InvalidArgumentException::class);
-                    $namespace->addUse('Countable');
                     if ($argument->minItems !== null && $argument->minItems === $argument->maxItems) {
                         $constructor->addBody(<<<PHP
                         /** @psalm-suppress RedundantCondition */
-                        if ((is_array(\${$argument->propertyName}) || \${$argument->propertyName} instanceof Countable) && count(\${$argument->propertyName}) !== {$argument->minItems}) {
+                        if (is_countable(\${$argument->propertyName}) && count(\${$argument->propertyName}) !== {$argument->minItems}) {
                             throw new InvalidArgumentException(sprintf('Expected exactly %d items for \${$argument->propertyName}, got %d.', {$argument->minItems}, count(\${$argument->propertyName})));
                         }
 
@@ -178,7 +177,7 @@ class OperatorClassGenerator extends OperatorGenerator
                         if ($argument->minItems !== null) {
                             $constructor->addBody(<<<PHP
                             /** @psalm-suppress RedundantCondition */
-                            if ((is_array(\${$argument->propertyName}) || \${$argument->propertyName} instanceof Countable) && count(\${$argument->propertyName}) < {$argument->minItems}) {
+                            if (is_countable(\${$argument->propertyName}) && count(\${$argument->propertyName}) < {$argument->minItems}) {
                                 throw new InvalidArgumentException(sprintf('Expected at least %d items for \${$argument->propertyName}, got %d.', {$argument->minItems}, count(\${$argument->propertyName})));
                             }
 
@@ -188,7 +187,7 @@ class OperatorClassGenerator extends OperatorGenerator
                         if ($argument->maxItems !== null) {
                             $constructor->addBody(<<<PHP
                             /** @psalm-suppress RedundantCondition */
-                            if ((is_array(\${$argument->propertyName}) || \${$argument->propertyName} instanceof Countable) && count(\${$argument->propertyName}) > {$argument->maxItems}) {
+                            if (is_countable(\${$argument->propertyName}) && count(\${$argument->propertyName}) > {$argument->maxItems}) {
                                 throw new InvalidArgumentException(sprintf('Expected at most %d items for \${$argument->propertyName}, got %d.', {$argument->maxItems}, count(\${$argument->propertyName})));
                             }
 
