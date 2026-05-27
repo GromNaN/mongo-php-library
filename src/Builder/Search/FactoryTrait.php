@@ -389,6 +389,39 @@ trait FactoryTrait
     }
 
     /**
+     * The vectorSearch operator performs an ANN or ENN search on a vector field. It can only be
+     * used as a top-level operator in a $search or $searchMeta query, not nested under compound
+     * or other operators.
+     *
+     * New in MongoDB 6.0
+     *
+     * @see https://www.mongodb.com/docs/atlas/atlas-search/vector-search/
+     * @param array|string $path The indexed vector field to search.
+     * @param BSONArray|Binary|PackedArray|array|string $queryVector Array of numbers or a BinData value that represents the query vector. The number type
+     * must match the indexed field value type.
+     * @param int $limit The integer number of documents to return in the results. This value cannot exceed
+     * numCandidates if numCandidates is specified.
+     * @param Optional|bool $exact If false, runs an ANN search. If true, runs an ENN search. Defaults to false.
+     * This parameter is required if numCandidates is omitted.
+     * @param Optional|int $numCandidates The number of nearest neighbors to use during the search. Value must be less than or
+     * equal to 10000 and cannot be less than limit. This field is required if exact is false
+     * or omitted.
+     * @param Optional|Document|SearchOperatorInterface|Serializable|array|stdClass $filter Any Atlas Search operator to filter documents based on metadata or specific search criteria.
+     * @param Optional|Document|Serializable|array|stdClass $score Score assigned to matching search results.
+     */
+    public static function vectorSearch(
+        array|string $path,
+        Binary|PackedArray|BSONArray|array|string $queryVector,
+        int $limit,
+        Optional|bool $exact = Optional::Undefined,
+        Optional|int $numCandidates = Optional::Undefined,
+        Optional|Document|Serializable|SearchOperatorInterface|stdClass|array $filter = Optional::Undefined,
+        Optional|Document|Serializable|stdClass|array $score = Optional::Undefined,
+    ): VectorSearchOperator {
+        return new VectorSearchOperator($path, $queryVector, $limit, $exact, $numCandidates, $filter, $score);
+    }
+
+    /**
      * The wildcard operator enables queries which use special characters in the search string that can match any character.
      *
      * New in MongoDB 5.0
