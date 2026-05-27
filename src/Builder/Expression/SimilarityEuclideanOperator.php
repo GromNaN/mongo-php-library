@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace MongoDB\Builder\Expression;
 
+use Countable;
 use MongoDB\BSON\PackedArray;
 use MongoDB\Builder\Type\Encode;
 use MongoDB\Builder\Type\OperatorInterface;
@@ -63,8 +64,8 @@ final class SimilarityEuclideanOperator implements ResolvesToDouble, OperatorInt
             throw new InvalidArgumentException('Expected $vectors argument to be a list, got an associative array.');
         }
 
-        /** @psalm-suppress RedundantCondition $vectors can also be ResolvesToArray, BSONArray, PackedArray */
-        if (is_array($vectors) && count($vectors) !== 2) {
+        /** @psalm-suppress RedundantCondition */
+        if ((is_array($vectors) || $vectors instanceof Countable) && count($vectors) !== 2) {
             throw new InvalidArgumentException(sprintf('Expected exactly %d items for $vectors, got %d.', 2, count($vectors)));
         }
 
