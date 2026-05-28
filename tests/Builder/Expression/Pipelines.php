@@ -591,6 +591,65 @@ enum Pipelines: string
     JSON;
 
     /**
+     * Example
+     *
+     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/bottom-array-operator/#example
+     */
+    case BottomExample = <<<'JSON'
+    [
+        {
+            "$project": {
+                "bottomScore": {
+                    "$bottom": {
+                        "sortBy": {
+                            "score": {
+                                "$numberInt": "-1"
+                            }
+                        },
+                        "output": [
+                            "$playerId",
+                            "$score"
+                        ],
+                        "input": "$results"
+                    }
+                }
+            }
+        }
+    ]
+    JSON;
+
+    /**
+     * Example
+     *
+     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/bottomN-array-operator/#example
+     */
+    case BottomNExample = <<<'JSON'
+    [
+        {
+            "$project": {
+                "bottomScores": {
+                    "$bottomN": {
+                        "n": {
+                            "$numberInt": "3"
+                        },
+                        "sortBy": {
+                            "score": {
+                                "$numberInt": "-1"
+                            }
+                        },
+                        "output": [
+                            "$playerId",
+                            "$score"
+                        ],
+                        "input": "$results"
+                    }
+                }
+            }
+        }
+    ]
+    JSON;
+
+    /**
      * Return Sizes of Documents
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/bsonSize/#return-sizes-of-documents
@@ -6056,6 +6115,65 @@ enum Pipelines: string
                 },
                 "description": {
                     "$toUpper": "$description"
+                }
+            }
+        }
+    ]
+    JSON;
+
+    /**
+     * Example
+     *
+     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/top-array-operator/#example
+     */
+    case TopExample = <<<'JSON'
+    [
+        {
+            "$project": {
+                "topScore": {
+                    "$top": {
+                        "sortBy": {
+                            "score": {
+                                "$numberInt": "-1"
+                            }
+                        },
+                        "output": [
+                            "$playerId",
+                            "$score"
+                        ],
+                        "input": "$results"
+                    }
+                }
+            }
+        }
+    ]
+    JSON;
+
+    /**
+     * Example
+     *
+     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/topN-array-operator/#example
+     */
+    case TopNExample = <<<'JSON'
+    [
+        {
+            "$project": {
+                "topScores": {
+                    "$topN": {
+                        "n": {
+                            "$numberInt": "3"
+                        },
+                        "sortBy": {
+                            "score": {
+                                "$numberInt": "-1"
+                            }
+                        },
+                        "output": [
+                            "$playerId",
+                            "$score"
+                        ],
+                        "input": "$results"
+                    }
                 }
             }
         }

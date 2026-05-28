@@ -297,6 +297,45 @@ trait FactoryTrait
     }
 
     /**
+     * Returns the bottom element within an array according to the specified sort order.
+     *
+     * New in MongoDB 7.0
+     *
+     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/bottom-array-operator/
+     * @param Document|Serializable|array|stdClass $sortBy Specifies the order of results, with syntax similar to $sort.
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $output Represents the output for each element in the input array and can be any expression.
+     * @param BSONArray|PackedArray|ResolvesToArray|array|string $input An expression that resolves to the array from which to return the bottom element.
+     */
+    public static function bottom(
+        Document|Serializable|stdClass|array $sortBy,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $output,
+        PackedArray|ResolvesToArray|BSONArray|array|string $input,
+    ): BottomOperator {
+        return new BottomOperator($sortBy, $output, $input);
+    }
+
+    /**
+     * Returns an aggregation of the bottom n elements within an array, according to the specified sort order.
+     * If the array contains fewer than n elements, $bottomN returns all elements in the array.
+     *
+     * New in MongoDB 7.0
+     *
+     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/bottomN-array-operator/
+     * @param ResolvesToInt|int|string $n An expression that resolves to a positive integer. The integer specifies the number of array elements that $bottomN returns.
+     * @param Document|Serializable|array|stdClass $sortBy Specifies the order of results, with syntax similar to $sort.
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $output Represents the output for each element in the input array and can be any expression.
+     * @param BSONArray|PackedArray|ResolvesToArray|array|string $input An expression that resolves to the array from which to return the bottom n elements.
+     */
+    public static function bottomN(
+        ResolvesToInt|int|string $n,
+        Document|Serializable|stdClass|array $sortBy,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $output,
+        PackedArray|ResolvesToArray|BSONArray|array|string $input,
+    ): BottomNOperator {
+        return new BottomNOperator($n, $sortBy, $output, $input);
+    }
+
+    /**
      * Returns the size in bytes of a given document (i.e. BSON type Object) when encoded as BSON.
      *
      * New in MongoDB 4.4
@@ -2226,6 +2265,45 @@ trait FactoryTrait
         DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $expression,
     ): ToObjectIdOperator {
         return new ToObjectIdOperator($expression);
+    }
+
+    /**
+     * Returns the top element within an array according to the specified sort order.
+     *
+     * New in MongoDB 7.0
+     *
+     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/top-array-operator/
+     * @param Document|Serializable|array|stdClass $sortBy Specifies the order of results, with syntax similar to $sort.
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $output Represents the output for each element in the input array and can be any expression.
+     * @param BSONArray|PackedArray|ResolvesToArray|array|string $input An expression that resolves to the array from which to return the top element.
+     */
+    public static function top(
+        Document|Serializable|stdClass|array $sortBy,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $output,
+        PackedArray|ResolvesToArray|BSONArray|array|string $input,
+    ): TopOperator {
+        return new TopOperator($sortBy, $output, $input);
+    }
+
+    /**
+     * Returns an aggregation of the top n elements within an array, according to the specified sort order.
+     * If the array contains fewer than n elements, $topN returns all elements in the array.
+     *
+     * New in MongoDB 7.0
+     *
+     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/topN-array-operator/
+     * @param ResolvesToInt|int|string $n An expression that resolves to a positive integer. The integer specifies the number of array elements that $topN returns.
+     * @param Document|Serializable|array|stdClass $sortBy Specifies the order of results, with syntax similar to $sort.
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $output Represents the output for each element in the input array and can be any expression.
+     * @param BSONArray|PackedArray|ResolvesToArray|array|string $input An expression that resolves to the array from which to return the top n elements.
+     */
+    public static function topN(
+        ResolvesToInt|int|string $n,
+        Document|Serializable|stdClass|array $sortBy,
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $output,
+        PackedArray|ResolvesToArray|BSONArray|array|string $input,
+    ): TopNOperator {
+        return new TopNOperator($n, $sortBy, $output, $input);
     }
 
     /**
