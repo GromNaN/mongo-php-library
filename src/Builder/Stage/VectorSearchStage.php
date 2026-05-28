@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace MongoDB\Builder\Stage;
 
+use MongoDB\BSON\Binary;
 use MongoDB\BSON\PackedArray;
 use MongoDB\Builder\Type\Encode;
 use MongoDB\Builder\Type\InputStageInterface;
@@ -54,8 +55,11 @@ final class VectorSearchStage implements InputStageInterface, OperatorInterface
     /** @var string $path Indexed vector type field to search. */
     public readonly string $path;
 
-    /** @var BSONArray|PackedArray|array $queryVector Array of numbers that represent the query vector. The number type must match the indexed field value type. */
-    public readonly PackedArray|BSONArray|array $queryVector;
+    /**
+     * @var BSONArray|Binary|PackedArray|array|string $queryVector Array of numbers or a BinData value that represent the query vector. The number type
+     * must match the indexed field value type.
+     */
+    public readonly Binary|PackedArray|BSONArray|array|string $queryVector;
 
     /** @var Optional|bool $exact This is required if numCandidates is omitted. false to run ANN search. true to run ENN search. */
     public readonly Optional|bool $exact;
@@ -76,7 +80,8 @@ final class VectorSearchStage implements InputStageInterface, OperatorInterface
      * @param string $index Name of the Atlas Vector Search index to use.
      * @param int $limit Number of documents to return in the results. This value can't exceed the value of numCandidates if you specify numCandidates.
      * @param string $path Indexed vector type field to search.
-     * @param BSONArray|PackedArray|array $queryVector Array of numbers that represent the query vector. The number type must match the indexed field value type.
+     * @param BSONArray|Binary|PackedArray|array|string $queryVector Array of numbers or a BinData value that represent the query vector. The number type
+     * must match the indexed field value type.
      * @param Optional|bool $exact This is required if numCandidates is omitted. false to run ANN search. true to run ENN search.
      * @param Optional|QueryInterface|array $filter Any match query that compares an indexed field with a boolean, date, objectId, number (not decimals), string, or UUID to use as a pre-filter.
      * @param Optional|int $numCandidates This field is required if exact is false or omitted.
@@ -87,7 +92,7 @@ final class VectorSearchStage implements InputStageInterface, OperatorInterface
         string $index,
         int $limit,
         string $path,
-        PackedArray|BSONArray|array $queryVector,
+        Binary|PackedArray|BSONArray|array|string $queryVector,
         Optional|bool $exact = Optional::Undefined,
         Optional|QueryInterface|array $filter = Optional::Undefined,
         Optional|int $numCandidates = Optional::Undefined,

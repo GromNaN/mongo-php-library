@@ -1537,6 +1537,43 @@ enum Pipelines: string
     JSON;
 
     /**
+     * Normalize values with custom range
+     *
+     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/minMaxScaler/#examples
+     */
+    case MinMaxScalerNormalizeValuesWithCustomRange = <<<'JSON'
+    [
+        {
+            "$setWindowFields": {
+                "sortBy": {
+                    "a": {
+                        "$numberInt": "1"
+                    }
+                },
+                "output": {
+                    "scaled": {
+                        "$minMaxScaler": {
+                            "input": "$a"
+                        }
+                    },
+                    "scaledTo100": {
+                        "$minMaxScaler": {
+                            "input": "$a",
+                            "min": {
+                                "$numberInt": "0"
+                            },
+                            "max": {
+                                "$numberInt": "100"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    ]
+    JSON;
+
+    /**
      * Find the Minimum Three Scores for a Single Game
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/minN/#find-the-minimum-three-scores-for-a-single-game

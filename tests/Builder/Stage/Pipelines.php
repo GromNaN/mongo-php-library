@@ -2708,6 +2708,23 @@ enum Pipelines: string
     /**
      * Example
      *
+     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/score/
+     */
+    case ScoreExample = <<<'JSON'
+    [
+        {
+            "$score": {
+                "score": {
+                    "$meta": "vectorSearchScore"
+                }
+            }
+        }
+    ]
+    JSON;
+
+    /**
+     * Example
+     *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/scoreFusion/#examples
      */
     case ScoreFusionExample = <<<'JSON'
