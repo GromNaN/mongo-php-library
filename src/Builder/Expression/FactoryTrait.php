@@ -1257,7 +1257,7 @@ trait FactoryTrait
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/map/
      * @param BSONArray|PackedArray|ResolvesToArray|array|string $input An expression that resolves to an array.
      * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $in An expression that is applied to each element of the input array. The expression references each element individually with the variable name specified in as.
-     * @param Optional|ResolvesToString|string $as A name for the variable that represents each individual element of the input array. If no name is specified, the variable name defaults to this.
+     * @param Optional|string $as A name for the variable that represents each individual element of the input array. If no name is specified, the variable name defaults to this.
      * @param Optional|string $arrayIndexAs A name for the variable that represents the index of the current element in
      * the input array. If specified, this variable is available within the in expression.
      *
@@ -1266,7 +1266,7 @@ trait FactoryTrait
     public static function map(
         PackedArray|ResolvesToArray|BSONArray|array|string $input,
         DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $in,
-        Optional|ResolvesToString|string $as = Optional::Undefined,
+        Optional|string $as = Optional::Undefined,
         Optional|string $arrayIndexAs = Optional::Undefined,
     ): MapOperator {
         return new MapOperator($input, $in, $as, $arrayIndexAs);

@@ -178,6 +178,9 @@ return $expressions + [
     'whenNotMatched' => [
         'acceptedTypes' => [...$bsonTypes['string']],
     ],
+    'scoreNormalization' => [
+        'acceptedTypes' => [...$bsonTypes['string']],
+    ],
 
     // @todo create specific model classes factories
     'outCollection' => [

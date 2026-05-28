@@ -19,7 +19,6 @@ use MongoDB\BSON\Timestamp;
 use MongoDB\BSON\Type;
 use MongoDB\Builder\Expression\ArrayFieldPath;
 use MongoDB\Builder\Expression\ResolvesToArray;
-use MongoDB\Builder\Expression\ResolvesToBinData;
 use MongoDB\Builder\Expression\ResolvesToObject;
 use MongoDB\Builder\Pipeline;
 use MongoDB\Builder\Stage;
@@ -938,7 +937,7 @@ trait FluentFactoryTrait
      * @param string $index Name of the Atlas Vector Search index to use.
      * @param int $limit Number of documents to return in the results. This value can't exceed the value of numCandidates if you specify numCandidates.
      * @param string $path Indexed vector type field to search.
-     * @param BSONArray|Binary|PackedArray|ResolvesToBinData|array|string $queryVector Array of numbers or a BinData value that represent the query vector. The number type
+     * @param BSONArray|Binary|PackedArray|array|string $queryVector Array of numbers or a BinData value that represent the query vector. The number type
      * must match the indexed field value type.
      * @param Optional|bool $exact This is required if numCandidates is omitted. false to run ANN search. true to run ENN search.
      * @param Optional|QueryInterface|array $filter Any match query that compares an indexed field with a boolean, date, objectId, number (not decimals), string, or UUID to use as a pre-filter.
@@ -950,7 +949,7 @@ trait FluentFactoryTrait
         string $index,
         int $limit,
         string $path,
-        Binary|PackedArray|ResolvesToBinData|BSONArray|array|string $queryVector,
+        Binary|PackedArray|BSONArray|array|string $queryVector,
         Optional|bool $exact = Optional::Undefined,
         Optional|QueryInterface|array $filter = Optional::Undefined,
         Optional|int $numCandidates = Optional::Undefined,
