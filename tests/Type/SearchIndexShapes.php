@@ -184,4 +184,46 @@ final class SearchIndexShapes
             ['name' => 'my_vector_index', 'type' => 'vectorSearch'],
         );
     }
+
+    /** @see https://www.mongodb.com/docs/vector-search/index/vector-search-type/#mongodb-vector-search-index-fields */
+    public function vectorSearchIndexWithHnswIndexingMethod(Collection $collection): void
+    {
+        $collection->createSearchIndex(
+            [
+                'fields' => [
+                    [
+                        'type' => 'vector',
+                        'path' => 'plot_embedding',
+                        'numDimensions' => 1536,
+                        'similarity' => 'cosine',
+                        'indexingMethod' => 'hnsw',
+                        'hnswOptions' => [
+                            'maxEdges' => 32,
+                            'numEdgeCandidates' => 200,
+                        ],
+                    ],
+                ],
+            ],
+            ['name' => 'my_hnsw_index', 'type' => 'vectorSearch'],
+        );
+    }
+
+    /** @see https://www.mongodb.com/docs/vector-search/index/vector-search-type/#mongodb-vector-search-index-fields */
+    public function vectorSearchIndexWithFlatIndexingMethod(Collection $collection): void
+    {
+        $collection->createSearchIndex(
+            [
+                'fields' => [
+                    [
+                        'type' => 'vector',
+                        'path' => 'plot_embedding',
+                        'numDimensions' => 1536,
+                        'similarity' => 'cosine',
+                        'indexingMethod' => 'flat',
+                    ],
+                ],
+            ],
+            ['name' => 'my_flat_index', 'type' => 'vectorSearch'],
+        );
+    }
 }
