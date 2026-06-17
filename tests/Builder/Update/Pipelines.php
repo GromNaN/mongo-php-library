@@ -15,7 +15,7 @@ enum Pipelines: string
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/update/addToSet/#add-to-array
      */
-    case AddToSetAddToArray = <<<'JSON'
+    case AddToSetAddToArray = <<<'EXTENDED_JSON'
     {
         "update": {
             "$addToSet": {
@@ -23,14 +23,14 @@ enum Pipelines: string
             }
         }
     }
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Value Already Exists
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/update/addToSet/#value-already-exists
      */
-    case AddToSetValueAlreadyExists = <<<'JSON'
+    case AddToSetValueAlreadyExists = <<<'EXTENDED_JSON'
     {
         "update": {
             "$addToSet": {
@@ -38,14 +38,14 @@ enum Pipelines: string
             }
         }
     }
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Use $each Modifier
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/update/addToSet/#each-modifier
      */
-    case AddToSetUseEachModifier = <<<'JSON'
+    case AddToSetUseEachModifier = <<<'EXTENDED_JSON'
     {
         "update": {
             "$addToSet": {
@@ -59,14 +59,14 @@ enum Pipelines: string
             }
         }
     }
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Bitwise AND
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/update/bit/#bitwise-and
      */
-    case BitBitwiseAND = <<<'JSON'
+    case BitBitwiseAND = <<<'EXTENDED_JSON'
     {
         "update": {
             "$bit": {
@@ -78,14 +78,14 @@ enum Pipelines: string
             }
         }
     }
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Bitwise OR
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/update/bit/#bitwise-or
      */
-    case BitBitwiseOR = <<<'JSON'
+    case BitBitwiseOR = <<<'EXTENDED_JSON'
     {
         "update": {
             "$bit": {
@@ -97,14 +97,14 @@ enum Pipelines: string
             }
         }
     }
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Bitwise XOR
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/update/bit/#bitwise-xor
      */
-    case BitBitwiseXOR = <<<'JSON'
+    case BitBitwiseXOR = <<<'EXTENDED_JSON'
     {
         "update": {
             "$bit": {
@@ -116,14 +116,14 @@ enum Pipelines: string
             }
         }
     }
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Set Current Date and Timestamp
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/update/currentDate/#example
      */
-    case CurrentDateSetCurrentDateAndTimestamp = <<<'JSON'
+    case CurrentDateSetCurrentDateAndTimestamp = <<<'EXTENDED_JSON'
     {
         "update": {
             "$currentDate": {
@@ -138,14 +138,14 @@ enum Pipelines: string
             }
         }
     }
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Increment Fields
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/update/inc/#example
      */
-    case IncIncrementFields = <<<'JSON'
+    case IncIncrementFields = <<<'EXTENDED_JSON'
     {
         "update": {
             "$inc": {
@@ -158,14 +158,14 @@ enum Pipelines: string
             }
         }
     }
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Use $max to Compare Numbers
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/update/max/#use--max-to-compare-numbers
      */
-    case MaxUseMaxToCompareNumbers = <<<'JSON'
+    case MaxUseMaxToCompareNumbers = <<<'EXTENDED_JSON'
     {
         "update": {
             "$max": {
@@ -175,14 +175,14 @@ enum Pipelines: string
             }
         }
     }
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Use $max to Compare Dates
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/update/max/#use--max-to-compare-dates
      */
-    case MaxUseMaxToCompareDates = <<<'JSON'
+    case MaxUseMaxToCompareDates = <<<'EXTENDED_JSON'
     {
         "update": {
             "$max": {
@@ -194,14 +194,14 @@ enum Pipelines: string
             }
         }
     }
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Use $min to Compare Numbers
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/update/min/#use--min-to-compare-numbers
      */
-    case MinUseMinToCompareNumbers = <<<'JSON'
+    case MinUseMinToCompareNumbers = <<<'EXTENDED_JSON'
     {
         "update": {
             "$min": {
@@ -211,14 +211,14 @@ enum Pipelines: string
             }
         }
     }
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Use $min to Compare Dates
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/update/min/#use--min-to-compare-dates
      */
-    case MinUseMinToCompareDates = <<<'JSON'
+    case MinUseMinToCompareDates = <<<'EXTENDED_JSON'
     {
         "update": {
             "$min": {
@@ -230,14 +230,14 @@ enum Pipelines: string
             }
         }
     }
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Multiply the Value of a Field
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/update/mul/#multiply-the-value-of-a-field
      */
-    case MulMultiplyTheValueOfAField = <<<'JSON'
+    case MulMultiplyTheValueOfAField = <<<'EXTENDED_JSON'
     {
         "update": {
             "$mul": {
@@ -250,14 +250,14 @@ enum Pipelines: string
             }
         }
     }
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Remove the First Item of an Array
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/update/pop/#remove-the-first-item-of-an-array
      */
-    case PopRemoveTheFirstItemOfAnArray = <<<'JSON'
+    case PopRemoveTheFirstItemOfAnArray = <<<'EXTENDED_JSON'
     {
         "update": {
             "$pop": {
@@ -267,14 +267,14 @@ enum Pipelines: string
             }
         }
     }
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Remove the Last Item of an Array
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/update/pop/#remove-the-last-item-of-an-array
      */
-    case PopRemoveTheLastItemOfAnArray = <<<'JSON'
+    case PopRemoveTheLastItemOfAnArray = <<<'EXTENDED_JSON'
     {
         "update": {
             "$pop": {
@@ -284,14 +284,14 @@ enum Pipelines: string
             }
         }
     }
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Remove All Items That Equal a Specified Value
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/update/pull/#remove-all-items-that-equal-a-specified-value
      */
-    case PullRemoveAllItemsThatEqualASpecifiedValue = <<<'JSON'
+    case PullRemoveAllItemsThatEqualASpecifiedValue = <<<'EXTENDED_JSON'
     {
         "update": {
             "$pull": {
@@ -305,14 +305,14 @@ enum Pipelines: string
             }
         }
     }
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Remove All Items That Match a Specified $pull Condition
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/update/pull/#remove-all-items-that-match-a-specified--pull-condition
      */
-    case PullRemoveAllItemsThatMatchASpecifiedPullCondition = <<<'JSON'
+    case PullRemoveAllItemsThatMatchASpecifiedPullCondition = <<<'EXTENDED_JSON'
     {
         "update": {
             "$pull": {
@@ -324,14 +324,14 @@ enum Pipelines: string
             }
         }
     }
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Remove Items from an Array of Documents
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/update/pull/#remove-items-from-an-array-of-documents
      */
-    case PullRemoveItemsFromAnArrayOfDocuments = <<<'JSON'
+    case PullRemoveItemsFromAnArrayOfDocuments = <<<'EXTENDED_JSON'
     {
         "update": {
             "$pull": {
@@ -344,14 +344,14 @@ enum Pipelines: string
             }
         }
     }
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Remove Documents from Nested Arrays
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/update/pull/#remove-documents-from-nested-arrays
      */
-    case PullRemoveDocumentsFromNestedArrays = <<<'JSON'
+    case PullRemoveDocumentsFromNestedArrays = <<<'EXTENDED_JSON'
     {
         "update": {
             "$pull": {
@@ -372,14 +372,14 @@ enum Pipelines: string
             }
         }
     }
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Remove Multiple Values from an Array
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/update/pullAll/#examples
      */
-    case PullAllRemoveMultipleValuesFromAnArray = <<<'JSON'
+    case PullAllRemoveMultipleValuesFromAnArray = <<<'EXTENDED_JSON'
     {
         "update": {
             "$pullAll": {
@@ -394,14 +394,14 @@ enum Pipelines: string
             }
         }
     }
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Append a Value to an Array
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/update/push/#append-a-value-to-an-array
      */
-    case PushAppendAValueToAnArray = <<<'JSON'
+    case PushAppendAValueToAnArray = <<<'EXTENDED_JSON'
     {
         "update": {
             "$push": {
@@ -411,14 +411,14 @@ enum Pipelines: string
             }
         }
     }
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Append a Value to Arrays in Multiple Documents
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/update/push/#append-a-value-to-arrays-in-multiple-documents
      */
-    case PushAppendAValueToArraysInMultipleDocuments = <<<'JSON'
+    case PushAppendAValueToArraysInMultipleDocuments = <<<'EXTENDED_JSON'
     {
         "update": {
             "$push": {
@@ -428,14 +428,14 @@ enum Pipelines: string
             }
         }
     }
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Append Multiple Values to an Array
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/update/push/#append-multiple-values-to-an-array
      */
-    case PushAppendMultipleValuesToAnArray = <<<'JSON'
+    case PushAppendMultipleValuesToAnArray = <<<'EXTENDED_JSON'
     {
         "update": {
             "$push": {
@@ -455,14 +455,14 @@ enum Pipelines: string
             }
         }
     }
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Use $push with Multiple Modifiers
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/update/push/#use--push-operator-with-multiple-modifiers
      */
-    case PushUsePushWithMultipleModifiers = <<<'JSON'
+    case PushUsePushWithMultipleModifiers = <<<'EXTENDED_JSON'
     {
         "update": {
             "$push": {
@@ -505,14 +505,14 @@ enum Pipelines: string
             }
         }
     }
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Rename a Field
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/update/rename/#rename-a-field
      */
-    case RenameRenameAField = <<<'JSON'
+    case RenameRenameAField = <<<'EXTENDED_JSON'
     {
         "update": {
             "$rename": {
@@ -520,14 +520,14 @@ enum Pipelines: string
             }
         }
     }
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Rename Multiple Fields
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/update/rename/#definition
      */
-    case RenameRenameMultipleFields = <<<'JSON'
+    case RenameRenameMultipleFields = <<<'EXTENDED_JSON'
     {
         "update": {
             "$rename": {
@@ -536,14 +536,14 @@ enum Pipelines: string
             }
         }
     }
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Rename a Field in an Embedded Document
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/update/rename/#rename-a-field-in-an-embedded-document
      */
-    case RenameRenameAFieldInAnEmbeddedDocument = <<<'JSON'
+    case RenameRenameAFieldInAnEmbeddedDocument = <<<'EXTENDED_JSON'
     {
         "update": {
             "$rename": {
@@ -551,14 +551,14 @@ enum Pipelines: string
             }
         }
     }
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Rename a Field That Does Not Exist
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/update/rename/#rename-a-field-that-does-not-exist
      */
-    case RenameRenameAFieldThatDoesNotExist = <<<'JSON'
+    case RenameRenameAFieldThatDoesNotExist = <<<'EXTENDED_JSON'
     {
         "update": {
             "$rename": {
@@ -566,14 +566,14 @@ enum Pipelines: string
             }
         }
     }
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Set Top-Level Fields
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/update/set/#set-top-level-fields
      */
-    case SetSetTopLevelFields = <<<'JSON'
+    case SetSetTopLevelFields = <<<'EXTENDED_JSON'
     {
         "update": {
             "$set": {
@@ -592,14 +592,14 @@ enum Pipelines: string
             }
         }
     }
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Upsert with $setOnInsert
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/update/setOnInsert/#example
      */
-    case SetOnInsertUpsertWithSetOnInsert = <<<'JSON'
+    case SetOnInsertUpsertWithSetOnInsert = <<<'EXTENDED_JSON'
     {
         "update": {
             "$set": {
@@ -612,14 +612,14 @@ enum Pipelines: string
             }
         }
     }
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Remove Fields
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/update/unset/#example
      */
-    case UnsetRemoveFields = <<<'JSON'
+    case UnsetRemoveFields = <<<'EXTENDED_JSON'
     {
         "update": {
             "$unset": {
@@ -628,5 +628,5 @@ enum Pipelines: string
             }
         }
     }
-    JSON;
+    EXTENDED_JSON;
 }

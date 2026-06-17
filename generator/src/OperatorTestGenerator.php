@@ -127,7 +127,7 @@ class OperatorTestGenerator extends OperatorGenerator
 
                 $json = Document::fromPHP($filterAndUpdate)->toCanonicalExtendedJSON();
                 $json = json_encode(json_decode($json), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-                $case = $dataEnum->addCase($caseName, new Literal('<<<\'JSON\'' . "\n" . $json . "\n" . 'JSON'));
+                $case = $dataEnum->addCase($caseName, $this->jsonLiteral($json));
                 $case->setComment($test->name);
                 if ($test->link) {
                     $case->addComment('');
@@ -159,7 +159,7 @@ class OperatorTestGenerator extends OperatorGenerator
                 $json = Document::fromPHP(['pipeline' => $pipeline])->toCanonicalExtendedJSON();
                 // Unwrap the pipeline array and reformat for prettier JSON
                 $json = json_encode(json_decode($json)->pipeline, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-                $case = $dataEnum->addCase($caseName, new Literal('<<<\'JSON\'' . "\n" . $json . "\n" . 'JSON'));
+                $case = $dataEnum->addCase($caseName, $this->jsonLiteral($json));
                 $case->setComment($test->name);
                 if ($test->link) {
                     $case->addComment('');
@@ -189,6 +189,11 @@ class OperatorTestGenerator extends OperatorGenerator
         $class->setMethods($methods);
 
         return $namespace;
+    }
+
+    private function jsonLiteral(string $json): Literal
+    {
+        return new Literal('<<<\'EXTENDED_JSON\'' . "\n" . $json . "\n" . 'EXTENDED_JSON');
     }
 
     private function convertYamlTaggedValues(mixed $object): mixed

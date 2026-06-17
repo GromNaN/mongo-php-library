@@ -737,6 +737,26 @@ trait FactoryTrait
     }
 
     /**
+     * Converts Extended JSON (EJSON) format to native BSON values. Use this expression to
+     * transform EJSON type wrappers into their corresponding BSON types after parsing a JSON
+     * string with $convert.
+     *
+     * New in MongoDB 8.3
+     *
+     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/deserializeEJSON/
+     * @param Document|ResolvesToObject|Serializable|array|stdClass|string $input The Extended JSON value to convert to native BSON format. This should be a BSON
+     * document containing EJSON type wrappers.
+     * @param Optional|DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $onError The value to return if the operation encounters an error during conversion.
+     * If unspecified, the operation throws an error and stops.
+     */
+    public static function deserializeEJSON(
+        Document|Serializable|ResolvesToObject|stdClass|array|string $input,
+        Optional|DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $onError = Optional::Undefined,
+    ): DeserializeEJSONOperator {
+        return new DeserializeEJSONOperator($input, $onError);
+    }
+
+    /**
      * Returns the result of dividing the first number by the second. Accepts two argument expressions.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/divide/
@@ -1737,6 +1757,30 @@ trait FactoryTrait
         Optional|ResolvesToString|string $timezone = Optional::Undefined,
     ): SecondOperator {
         return new SecondOperator($date, $timezone);
+    }
+
+    /**
+     * Converts BSON values to Extended JSON (EJSON) format. The result is a
+     * BSON document with EJSON type wrappers that can then be converted to
+     * a JSON string using $toString.
+     *
+     * New in MongoDB 8.3
+     *
+     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/serializeEJSON/
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $input The BSON value to convert to Extended JSON format.
+     * @param Optional|ResolvesToBool|bool|string $relaxed Specifies whether to use Relaxed Extended JSON format. If true, numeric types
+     * (Int32, Int64, Double) are represented as native JSON numbers for better readability.
+     * If false or unspecified, uses Canonical Extended JSON format which preserves type
+     * information for all BSON types. Defaults to false.
+     * @param Optional|DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $onError The value to return if the operation encounters an error during conversion.
+     * If unspecified, the operation throws an error and stops.
+     */
+    public static function serializeEJSON(
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $input,
+        Optional|ResolvesToBool|bool|string $relaxed = Optional::Undefined,
+        Optional|DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $onError = Optional::Undefined,
+    ): SerializeEJSONOperator {
+        return new SerializeEJSONOperator($input, $relaxed, $onError);
     }
 
     /**

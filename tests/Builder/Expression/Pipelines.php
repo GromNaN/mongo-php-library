@@ -15,7 +15,7 @@ enum Pipelines: string
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/abs/#example
      */
-    case AbsExample = <<<'JSON'
+    case AbsExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -30,14 +30,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/acos/#example
      */
-    case AcosExample = <<<'JSON'
+    case AcosExample = <<<'EXTENDED_JSON'
     [
         {
             "$addFields": {
@@ -54,14 +54,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/acosh/#example
      */
-    case AcoshExample = <<<'JSON'
+    case AcoshExample = <<<'EXTENDED_JSON'
     [
         {
             "$addFields": {
@@ -73,14 +73,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Add Numbers
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/add/#add-numbers
      */
-    case AddAddNumbers = <<<'JSON'
+    case AddAddNumbers = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -96,14 +96,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Perform Addition on a Date
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/add/#perform-addition-on-a-date
      */
-    case AddPerformAdditionOnADate = <<<'JSON'
+    case AddPerformAdditionOnADate = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -121,14 +121,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/allElementsTrue/#example
      */
-    case AllElementsTrueExample = <<<'JSON'
+    case AllElementsTrueExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -146,14 +146,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/and/#example
      */
-    case AndExample = <<<'JSON'
+    case AndExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -186,14 +186,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/anyElementTrue/#example
      */
-    case AnyElementTrueExample = <<<'JSON'
+    case AnyElementTrueExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -211,14 +211,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/arrayElemAt/#example
      */
-    case ArrayElemAtExample = <<<'JSON'
+    case ArrayElemAtExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -244,14 +244,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * $arrayToObject Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/arrayToObject/#-arraytoobject--example
      */
-    case ArrayToObjectArrayToObjectExample = <<<'JSON'
+    case ArrayToObjectArrayToObjectExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -266,14 +266,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * $objectToArray and $arrayToObject Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/arrayToObject/#-objecttoarray----arraytoobject-example
      */
-    case ArrayToObjectObjectToArrayAndArrayToObjectExample = <<<'JSON'
+    case ArrayToObjectObjectToArrayAndArrayToObjectExample = <<<'EXTENDED_JSON'
     [
         {
             "$addFields": {
@@ -311,14 +311,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/asin/#example
      */
-    case AsinExample = <<<'JSON'
+    case AsinExample = <<<'EXTENDED_JSON'
     [
         {
             "$addFields": {
@@ -335,14 +335,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/asinh/#example
      */
-    case AsinhExample = <<<'JSON'
+    case AsinhExample = <<<'EXTENDED_JSON'
     [
         {
             "$addFields": {
@@ -354,14 +354,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/atan/#example
      */
-    case AtanExample = <<<'JSON'
+    case AtanExample = <<<'EXTENDED_JSON'
     [
         {
             "$addFields": {
@@ -378,14 +378,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/atan2/#example
      */
-    case Atan2Example = <<<'JSON'
+    case Atan2Example = <<<'EXTENDED_JSON'
     [
         {
             "$addFields": {
@@ -400,14 +400,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/atanh/#example
      */
-    case AtanhExample = <<<'JSON'
+    case AtanhExample = <<<'EXTENDED_JSON'
     [
         {
             "$addFields": {
@@ -419,14 +419,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Use in $project Stage
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/avg/#use-in--project-stage
      */
-    case AvgUseInProjectStage = <<<'JSON'
+    case AvgUseInProjectStage = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -449,14 +449,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/binarySize/#example
      */
-    case BinarySizeExample = <<<'JSON'
+    case BinarySizeExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -467,14 +467,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Bitwise AND with Two Integers
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/bitAnd/#bitwise-and-with-two-integers
      */
-    case BitAndBitwiseANDWithTwoIntegers = <<<'JSON'
+    case BitAndBitwiseANDWithTwoIntegers = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -487,14 +487,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Bitwise AND with a Long and Integer
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/bitAnd/#bitwise-and-with-a-long-and-integer
      */
-    case BitAndBitwiseANDWithALongAndInteger = <<<'JSON'
+    case BitAndBitwiseANDWithALongAndInteger = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -509,14 +509,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/bitNot/#example
      */
-    case BitNotExample = <<<'JSON'
+    case BitNotExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -526,14 +526,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Bitwise OR with Two Integers
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/bitOr/#bitwise-or-with-two-integers
      */
-    case BitOrBitwiseORWithTwoIntegers = <<<'JSON'
+    case BitOrBitwiseORWithTwoIntegers = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -546,14 +546,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Bitwise OR with a Long and Integer
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/bitOr/#bitwise-or-with-a-long-and-integer
      */
-    case BitOrBitwiseORWithALongAndInteger = <<<'JSON'
+    case BitOrBitwiseORWithALongAndInteger = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -568,14 +568,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/bitXor/#example
      */
-    case BitXorExample = <<<'JSON'
+    case BitXorExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -588,14 +588,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/bottom-array-operator/#example
      */
-    case BottomExample = <<<'JSON'
+    case BottomExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -616,14 +616,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/bottomN-array-operator/#example
      */
-    case BottomNExample = <<<'JSON'
+    case BottomNExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -647,14 +647,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Return Sizes of Documents
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/bsonSize/#return-sizes-of-documents
      */
-    case BsonSizeReturnSizesOfDocuments = <<<'JSON'
+    case BsonSizeReturnSizesOfDocuments = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -667,14 +667,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Return Combined Size of All Documents in a Collection
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/bsonSize/#return-combined-size-of-all-documents-in-a-collection
      */
-    case BsonSizeReturnCombinedSizeOfAllDocumentsInACollection = <<<'JSON'
+    case BsonSizeReturnCombinedSizeOfAllDocumentsInACollection = <<<'EXTENDED_JSON'
     [
         {
             "$group": {
@@ -687,14 +687,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Return Document with Largest Specified Field
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/bsonSize/#return-document-with-largest-specified-field
      */
-    case BsonSizeReturnDocumentWithLargestSpecifiedField = <<<'JSON'
+    case BsonSizeReturnDocumentWithLargestSpecifiedField = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -717,14 +717,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/ceil/#example
      */
-    case CeilExample = <<<'JSON'
+    case CeilExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -737,14 +737,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/cmp/#example
      */
-    case CmpExample = <<<'JSON'
+    case CmpExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -768,14 +768,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/concat/#example
      */
-    case ConcatExample = <<<'JSON'
+    case ConcatExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -789,14 +789,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/concatArrays/#example
      */
-    case ConcatArraysExample = <<<'JSON'
+    case ConcatArraysExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -809,14 +809,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/cond/#example
      */
-    case CondExample = <<<'JSON'
+    case CondExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -844,14 +844,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/convert/#example
      */
-    case ConvertExample = <<<'JSON'
+    case ConvertExample = <<<'EXTENDED_JSON'
     [
         {
             "$addFields": {
@@ -924,14 +924,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Convert Hexadecimal String to Integer
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/convert/#base-conversion
      */
-    case ConvertConvertHexadecimalStringToInteger = <<<'JSON'
+    case ConvertConvertHexadecimalStringToInteger = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -947,14 +947,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Convert Integer to Binary String
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/convert/#base-conversion
      */
-    case ConvertConvertIntegerToBinaryString = <<<'JSON'
+    case ConvertConvertIntegerToBinaryString = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -970,14 +970,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/cos/#example
      */
-    case CosExample = <<<'JSON'
+    case CosExample = <<<'EXTENDED_JSON'
     [
         {
             "$addFields": {
@@ -994,14 +994,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/cosh/#example
      */
-    case CoshExample = <<<'JSON'
+    case CoshExample = <<<'EXTENDED_JSON'
     [
         {
             "$addFields": {
@@ -1013,14 +1013,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/createObjectId/#example
      */
-    case CreateObjectIdExample = <<<'JSON'
+    case CreateObjectIdExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -1030,14 +1030,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Add a Future Date
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/dateAdd/#add-a-future-date
      */
-    case DateAddAddAFutureDate = <<<'JSON'
+    case DateAddAddAFutureDate = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -1058,14 +1058,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Filter on a Date Range
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/dateAdd/#filter-on-a-date-range
      */
-    case DateAddFilterOnADateRange = <<<'JSON'
+    case DateAddFilterOnADateRange = <<<'EXTENDED_JSON'
     [
         {
             "$match": {
@@ -1108,14 +1108,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Adjust for Daylight Savings Time
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/dateAdd/#adjust-for-daylight-savings-time
      */
-    case DateAddAdjustForDaylightSavingsTime = <<<'JSON'
+    case DateAddAdjustForDaylightSavingsTime = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -1203,14 +1203,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Elapsed Time
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/dateDiff/#elapsed-time
      */
-    case DateDiffElapsedTime = <<<'JSON'
+    case DateDiffElapsedTime = <<<'EXTENDED_JSON'
     [
         {
             "$group": {
@@ -1242,14 +1242,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Result Precision
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/dateDiff/#result-precision
      */
-    case DateDiffResultPrecision = <<<'JSON'
+    case DateDiffResultPrecision = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -1282,14 +1282,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Weeks Per Month
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/dateDiff/#weeks-per-month
      */
-    case DateDiffWeeksPerMonth = <<<'JSON'
+    case DateDiffWeeksPerMonth = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -1322,14 +1322,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/dateFromParts/#example
      */
-    case DateFromPartsExample = <<<'JSON'
+    case DateFromPartsExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -1391,14 +1391,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Converting Dates
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/dateFromString/#converting-dates
      */
-    case DateFromStringConvertingDates = <<<'JSON'
+    case DateFromStringConvertingDates = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -1411,14 +1411,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * onError
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/dateFromString/#onerror
      */
-    case DateFromStringOnError = <<<'JSON'
+    case DateFromStringOnError = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -1432,14 +1432,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * onNull
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/dateFromString/#onnull
      */
-    case DateFromStringOnNull = <<<'JSON'
+    case DateFromStringOnNull = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -1457,14 +1457,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Subtract A Fixed Amount
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/dateSubtract/#subtract-a-fixed-amount
      */
-    case DateSubtractSubtractAFixedAmount = <<<'JSON'
+    case DateSubtractSubtractAFixedAmount = <<<'EXTENDED_JSON'
     [
         {
             "$match": {
@@ -1501,14 +1501,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Filter by Relative Dates
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/dateSubtract/#filter-by-relative-dates
      */
-    case DateSubtractFilterByRelativeDates = <<<'JSON'
+    case DateSubtractFilterByRelativeDates = <<<'EXTENDED_JSON'
     [
         {
             "$match": {
@@ -1545,14 +1545,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Adjust for Daylight Savings Time
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/dateSubtract/#adjust-for-daylight-savings-time
      */
-    case DateSubtractAdjustForDaylightSavingsTime = <<<'JSON'
+    case DateSubtractAdjustForDaylightSavingsTime = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -1640,14 +1640,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/dateToParts/#example
      */
-    case DateToPartsExample = <<<'JSON'
+    case DateToPartsExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -1671,14 +1671,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/dateToString/#example
      */
-    case DateToStringExample = <<<'JSON'
+    case DateToStringExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -1733,14 +1733,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Truncate Order Dates in a $project Pipeline Stage
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/dateTrunc/#truncate-order-dates-in-a--project-pipeline-stage
      */
-    case DateTruncTruncateOrderDatesInAProjectPipelineStage = <<<'JSON'
+    case DateTruncTruncateOrderDatesInAProjectPipelineStage = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -1764,14 +1764,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Truncate Order Dates and Obtain Quantity Sum in a $group Pipeline Stage
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/dateTrunc/#truncate-order-dates-and-obtain-quantity-sum-in-a--group-pipeline-stage
      */
-    case DateTruncTruncateOrderDatesAndObtainQuantitySumInAGroupPipelineStage = <<<'JSON'
+    case DateTruncTruncateOrderDatesAndObtainQuantitySumInAGroupPipelineStage = <<<'EXTENDED_JSON'
     [
         {
             "$group": {
@@ -1792,14 +1792,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/dayOfMonth/#example
      */
-    case DayOfMonthExample = <<<'JSON'
+    case DayOfMonthExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -1811,14 +1811,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/dayOfWeek/#example
      */
-    case DayOfWeekExample = <<<'JSON'
+    case DayOfWeekExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -1830,14 +1830,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/dayOfYear/#example
      */
-    case DayOfYearExample = <<<'JSON'
+    case DayOfYearExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -1849,14 +1849,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/degreesToRadians/#example
      */
-    case DegreesToRadiansExample = <<<'JSON'
+    case DegreesToRadiansExample = <<<'EXTENDED_JSON'
     [
         {
             "$addFields": {
@@ -1872,14 +1872,150 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
+
+    /**
+     * Deserialize Extended JSON Document
+     *
+     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/deserializeEJSON/#deserialize-extended-json-document
+     */
+    case DeserializeEJSONDeserializeExtendedJSONDocument = <<<'EXTENDED_JSON'
+    [
+        {
+            "$match": {
+                "title": "Inception"
+            }
+        },
+        {
+            "$project": {
+                "original": "$$ROOT",
+                "serialized": {
+                    "$serializeEJSON": {
+                        "input": "$$ROOT"
+                    }
+                }
+            }
+        },
+        {
+            "$project": {
+                "title": "$original.title",
+                "deserialized": {
+                    "$deserializeEJSON": {
+                        "input": "$serialized"
+                    }
+                }
+            }
+        }
+    ]
+    EXTENDED_JSON;
+
+    /**
+     * Parse JSON String and Deserialize
+     *
+     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/deserializeEJSON/#parse-json-string-and-deserialize
+     */
+    case DeserializeEJSONParseJSONStringAndDeserialize = <<<'EXTENDED_JSON'
+    [
+        {
+            "$documents": [
+                {
+                    "jsonData": "{\"_id\":{\"$oid\":\"507f1f77bcf86cd799439011\"},\"title\":\"The Matrix\",\"year\":{\"$numberInt\":\"1999\"},\"rating\":{\"$numberDouble\":\"8.7\"}}"
+                }
+            ]
+        },
+        {
+            "$project": {
+                "parsed": {
+                    "$convert": {
+                        "input": "$jsonData",
+                        "to": "object"
+                    }
+                }
+            }
+        },
+        {
+            "$project": {
+                "movie": {
+                    "$deserializeEJSON": {
+                        "input": "$parsed"
+                    }
+                }
+            }
+        }
+    ]
+    EXTENDED_JSON;
+
+    /**
+     * Deserialize Specific Fields
+     *
+     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/deserializeEJSON/#deserialize-specific-fields
+     */
+    case DeserializeEJSONDeserializeSpecificFields = <<<'EXTENDED_JSON'
+    [
+        {
+            "$match": {
+                "title": "Inception"
+            }
+        },
+        {
+            "$project": {
+                "title": {
+                    "$numberInt": "1"
+                },
+                "serializedMetadata": {
+                    "$serializeEJSON": {
+                        "input": {
+                            "releaseDate": "$released",
+                            "runtime": "$runtime",
+                            "rating": "$imdb.rating"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "$project": {
+                "title": {
+                    "$numberInt": "1"
+                },
+                "metadata": {
+                    "$deserializeEJSON": {
+                        "input": "$serializedMetadata"
+                    }
+                }
+            }
+        }
+    ]
+    EXTENDED_JSON;
+
+    /**
+     * Use onError for Error Handling
+     *
+     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/deserializeEJSON/#use-onerror-for-error-handling
+     */
+    case DeserializeEJSONUseOnErrorForErrorHandling = <<<'EXTENDED_JSON'
+    [
+        {
+            "$project": {
+                "result": {
+                    "$deserializeEJSON": {
+                        "input": "$ejsonField",
+                        "onError": {
+                            "error": "Invalid EJSON format"
+                        }
+                    }
+                }
+            }
+        }
+    ]
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/divide/#examples
      */
-    case DivideExample = <<<'JSON'
+    case DivideExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -1897,14 +2033,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/eq/#example
      */
-    case EqExample = <<<'JSON'
+    case EqExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -1928,14 +2064,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/exp/#example
      */
-    case ExpExample = <<<'JSON'
+    case ExpExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -1952,14 +2088,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/filter/#examples
      */
-    case FilterExample = <<<'JSON'
+    case FilterExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -1980,14 +2116,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Using the limit field
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/filter/#use-the-limit-field
      */
-    case FilterUsingTheLimitField = <<<'JSON'
+    case FilterUsingTheLimitField = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -2011,14 +2147,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * limit Greater than Possible Matches
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/filter/#limit-greater-than-possible-matches
      */
-    case FilterLimitGreaterThanPossibleMatches = <<<'JSON'
+    case FilterLimitGreaterThanPossibleMatches = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -2042,10 +2178,10 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /** Use in $addFields Stage */
-    case FirstUseInAddFieldsStage = <<<'JSON'
+    case FirstUseInAddFieldsStage = <<<'EXTENDED_JSON'
     [
         {
             "$addFields": {
@@ -2055,14 +2191,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/firstN/#example
      */
-    case FirstNExample = <<<'JSON'
+    case FirstNExample = <<<'EXTENDED_JSON'
     [
         {
             "$addFields": {
@@ -2077,14 +2213,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Using $firstN as an Aggregation Expression
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/firstN/#using--firstn-as-an-aggregation-expression
      */
-    case FirstNUsingFirstNAsAnAggregationExpression = <<<'JSON'
+    case FirstNUsingFirstNAsAnAggregationExpression = <<<'EXTENDED_JSON'
     [
         {
             "$documents": [
@@ -2119,14 +2255,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/floor/#example
      */
-    case FloorExample = <<<'JSON'
+    case FloorExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -2139,14 +2275,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Usage Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/function/#example-1--usage-example
      */
-    case FunctionUsageExample = <<<'JSON'
+    case FunctionUsageExample = <<<'EXTENDED_JSON'
     [
         {
             "$addFields": {
@@ -2176,14 +2312,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Alternative to $where
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/function/#example-2--alternative-to--where
      */
-    case FunctionAlternativeToWhere = <<<'JSON'
+    case FunctionAlternativeToWhere = <<<'EXTENDED_JSON'
     [
         {
             "$match": {
@@ -2201,14 +2337,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Query Fields that Contain Periods
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/getField/#query-fields-that-contain-periods--.-
      */
-    case GetFieldQueryFieldsThatContainPeriods = <<<'JSON'
+    case GetFieldQueryFieldsThatContainPeriods = <<<'EXTENDED_JSON'
     [
         {
             "$match": {
@@ -2227,14 +2363,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Query Fields that Start with a Dollar Sign
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/getField/#query-fields-that-start-with-a-dollar-sign----
      */
-    case GetFieldQueryFieldsThatStartWithADollarSign = <<<'JSON'
+    case GetFieldQueryFieldsThatStartWithADollarSign = <<<'EXTENDED_JSON'
     [
         {
             "$match": {
@@ -2255,14 +2391,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Query a Field in a Sub-document
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/getField/#query-a-field-in-a-sub-document
      */
-    case GetFieldQueryAFieldInASubdocument = <<<'JSON'
+    case GetFieldQueryAFieldInASubdocument = <<<'EXTENDED_JSON'
     [
         {
             "$match": {
@@ -2284,14 +2420,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/gt/#example
      */
-    case GtExample = <<<'JSON'
+    case GtExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -2315,14 +2451,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/gte/#example
      */
-    case GteExample = <<<'JSON'
+    case GteExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -2346,14 +2482,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Hash a Field Value
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/hash/#hash-a-field-value
      */
-    case HashHashAFieldValue = <<<'JSON'
+    case HashHashAFieldValue = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -2369,14 +2505,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Hash a Literal String
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/hash/#hash-a-literal-string
      */
-    case HashHashALiteralString = <<<'JSON'
+    case HashHashALiteralString = <<<'EXTENDED_JSON'
     [
         {
             "$documents": [
@@ -2399,14 +2535,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Hash BinData
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/hash/#hash-bindata
      */
-    case HashHashBinData = <<<'JSON'
+    case HashHashBinData = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -2419,14 +2555,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Null or Missing Input
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/hash/#null-or-missing-input
      */
-    case HashNullOrMissingInput = <<<'JSON'
+    case HashNullOrMissingInput = <<<'EXTENDED_JSON'
     [
         {
             "$documents": [
@@ -2447,14 +2583,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Hash a Field Value
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/hexHash/#hash-a-field-value
      */
-    case HexHashHashAFieldValue = <<<'JSON'
+    case HexHashHashAFieldValue = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -2470,14 +2606,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Null or Missing Input
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/hexHash/#null-or-missing-input
      */
-    case HexHashNullOrMissingInput = <<<'JSON'
+    case HexHashNullOrMissingInput = <<<'EXTENDED_JSON'
     [
         {
             "$documents": [
@@ -2498,14 +2634,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/hour/#example
      */
-    case HourExample = <<<'JSON'
+    case HourExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -2517,14 +2653,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Single Input Expression
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/ifNull/#single-input-expression
      */
-    case IfNullSingleInputExpression = <<<'JSON'
+    case IfNullSingleInputExpression = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -2540,14 +2676,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Multiple Input Expressions
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/ifNull/#multiple-input-expressions
      */
-    case IfNullMultipleInputExpressions = <<<'JSON'
+    case IfNullMultipleInputExpressions = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -2564,14 +2700,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/in/#example
      */
-    case InExample = <<<'JSON'
+    case InExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -2585,14 +2721,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/indexOfArray/#example
      */
-    case IndexOfArrayExample = <<<'JSON'
+    case IndexOfArrayExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -2607,14 +2743,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/indexOfBytes/#examples
      */
-    case IndexOfBytesExample = <<<'JSON'
+    case IndexOfBytesExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -2627,14 +2763,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Examples
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/indexOfCP/#examples
      */
-    case IndexOfCPExamples = <<<'JSON'
+    case IndexOfCPExamples = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -2647,14 +2783,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/isArray/#example
      */
-    case IsArrayExample = <<<'JSON'
+    case IsArrayExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -2686,14 +2822,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Use $isNumber to Check if a Field is Numeric
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/isNumber/#use--isnumber-to-check-if-a-field-is-numeric
      */
-    case IsNumberUseIsNumberToCheckIfAFieldIsNumeric = <<<'JSON'
+    case IsNumberUseIsNumberToCheckIfAFieldIsNumeric = <<<'EXTENDED_JSON'
     [
         {
             "$addFields": {
@@ -2706,14 +2842,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Conditionally Modify Fields using $isNumber
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/isNumber/#conditionally-modify-fields-using--isnumber
      */
-    case IsNumberConditionallyModifyFieldsUsingIsNumber = <<<'JSON'
+    case IsNumberConditionallyModifyFieldsUsingIsNumber = <<<'EXTENDED_JSON'
     [
         {
             "$addFields": {
@@ -2797,14 +2933,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/isoDayOfWeek/#example
      */
-    case IsoDayOfWeekExample = <<<'JSON'
+    case IsoDayOfWeekExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -2820,14 +2956,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/isoWeek/#example
      */
-    case IsoWeekExample = <<<'JSON'
+    case IsoWeekExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -2843,14 +2979,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/isoWeekYear/#example
      */
-    case IsoWeekYearExample = <<<'JSON'
+    case IsoWeekYearExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -2862,10 +2998,10 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /** Use in $addFields Stage */
-    case LastUseInAddFieldsStage = <<<'JSON'
+    case LastUseInAddFieldsStage = <<<'EXTENDED_JSON'
     [
         {
             "$addFields": {
@@ -2875,14 +3011,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/lastN/#example
      */
-    case LastNExample = <<<'JSON'
+    case LastNExample = <<<'EXTENDED_JSON'
     [
         {
             "$addFields": {
@@ -2897,14 +3033,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Using $lastN as an Aggregation Expression
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/lastN/#using--lastn-as-an-aggregation-expression
      */
-    case LastNUsingLastNAsAnAggregationExpression = <<<'JSON'
+    case LastNUsingLastNAsAnAggregationExpression = <<<'EXTENDED_JSON'
     [
         {
             "$documents": [
@@ -2939,14 +3075,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/let/#example
      */
-    case LetExample = <<<'JSON'
+    case LetExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -2982,14 +3118,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/ln/#example
      */
-    case LnExample = <<<'JSON'
+    case LnExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -3000,14 +3136,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/log/#example
      */
-    case LogExample = <<<'JSON'
+    case LogExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -3031,14 +3167,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/log10/#example
      */
-    case Log10Example = <<<'JSON'
+    case Log10Example = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -3055,14 +3191,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/lt/#example
      */
-    case LtExample = <<<'JSON'
+    case LtExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -3086,14 +3222,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/lte/#example
      */
-    case LteExample = <<<'JSON'
+    case LteExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -3117,14 +3253,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/ltrim/#example
      */
-    case LtrimExample = <<<'JSON'
+    case LtrimExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -3139,14 +3275,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Add to Each Element of an Array
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/map/#add-to-each-element-of-an-array
      */
-    case MapAddToEachElementOfAnArray = <<<'JSON'
+    case MapAddToEachElementOfAnArray = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -3167,14 +3303,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Truncate Each Array Element
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/map/#truncate-each-array-element
      */
-    case MapTruncateEachArrayElement = <<<'JSON'
+    case MapTruncateEachArrayElement = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -3193,14 +3329,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Convert Celsius Temperatures to Fahrenheit
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/map/#convert-celsius-temperatures-to-fahrenheit
      */
-    case MapConvertCelsiusTemperaturesToFahrenheit = <<<'JSON'
+    case MapConvertCelsiusTemperaturesToFahrenheit = <<<'EXTENDED_JSON'
     [
         {
             "$addFields": {
@@ -3228,14 +3364,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Use Array Index
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/map/
      */
-    case MapUseArrayIndex = <<<'JSON'
+    case MapUseArrayIndex = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -3255,14 +3391,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Use in $project Stage
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/max/#use-in--project-stage
      */
-    case MaxUseInProjectStage = <<<'JSON'
+    case MaxUseInProjectStage = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -3285,14 +3421,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/maxN-array-element/#example
      */
-    case MaxNExample = <<<'JSON'
+    case MaxNExample = <<<'EXTENDED_JSON'
     [
         {
             "$addFields": {
@@ -3307,14 +3443,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Use $median in a $project Stage
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/median/#use-operatorname-in-a--project-stage
      */
-    case MedianUseMedianInAProjectStage = <<<'JSON'
+    case MedianUseMedianInAProjectStage = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -3337,14 +3473,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * $mergeObjects
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/mergeObjects/#-mergeobjects
      */
-    case MergeObjectsMergeObjects = <<<'JSON'
+    case MergeObjectsMergeObjects = <<<'EXTENDED_JSON'
     [
         {
             "$lookup": {
@@ -3379,14 +3515,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * textScore
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/meta/#-meta---textscore-
      */
-    case MetaTextScore = <<<'JSON'
+    case MetaTextScore = <<<'EXTENDED_JSON'
     [
         {
             "$match": {
@@ -3408,14 +3544,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * indexKey
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/meta/#-meta---indexkey-
      */
-    case MetaIndexKey = <<<'JSON'
+    case MetaIndexKey = <<<'EXTENDED_JSON'
     [
         {
             "$match": {
@@ -3430,14 +3566,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/millisecond/#example
      */
-    case MillisecondExample = <<<'JSON'
+    case MillisecondExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -3449,14 +3585,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Use in $project Stage
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/min/#use-in--project-stage
      */
-    case MinUseInProjectStage = <<<'JSON'
+    case MinUseInProjectStage = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -3479,14 +3615,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/minN-array-element/#example
      */
-    case MinNExample = <<<'JSON'
+    case MinNExample = <<<'EXTENDED_JSON'
     [
         {
             "$addFields": {
@@ -3501,14 +3637,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/minute/#example
      */
-    case MinuteExample = <<<'JSON'
+    case MinuteExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -3520,14 +3656,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/mod/#example
      */
-    case ModExample = <<<'JSON'
+    case ModExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -3540,14 +3676,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/month/#example
      */
-    case MonthExample = <<<'JSON'
+    case MonthExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -3559,14 +3695,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/multiply/#example
      */
-    case MultiplyExample = <<<'JSON'
+    case MultiplyExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -3585,14 +3721,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/ne/#example
      */
-    case NeExample = <<<'JSON'
+    case NeExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -3616,14 +3752,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/not/#example
      */
-    case NotExample = <<<'JSON'
+    case NotExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -3645,14 +3781,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * $objectToArray Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/objectToArray/#-objecttoarray-example
      */
-    case ObjectToArrayObjectToArrayExample = <<<'JSON'
+    case ObjectToArrayObjectToArrayExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -3665,14 +3801,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * $objectToArray to Sum Nested Fields
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/objectToArray/#-objecttoarray-to-sum-nested-fields
      */
-    case ObjectToArrayObjectToArrayToSumNestedFields = <<<'JSON'
+    case ObjectToArrayObjectToArrayToSumNestedFields = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -3695,14 +3831,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/or/#example
      */
-    case OrExample = <<<'JSON'
+    case OrExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -3732,14 +3868,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Use $percentile in a $project Stage
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/percentile/#use-operatorname-in-a--project-stage
      */
-    case PercentileUsePercentileInAProjectStage = <<<'JSON'
+    case PercentileUsePercentileInAProjectStage = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -3770,14 +3906,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/pow/#example
      */
-    case PowExample = <<<'JSON'
+    case PowExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -3796,14 +3932,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/radiansToDegrees/#example
      */
-    case RadiansToDegreesExample = <<<'JSON'
+    case RadiansToDegreesExample = <<<'EXTENDED_JSON'
     [
         {
             "$addFields": {
@@ -3819,14 +3955,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Generate Random Data Points
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/rand/#generate-random-data-points
      */
-    case RandGenerateRandomDataPoints = <<<'JSON'
+    case RandGenerateRandomDataPoints = <<<'EXTENDED_JSON'
     [
         {
             "$set": {
@@ -3855,14 +3991,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Select Random Items From a Collection
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/rand/#select-random-items-from-a-collection
      */
-    case RandSelectRandomItemsFromACollection = <<<'JSON'
+    case RandSelectRandomItemsFromACollection = <<<'EXTENDED_JSON'
     [
         {
             "$match": {
@@ -3899,14 +4035,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/range/#example
      */
-    case RangeExample = <<<'JSON'
+    case RangeExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -3930,14 +4066,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Multiplication
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/reduce/#multiplication
      */
-    case ReduceMultiplication = <<<'JSON'
+    case ReduceMultiplication = <<<'EXTENDED_JSON'
     [
         {
             "$group": {
@@ -3969,14 +4105,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Discounted Merchandise
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/reduce/#discounted-merchandise
      */
-    case ReduceDiscountedMerchandise = <<<'JSON'
+    case ReduceDiscountedMerchandise = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -4002,14 +4138,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * String Concatenation
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/reduce/#string-concatenation
      */
-    case ReduceStringConcatenation = <<<'JSON'
+    case ReduceStringConcatenation = <<<'EXTENDED_JSON'
     [
         {
             "$match": {
@@ -4050,14 +4186,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Array Concatenation
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/reduce/#array-concatenation
      */
-    case ReduceArrayConcatenation = <<<'JSON'
+    case ReduceArrayConcatenation = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -4076,14 +4212,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Computing a Multiple Reductions
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/reduce/#computing-a-multiple-reductions
      */
-    case ReduceComputingAMultipleReductions = <<<'JSON'
+    case ReduceComputingAMultipleReductions = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -4117,14 +4253,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * $regexFind and Its Options
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/regexFind/#-regexfind-and-its-options
      */
-    case RegexFindRegexFindAndItsOptions = <<<'JSON'
+    case RegexFindRegexFindAndItsOptions = <<<'EXTENDED_JSON'
     [
         {
             "$addFields": {
@@ -4142,14 +4278,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * i Option
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/regexFind/#i-option
      */
-    case RegexFindIOption = <<<'JSON'
+    case RegexFindIOption = <<<'EXTENDED_JSON'
     [
         {
             "$addFields": {
@@ -4194,14 +4330,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * $regexFindAll and Its Options
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/regexFindAll/#-regexfindall-and-its-options
      */
-    case RegexFindAllRegexFindAllAndItsOptions = <<<'JSON'
+    case RegexFindAllRegexFindAllAndItsOptions = <<<'EXTENDED_JSON'
     [
         {
             "$addFields": {
@@ -4219,14 +4355,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * i Option
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/regexFindAll/#i-option
      */
-    case RegexFindAllIOption = <<<'JSON'
+    case RegexFindAllIOption = <<<'EXTENDED_JSON'
     [
         {
             "$addFields": {
@@ -4271,14 +4407,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Use $regexFindAll to Parse Email from String
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/regexFindAll/#use--regexfindall-to-parse-email-from-string
      */
-    case RegexFindAllUseRegexFindAllToParseEmailFromString = <<<'JSON'
+    case RegexFindAllUseRegexFindAllToParseEmailFromString = <<<'EXTENDED_JSON'
     [
         {
             "$addFields": {
@@ -4301,14 +4437,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Use Captured Groupings to Parse User Name
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/regexFindAll/#use-captured-groupings-to-parse-user-name
      */
-    case RegexFindAllUseCapturedGroupingsToParseUserName = <<<'JSON'
+    case RegexFindAllUseCapturedGroupingsToParseUserName = <<<'EXTENDED_JSON'
     [
         {
             "$addFields": {
@@ -4342,14 +4478,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * $regexMatch and Its Options
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/regexMatch/#-regexmatch-and-its-options
      */
-    case RegexMatchRegexMatchAndItsOptions = <<<'JSON'
+    case RegexMatchRegexMatchAndItsOptions = <<<'EXTENDED_JSON'
     [
         {
             "$addFields": {
@@ -4367,14 +4503,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * i Option
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/regexMatch/#i-option
      */
-    case RegexMatchIOption = <<<'JSON'
+    case RegexMatchIOption = <<<'EXTENDED_JSON'
     [
         {
             "$addFields": {
@@ -4419,14 +4555,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Use $regexMatch to Check Email Address
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/regexMatch/#use--regexmatch-to-check-email-address
      */
-    case RegexMatchUseRegexMatchToCheckEmailAddress = <<<'JSON'
+    case RegexMatchUseRegexMatchToCheckEmailAddress = <<<'EXTENDED_JSON'
     [
         {
             "$addFields": {
@@ -4450,14 +4586,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Replace Using a String
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/replaceAll/#replace-using-a-string
      */
-    case ReplaceAllReplaceUsingAString = <<<'JSON'
+    case ReplaceAllReplaceUsingAString = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -4471,14 +4607,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Replace Using Regex
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/replaceAll/#replace-using-regex
      */
-    case ReplaceAllReplaceUsingRegex = <<<'JSON'
+    case ReplaceAllReplaceUsingRegex = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -4497,14 +4633,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/replaceOne/#example
      */
-    case ReplaceOneExample = <<<'JSON'
+    case ReplaceOneExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -4518,14 +4654,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Replace Using Regex
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/replaceOne/#replace-using-regex
      */
-    case ReplaceOneReplaceUsingRegex = <<<'JSON'
+    case ReplaceOneReplaceUsingRegex = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -4544,14 +4680,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/reverseArray/#example
      */
-    case ReverseArrayExample = <<<'JSON'
+    case ReverseArrayExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -4564,14 +4700,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/round/#example
      */
-    case RoundExample = <<<'JSON'
+    case RoundExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -4586,14 +4722,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/rtrim/#example
      */
-    case RtrimExample = <<<'JSON'
+    case RtrimExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -4608,14 +4744,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/second/#example
      */
-    case SecondExample = <<<'JSON'
+    case SecondExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -4627,14 +4763,152 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
+
+    /**
+     * Canonical Extended JSON Example
+     *
+     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/serializeEJSON/#canonical-extended-json-example
+     */
+    case SerializeEJSONCanonicalExtendedJSONExample = <<<'EXTENDED_JSON'
+    [
+        {
+            "$match": {
+                "title": "Inception"
+            }
+        },
+        {
+            "$project": {
+                "ejson": {
+                    "$serializeEJSON": {
+                        "input": "$$ROOT"
+                    }
+                }
+            }
+        }
+    ]
+    EXTENDED_JSON;
+
+    /**
+     * Relaxed Extended JSON Example
+     *
+     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/serializeEJSON/#relaxed-extended-json-example
+     */
+    case SerializeEJSONRelaxedExtendedJSONExample = <<<'EXTENDED_JSON'
+    [
+        {
+            "$match": {
+                "title": "Inception"
+            }
+        },
+        {
+            "$project": {
+                "ejson": {
+                    "$serializeEJSON": {
+                        "input": "$$ROOT",
+                        "relaxed": true
+                    }
+                }
+            }
+        }
+    ]
+    EXTENDED_JSON;
+
+    /**
+     * Convert to JSON String
+     *
+     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/serializeEJSON/#convert-to-json-string
+     */
+    case SerializeEJSONConvertToJSONString = <<<'EXTENDED_JSON'
+    [
+        {
+            "$match": {
+                "title": "The Godfather"
+            }
+        },
+        {
+            "$project": {
+                "title": {
+                    "$numberInt": "1"
+                },
+                "jsonString": {
+                    "$toString": {
+                        "$serializeEJSON": {
+                            "input": "$$ROOT"
+                        }
+                    }
+                }
+            }
+        }
+    ]
+    EXTENDED_JSON;
+
+    /**
+     * Serialize Specific Fields
+     *
+     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/serializeEJSON/#serialize-specific-fields
+     */
+    case SerializeEJSONSerializeSpecificFields = <<<'EXTENDED_JSON'
+    [
+        {
+            "$match": {
+                "year": {
+                    "$gte": {
+                        "$numberInt": "2010"
+                    }
+                }
+            }
+        },
+        {
+            "$project": {
+                "title": {
+                    "$numberInt": "1"
+                },
+                "metadataEJSON": {
+                    "$serializeEJSON": {
+                        "input": {
+                            "releaseDate": "$released",
+                            "runtime": "$runtime",
+                            "imdbRating": "$imdb.rating"
+                        }
+                    }
+                }
+            }
+        }
+    ]
+    EXTENDED_JSON;
+
+    /**
+     * Use onError for Error Handling
+     *
+     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/serializeEJSON/#use-onerror-for-error-handling
+     */
+    case SerializeEJSONUseOnErrorForErrorHandling = <<<'EXTENDED_JSON'
+    [
+        {
+            "$project": {
+                "title": {
+                    "$numberInt": "1"
+                },
+                "ejson": {
+                    "$serializeEJSON": {
+                        "input": "$customField",
+                        "onError": {
+                            "error": "Serialization failed"
+                        }
+                    }
+                }
+            }
+        }
+    ]
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/setDifference/#example
      */
-    case SetDifferenceExample = <<<'JSON'
+    case SetDifferenceExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -4656,14 +4930,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/setEquals/#example
      */
-    case SetEqualsExample = <<<'JSON'
+    case SetEqualsExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -4685,14 +4959,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Add Fields that Contain Periods
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/setField/#add-fields-that-contain-periods--.-
      */
-    case SetFieldAddFieldsThatContainPeriods = <<<'JSON'
+    case SetFieldAddFieldsThatContainPeriods = <<<'EXTENDED_JSON'
     [
         {
             "$replaceWith": {
@@ -4709,14 +4983,14 @@ enum Pipelines: string
             ]
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Add Fields that Start with a Dollar Sign
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/setField/#add-fields-that-start-with-a-dollar-sign----
      */
-    case SetFieldAddFieldsThatStartWithADollarSign = <<<'JSON'
+    case SetFieldAddFieldsThatStartWithADollarSign = <<<'EXTENDED_JSON'
     [
         {
             "$replaceWith": {
@@ -4735,14 +5009,14 @@ enum Pipelines: string
             ]
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Update Fields that Contain Periods
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/setField/#update-fields-that-contain-periods--.-
      */
-    case SetFieldUpdateFieldsThatContainPeriods = <<<'JSON'
+    case SetFieldUpdateFieldsThatContainPeriods = <<<'EXTENDED_JSON'
     [
         {
             "$match": {
@@ -4763,14 +5037,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Update Fields that Start with a Dollar Sign
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/setField/#update-fields-that-start-with-a-dollar-sign----
      */
-    case SetFieldUpdateFieldsThatStartWithADollarSign = <<<'JSON'
+    case SetFieldUpdateFieldsThatStartWithADollarSign = <<<'EXTENDED_JSON'
     [
         {
             "$match": {
@@ -4793,14 +5067,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Remove Fields that Contain Periods
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/setField/#remove-fields-that-contain-periods--.-
      */
-    case SetFieldRemoveFieldsThatContainPeriods = <<<'JSON'
+    case SetFieldRemoveFieldsThatContainPeriods = <<<'EXTENDED_JSON'
     [
         {
             "$replaceWith": {
@@ -4812,14 +5086,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Remove Fields that Start with a Dollar Sign
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/setField/#remove-fields-that-start-with-a-dollar-sign----
      */
-    case SetFieldRemoveFieldsThatStartWithADollarSign = <<<'JSON'
+    case SetFieldRemoveFieldsThatStartWithADollarSign = <<<'EXTENDED_JSON'
     [
         {
             "$replaceWith": {
@@ -4833,14 +5107,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Elements Array Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/setIntersection/#elements-array-example
      */
-    case SetIntersectionElementsArrayExample = <<<'JSON'
+    case SetIntersectionElementsArrayExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -4862,14 +5136,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Retrieve Documents for Roles Granted to the Current User
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/setIntersection/#retrieve-documents-for-roles-granted-to-the-current-user
      */
-    case SetIntersectionRetrieveDocumentsForRolesGrantedToTheCurrentUser = <<<'JSON'
+    case SetIntersectionRetrieveDocumentsForRolesGrantedToTheCurrentUser = <<<'EXTENDED_JSON'
     [
         {
             "$match": {
@@ -4891,14 +5165,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/setIsSubset/#example
      */
-    case SetIsSubsetExample = <<<'JSON'
+    case SetIsSubsetExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -4920,14 +5194,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/setUnion/#example
      */
-    case SetUnionExample = <<<'JSON'
+    case SetUnionExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -4949,14 +5223,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/sigmoid/#examples
      */
-    case SigmoidExample = <<<'JSON'
+    case SigmoidExample = <<<'EXTENDED_JSON'
     [
         {
             "$set": {
@@ -4966,14 +5240,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/similarityCosine/#example
      */
-    case SimilarityCosineExample = <<<'JSON'
+    case SimilarityCosineExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -4997,14 +5271,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/similarityDotProduct/#example
      */
-    case SimilarityDotProductExample = <<<'JSON'
+    case SimilarityDotProductExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -5028,14 +5302,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/similarityEuclidean/#example
      */
-    case SimilarityEuclideanExample = <<<'JSON'
+    case SimilarityEuclideanExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -5059,14 +5333,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/sin/#example
      */
-    case SinExample = <<<'JSON'
+    case SinExample = <<<'EXTENDED_JSON'
     [
         {
             "$addFields": {
@@ -5083,14 +5357,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/sinh/#example
      */
-    case SinhExample = <<<'JSON'
+    case SinhExample = <<<'EXTENDED_JSON'
     [
         {
             "$addFields": {
@@ -5102,14 +5376,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/size/#example
      */
-    case SizeExample = <<<'JSON'
+    case SizeExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -5132,14 +5406,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/slice/#example
      */
-    case SliceExample = <<<'JSON'
+    case SliceExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -5157,14 +5431,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Sort on a Field
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/sortArray/#sort-on-a-field
      */
-    case SortArraySortOnAField = <<<'JSON'
+    case SortArraySortOnAField = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -5184,14 +5458,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Sort on a Subfield
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/sortArray/#sort-on-a-subfield
      */
-    case SortArraySortOnASubfield = <<<'JSON'
+    case SortArraySortOnASubfield = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -5211,14 +5485,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Sort on Multiple Fields
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/sortArray/#sort-on-multiple-fields
      */
-    case SortArraySortOnMultipleFields = <<<'JSON'
+    case SortArraySortOnMultipleFields = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -5241,14 +5515,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Sort an Array of Integers
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/sortArray/#sort-an-array-of-integers
      */
-    case SortArraySortAnArrayOfIntegers = <<<'JSON'
+    case SortArraySortAnArrayOfIntegers = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -5285,14 +5559,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Sort on Mixed Type Fields
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/sortArray/#sort-on-mixed-type-fields
      */
-    case SortArraySortOnMixedTypeFields = <<<'JSON'
+    case SortArraySortOnMixedTypeFields = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -5347,14 +5621,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/split/#example
      */
-    case SplitExample = <<<'JSON'
+    case SplitExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -5402,14 +5676,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/sqrt/#example
      */
-    case SqrtExample = <<<'JSON'
+    case SqrtExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -5448,14 +5722,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Use in $project Stage
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/stdDevPop/#use-in--project-stage
      */
-    case StdDevPopUseInProjectStage = <<<'JSON'
+    case StdDevPopUseInProjectStage = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -5467,14 +5741,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Single-Byte and Multibyte Character Set
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/strLenBytes/#single-byte-and-multibyte-character-set
      */
-    case StrLenBytesSingleByteAndMultibyteCharacterSet = <<<'JSON'
+    case StrLenBytesSingleByteAndMultibyteCharacterSet = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -5487,14 +5761,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Single-Byte and Multibyte Character Set
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/strLenBytes/#single-byte-and-multibyte-character-set
      */
-    case StrLenCPSingleByteAndMultibyteCharacterSet = <<<'JSON'
+    case StrLenCPSingleByteAndMultibyteCharacterSet = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -5507,14 +5781,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/strcasecmp/#example
      */
-    case StrcasecmpExample = <<<'JSON'
+    case StrcasecmpExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -5530,14 +5804,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/substr/#example
      */
-    case SubstrExample = <<<'JSON'
+    case SubstrExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -5569,14 +5843,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Single-Byte Character Set
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/substrBytes/#single-byte-character-set
      */
-    case SubstrBytesSingleByteCharacterSet = <<<'JSON'
+    case SubstrBytesSingleByteCharacterSet = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -5615,14 +5889,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Single-Byte and Multibyte Character Set
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/substrBytes/#single-byte-and-multibyte-character-set
      */
-    case SubstrBytesSingleByteAndMultibyteCharacterSet = <<<'JSON'
+    case SubstrBytesSingleByteAndMultibyteCharacterSet = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -5643,14 +5917,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Single-Byte Character Set
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/substrCP/#single-byte-character-set
      */
-    case SubstrCPSingleByteCharacterSet = <<<'JSON'
+    case SubstrCPSingleByteCharacterSet = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -5689,14 +5963,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Single-Byte and Multibyte Character Set
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/substrCP/#single-byte-and-multibyte-character-set
      */
-    case SubstrCPSingleByteAndMultibyteCharacterSet = <<<'JSON'
+    case SubstrCPSingleByteAndMultibyteCharacterSet = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -5717,14 +5991,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Subtract Numbers
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/subtract/#subtract-numbers
      */
-    case SubtractSubtractNumbers = <<<'JSON'
+    case SubtractSubtractNumbers = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -5745,14 +6019,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Subtract Two Dates
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/subtract/#subtract-two-dates
      */
-    case SubtractSubtractTwoDates = <<<'JSON'
+    case SubtractSubtractTwoDates = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -5768,14 +6042,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Subtract Milliseconds from a Date
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/subtract/#subtract-milliseconds-from-a-date
      */
-    case SubtractSubtractMillisecondsFromADate = <<<'JSON'
+    case SubtractSubtractMillisecondsFromADate = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -5793,14 +6067,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/subtype/
      */
-    case SubtypeExample = <<<'JSON'
+    case SubtypeExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -5810,14 +6084,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Use in $project Stage
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/sum/#use-in--project-stage
      */
-    case SumUseInProjectStage = <<<'JSON'
+    case SumUseInProjectStage = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -5840,14 +6114,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/switch/#example
      */
-    case SwitchExample = <<<'JSON'
+    case SwitchExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -5925,14 +6199,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/tan/#example
      */
-    case TanExample = <<<'JSON'
+    case TanExample = <<<'EXTENDED_JSON'
     [
         {
             "$addFields": {
@@ -5949,14 +6223,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/tanh/#example
      */
-    case TanhExample = <<<'JSON'
+    case TanhExample = <<<'EXTENDED_JSON'
     [
         {
             "$addFields": {
@@ -5968,14 +6242,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Convert String to Array
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/toArray/#convert-string-to-array
      */
-    case ToArrayConvertStringToArray = <<<'JSON'
+    case ToArrayConvertStringToArray = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -5991,14 +6265,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Convert binData to Array
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/toArray/#convert-bindata-to-array
      */
-    case ToArrayConvertBinDataToArray = <<<'JSON'
+    case ToArrayConvertBinDataToArray = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -6012,14 +6286,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/toBool/#example
      */
-    case ToBoolExample = <<<'JSON'
+    case ToBoolExample = <<<'EXTENDED_JSON'
     [
         {
             "$addFields": {
@@ -6058,14 +6332,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/toDate/#example
      */
-    case ToDateExample = <<<'JSON'
+    case ToDateExample = <<<'EXTENDED_JSON'
     [
         {
             "$addFields": {
@@ -6082,14 +6356,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/toDecimal/#example
      */
-    case ToDecimalExample = <<<'JSON'
+    case ToDecimalExample = <<<'EXTENDED_JSON'
     [
         {
             "$addFields": {
@@ -6099,14 +6373,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/toDouble/#example
      */
-    case ToDoubleExample = <<<'JSON'
+    case ToDoubleExample = <<<'EXTENDED_JSON'
     [
         {
             "$addFields": {
@@ -6126,14 +6400,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/toHashedIndexKey/#example
      */
-    case ToHashedIndexKeyExample = <<<'JSON'
+    case ToHashedIndexKeyExample = <<<'EXTENDED_JSON'
     [
         {
             "$documents": [
@@ -6150,14 +6424,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/toInt/#example
      */
-    case ToIntExample = <<<'JSON'
+    case ToIntExample = <<<'EXTENDED_JSON'
     [
         {
             "$addFields": {
@@ -6167,14 +6441,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/toLong/#example
      */
-    case ToLongExample = <<<'JSON'
+    case ToLongExample = <<<'EXTENDED_JSON'
     [
         {
             "$addFields": {
@@ -6191,14 +6465,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/toLower/#example
      */
-    case ToLowerExample = <<<'JSON'
+    case ToLowerExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -6211,14 +6485,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Convert String to Object
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/toObject/#convert-string-to-object
      */
-    case ToObjectConvertStringToObject = <<<'JSON'
+    case ToObjectConvertStringToObject = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -6231,14 +6505,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/toObjectId/#example
      */
-    case ToObjectIdExample = <<<'JSON'
+    case ToObjectIdExample = <<<'EXTENDED_JSON'
     [
         {
             "$addFields": {
@@ -6255,14 +6529,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/toString/#example
      */
-    case ToStringExample = <<<'JSON'
+    case ToStringExample = <<<'EXTENDED_JSON'
     [
         {
             "$addFields": {
@@ -6279,14 +6553,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/toUpper/#example
      */
-    case ToUpperExample = <<<'JSON'
+    case ToUpperExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -6299,14 +6573,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/top-array-operator/#example
      */
-    case TopExample = <<<'JSON'
+    case TopExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -6327,14 +6601,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/topN-array-operator/#example
      */
-    case TopNExample = <<<'JSON'
+    case TopNExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -6358,14 +6632,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/trim/#example
      */
-    case TrimExample = <<<'JSON'
+    case TrimExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -6380,14 +6654,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/trunc/#example
      */
-    case TruncExample = <<<'JSON'
+    case TruncExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -6402,14 +6676,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Obtain the Incrementing Ordinal from a Timestamp Field
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/tsIncrement/#obtain-the-incrementing-ordinal-from-a-timestamp-field
      */
-    case TsIncrementObtainTheIncrementingOrdinalFromATimestampField = <<<'JSON'
+    case TsIncrementObtainTheIncrementingOrdinalFromATimestampField = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -6425,14 +6699,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Use $tsSecond in a Change Stream Cursor to Monitor Collection Changes
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/tsSecond/#use--tssecond-in-a-change-stream-cursor-to-monitor-collection-changes
      */
-    case TsIncrementUseTsSecondInAChangeStreamCursorToMonitorCollectionChanges = <<<'JSON'
+    case TsIncrementUseTsSecondInAChangeStreamCursorToMonitorCollectionChanges = <<<'EXTENDED_JSON'
     [
         {
             "$match": {
@@ -6456,14 +6730,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Obtain the Number of Seconds from a Timestamp Field
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/tsSecond/#obtain-the-number-of-seconds-from-a-timestamp-field
      */
-    case TsSecondObtainTheNumberOfSecondsFromATimestampField = <<<'JSON'
+    case TsSecondObtainTheNumberOfSecondsFromATimestampField = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -6479,14 +6753,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Use $tsSecond in a Change Stream Cursor to Monitor Collection Changes
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/tsSecond/#use--tssecond-in-a-change-stream-cursor-to-monitor-collection-changes
      */
-    case TsSecondUseTsSecondInAChangeStreamCursorToMonitorCollectionChanges = <<<'JSON'
+    case TsSecondUseTsSecondInAChangeStreamCursorToMonitorCollectionChanges = <<<'EXTENDED_JSON'
     [
         {
             "$addFields": {
@@ -6496,14 +6770,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/type/#example
      */
-    case TypeExample = <<<'JSON'
+    case TypeExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -6513,14 +6787,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Remove Fields that Contain Periods
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/unsetField/#remove-fields-that-contain-periods--.-
      */
-    case UnsetFieldRemoveFieldsThatContainPeriods = <<<'JSON'
+    case UnsetFieldRemoveFieldsThatContainPeriods = <<<'EXTENDED_JSON'
     [
         {
             "$replaceWith": {
@@ -6531,14 +6805,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Remove Fields that Start with a Dollar Sign
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/unsetField/#remove-fields-that-start-with-a-dollar-sign----
      */
-    case UnsetFieldRemoveFieldsThatStartWithADollarSign = <<<'JSON'
+    case UnsetFieldRemoveFieldsThatStartWithADollarSign = <<<'EXTENDED_JSON'
     [
         {
             "$replaceWith": {
@@ -6551,14 +6825,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Remove A Subfield
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/unsetField/#remove-a-subfield
      */
-    case UnsetFieldRemoveASubfield = <<<'JSON'
+    case UnsetFieldRemoveASubfield = <<<'EXTENDED_JSON'
     [
         {
             "$replaceWith": {
@@ -6579,14 +6853,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/week/#example
      */
-    case WeekExample = <<<'JSON'
+    case WeekExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -6598,14 +6872,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Example
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/year/#example
      */
-    case YearExample = <<<'JSON'
+    case YearExample = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -6617,14 +6891,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Matrix Transposition
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/zip/#matrix-transposition
      */
-    case ZipMatrixTransposition = <<<'JSON'
+    case ZipMatrixTransposition = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -6662,14 +6936,14 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 
     /**
      * Filtering and Preserving Indexes
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/zip/#filtering-and-preserving-indexes
      */
-    case ZipFilteringAndPreservingIndexes = <<<'JSON'
+    case ZipFilteringAndPreservingIndexes = <<<'EXTENDED_JSON'
     [
         {
             "$project": {
@@ -6721,5 +6995,5 @@ enum Pipelines: string
             }
         }
     ]
-    JSON;
+    EXTENDED_JSON;
 }
