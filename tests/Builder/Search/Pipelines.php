@@ -990,6 +990,136 @@ enum Pipelines: string
     JSON;
 
     /**
+     * Multi-Select Faceting Example
+     *
+     * @see https://www.mongodb.com/docs/atlas/atlas-search/facet/#multi-select-faceting-example
+     */
+    case FacetMultiSelectFacetingExample = <<<'JSON'
+    [
+        {
+            "$searchMeta": {
+                "facet": {
+                    "operator": {
+                        "compound": {
+                            "must": [
+                                {
+                                    "text": {
+                                        "path": "description",
+                                        "query": "new york city"
+                                    }
+                                }
+                            ],
+                            "filter": [
+                                {
+                                    "equals": {
+                                        "path": "cancellation_policy",
+                                        "value": "moderate",
+                                        "doesNotAffect": "cancellationFacet"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "facets": {
+                        "accommodatesFacet": {
+                            "path": "accommodates",
+                            "type": "number",
+                            "boundaries": [
+                                {
+                                    "$numberInt": "1"
+                                },
+                                {
+                                    "$numberInt": "2"
+                                },
+                                {
+                                    "$numberInt": "4"
+                                },
+                                {
+                                    "$numberInt": "8"
+                                }
+                            ]
+                        },
+                        "cancellationFacet": {
+                            "path": "cancellation_policy",
+                            "type": "string"
+                        },
+                        "roomTypeFacet": {
+                            "path": "room_type",
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    ]
+    JSON;
+
+    /**
+     * Inter-Facet Filter Exclusion Example
+     *
+     * @see https://www.mongodb.com/docs/atlas/atlas-search/facet/#inter-facet-filter-exclusion-example
+     */
+    case FacetInterFacetFilterExclusionExample = <<<'JSON'
+    [
+        {
+            "$searchMeta": {
+                "facet": {
+                    "operator": {
+                        "compound": {
+                            "must": [
+                                {
+                                    "text": {
+                                        "path": "description",
+                                        "query": "new york city"
+                                    }
+                                }
+                            ],
+                            "filter": [
+                                {
+                                    "equals": {
+                                        "path": "cancellation_policy",
+                                        "value": "moderate",
+                                        "doesNotAffect": "accommodatesFacet"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "facets": {
+                        "accommodatesFacet": {
+                            "path": "accommodates",
+                            "type": "number",
+                            "boundaries": [
+                                {
+                                    "$numberInt": "1"
+                                },
+                                {
+                                    "$numberInt": "2"
+                                },
+                                {
+                                    "$numberInt": "4"
+                                },
+                                {
+                                    "$numberInt": "8"
+                                }
+                            ]
+                        },
+                        "cancellationFacet": {
+                            "path": "cancellation_policy",
+                            "type": "string"
+                        },
+                        "roomTypeFacet": {
+                            "path": "room_type",
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    ]
+    JSON;
+
+    /**
      * Disjoint
      *
      * @see https://www.mongodb.com/docs/atlas/atlas-search/geoShape/#disjoint-example

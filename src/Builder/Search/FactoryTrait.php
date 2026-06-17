@@ -68,6 +68,7 @@ trait FactoryTrait
      * @param Optional|BSONArray|Document|PackedArray|SearchOperatorInterface|Serializable|array|stdClass $filter
      * @param Optional|int $minimumShouldMatch
      * @param Optional|Document|Serializable|array|stdClass $score
+     * @param Optional|BSONArray|PackedArray|array|string $doesNotAffect
      */
     public static function compound(
         Optional|Document|PackedArray|Serializable|SearchOperatorInterface|BSONArray|stdClass|array $must = Optional::Undefined,
@@ -76,8 +77,9 @@ trait FactoryTrait
         Optional|Document|PackedArray|Serializable|SearchOperatorInterface|BSONArray|stdClass|array $filter = Optional::Undefined,
         Optional|int $minimumShouldMatch = Optional::Undefined,
         Optional|Document|Serializable|stdClass|array $score = Optional::Undefined,
+        Optional|PackedArray|BSONArray|array|string $doesNotAffect = Optional::Undefined,
     ): CompoundOperator {
-        return new CompoundOperator($must, $mustNot, $should, $filter, $minimumShouldMatch, $score);
+        return new CompoundOperator($must, $mustNot, $should, $filter, $minimumShouldMatch, $score, $doesNotAffect);
     }
 
     /**
@@ -110,13 +112,15 @@ trait FactoryTrait
      * @param array|string $path
      * @param Binary|DateTimeInterface|Decimal128|Int64|ObjectId|UTCDateTime|bool|float|int|null|string $value
      * @param Optional|Document|Serializable|array|stdClass $score
+     * @param Optional|BSONArray|PackedArray|array|string $doesNotAffect
      */
     public static function equals(
         array|string $path,
         DateTimeInterface|Binary|Decimal128|Int64|ObjectId|UTCDateTime|bool|float|int|null|string $value,
         Optional|Document|Serializable|stdClass|array $score = Optional::Undefined,
+        Optional|PackedArray|BSONArray|array|string $doesNotAffect = Optional::Undefined,
     ): EqualsOperator {
-        return new EqualsOperator($path, $value, $score);
+        return new EqualsOperator($path, $value, $score, $doesNotAffect);
     }
 
     /**
@@ -236,13 +240,15 @@ trait FactoryTrait
      * @param array|string $path
      * @param BSONArray|DateTimeInterface|PackedArray|Type|array|bool|float|int|null|stdClass|string $value
      * @param Optional|Document|Serializable|array|stdClass $score
+     * @param Optional|BSONArray|PackedArray|array|string $doesNotAffect
      */
     public static function in(
         array|string $path,
         DateTimeInterface|PackedArray|Type|BSONArray|stdClass|array|bool|float|int|null|string $value,
         Optional|Document|Serializable|stdClass|array $score = Optional::Undefined,
+        Optional|PackedArray|BSONArray|array|string $doesNotAffect = Optional::Undefined,
     ): InOperator {
-        return new InOperator($path, $value, $score);
+        return new InOperator($path, $value, $score, $doesNotAffect);
     }
 
     /**
@@ -330,6 +336,7 @@ trait FactoryTrait
      * @param Optional|DateTimeInterface|Decimal128|Int64|ObjectId|UTCDateTime|float|int|string $lt
      * @param Optional|DateTimeInterface|Decimal128|Int64|ObjectId|UTCDateTime|float|int|string $lte
      * @param Optional|Document|Serializable|array|stdClass $score
+     * @param Optional|BSONArray|PackedArray|array|string $doesNotAffect
      */
     public static function range(
         array|string $path,
@@ -338,8 +345,9 @@ trait FactoryTrait
         Optional|DateTimeInterface|Decimal128|Int64|ObjectId|UTCDateTime|float|int|string $lt = Optional::Undefined,
         Optional|DateTimeInterface|Decimal128|Int64|ObjectId|UTCDateTime|float|int|string $lte = Optional::Undefined,
         Optional|Document|Serializable|stdClass|array $score = Optional::Undefined,
+        Optional|PackedArray|BSONArray|array|string $doesNotAffect = Optional::Undefined,
     ): RangeOperator {
-        return new RangeOperator($path, $gt, $gte, $lt, $lte, $score);
+        return new RangeOperator($path, $gt, $gte, $lt, $lte, $score, $doesNotAffect);
     }
 
     /**
