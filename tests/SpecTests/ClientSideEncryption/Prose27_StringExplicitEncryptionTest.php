@@ -24,12 +24,12 @@ use function version_compare;
 #[Group('csfle')]
 class Prose27_StringExplicitEncryptionTest extends FunctionalTestCase
 {
-    private ?ClientEncryption $clientEncryption = null;
-    private ?Client $explicitEncryptedClient = null;
-    private ?Client $autoEncryptedClient = null;
-    private mixed $key1Id = null;
-    private bool $serverAtLeast9 = false;
-    private bool $prefixPreviewSupported = false;
+    private ClientEncryption $clientEncryption;
+    private Client $explicitEncryptedClient;
+    private Client $autoEncryptedClient;
+    private mixed $key1Id;
+    private bool $serverAtLeast9;
+    private bool $prefixPreviewSupported;
 
     private static string $specDir = __DIR__ . '/../../specifications/source/client-side-encryption';
 
@@ -84,9 +84,9 @@ class Prose27_StringExplicitEncryptionTest extends FunctionalTestCase
 
     public function tearDown(): void
     {
-        $this->clientEncryption = null;
-        $this->explicitEncryptedClient = null;
-        $this->autoEncryptedClient = null;
+        unset($this->clientEncryption);
+        unset($this->explicitEncryptedClient);
+        unset($this->autoEncryptedClient);
     }
 
     public static function providePrefixQueryTypeAndCollection(): Generator
