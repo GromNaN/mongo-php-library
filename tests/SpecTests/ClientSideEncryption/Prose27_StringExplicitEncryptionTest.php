@@ -1,0 +1,513 @@
+<?php
+
+namespace MongoDB\Tests\SpecTests\ClientSideEncryption;
+
+use Generator;
+use MongoDB\BSON\Binary;
+use MongoDB\BSON\Document;
+use MongoDB\Client;
+use MongoDB\Database;
+use MongoDB\Driver\ClientEncryption;
+use MongoDB\Driver\Exception\EncryptionException;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+
+use function base64_decode;
+use function file_get_contents;
+use function version_compare;
+
+/**
+ * Prose test 27: String Explicit Encryption
+ *
+ * @see https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.md#27-string-explicit-encryption
+ */
+#[Group('csfle')]
+class Prose27_StringExplicitEncryptionTest extends FunctionalTestCase
+{
+    private ?ClientEncryption $clientEncryption = null;
+    private ?Client $explicitEncryptedClient = null;
+    private ?Client $autoEncryptedClient = null;
+    private mixed $key1Id = null;
+    private bool $serverAtLeast9 = false;
+    private bool $prefixPreviewSupported = false;
+
+    private static string $specDir = __DIR__ . '/../../specifications/source/client-side-encryption';
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        if ($this->isStandalone()) {
+            $this->markTestSkipped('String explicit encryption tests require replica sets');
+        }
+
+        $this->skipIfServerVersion('<', '8.2.0', 'String explicit encryption tests require MongoDB 8.2 or later');
+
+        $this->serverAtLeast9 = version_compare($this->getServerVersion(), '9.0.0', '>=');
+        $libmongocryptVersion = static::getModuleInfo('libmongocrypt bundled version') ?? '0';
+        $this->prefixPreviewSupported = ! $this->serverAtLeast9
+            && version_compare($libmongocryptVersion, '1.19.1', '>=');
+
+        $client = static::createTestClient();
+        $key1Document = $this->decodeJson(file_get_contents(self::$specDir . '/etc/data/keys/key1-document.json'));
+        $this->key1Id = $key1Document->_id;
+        self::insertKeyVaultData($client, [$key1Document]);
+
+        $this->clientEncryption = $client->createClientEncryption([
+            'keyVaultNamespace' => 'keyvault.datakeys',
+            'kmsProviders' => ['local' => ['key' => new Binary(base64_decode(self::LOCAL_MASTERKEY))]],
+        ]);
+
+        $this->explicitEncryptedClient = self::createTestClient(null, [], [
+            'autoEncryption' => [
+                'keyVaultNamespace' => 'keyvault.datakeys',
+                'kmsProviders' => ['local' => ['key' => new Binary(base64_decode(self::LOCAL_MASTERKEY))]],
+                'bypassQueryAnalysis' => true,
+            ],
+            /* libmongocrypt caches results from listCollections. Use a new
+             * client in each test to ensure its encryptedFields is applied. */
+            'disableClientPersistence' => true,
+        ]);
+
+        $this->autoEncryptedClient = self::createTestClient(null, [], [
+            'autoEncryption' => [
+                'keyVaultNamespace' => 'keyvault.datakeys',
+                'kmsProviders' => ['local' => ['key' => new Binary(base64_decode(self::LOCAL_MASTERKEY))]],
+            ],
+            'disableClientPersistence' => true,
+        ]);
+
+        $database = $this->explicitEncryptedClient->getDatabase($this->getDatabaseName());
+        $this->setUpCollections($database);
+        $this->insertInitialDocuments($database);
+    }
+
+    public function tearDown(): void
+    {
+        $this->clientEncryption = null;
+        $this->explicitEncryptedClient = null;
+        $this->autoEncryptedClient = null;
+    }
+
+    public static function providePrefixQueryTypeAndCollection(): Generator
+    {
+        yield 'prefix' => ['prefix', 'prefix-suffix'];
+        yield 'prefixPreview' => ['prefixPreview', 'prefix-suffix-preview'];
+    }
+
+    public static function provideSuffixQueryTypeAndCollection(): Generator
+    {
+        yield 'suffix' => ['suffix', 'prefix-suffix'];
+        yield 'suffixPreview' => ['suffixPreview', 'prefix-suffix-preview'];
+    }
+
+    /** @see https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.md#case-1-can-find-a-document-by-prefix */
+    #[DataProvider('providePrefixQueryTypeAndCollection')]
+    public function testCase1_CanFindADocumentByPrefix(string $queryType, string $collectionName): void
+    {
+        $this->skipByQueryTypeAndServerVersion($queryType);
+
+        $encryptedFoo = $this->clientEncryption->encrypt('foo', [
+            'keyId' => $this->key1Id,
+            'algorithm' => 'String',
+            'queryType' => $queryType,
+            'contentionFactor' => 0,
+            'stringOpts' => [
+                'caseSensitive' => true,
+                'diacriticSensitive' => true,
+                'prefix' => ['strMaxQueryLength' => 10, 'strMinQueryLength' => 2],
+            ],
+        ]);
+
+        $result = $this->explicitEncryptedClient
+            ->getDatabase($this->getDatabaseName())
+            ->getCollection($collectionName)
+            ->findOne(['$expr' => ['$encStrStartsWith' => ['input' => '$encryptedText', 'prefix' => $encryptedFoo]]]);
+
+        $this->assertNotNull($result);
+        $this->assertDocumentsMatch(['_id' => 0, 'encryptedText' => 'foobarbaz'], $result);
+    }
+
+    /** @see https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.md#case-2-can-find-a-document-by-suffix */
+    #[DataProvider('provideSuffixQueryTypeAndCollection')]
+    public function testCase2_CanFindADocumentBySuffix(string $queryType, string $collectionName): void
+    {
+        $this->skipByQueryTypeAndServerVersion($queryType);
+
+        $encryptedBaz = $this->clientEncryption->encrypt('baz', [
+            'keyId' => $this->key1Id,
+            'algorithm' => 'String',
+            'queryType' => $queryType,
+            'contentionFactor' => 0,
+            'stringOpts' => [
+                'caseSensitive' => true,
+                'diacriticSensitive' => true,
+                'suffix' => ['strMaxQueryLength' => 10, 'strMinQueryLength' => 2],
+            ],
+        ]);
+
+        $result = $this->explicitEncryptedClient
+            ->getDatabase($this->getDatabaseName())
+            ->getCollection($collectionName)
+            ->findOne(['$expr' => ['$encStrEndsWith' => ['input' => '$encryptedText', 'suffix' => $encryptedBaz]]]);
+
+        $this->assertNotNull($result);
+        $this->assertDocumentsMatch(['_id' => 0, 'encryptedText' => 'foobarbaz'], $result);
+    }
+
+    /** @see https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.md#case-3-assert-no-document-found-by-prefix */
+    #[DataProvider('providePrefixQueryTypeAndCollection')]
+    public function testCase3_AssertNoDocumentFoundByPrefix(string $queryType, string $collectionName): void
+    {
+        $this->skipByQueryTypeAndServerVersion($queryType);
+
+        $encryptedBaz = $this->clientEncryption->encrypt('baz', [
+            'keyId' => $this->key1Id,
+            'algorithm' => 'String',
+            'queryType' => $queryType,
+            'contentionFactor' => 0,
+            'stringOpts' => [
+                'caseSensitive' => true,
+                'diacriticSensitive' => true,
+                'prefix' => ['strMaxQueryLength' => 10, 'strMinQueryLength' => 2],
+            ],
+        ]);
+
+        $result = $this->explicitEncryptedClient
+            ->getDatabase($this->getDatabaseName())
+            ->getCollection($collectionName)
+            ->findOne(['$expr' => ['$encStrStartsWith' => ['input' => '$encryptedText', 'prefix' => $encryptedBaz]]]);
+
+        $this->assertNull($result);
+    }
+
+    /** @see https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.md#case-4-assert-no-document-found-by-suffix */
+    #[DataProvider('provideSuffixQueryTypeAndCollection')]
+    public function testCase4_AssertNoDocumentFoundBySuffix(string $queryType, string $collectionName): void
+    {
+        $this->skipByQueryTypeAndServerVersion($queryType);
+
+        $encryptedFoo = $this->clientEncryption->encrypt('foo', [
+            'keyId' => $this->key1Id,
+            'algorithm' => 'String',
+            'queryType' => $queryType,
+            'contentionFactor' => 0,
+            'stringOpts' => [
+                'caseSensitive' => true,
+                'diacriticSensitive' => true,
+                'suffix' => ['strMaxQueryLength' => 10, 'strMinQueryLength' => 2],
+            ],
+        ]);
+
+        $result = $this->explicitEncryptedClient
+            ->getDatabase($this->getDatabaseName())
+            ->getCollection($collectionName)
+            ->findOne(['$expr' => ['$encStrEndsWith' => ['input' => '$encryptedText', 'suffix' => $encryptedFoo]]]);
+
+        $this->assertNull($result);
+    }
+
+    /** @see https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.md#case-5-can-find-a-document-by-substring */
+    public function testCase5_CanFindADocumentBySubstring(): void
+    {
+        $encryptedBar = $this->clientEncryption->encrypt('bar', [
+            'keyId' => $this->key1Id,
+            'algorithm' => 'String',
+            'queryType' => 'substringPreview',
+            'contentionFactor' => 0,
+            'stringOpts' => [
+                'caseSensitive' => true,
+                'diacriticSensitive' => true,
+                'substring' => ['strMaxLength' => 10, 'strMaxQueryLength' => 10, 'strMinQueryLength' => 2],
+            ],
+        ]);
+
+        $result = $this->explicitEncryptedClient
+            ->getDatabase($this->getDatabaseName())
+            ->getCollection('substring')
+            ->findOne(['$expr' => ['$encStrContains' => ['input' => '$encryptedText', 'substring' => $encryptedBar]]]);
+
+        $this->assertNotNull($result);
+        $this->assertDocumentsMatch(['_id' => 0, 'encryptedText' => 'foobarbaz'], $result);
+    }
+
+    /** @see https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.md#case-6-assert-no-document-found-by-substring */
+    public function testCase6_AssertNoDocumentFoundBySubstring(): void
+    {
+        $encryptedQux = $this->clientEncryption->encrypt('qux', [
+            'keyId' => $this->key1Id,
+            'algorithm' => 'String',
+            'queryType' => 'substringPreview',
+            'contentionFactor' => 0,
+            'stringOpts' => [
+                'caseSensitive' => true,
+                'diacriticSensitive' => true,
+                'substring' => ['strMaxLength' => 10, 'strMaxQueryLength' => 10, 'strMinQueryLength' => 2],
+            ],
+        ]);
+
+        $result = $this->explicitEncryptedClient
+            ->getDatabase($this->getDatabaseName())
+            ->getCollection('substring')
+            ->findOne(['$expr' => ['$encStrContains' => ['input' => '$encryptedText', 'substring' => $encryptedQux]]]);
+
+        $this->assertNull($result);
+    }
+
+    /** @see https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.md#case-7-assert-contentionfactor-is-required */
+    public function testCase7_AssertContentionFactorIsRequired(): void
+    {
+        $this->skipIfServerVersion('<', '9.0.0', 'Case 7 requires MongoDB 9.0.0+');
+
+        $this->expectException(EncryptionException::class);
+        $this->expectExceptionMessageMatches('/contention factor is required for string algorithm/');
+
+        $this->clientEncryption->encrypt('foo', [
+            'keyId' => $this->key1Id,
+            'algorithm' => 'String',
+            'queryType' => 'prefix',
+            'stringOpts' => [
+                'caseSensitive' => true,
+                'diacriticSensitive' => true,
+                'prefix' => ['strMaxQueryLength' => 10, 'strMinQueryLength' => 2],
+            ],
+        ]);
+    }
+
+    /** @see https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.md#case-8-can-find-an-auto-encrypted-case-insensitively-indexed-document-by-prefix-and-suffix */
+    public function testCase8_CanFindAutoEncryptedCaseInsensitiveDocumentByPrefixAndSuffix(): void
+    {
+        $this->skipIfServerVersion('<', '9.0.0', 'Case 8 requires MongoDB 9.0.0+');
+
+        $database = $this->getDatabaseName();
+
+        $this->autoEncryptedClient
+            ->getDatabase($database)
+            ->getCollection('prefix-suffix-ci-di')
+            ->insertOne(['encryptedText' => 'BingQiLin']);
+
+        $encryptedBing = $this->clientEncryption->encrypt('bing', [
+            'keyId' => $this->key1Id,
+            'algorithm' => 'String',
+            'queryType' => 'prefix',
+            'contentionFactor' => 0,
+            'stringOpts' => [
+                'caseSensitive' => false,
+                'diacriticSensitive' => false,
+                'prefix' => ['strMaxQueryLength' => 10, 'strMinQueryLength' => 2],
+            ],
+        ]);
+
+        $result = $this->explicitEncryptedClient
+            ->getDatabase($database)
+            ->getCollection('prefix-suffix-ci-di')
+            ->findOne(['$expr' => ['$encStrStartsWith' => ['input' => '$encryptedText', 'prefix' => $encryptedBing]]]);
+
+        $this->assertNotNull($result);
+        $this->assertDocumentsMatch(['encryptedText' => 'BingQiLin'], $result);
+
+        $encryptedLin = $this->clientEncryption->encrypt('lin', [
+            'keyId' => $this->key1Id,
+            'algorithm' => 'String',
+            'queryType' => 'suffix',
+            'contentionFactor' => 0,
+            'stringOpts' => [
+                'caseSensitive' => false,
+                'diacriticSensitive' => false,
+                'suffix' => ['strMaxQueryLength' => 10, 'strMinQueryLength' => 2],
+            ],
+        ]);
+
+        $result = $this->explicitEncryptedClient
+            ->getDatabase($database)
+            ->getCollection('prefix-suffix-ci-di')
+            ->findOne(['$expr' => ['$encStrEndsWith' => ['input' => '$encryptedText', 'suffix' => $encryptedLin]]]);
+
+        $this->assertNotNull($result);
+        $this->assertDocumentsMatch(['encryptedText' => 'BingQiLin'], $result);
+    }
+
+    /** @see https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.md#case-9-can-find-an-auto-encrypted-diacritic-insensitively-indexed-document-by-prefix-and-suffix */
+    public function testCase9_CanFindAutoEncryptedDiacriticInsensitiveDocumentByPrefixAndSuffix(): void
+    {
+        $this->skipIfServerVersion('<', '9.0.0', 'Case 9 requires MongoDB 9.0.0+');
+
+        $database = $this->getDatabaseName();
+
+        $this->autoEncryptedClient
+            ->getDatabase($database)
+            ->getCollection('prefix-suffix-ci-di')
+            ->insertOne(['encryptedText' => 'cafébarbäz']);
+
+        $encryptedCafe = $this->clientEncryption->encrypt('cafe', [
+            'keyId' => $this->key1Id,
+            'algorithm' => 'String',
+            'queryType' => 'prefix',
+            'contentionFactor' => 0,
+            'stringOpts' => [
+                'caseSensitive' => false,
+                'diacriticSensitive' => false,
+                'prefix' => ['strMaxQueryLength' => 10, 'strMinQueryLength' => 2],
+            ],
+        ]);
+
+        $result = $this->explicitEncryptedClient
+            ->getDatabase($database)
+            ->getCollection('prefix-suffix-ci-di')
+            ->findOne(['$expr' => ['$encStrStartsWith' => ['input' => '$encryptedText', 'prefix' => $encryptedCafe]]]);
+
+        $this->assertNotNull($result);
+        $this->assertDocumentsMatch(['encryptedText' => 'cafébarbäz'], $result);
+
+        $encryptedBaz = $this->clientEncryption->encrypt('baz', [
+            'keyId' => $this->key1Id,
+            'algorithm' => 'String',
+            'queryType' => 'suffix',
+            'contentionFactor' => 0,
+            'stringOpts' => [
+                'caseSensitive' => false,
+                'diacriticSensitive' => false,
+                'suffix' => ['strMaxQueryLength' => 10, 'strMinQueryLength' => 2],
+            ],
+        ]);
+
+        $result = $this->explicitEncryptedClient
+            ->getDatabase($database)
+            ->getCollection('prefix-suffix-ci-di')
+            ->findOne(['$expr' => ['$encStrEndsWith' => ['input' => '$encryptedText', 'suffix' => $encryptedBaz]]]);
+
+        $this->assertNotNull($result);
+        $this->assertDocumentsMatch(['encryptedText' => 'cafébarbäz'], $result);
+    }
+
+    /** @see https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.md#case-10-can-find-an-auto-encrypted-case-insensitively-indexed-document-by-substring */
+    public function testCase10_CanFindAutoEncryptedCaseInsensitiveDocumentBySubstring(): void
+    {
+        $database = $this->getDatabaseName();
+
+        $this->autoEncryptedClient
+            ->getDatabase($database)
+            ->getCollection('substring-ci-di')
+            ->insertOne(['encryptedText' => 'FooBarBaz']);
+
+        $encryptedBar = $this->clientEncryption->encrypt('bar', [
+            'keyId' => $this->key1Id,
+            'algorithm' => 'String',
+            'queryType' => 'substringPreview',
+            'contentionFactor' => 0,
+            'stringOpts' => [
+                'caseSensitive' => false,
+                'diacriticSensitive' => false,
+                'substring' => ['strMaxLength' => 10, 'strMaxQueryLength' => 10, 'strMinQueryLength' => 2],
+            ],
+        ]);
+
+        $result = $this->explicitEncryptedClient
+            ->getDatabase($database)
+            ->getCollection('substring-ci-di')
+            ->findOne(['$expr' => ['$encStrContains' => ['input' => '$encryptedText', 'substring' => $encryptedBar]]]);
+
+        $this->assertNotNull($result);
+        $this->assertDocumentsMatch(['encryptedText' => 'FooBarBaz'], $result);
+    }
+
+    /** @see https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/tests/README.md#case-11-can-find-an-auto-encrypted-diacritic-insensitively-indexed-document-by-substring */
+    public function testCase11_CanFindAutoEncryptedDiacriticInsensitiveDocumentBySubstring(): void
+    {
+        $database = $this->getDatabaseName();
+
+        $this->autoEncryptedClient
+            ->getDatabase($database)
+            ->getCollection('substring-ci-di')
+            ->insertOne(['encryptedText' => 'foocafébaz']);
+
+        $encryptedCafe = $this->clientEncryption->encrypt('cafe', [
+            'keyId' => $this->key1Id,
+            'algorithm' => 'String',
+            'queryType' => 'substringPreview',
+            'contentionFactor' => 0,
+            'stringOpts' => [
+                'caseSensitive' => false,
+                'diacriticSensitive' => false,
+                'substring' => ['strMaxLength' => 10, 'strMaxQueryLength' => 10, 'strMinQueryLength' => 2],
+            ],
+        ]);
+
+        $result = $this->explicitEncryptedClient
+            ->getDatabase($database)
+            ->getCollection('substring-ci-di')
+            ->findOne(['$expr' => ['$encStrContains' => ['input' => '$encryptedText', 'substring' => $encryptedCafe]]]);
+
+        $this->assertNotNull($result);
+        $this->assertDocumentsMatch(['encryptedText' => 'foocafébaz'], $result);
+    }
+
+    private function setUpCollections(Database $database): void
+    {
+        if ($this->serverAtLeast9) {
+            foreach (['prefix-suffix', 'prefix-suffix-ci-di'] as $name) {
+                $encryptedFields = Document::fromJSON(file_get_contents(self::$specDir . '/etc/data/encryptedFields-' . $name . '.json'));
+                $database->dropCollection($name, ['encryptedFields' => $encryptedFields]);
+                $database->createCollection($name, ['encryptedFields' => $encryptedFields]);
+            }
+        } elseif ($this->prefixPreviewSupported) {
+            $encryptedFields = Document::fromJSON(file_get_contents(self::$specDir . '/etc/data/encryptedFields-prefix-suffix-preview.json'));
+            $database->dropCollection('prefix-suffix-preview', ['encryptedFields' => $encryptedFields]);
+            $database->createCollection('prefix-suffix-preview', ['encryptedFields' => $encryptedFields]);
+        }
+
+        foreach (['substring', 'substring-ci-di'] as $name) {
+            $encryptedFields = Document::fromJSON(file_get_contents(self::$specDir . '/etc/data/encryptedFields-' . $name . '.json'));
+            $database->dropCollection($name, ['encryptedFields' => $encryptedFields]);
+            $database->createCollection($name, ['encryptedFields' => $encryptedFields]);
+        }
+    }
+
+    private function insertInitialDocuments(Database $database): void
+    {
+        if ($this->serverAtLeast9 || $this->prefixPreviewSupported) {
+            $collectionNameForPrefixSuffix = $this->serverAtLeast9 ? 'prefix-suffix' : 'prefix-suffix-preview';
+
+            $encryptedFoobarBazForPrefixSuffix = $this->clientEncryption->encrypt('foobarbaz', [
+                'keyId' => $this->key1Id,
+                'algorithm' => 'String',
+                'contentionFactor' => 0,
+                'stringOpts' => [
+                    'caseSensitive' => true,
+                    'diacriticSensitive' => true,
+                    'prefix' => ['strMaxQueryLength' => 10, 'strMinQueryLength' => 2],
+                    'suffix' => ['strMaxQueryLength' => 10, 'strMinQueryLength' => 2],
+                ],
+            ]);
+
+            $database->getCollection($collectionNameForPrefixSuffix)
+                ->insertOne(['_id' => 0, 'encryptedText' => $encryptedFoobarBazForPrefixSuffix]);
+        }
+
+        $encryptedFoobarBazForSubstring = $this->clientEncryption->encrypt('foobarbaz', [
+            'keyId' => $this->key1Id,
+            'algorithm' => 'String',
+            'contentionFactor' => 0,
+            'stringOpts' => [
+                'caseSensitive' => true,
+                'diacriticSensitive' => true,
+                'substring' => ['strMaxLength' => 10, 'strMaxQueryLength' => 10, 'strMinQueryLength' => 2],
+            ],
+        ]);
+
+        $database->getCollection('substring')
+            ->insertOne(['_id' => 0, 'encryptedText' => $encryptedFoobarBazForSubstring]);
+    }
+
+    private function skipByQueryTypeAndServerVersion(string $queryType): void
+    {
+        if ($queryType === 'prefix' || $queryType === 'suffix') {
+            $this->skipIfServerVersion('<', '9.0.0', $queryType . ' query type requires MongoDB 9.0.0+');
+        } else {
+            $this->skipIfServerVersion('>=', '9.0.0', $queryType . ' query type requires MongoDB pre-9.0.0');
+            if (! $this->prefixPreviewSupported) {
+                $this->markTestSkipped($queryType . ' query type requires libmongocrypt 1.19.1+');
+            }
+        }
+    }
+}
