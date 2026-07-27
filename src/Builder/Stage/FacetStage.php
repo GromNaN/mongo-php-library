@@ -50,4 +50,28 @@ final class FacetStage implements StageInterface, OperatorInterface
         $facet = (object) $facet;
         $this->facet = $facet;
     }
+
+    /**
+     * Executes the $facet stage locally on the provided documents.
+     * Only for test/local execution purposes.
+     *
+     * @param array $documents Input documents
+     * @return array Resulting documents after facet pipelines
+     */
+    public function processLocally(array $documents): array
+    {
+        $result = [];
+        foreach ($this->facet as $facetName => $pipeline) {
+            $facetDocs = $documents;
+            foreach ($pipeline as $stage) {
+                if (method_exists($stage, 'processLocally')) {
+                    $facetDocs = $stage->processLocally($facetDocs);
+                } else {
+                    throw new \RuntimeException("Stage does not support local execution: " . get_class($stage));
+                }
+            }
+            $result[$facetName] = array_values($facetDocs);
+        }
+        return [$result];
+    }
 }

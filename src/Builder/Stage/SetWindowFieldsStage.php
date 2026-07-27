@@ -60,4 +60,81 @@ final class SetWindowFieldsStage implements StageInterface, OperatorInterface
         $this->output = $output;
         $this->partitionBy = $partitionBy;
     }
+
+    /**
+     * Executes the $setWindowFields stage locally on the provided documents.
+     * Only for test/local execution purposes.
+     * Supports partitioning, sorting, and window accumulators (sum, max).
+     *
+     * @param array $documents Input documents
+     * @return array Documents with window fields
+     */
+    public function processLocally(array $documents): array
+    {
+        // Partition documents generically
+        $partitions = [];
+        foreach ($documents as $doc) {
+            $key = null;
+            if (is_callable($this->partitionBy)) {
+                $key = ($this->partitionBy)($doc);
+            } elseif (is_object($this->partitionBy) && method_exists($this->partitionBy, 'extract')) {
+                $key = $this->partitionBy->extract($doc);
+            } elseif (is_object($this->partitionBy) && method_exists($this->partitionBy, '__toString')) {
+                $field = (string) $this->partitionBy;
+                $key = $doc[$field] ?? null;
+            } elseif (is_string($this->partitionBy)) {
+                $key = $doc[$this->partitionBy] ?? null;
+            } elseif ($this->partitionBy instanceof Optional && $this->partitionBy === Optional::Undefined) {
+                $key = null;
+            }
+            $partitions[$key][] = $doc;
+        }
+        // Sort partitions
+        $sortSpec = (array) $this->sortBy;
+        foreach ($partitions as &$docs) {
+            usort($docs, function ($a, $b) use ($sortSpec) {
+                foreach ($sortSpec as $field => $direction) {
+                    $dir = ($direction === -1 || $direction === 'desc' || $direction === \MongoDB\Builder\Type\Sort::Desc) ? -1 : 1;
+                    $aVal = $a[$field] ?? null;
+                    $bVal = $b[$field] ?? null;
+                    if ($aVal === $bVal) {
+                        continue;
+                    }
+                    return ($aVal < $bVal ? -1 : 1) * $dir;
+                }
+                return 0;
+            });
+        }
+        // Apply window accumulators
+        $outputSpec = (array) $this->output;
+        $result = [];
+        foreach ($partitions as $docs) {
+            $count = count($docs);
+            for ($i = 0; $i < $count; $i++) {
+                $doc = $docs[$i];
+                $newDoc = $doc;
+                foreach ($outputSpec as $field => $windowOp) {
+                    // Only support outputWindow for now
+                    if (method_exists($windowOp, 'accumulateWindow')) {
+                        // Determine window bounds
+                        $windowDocs = [];
+                        if (isset($windowOp->documents)) {
+                            $bounds = $windowOp->documents;
+                            // ['unbounded', 'current'] means from 0 to $i
+                            $start = ($bounds[0] === 'unbounded') ? 0 : max(0, $i + $bounds[0]);
+                            $end = ($bounds[1] === 'current') ? $i : (($bounds[1] === 'unbounded') ? $count - 1 : min($count - 1, $i + $bounds[1]));
+                            for ($j = $start; $j <= $end; $j++) {
+                                $windowDocs[] = $docs[$j];
+                            }
+                        } else {
+                            $windowDocs = $docs;
+                        }
+                        $newDoc[$field] = $windowOp->accumulateWindow($windowDocs);
+                    }
+                }
+                $result[] = $newDoc;
+            }
+        }
+        return $result;
+    }
 }

@@ -40,4 +40,33 @@ final class MatchStage implements StageInterface, OperatorInterface
 
         $this->query = $query;
     }
+
+    /**
+     * Executes the $match stage locally on the provided documents.
+     * Only for test/local execution purposes.
+     *
+     * @param array $documents Input documents
+     * @return array Filtered documents
+     */
+    public function processLocally(array $documents): array
+    {
+        // Safely convert query to array for local matching
+        if (is_array($this->query)) {
+            $query = $this->query;
+        } elseif ($this->query instanceof \MongoDB\Builder\Type\QueryObject) {
+            $query = $this->query->queries;
+        } elseif (method_exists($this->query, 'getArrayCopy')) {
+            $query = $this->query->getArrayCopy();
+        } else {
+            $query = [];
+        }
+        return array_values(array_filter($documents, function ($doc) use ($query) {
+            foreach ($query as $field => $value) {
+                if (!isset($doc[$field]) || $doc[$field] !== $value) {
+                    return false;
+                }
+            }
+            return true;
+        }));
+    }
 }

@@ -52,4 +52,25 @@ final class ProjectStage implements StageInterface, UpdateStageInterface, Operat
         $specification = (object) $specification;
         $this->specification = $specification;
     }
+
+    /**
+     * Executes the $project stage locally on the provided documents.
+     * Only for test/local execution purposes.
+     *
+     * @param array $documents Input documents
+     * @return array Projected documents
+     */
+    public function processLocally(array $documents): array
+    {
+        $spec = (array) $this->specification;
+        return array_map(function ($doc) use ($spec) {
+            $result = [];
+            foreach ($spec as $field => $include) {
+                if ($include && isset($doc[$field])) {
+                    $result[$field] = $doc[$field];
+                }
+            }
+            return $result;
+        }, $documents);
+    }
 }

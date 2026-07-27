@@ -58,4 +58,60 @@ final class GroupStage implements StageInterface, OperatorInterface
         $field = (object) $field;
         $this->field = $field;
     }
+
+    /**
+     * Executes the $group stage locally on the provided documents.
+     * Only for test/local execution purposes.
+     * Supports grouping by _id and $sum accumulator.
+     *
+     * @param array $documents Input documents
+     * @return array Grouped documents
+     */
+    public function processLocally(array $documents): array
+    {
+        $groups = [];
+        $states = [];
+        foreach ($documents as $doc) {
+            $groupKey = is_string($this->_id) ? ($doc[$this->_id] ?? null) : $this->_id;
+            if (!isset($groups[$groupKey])) {
+                $groups[$groupKey] = ['_id' => $groupKey];
+                $states[$groupKey] = [];
+            }
+            foreach ($this->field as $fieldName => $accumulator) {
+                if ($accumulator instanceof AccumulatorInterface) {
+                    if (!isset($states[$groupKey][$fieldName])) {
+                        $states[$groupKey][$fieldName] = [];
+                    }
+                    $accumulator->accumulate($states[$groupKey][$fieldName], $doc);
+                } elseif (is_array($accumulator) && isset($accumulator['$sum'])) {
+                    // Legacy array accumulator for $sum
+                    $sumField = $accumulator['$sum'];
+                    $states[$groupKey][$fieldName]['value'] = ($states[$groupKey][$fieldName]['value'] ?? 0) + ($doc[$sumField] ?? 0);
+                }
+            }
+        }
+        // Finalize results
+        foreach ($groups as $groupKey => &$result) {
+            foreach ($this->field as $fieldName => $accumulator) {
+                if ($accumulator instanceof AccumulatorInterface) {
+                    $state = $states[$groupKey][$fieldName] ?? null;
+                    if ($state === null) {
+                        $result[$fieldName] = null;
+                        continue;
+                    }
+                    // If avg, compute average if sum/count present
+                    if (isset($state['sum']) && isset($state['count'])) {
+                        $result[$fieldName] = $state['count'] ? $state['sum'] / $state['count'] : null;
+                    } elseif (isset($state['value'])) {
+                        $result[$fieldName] = $state['value'];
+                    } else {
+                        $result[$fieldName] = $state;
+                    }
+                } elseif (is_array($accumulator) && isset($accumulator['$sum'])) {
+                    $result[$fieldName] = $states[$groupKey][$fieldName]['value'] ?? null;
+                }
+            }
+        }
+        return array_values($groups);
+    }
 }

@@ -32,4 +32,16 @@ final class SkipStage implements StageInterface, OperatorInterface
     {
         $this->skip = $skip;
     }
+
+    /**
+     * Executes the $skip stage locally on the provided documents.
+     * Only for test/local execution purposes.
+     *
+     * @param array $documents Input documents
+     * @return array Skipped documents
+     */
+    public function processLocally(array $documents): array
+    {
+        return array_slice($documents, $this->skip);
+    }
 }

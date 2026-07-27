@@ -45,4 +45,23 @@ final class SumAccumulator implements AccumulatorInterface, WindowInterface, Ope
 
         $this->expression = $expression;
     }
+
+    /**
+     * Accumulate the sum for the current group state using the provided document.
+     *
+     * @param array $state Reference to the group state
+     * @param array $doc The current document
+     */
+    public function accumulate(array &$state, array $doc): void
+    {
+        $expr = $this->expression;
+        $val = 0;
+        if (is_string($expr) && str_starts_with($expr, '$')) {
+            $field = substr($expr, 1);
+            $val = $doc[$field] ?? 0;
+        } elseif (is_numeric($expr)) {
+            $val = $expr;
+        }
+        $state['value'] = ($state['value'] ?? 0) + $val;
+    }
 }
