@@ -34,3 +34,6 @@ buildvariants:
       - ".replicaset .local !.csfle !.4.2 !.4.4 !.5.0 !.6.0"
       - ".sharded .local !.csfle !.4.2 !.4.4 !.5.0 !.6.0"
       - ".loadbalanced .local !.csfle !.4.2 !.4.4 !.5.0 !.6.0"
+      # Run csfle tests against MongoDB latest so that QE string query tests
+      # (Prose 27) get coverage on the upcoming extension version.
+      - "test-mongodb-latest-crypt-shared"

@@ -15,6 +15,7 @@ use PHPUnit\Framework\Attributes\Group;
 
 use function base64_decode;
 use function file_get_contents;
+use function phpversion;
 use function version_compare;
 
 /**
@@ -43,6 +44,10 @@ class Prose27_StringExplicitEncryptionTest extends FunctionalTestCase
 
         if ($this->isStandalone()) {
             $this->markTestSkipped('String explicit encryption tests require replica sets');
+        }
+
+        if (version_compare(phpversion('mongodb'), '2.4.0dev', '<')) {
+            $this->markTestSkipped('String explicit encryption tests require ext-mongodb 2.4.0+ (stringOpts support)');
         }
 
         $this->skipIfServerVersion('<', '8.2.0', 'String explicit encryption tests require MongoDB 8.2 or later');
