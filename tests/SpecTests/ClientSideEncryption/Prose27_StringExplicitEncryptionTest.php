@@ -9,6 +9,7 @@ use MongoDB\Client;
 use MongoDB\Database;
 use MongoDB\Driver\ClientEncryption;
 use MongoDB\Driver\Exception\EncryptionException;
+use MongoDB\Driver\WriteConcern;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -29,8 +30,10 @@ class Prose27_StringExplicitEncryptionTest extends FunctionalTestCase
     private Client $autoEncryptedClient;
     private mixed $key1Id;
     private bool $serverAtLeast9;
+    private string $libmongocryptVersion;
     private bool $prefixPreviewSupported;
     private bool $substringPreviewSupported;
+    private WriteConcern $majorityWriteConcern;
 
     private static string $specDir = __DIR__ . '/../../specifications/source/client-side-encryption';
 
@@ -44,12 +47,15 @@ class Prose27_StringExplicitEncryptionTest extends FunctionalTestCase
 
         $this->skipIfServerVersion('<', '8.2.0', 'String explicit encryption tests require MongoDB 8.2 or later');
 
+        /* The spec also requires libmongocrypt 1.18.1+; the extension always
+         * bundles a version well above that, so no top-level guard is added. */
         $this->serverAtLeast9 = version_compare($this->getServerVersion(), '9.0.0', '>=');
-        $libmongocryptVersion = static::getModuleInfo('libmongocrypt bundled version') ?? '0';
+        $this->libmongocryptVersion = static::getModuleInfo('libmongocrypt bundled version') ?? '0';
         $this->prefixPreviewSupported = ! $this->serverAtLeast9
-            && version_compare($libmongocryptVersion, '1.19.1', '>=');
+            && version_compare($this->libmongocryptVersion, '1.19.1', '>=');
         $this->substringPreviewSupported = ! $this->serverAtLeast9
-            && version_compare($libmongocryptVersion, '1.18.1', '>=');
+            && version_compare($this->libmongocryptVersion, '1.18.1', '>=');
+        $this->majorityWriteConcern = new WriteConcern(WriteConcern::MAJORITY);
 
         $client = static::createTestClient();
         $key1Document = $this->decodeJson(file_get_contents(self::$specDir . '/etc/data/keys/key1-document.json'));
@@ -80,7 +86,7 @@ class Prose27_StringExplicitEncryptionTest extends FunctionalTestCase
             'disableClientPersistence' => true,
         ]);
 
-        $database = $this->explicitEncryptedClient->getDatabase($this->getDatabaseName());
+        $database = $this->explicitEncryptedClient->getDatabase($this->getDatabaseName(), ['writeConcern' => $this->majorityWriteConcern]);
         $this->setUpCollections($database);
         $this->insertInitialDocuments($database);
     }
@@ -273,6 +279,7 @@ class Prose27_StringExplicitEncryptionTest extends FunctionalTestCase
     public function testCase7_AssertContentionFactorIsRequired(): void
     {
         $this->skipIfServerVersion('<', '9.0.0', 'Case 7 requires MongoDB 9.0.0+');
+        $this->skipIfLibmongocryptVersion('<', '1.19.0', 'Case 7 requires libmongocrypt 1.19.0+');
 
         $this->expectException(EncryptionException::class);
         $this->expectExceptionMessageMatches('/contention factor is required for string algorithm/');
@@ -293,12 +300,13 @@ class Prose27_StringExplicitEncryptionTest extends FunctionalTestCase
     public function testCase8_CanFindAutoEncryptedCaseInsensitiveDocumentByPrefixAndSuffix(): void
     {
         $this->skipIfServerVersion('<', '9.0.0', 'Case 8 requires MongoDB 9.0.0+');
+        $this->skipIfLibmongocryptVersion('<', '1.19.0', 'Case 8 requires libmongocrypt 1.19.0+');
 
         $database = $this->getDatabaseName();
 
         $this->autoEncryptedClient
             ->getDatabase($database)
-            ->getCollection('prefix-suffix-ci-di')
+            ->getCollection('prefix-suffix-ci-di', ['writeConcern' => $this->majorityWriteConcern])
             ->insertOne(['encryptedText' => 'BingQiLin']);
 
         $encryptedBing = $this->clientEncryption->encrypt('bing', [
@@ -346,12 +354,13 @@ class Prose27_StringExplicitEncryptionTest extends FunctionalTestCase
     public function testCase9_CanFindAutoEncryptedDiacriticInsensitiveDocumentByPrefixAndSuffix(): void
     {
         $this->skipIfServerVersion('<', '9.0.0', 'Case 9 requires MongoDB 9.0.0+');
+        $this->skipIfLibmongocryptVersion('<', '1.19.0', 'Case 9 requires libmongocrypt 1.19.0+');
 
         $database = $this->getDatabaseName();
 
         $this->autoEncryptedClient
             ->getDatabase($database)
-            ->getCollection('prefix-suffix-ci-di')
+            ->getCollection('prefix-suffix-ci-di', ['writeConcern' => $this->majorityWriteConcern])
             ->insertOne(['encryptedText' => 'cafébarbäz']);
 
         $encryptedCafe = $this->clientEncryption->encrypt('cafe', [
@@ -399,12 +408,13 @@ class Prose27_StringExplicitEncryptionTest extends FunctionalTestCase
     public function testCase10_CanFindAutoEncryptedCaseInsensitiveDocumentBySubstring(): void
     {
         $this->skipIfServerVersion('<', '9.0.0', 'Case 10 requires MongoDB 9.0.0+');
+        $this->skipIfLibmongocryptVersion('<', '1.20.0', 'Case 10 requires libmongocrypt 1.20.0+');
 
         $database = $this->getDatabaseName();
 
         $this->autoEncryptedClient
             ->getDatabase($database)
-            ->getCollection('substring-ci-di')
+            ->getCollection('substring-ci-di', ['writeConcern' => $this->majorityWriteConcern])
             ->insertOne(['encryptedText' => 'FooBarBaz']);
 
         $encryptedBar = $this->clientEncryption->encrypt('bar', [
@@ -432,12 +442,13 @@ class Prose27_StringExplicitEncryptionTest extends FunctionalTestCase
     public function testCase11_CanFindAutoEncryptedDiacriticInsensitiveDocumentBySubstring(): void
     {
         $this->skipIfServerVersion('<', '9.0.0', 'Case 11 requires MongoDB 9.0.0+');
+        $this->skipIfLibmongocryptVersion('<', '1.20.0', 'Case 11 requires libmongocrypt 1.20.0+');
 
         $database = $this->getDatabaseName();
 
         $this->autoEncryptedClient
             ->getDatabase($database)
-            ->getCollection('substring-ci-di')
+            ->getCollection('substring-ci-di', ['writeConcern' => $this->majorityWriteConcern])
             ->insertOne(['encryptedText' => 'foocafébaz']);
 
         $encryptedCafe = $this->clientEncryption->encrypt('cafe', [
@@ -528,8 +539,16 @@ class Prose27_StringExplicitEncryptionTest extends FunctionalTestCase
 
     private function skipByQueryTypeAndServerVersion(string $queryType): void
     {
-        if ($queryType === 'prefix' || $queryType === 'suffix' || $queryType === 'substring') {
+        if ($queryType === 'prefix' || $queryType === 'suffix') {
             $this->skipIfServerVersion('<', '9.0.0', $queryType . ' query type requires MongoDB 9.0.0+');
+            $this->skipIfLibmongocryptVersion('<', '1.19.0', $queryType . ' query type requires libmongocrypt 1.19.0+');
+
+            return;
+        }
+
+        if ($queryType === 'substring') {
+            $this->skipIfServerVersion('<', '9.0.0', $queryType . ' query type requires MongoDB 9.0.0+');
+            $this->skipIfLibmongocryptVersion('<', '1.20.0', $queryType . ' query type requires libmongocrypt 1.20.0+');
 
             return;
         }
@@ -542,6 +561,13 @@ class Prose27_StringExplicitEncryptionTest extends FunctionalTestCase
 
         if (($queryType === 'prefixPreview' || $queryType === 'suffixPreview') && ! $this->prefixPreviewSupported) {
             $this->markTestSkipped($queryType . ' query type requires libmongocrypt 1.19.1+');
+        }
+    }
+
+    private function skipIfLibmongocryptVersion(string $operator, string $version, string $message): void
+    {
+        if (version_compare($this->libmongocryptVersion, $version, $operator)) {
+            $this->markTestSkipped($message);
         }
     }
 }
