@@ -58,6 +58,35 @@ tasks:
           MONGODB_VERSION: "rapid"
       - func: "start kms servers"
       - func: "run tests"
+  - name: "test-mongodb-9.0-standalone-noauth-nossl"
+    tags: ["standalone", "local", "9.0", "tag"]
+    commands:
+      - func: "bootstrap mongo-orchestration"
+        vars:
+          TOPOLOGY: "server"
+          MONGODB_VERSION: "9.0"
+      - func: "start kms servers"
+      - func: "run tests"
+
+  - name: "test-mongodb-9.0-replicaset-noauth-nossl"
+    tags: ["replicaset", "local", "9.0", "pr", "tag"]
+    commands:
+      - func: "bootstrap mongo-orchestration"
+        vars:
+          TOPOLOGY: "replica_set"
+          MONGODB_VERSION: "9.0"
+      - func: "start kms servers"
+      - func: "run tests"
+
+  - name: "test-mongodb-9.0-sharded-noauth-nossl"
+    tags: ["sharded", "local", "9.0", "tag"]
+    commands:
+      - func: "bootstrap mongo-orchestration"
+        vars:
+          TOPOLOGY: "sharded_cluster"
+          MONGODB_VERSION: "9.0"
+      - func: "start kms servers"
+      - func: "run tests"
   - name: "test-mongodb-8.0-standalone-noauth-nossl"
     tags: ["standalone", "local", "8.0", "tag"]
     commands:
