@@ -30,6 +30,21 @@ tasks:
         vars:
           MONGODB_URI: "${SINGLE_MONGOS_LB_URI}"
           SSL: "yes"
+  - name: "test-mongodb-9.0-loadbalanced"
+    tags: ["loadbalanced", "local", "9.0", "tag"]
+    commands:
+      - func: "bootstrap mongo-orchestration"
+        vars:
+          TOPOLOGY: "sharded_cluster"
+          MONGODB_VERSION: "9.0"
+          LOAD_BALANCER: "true"
+          SSL: "yes"
+      - func: "start load balancer"
+      - func: "start kms servers"
+      - func: "run tests"
+        vars:
+          MONGODB_URI: "${SINGLE_MONGOS_LB_URI}"
+          SSL: "yes"
   - name: "test-mongodb-8.0-loadbalanced"
     tags: ["loadbalanced", "local", "8.0", "tag"]
     commands:
