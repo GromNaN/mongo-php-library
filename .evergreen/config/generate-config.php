@@ -17,6 +17,7 @@ $lowestPhpVersion = min($supportedPhpVersions);
 $supportedMongoDBVersions = [
     'latest',
     'rapid',
+    '9.0',
     '8.0',
     '7.0',
     '6.0',
