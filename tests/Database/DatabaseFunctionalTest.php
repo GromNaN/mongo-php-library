@@ -142,8 +142,7 @@ class DatabaseFunctionalTest extends FunctionalTestCase
         $writeResult = $this->manager->executeBulkWrite($this->getNamespace(), $bulkWrite);
         $this->assertEquals(1, $writeResult->getInsertedCount());
 
-        $commandResult = $this->database->drop();
-        $this->assertCommandSucceeded($commandResult);
+        $this->database->drop();
         $this->assertCollectionCount($this->getNamespace(), 0);
     }
 
@@ -155,8 +154,7 @@ class DatabaseFunctionalTest extends FunctionalTestCase
         $writeResult = $this->manager->executeBulkWrite($this->getNamespace(), $bulkWrite);
         $this->assertEquals(1, $writeResult->getInsertedCount());
 
-        $commandResult = $this->database->dropCollection($this->getCollectionName());
-        $this->assertCommandSucceeded($commandResult);
+        $this->database->dropCollection($this->getCollectionName());
         $this->assertCollectionDoesNotExist($this->getCollectionName());
     }
 
@@ -222,13 +220,12 @@ class DatabaseFunctionalTest extends FunctionalTestCase
         $writeResult = $this->manager->executeBulkWrite($this->getNamespace(), $bulkWrite);
         $this->assertEquals(1, $writeResult->getInsertedCount());
 
-        $commandResult = $this->database->renameCollection(
+        $this->database->renameCollection(
             $this->getCollectionName(),
             $toCollectionName,
             null,
             ['dropTarget' => true],
         );
-        $this->assertCommandSucceeded($commandResult);
         $this->assertCollectionDoesNotExist($this->getCollectionName());
         $this->assertCollectionExists($toCollectionName);
 
@@ -259,12 +256,11 @@ class DatabaseFunctionalTest extends FunctionalTestCase
         $writeResult = $this->manager->executeBulkWrite($this->getNamespace(), $bulkWrite);
         $this->assertEquals(1, $writeResult->getInsertedCount());
 
-        $commandResult = $this->database->renameCollection(
+        $this->database->renameCollection(
             $this->getCollectionName(),
             $toCollectionName,
             $toDatabaseName,
         );
-        $this->assertCommandSucceeded($commandResult);
         $this->assertCollectionDoesNotExist($this->getCollectionName());
         $this->assertCollectionExists($toCollectionName, $toDatabaseName);
 
@@ -321,7 +317,7 @@ class DatabaseFunctionalTest extends FunctionalTestCase
         $this->assertSame(WriteConcern::MAJORITY, $debug['writeConcern']->getW());
     }
 
-    public function testSelectGridFSBucketInheritsOptions(): void
+    public function testGetGridFSBucketInheritsOptions(): void
     {
         $databaseOptions = [
             'readConcern' => new ReadConcern(ReadConcern::LOCAL),
@@ -330,13 +326,38 @@ class DatabaseFunctionalTest extends FunctionalTestCase
         ];
 
         $database = new Database($this->manager, $this->getDatabaseName(), $databaseOptions);
-        $bucket = $database->selectGridFSBucket();
+        $bucket = $database->getGridFSBucket();
         $debug = $bucket->__debugInfo();
 
         $this->assertSame($this->manager, $debug['manager']);
         $this->assertSame($this->getDatabaseName(), $debug['databaseName']);
         $this->assertSame('fs', $debug['bucketName']);
         $this->assertSame(261120, $debug['chunkSizeBytes']);
+        $this->assertInstanceOf(ReadConcern::class, $debug['readConcern']);
+        $this->assertSame(ReadConcern::LOCAL, $debug['readConcern']->getLevel());
+        $this->assertInstanceOf(ReadPreference::class, $debug['readPreference']);
+        $this->assertSame(ReadPreference::SECONDARY_PREFERRED, $debug['readPreference']->getModeString());
+        $this->assertInstanceOf(WriteConcern::class, $debug['writeConcern']);
+        $this->assertSame(WriteConcern::MAJORITY, $debug['writeConcern']->getW());
+    }
+
+    public function testGetGridFSBucketPassesOptions(): void
+    {
+        $bucketOptions = [
+            'bucketName' => 'custom_fs',
+            'chunkSizeBytes' => 8192,
+            'readConcern' => new ReadConcern(ReadConcern::LOCAL),
+            'readPreference' => new ReadPreference(ReadPreference::SECONDARY_PREFERRED),
+            'writeConcern' => new WriteConcern(WriteConcern::MAJORITY),
+        ];
+
+        $database = new Database($this->manager, $this->getDatabaseName());
+        $bucket = $database->getGridFSBucket($bucketOptions);
+        $debug = $bucket->__debugInfo();
+
+        $this->assertSame($this->getDatabaseName(), $debug['databaseName']);
+        $this->assertSame('custom_fs', $debug['bucketName']);
+        $this->assertSame(8192, $debug['chunkSizeBytes']);
         $this->assertInstanceOf(ReadConcern::class, $debug['readConcern']);
         $this->assertSame(ReadConcern::LOCAL, $debug['readConcern']->getLevel());
         $this->assertInstanceOf(ReadPreference::class, $debug['readPreference']);

@@ -11,20 +11,22 @@ namespace MongoDB\Builder\Stage;
 use MongoDB\BSON\Document;
 use MongoDB\BSON\Serializable;
 use MongoDB\Builder\Type\Encode;
+use MongoDB\Builder\Type\InputStageInterface;
 use MongoDB\Builder\Type\OperatorInterface;
 use MongoDB\Builder\Type\Optional;
 use MongoDB\Builder\Type\SearchOperatorInterface;
-use MongoDB\Builder\Type\StageInterface;
 use stdClass;
 
 /**
  * Returns different types of metadata result documents for the Atlas Search query against an Atlas collection.
  * NOTE: $searchMeta is only available for MongoDB Atlas clusters running MongoDB v4.4.9 or higher, and is not available for self-managed deployments.
  *
+ * New in MongoDB 5.0
+ *
  * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/searchMeta/
  * @internal
  */
-final class SearchMetaStage implements StageInterface, OperatorInterface
+final class SearchMetaStage implements InputStageInterface, OperatorInterface
 {
     public const ENCODE = Encode::Object;
     public const NAME = '$searchMeta';

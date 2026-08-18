@@ -49,7 +49,7 @@ jobs:
         run: echo '🎬 Release process for version ${{ inputs.version }} started by @${{ github.triggering_actor }}' >> $GITHUB_STEP_SUMMARY
 
       - name: "Generate token and checkout repository"
-        uses: mongodb-labs/drivers-github-tools/secure-checkout@v2
+        uses: mongodb-labs/drivers-github-tools/secure-checkout@v3
         with:
           app_id: ${{ vars.APP_ID }}
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
@@ -57,7 +57,9 @@ jobs:
       - name: "Store version numbers in env variables"
         run: |
           echo RELEASE_VERSION=${{ inputs.version }} >> $GITHUB_ENV
+          echo RELEASE_VERSION_WITHOUT_STABILITY=$(echo ${{ inputs.version }} | awk -F- '{print $1}') >> $GITHUB_ENV
           echo RELEASE_BRANCH=v$(echo ${{ inputs.version }} | cut -d '.' -f-2) >> $GITHUB_ENV
+          echo DEV_BRANCH=v$(echo ${{ inputs.version }} | cut -d '.' -f-1).x >> $GITHUB_ENV
 
       - name: "Ensure release tag does not already exist"
         run: |
@@ -66,18 +68,37 @@ jobs:
             exit 1
           fi
 
-      - name: "Fail if branch names don't match"
-        if: ${{ github.ref_name != env.RELEASE_BRANCH }}
+      # For patch releases (A.B.C where C != 0), we expect the release to be
+      # triggered from the A.B maintenance branch
+      - name: "Fail if patch release is created from wrong release branch"
+        if: ${{ !endsWith(env.RELEASE_VERSION_WITHOUT_STABILITY, '.0') && env.RELEASE_BRANCH != github.ref_name }}
         run: |
           echo '❌ Release failed due to branch mismatch: expected ${{ inputs.version }} to be released from ${{ env.RELEASE_BRANCH }}, got ${{ github.ref_name }}' >> $GITHUB_STEP_SUMMARY
           exit 1
+
+      # For non-patch releases (A.B.C where C == 0), we expect the release to
+      # be triggered from the A.B maintenance branch or A.x development branch
+      - name: "Fail if non-patch release is created from wrong release branch"
+        if: ${{ endsWith(env.RELEASE_VERSION_WITHOUT_STABILITY, '.0') && env.RELEASE_BRANCH != github.ref_name && env.DEV_BRANCH != github.ref_name }}
+        run: |
+          echo '❌ Release failed due to branch mismatch: expected ${{ inputs.version }} to be released from ${{ env.RELEASE_BRANCH }} or ${{ env.DEV_BRANCH }}, got ${{ github.ref_name }}' >> $GITHUB_STEP_SUMMARY
+          exit 1
+
+      # If a non-patch release is created from its A.x development branch,
+      # create the A.B maintenance branch from the current one and push it
+      - name: "Create and push new release branch for non-patch release"
+        if: ${{ endsWith(env.RELEASE_VERSION_WITHOUT_STABILITY, '.0') && env.DEV_BRANCH == github.ref_name }}
+        run: |
+          echo '🆕 Creating new release branch ${{ env.RELEASE_BRANCH }} from ${{ github.ref_name }}' >> $GITHUB_STEP_SUMMARY
+          git checkout -b ${RELEASE_BRANCH}
+          git push origin ${RELEASE_BRANCH}
 
       #
       # Preliminary checks done - commence the release process
       #
 
       - name: "Set up drivers-github-tools"
-        uses: mongodb-labs/drivers-github-tools/setup@v2
+        uses: mongodb-labs/drivers-github-tools/setup@v3
         with:
           aws_role_arn: ${{ secrets.AWS_ROLE_ARN }}
           aws_region_name: ${{ vars.AWS_REGION_NAME }}
@@ -90,10 +111,10 @@ jobs:
           EOL
 
       - name: "Create draft release"
-        run: echo "RELEASE_URL=$(gh release create ${{ inputs.version }} --target ${{ github.ref_name }} --title "${{ inputs.version }}" --notes-file release-message --draft)" >> "$GITHUB_ENV"
+        run: echo "RELEASE_URL=$(gh release create ${{ inputs.version }} --target ${{ env.RELEASE_BRANCH }} --title "${{ inputs.version }}" --notes-file release-message --draft)" >> "$GITHUB_ENV"
 
       - name: "Create release tag"
-        uses: mongodb-labs/drivers-github-tools/tag-version@v2
+        uses: mongodb-labs/drivers-github-tools/tag-version@v3
         with:
           version: ${{ inputs.version }}
           tag_message_template: 'Release ${VERSION}'
@@ -132,7 +153,7 @@ jobs:
 
     steps:
       - name: "Generate token and checkout repository"
-        uses: mongodb-labs/drivers-github-tools/secure-checkout@v2
+        uses: mongodb-labs/drivers-github-tools/secure-checkout@v3
         with:
           app_id: ${{ vars.APP_ID }}
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
@@ -140,14 +161,14 @@ jobs:
 
       # Sets the S3_ASSETS environment variable used later
       - name: "Set up drivers-github-tools"
-        uses: mongodb-labs/drivers-github-tools/setup@v2
+        uses: mongodb-labs/drivers-github-tools/setup@v3
         with:
           aws_role_arn: ${{ secrets.AWS_ROLE_ARN }}
           aws_region_name: ${{ vars.AWS_REGION_NAME }}
           aws_secret_id: ${{ secrets.AWS_SECRET_ID }}
 
       - name: "Generate SSDLC Reports"
-        uses: mongodb-labs/drivers-github-tools/full-report@v2
+        uses: mongodb-labs/drivers-github-tools/full-report@v3
         with:
           product_name: "MongoDB PHP Driver (library)"
           release_version: ${{ inputs.version }}
@@ -158,7 +179,7 @@ jobs:
         continue-on-error: true
 
       - name: Upload S3 assets
-        uses: mongodb-labs/drivers-github-tools/upload-s3-assets@v2
+        uses: mongodb-labs/drivers-github-tools/upload-s3-assets@v3
         with:
           version: ${{ inputs.version }}
           product_name: mongo-php-library
