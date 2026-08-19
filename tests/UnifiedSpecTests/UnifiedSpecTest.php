@@ -99,6 +99,12 @@ class UnifiedSpecTest extends FunctionalTestCase
         'index-management/search index operations ignore read and write concern: listSearchIndexes ignores read and write concern' => 'libmongoc appends readConcern to aggregate command',
         // Uses an invalid object name
         'run-command/runCursorCommand: does not close the cursor when receiving an empty batch' => 'Uses an invalid object name',
+        // The pinned spec tests version predates DRIVERS-3274 (afterClusterTime on writes in causally-consistent sessions), which is only sent starting with ext-mongodb 2.4
+        'transactions/commit: reset session state commit' => 'Behavior depends on ext-mongodb version (DRIVERS-3274 not implemented before 2.4)',
+        'transactions/commit: reset session state abort' => 'Behavior depends on ext-mongodb version (DRIVERS-3274 not implemented before 2.4)',
+        'transactions/retryable-writes: increment txnNumber' => 'Behavior depends on ext-mongodb version (DRIVERS-3274 not implemented before 2.4)',
+        'transactions-convenient-api/callback-aborts: withTransaction still succeeds if callback aborts and runs extra op' => 'Behavior depends on ext-mongodb version (DRIVERS-3274 not implemented before 2.4)',
+        'transactions-convenient-api/callback-commits: withTransaction still succeeds if callback commits and runs extra op' => 'Behavior depends on ext-mongodb version (DRIVERS-3274 not implemented before 2.4)',
     ];
 
     /**
