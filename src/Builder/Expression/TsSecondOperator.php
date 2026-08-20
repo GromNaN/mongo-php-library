@@ -33,9 +33,7 @@ final class TsSecondOperator implements ResolvesToLong, OperatorInterface
     /** @var ResolvesToTimestamp|Timestamp|int|string $expression */
     public readonly Timestamp|ResolvesToTimestamp|int|string $expression;
 
-    /**
-     * @param ResolvesToTimestamp|Timestamp|int|string $expression
-     */
+    /** @param ResolvesToTimestamp|Timestamp|int|string $expression */
     public function __construct(Timestamp|ResolvesToTimestamp|int|string $expression)
     {
         if (is_string($expression) && ! str_starts_with($expression, '$')) {

@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace MongoDB\Builder\Stage;
 
 use DateTimeInterface;
+use MongoDB\BSON\Binary;
 use MongoDB\BSON\Decimal128;
 use MongoDB\BSON\Document;
 use MongoDB\BSON\Int64;
@@ -468,11 +469,19 @@ trait FactoryTrait
      * Writes the resulting documents of the aggregation pipeline to a collection. To use the $out stage, it must be the last stage in the pipeline.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/out/
-     * @param Document|Serializable|array|stdClass|string $coll Target database name to write documents from $out to.
+     * @param string $coll The output collection name.
+     * @param Optional|string $db The output database name. If omitted, defaults to the current database.
+     * @param Optional|Document|Serializable|array|stdClass $timeseries Specifies the configuration to use when writing to a time series collection.
+     * The timeField is required. All other fields are optional.
+     *
+     * New in MongoDB 7.0.3
      */
-    public static function out(Document|Serializable|stdClass|array|string $coll): OutStage
-    {
-        return new OutStage($coll);
+    public static function out(
+        string $coll,
+        Optional|string $db = Optional::Undefined,
+        Optional|Document|Serializable|stdClass|array $timeseries = Optional::Undefined,
+    ): OutStage {
+        return new OutStage($coll, $db, $timeseries);
     }
 
     /**
@@ -497,6 +506,24 @@ trait FactoryTrait
         DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string ...$specification,
     ): ProjectStage {
         return new ProjectStage(...$specification);
+    }
+
+    /**
+     * Combines multiple pipelines using rank-based fusion to create hybrid search results.
+     *
+     * New in MongoDB 8.1
+     *
+     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/rankFusion/
+     * @param Document|Serializable|array|stdClass $input An object that specifies the pipelines to combine with rank fusion.
+     * @param Optional|Document|Serializable|array|stdClass $combination An object that specifies how to combine the ranked results.
+     * @param Optional|bool $scoreDetails Set to true to include detailed scoring information.
+     */
+    public static function rankFusion(
+        Document|Serializable|stdClass|array $input,
+        Optional|Document|Serializable|stdClass|array $combination = Optional::Undefined,
+        Optional|bool $scoreDetails = Optional::Undefined,
+    ): RankFusionStage {
+        return new RankFusionStage($input, $combination, $scoreDetails);
     }
 
     /**
@@ -537,6 +564,26 @@ trait FactoryTrait
     }
 
     /**
+     * Reranks documents using a Voyage AI reranking model to improve relevance scoring.
+     *
+     * New in MongoDB 8.3
+     *
+     * @see https://www.mongodb.com/docs/vector-search/query/aggregation-stages/rerank/
+     * @param string $model Name of the Voyage AI reranking model to use (e.g. rerank-2.5, rerank-2.5-lite).
+     * @param Document|Serializable|array|stdClass $query Query object for reranking.
+     * @param BSONArray|PackedArray|array|string $path Field path or array of field paths to use for reranking.
+     * @param int<1, 1000> $numDocsToRerank Maximum number of documents to send to Voyage AI for reranking. Value must be between 1 and 1000.
+     */
+    public static function rerank(
+        string $model,
+        Document|Serializable|stdClass|array $query,
+        PackedArray|BSONArray|array|string $path,
+        int $numDocsToRerank,
+    ): RerankStage {
+        return new RerankStage($model, $query, $path, $numDocsToRerank);
+    }
+
+    /**
      * Randomly selects the specified number of documents from its input.
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/sample/
@@ -548,26 +595,47 @@ trait FactoryTrait
     }
 
     /**
+     * Computes and returns a new score as metadata. It also optionally normalizes the input
+     * scores, by default to a range between zero and one.
+     *
+     * New in MongoDB 8.2
+     *
+     * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/score/
+     * @param DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $score Computes a new value from the input scores and stores the value in the $meta keyword
+     * score. Returns an error for non-numeric inputs.
+     * @param Optional|string $normalization Normalizes the score to the range of 0 to 1. Value can be:
+     * - none: Doesn't normalize. If omitted, defaults to none.
+     * - sigmoid: Applies the sigmoid expression: 1 / (1 + e^-x).
+     * - minMaxScaler: Applies the $minMaxScaler window function.
+     * @param Optional|DateTimeInterface|ExpressionInterface|Type|array|bool|float|int|null|stdClass|string $weight Number to multiply the score expression by after normalization.
+     * @param Optional|bool $scoreDetails Specifies if $score computes and populates the $scoreDetails metadata field for each
+     * output document.
+     */
+    public static function score(
+        DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $score,
+        Optional|string $normalization = Optional::Undefined,
+        Optional|DateTimeInterface|Type|ExpressionInterface|stdClass|array|bool|float|int|null|string $weight = Optional::Undefined,
+        Optional|bool $scoreDetails = Optional::Undefined,
+    ): ScoreStage {
+        return new ScoreStage($score, $normalization, $weight, $scoreDetails);
+    }
+
+    /**
      * Combines multiple pipelines using relative score fusion to create hybrid search results.
      *
      * New in MongoDB 8.0
      *
      * @see https://www.mongodb.com/docs/manual/reference/operator/aggregation/scoreFusion/
-     * @param Document|Serializable|array|stdClass $input An object with the following required fields:
-     * - input.pipelines: Map from name to input pipeline. Each pipeline must be operating on the same collection. Minimum of one pipeline.
-     * - input.normalization: Normalizes the score to the range 0 to 1 before combining the results. Value can be none, sigmoid or minMaxScaler.
-     * @param bool $scoreDetails Set to true to include detailed scoring information.
-     * @param Optional|Document|Serializable|array|stdClass $combination An object with the following optional fields:
-     * - combination.weights: Map from pipeline name to numbers (non-negative). If unspecified, default weight is 1 for each pipeline.
-     * - combination.method: Specifies method for combining scores. Value can be avg or expression. Default is avg.
-     * - combination.expression: This is the custom expression that is used when combination.method is set to expression.
+     * @param Document|Serializable|array|stdClass $input An object that specifies the pipelines to combine with score fusion.
+     * @param Optional|Document|Serializable|array|stdClass $combination An object that specifies how to combine the scores.
+     * @param Optional|bool $scoreDetails Set to true to include detailed scoring information.
      */
     public static function scoreFusion(
         Document|Serializable|stdClass|array $input,
-        bool $scoreDetails = false,
         Optional|Document|Serializable|stdClass|array $combination = Optional::Undefined,
+        Optional|bool $scoreDetails = Optional::Undefined,
     ): ScoreFusionStage {
-        return new ScoreFusionStage($input, $scoreDetails, $combination);
+        return new ScoreFusionStage($input, $combination, $scoreDetails);
     }
 
     /**
@@ -589,6 +657,7 @@ trait FactoryTrait
      * @param Optional|string $searchBefore Reference point for retrieving results. searchBefore returns documents starting immediately before the specified reference point.
      * @param Optional|bool $scoreDetails Flag that specifies whether to retrieve a detailed breakdown of the score for the documents in the results. If omitted, defaults to false.
      * @param Optional|Document|Serializable|array|stdClass $sort Document that specifies the fields to sort the Atlas Search results by in ascending or descending order.
+     * @param Optional|Document|Serializable|array|stdClass $returnScope Object that sets the context of the query to the specified embedded document field. You must also specify `returnStoredSource` and set it to `true`.
      * @param Optional|bool $returnStoredSource Flag that specifies whether to perform a full document lookup on the backend database or return only stored source fields directly from Atlas Search.
      * @param Optional|Document|Serializable|array|stdClass $tracking Document that specifies the tracking option to retrieve analytics information on the search terms.
      */
@@ -602,10 +671,11 @@ trait FactoryTrait
         Optional|string $searchBefore = Optional::Undefined,
         Optional|bool $scoreDetails = Optional::Undefined,
         Optional|Document|Serializable|stdClass|array $sort = Optional::Undefined,
+        Optional|Document|Serializable|stdClass|array $returnScope = Optional::Undefined,
         Optional|bool $returnStoredSource = Optional::Undefined,
         Optional|Document|Serializable|stdClass|array $tracking = Optional::Undefined,
     ): SearchStage {
-        return new SearchStage($operator, $index, $highlight, $concurrent, $count, $searchAfter, $searchBefore, $scoreDetails, $sort, $returnStoredSource, $tracking);
+        return new SearchStage($operator, $index, $highlight, $concurrent, $count, $searchAfter, $searchBefore, $scoreDetails, $sort, $returnScope, $returnStoredSource, $tracking);
     }
 
     /**
@@ -619,13 +689,17 @@ trait FactoryTrait
      * the compound operator to run a compound query with multiple operators.
      * @param Optional|string $index Name of the Atlas Search index to use. If omitted, defaults to default.
      * @param Optional|Document|Serializable|array|stdClass $count Document that specifies the count options for retrieving a count of the results.
+     * @param Optional|Document|Serializable|array|stdClass $returnScope Object that sets the context of the query to the specified embedded document field. You must also specify `returnStoredSource` and set it to `true` if your cluster MongoDB version is less than 8.2.
+     * @param Optional|bool $returnStoredSource Flag that specifies whether to perform a full document lookup on the backend database or return only stored source fields directly from Atlas Search.
      */
     public static function searchMeta(
         Document|Serializable|SearchOperatorInterface|stdClass|array $operator,
         Optional|string $index = Optional::Undefined,
         Optional|Document|Serializable|stdClass|array $count = Optional::Undefined,
+        Optional|Document|Serializable|stdClass|array $returnScope = Optional::Undefined,
+        Optional|bool $returnStoredSource = Optional::Undefined,
     ): SearchMetaStage {
-        return new SearchMetaStage($operator, $index, $count);
+        return new SearchMetaStage($operator, $index, $count, $returnScope, $returnStoredSource);
     }
 
     /**
@@ -764,21 +838,41 @@ trait FactoryTrait
      * @param string $index Name of the Atlas Vector Search index to use.
      * @param int $limit Number of documents to return in the results. This value can't exceed the value of numCandidates if you specify numCandidates.
      * @param string $path Indexed vector type field to search.
-     * @param BSONArray|PackedArray|array $queryVector Array of numbers that represent the query vector. The number type must match the indexed field value type.
+     * @param Optional|BSONArray|Binary|PackedArray|array|string $queryVector Array of numbers or a BinData value that represents the query vector. The number type
+     * must match the indexed field value type. Required if `query` is not specified.
      * @param Optional|bool $exact This is required if numCandidates is omitted. false to run ANN search. true to run ENN search.
-     * @param Optional|QueryInterface|array $filter Any match query that compares an indexed field with a boolean, date, objectId, number (not decimals), string, or UUID to use as a pre-filter.
+     * @param Optional|QueryInterface|array $filter Any match query that compares an indexed field with a boolean, date, objectId, number, string, or UUID to use as a pre-filter.
      * @param Optional|int $numCandidates This field is required if exact is false or omitted.
      * Number of nearest neighbors to use during the search. Value must be less than or equal to (<=) 10000. You can't specify a number less than the number of documents to return (limit).
+     * @param Optional|bool $returnStoredSource If true, the search returns only the stored source fields configured on the index directly from the index and skips a full document lookup. If omitted, the default value is false.
+     * @param Optional|Document|Serializable|array|stdClass $nestedOptions Configure how MongoDB Vector Search scores documents that contain nested arrays.
+     * @param Optional|QueryInterface|array $parentFilter Any match query that compares an indexed top-level field with a boolean, date, objectId, number, string, or UUID to use as a pre-filter. Only valid if `nestedRoot` is specified in the index definition.
+     * @param Optional|string $query Natural language text query for automated embedding. MongoDB automatically
+     * generates a vector embedding for this text at query time using the embedding model
+     * configured in the index, or the `model` argument if specified.
+     * Required if `queryVector` is not specified.
+     *
+     * New in MongoDB 8.2
+     * @param Optional|string $model The embedding model used to generate the query vector from the query text. If omitted,
+     * the model configured in the index definition is used. Must be compatible with the model
+     * used at index time. Only valid when `query` is specified.
+     *
+     * New in MongoDB 8.2
      */
     public static function vectorSearch(
         string $index,
         int $limit,
         string $path,
-        PackedArray|BSONArray|array $queryVector,
+        Optional|Binary|PackedArray|BSONArray|array|string $queryVector = Optional::Undefined,
         Optional|bool $exact = Optional::Undefined,
         Optional|QueryInterface|array $filter = Optional::Undefined,
         Optional|int $numCandidates = Optional::Undefined,
+        Optional|bool $returnStoredSource = Optional::Undefined,
+        Optional|Document|Serializable|stdClass|array $nestedOptions = Optional::Undefined,
+        Optional|QueryInterface|array $parentFilter = Optional::Undefined,
+        Optional|string $query = Optional::Undefined,
+        Optional|string $model = Optional::Undefined,
     ): VectorSearchStage {
-        return new VectorSearchStage($index, $limit, $path, $queryVector, $exact, $filter, $numCandidates);
+        return new VectorSearchStage($index, $limit, $path, $queryVector, $exact, $filter, $numCandidates, $returnStoredSource, $nestedOptions, $parentFilter, $query, $model);
     }
 }

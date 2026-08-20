@@ -30,6 +30,9 @@ class UnifiedSpecTest extends FunctionalTestCase
      * @var array<string, string>
      */
     private static array $incompleteTestGroups = [
+        // Requires afterClusterTime on writes, pending libmongoc support (DRIVERS-3274)
+        'causal-consistency/causal consistency write commands include afterClusterTime' => 'afterClusterTime is not sent on writes pending libmongoc support (PHPLIB-1834, DRIVERS-3274)',
+        'causal-consistency/causal consistency bulkWrite include afterClusterTime' => 'afterClusterTime is not sent on writes pending libmongoc support (PHPLIB-1834, DRIVERS-3274)',
         // Spec tests for named KMS providers depends on unimplemented functionality from UTF schema 1.18
         'client-side-encryption/namedKMS' => 'UTF schema 1.18 is not supported (PHPLIB-1328)',
         // Many load balancer tests use CMAP events and/or assertNumberConnectionsCheckedOut
@@ -86,6 +89,12 @@ class UnifiedSpecTest extends FunctionalTestCase
     private static array $incompleteTests = [
         // Many load balancer tests use CMAP events and/or assertNumberConnectionsCheckedOut
         'load-balancers/monitoring events include correct fields: poolClearedEvent events include serviceId' => 'PHPC does not implement CMAP',
+        // Requires afterClusterTime on writes in transactions, pending libmongoc support (DRIVERS-3274)
+        'transactions/commit: reset session state commit' => 'afterClusterTime is not sent on writes pending libmongoc support (PHPLIB-1834, DRIVERS-3274)',
+        'transactions/commit: reset session state abort' => 'afterClusterTime is not sent on writes pending libmongoc support (PHPLIB-1834, DRIVERS-3274)',
+        'transactions/retryable-writes: increment txnNumber' => 'afterClusterTime is not sent on writes pending libmongoc support (PHPLIB-1834, DRIVERS-3274)',
+        'transactions-convenient-api/callback-aborts: withTransaction still succeeds if callback aborts and runs extra op' => 'afterClusterTime is not sent on writes pending libmongoc support (PHPLIB-1834, DRIVERS-3274)',
+        'transactions-convenient-api/callback-commits: withTransaction still succeeds if callback commits and runs extra op' => 'afterClusterTime is not sent on writes pending libmongoc support (PHPLIB-1834, DRIVERS-3274)',
         // Skips dating back to legacy transaction tests
         'transactions/mongos-recovery-token: commitTransaction retry fails on new mongos' => 'isMaster failpoints cannot be disabled',
         'transactions/pin-mongos: remain pinned after non-transient error on commit' => 'Blocked on DRIVERS-2104',
@@ -95,16 +104,11 @@ class UnifiedSpecTest extends FunctionalTestCase
         'valid-pass/entity-client-cmap-events: events are captured during an operation' => 'PHPC does not implement CMAP',
         'valid-pass/expectedEventsForClient-eventType: eventType can be set to command and cmap' => 'PHPC does not implement CMAP',
         'valid-pass/expectedEventsForClient-eventType: eventType defaults to command if unset' => 'PHPC does not implement CMAP',
+        'valid-pass/expectedEventsForClient-topologyDescriptionChangedEvent: can assert on values of newDescription and previousDescription fields' => 'SDAM events are not observed by the unified test runner',
         // libmongoc always adds readConcern to aggregate command
         'index-management/search index operations ignore read and write concern: listSearchIndexes ignores read and write concern' => 'libmongoc appends readConcern to aggregate command',
         // Uses an invalid object name
         'run-command/runCursorCommand: does not close the cursor when receiving an empty batch' => 'Uses an invalid object name',
-        // The pinned spec tests version predates DRIVERS-3274 (afterClusterTime on writes in causally-consistent sessions), which is only sent starting with ext-mongodb 2.4
-        'transactions/commit: reset session state commit' => 'Behavior depends on ext-mongodb version (DRIVERS-3274 not implemented before 2.4)',
-        'transactions/commit: reset session state abort' => 'Behavior depends on ext-mongodb version (DRIVERS-3274 not implemented before 2.4)',
-        'transactions/retryable-writes: increment txnNumber' => 'Behavior depends on ext-mongodb version (DRIVERS-3274 not implemented before 2.4)',
-        'transactions-convenient-api/callback-aborts: withTransaction still succeeds if callback aborts and runs extra op' => 'Behavior depends on ext-mongodb version (DRIVERS-3274 not implemented before 2.4)',
-        'transactions-convenient-api/callback-commits: withTransaction still succeeds if callback commits and runs extra op' => 'Behavior depends on ext-mongodb version (DRIVERS-3274 not implemented before 2.4)',
     ];
 
     /**
@@ -154,6 +158,17 @@ class UnifiedSpecTest extends FunctionalTestCase
                 $this->markTestIncomplete($reason);
             }
         }
+    }
+
+    #[DataProvider('provideCausalConsistencyTests')]
+    public function testCausalConsistency(UnifiedTestCase $test): void
+    {
+        self::$runner->run($test);
+    }
+
+    public static function provideCausalConsistencyTests(): Generator
+    {
+        return self::provideTests('causal-consistency/tests', 'causal-consistency');
     }
 
     #[DataProvider('provideChangeStreamsTests')]

@@ -59,4 +59,88 @@ class FacetOperatorTest extends PipelineTestCase
 
         $this->assertSamePipeline(Pipelines::FacetFacet, $pipeline);
     }
+
+    public function testInterFacetFilterExclusionExample(): void
+    {
+        $pipeline = new Pipeline(
+            Stage::searchMeta(
+                Search::facet(
+                    facets: object(
+                        accommodatesFacet: object(
+                            path: 'accommodates',
+                            type: 'number',
+                            boundaries: [1, 2, 4, 8],
+                        ),
+                        cancellationFacet: object(
+                            path: 'cancellation_policy',
+                            type: 'string',
+                        ),
+                        roomTypeFacet: object(
+                            path: 'room_type',
+                            type: 'string',
+                        ),
+                    ),
+                    operator: Search::compound(
+                        must: [
+                            Search::text(
+                                path: 'description',
+                                query: 'new york city',
+                            ),
+                        ],
+                        filter: [
+                            Search::equals(
+                                path: 'cancellation_policy',
+                                value: 'moderate',
+                                doesNotAffect: 'accommodatesFacet',
+                            ),
+                        ],
+                    ),
+                ),
+            ),
+        );
+
+        $this->assertSamePipeline(Pipelines::FacetInterFacetFilterExclusionExample, $pipeline);
+    }
+
+    public function testMultiSelectFacetingExample(): void
+    {
+        $pipeline = new Pipeline(
+            Stage::searchMeta(
+                Search::facet(
+                    facets: object(
+                        accommodatesFacet: object(
+                            path: 'accommodates',
+                            type: 'number',
+                            boundaries: [1, 2, 4, 8],
+                        ),
+                        cancellationFacet: object(
+                            path: 'cancellation_policy',
+                            type: 'string',
+                        ),
+                        roomTypeFacet: object(
+                            path: 'room_type',
+                            type: 'string',
+                        ),
+                    ),
+                    operator: Search::compound(
+                        must: [
+                            Search::text(
+                                path: 'description',
+                                query: 'new york city',
+                            ),
+                        ],
+                        filter: [
+                            Search::equals(
+                                path: 'cancellation_policy',
+                                value: 'moderate',
+                                doesNotAffect: 'cancellationFacet',
+                            ),
+                        ],
+                    ),
+                ),
+            ),
+        );
+
+        $this->assertSamePipeline(Pipelines::FacetMultiSelectFacetingExample, $pipeline);
+    }
 }

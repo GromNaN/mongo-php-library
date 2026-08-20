@@ -33,9 +33,7 @@ final class PullAllOperator implements UpdateInterface, OperatorInterface
     /** @var stdClass<BSONArray|PackedArray|array> $field */
     public readonly stdClass $field;
 
-    /**
-     * @param BSONArray|PackedArray|array ...$field
-     */
+    /** @param BSONArray|PackedArray|array ...$field */
     public function __construct(PackedArray|BSONArray|array ...$field)
     {
         if (\count($field) < 1) {

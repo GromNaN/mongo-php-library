@@ -31,18 +31,18 @@ jobs:
           - "8.4"
           - "8.5"
         mongodb-version:
-          - "8.0"
+          - "9.0"
         topology:
           - "replica_set"
         include:
-          # Test additional topologies for MongoDB 8.0
+          # Test additional topologies for MongoDB 9.0
           - os: "ubuntu-24.04"
             php-version: "8.4"
-            mongodb-version: "8.0"
+            mongodb-version: "9.0"
             topology: "server"
           - os: "ubuntu-24.04"
             php-version: "8.4"
-            mongodb-version: "8.0"
+            mongodb-version: "9.0"
             topology: "sharded_cluster"
           # Test lowest server/php versions
           - os: "ubuntu-22.04"
@@ -60,12 +60,12 @@ jobs:
 
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v6"
+        uses: "actions/checkout@v7"
         with:
           fetch-depth: 2
           submodules: true
 
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.13'
 
@@ -91,7 +91,7 @@ jobs:
           MONGODB_URI: ${{ steps.setup-mongodb.outputs.cluster-uri }}
 
       - name: "Upload coverage report"
-        uses: codecov/codecov-action@v6
+        uses: codecov/codecov-action@v7
         with:
           disable_search: true
           files: coverage.xml

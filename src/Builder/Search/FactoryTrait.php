@@ -68,6 +68,7 @@ trait FactoryTrait
      * @param Optional|BSONArray|Document|PackedArray|SearchOperatorInterface|Serializable|array|stdClass $filter
      * @param Optional|int $minimumShouldMatch
      * @param Optional|Document|Serializable|array|stdClass $score
+     * @param Optional|BSONArray|PackedArray|array|string $doesNotAffect
      */
     public static function compound(
         Optional|Document|PackedArray|Serializable|SearchOperatorInterface|BSONArray|stdClass|array $must = Optional::Undefined,
@@ -76,8 +77,9 @@ trait FactoryTrait
         Optional|Document|PackedArray|Serializable|SearchOperatorInterface|BSONArray|stdClass|array $filter = Optional::Undefined,
         Optional|int $minimumShouldMatch = Optional::Undefined,
         Optional|Document|Serializable|stdClass|array $score = Optional::Undefined,
+        Optional|PackedArray|BSONArray|array|string $doesNotAffect = Optional::Undefined,
     ): CompoundOperator {
-        return new CompoundOperator($must, $mustNot, $should, $filter, $minimumShouldMatch, $score);
+        return new CompoundOperator($must, $mustNot, $should, $filter, $minimumShouldMatch, $score, $doesNotAffect);
     }
 
     /**
@@ -110,13 +112,15 @@ trait FactoryTrait
      * @param array|string $path
      * @param Binary|DateTimeInterface|Decimal128|Int64|ObjectId|UTCDateTime|bool|float|int|null|string $value
      * @param Optional|Document|Serializable|array|stdClass $score
+     * @param Optional|BSONArray|PackedArray|array|string $doesNotAffect
      */
     public static function equals(
         array|string $path,
         DateTimeInterface|Binary|Decimal128|Int64|ObjectId|UTCDateTime|bool|float|int|null|string $value,
         Optional|Document|Serializable|stdClass|array $score = Optional::Undefined,
+        Optional|PackedArray|BSONArray|array|string $doesNotAffect = Optional::Undefined,
     ): EqualsOperator {
-        return new EqualsOperator($path, $value, $score);
+        return new EqualsOperator($path, $value, $score, $doesNotAffect);
     }
 
     /**
@@ -198,6 +202,36 @@ trait FactoryTrait
     }
 
     /**
+     * The `hasAncestor` operator queries an `embeddedDocuments` type field specified in the `ancestorPath`. The `ancestorPath` is a parent of the field specified in the `returnScope`.
+     *
+     * New in MongoDB 8.2
+     *
+     * @see https://www.mongodb.com/docs/atlas/atlas-search/operators-collectors/hasancestor/
+     * @param array|string $ancestorPath
+     * @param Document|SearchOperatorInterface|Serializable|array|stdClass $operator
+     */
+    public static function hasAncestor(
+        array|string $ancestorPath,
+        Document|Serializable|SearchOperatorInterface|stdClass|array $operator,
+    ): HasAncestorOperator {
+        return new HasAncestorOperator($ancestorPath, $operator);
+    }
+
+    /**
+     * The `hasRoot` operator can be used to query root-level fields when you specify the `returnScope` and `returnStoredSource` options.
+     *
+     * New in MongoDB 8.2
+     *
+     * @see https://www.mongodb.com/docs/atlas/atlas-search/operators-collectors/hasroot/
+     * @param Document|SearchOperatorInterface|Serializable|array|stdClass $operator
+     */
+    public static function hasRoot(
+        Document|Serializable|SearchOperatorInterface|stdClass|array $operator,
+    ): HasRootOperator {
+        return new HasRootOperator($operator);
+    }
+
+    /**
      * The in operator performs a search for an array of BSON values in a field.
      *
      * New in MongoDB 5.0
@@ -206,13 +240,15 @@ trait FactoryTrait
      * @param array|string $path
      * @param BSONArray|DateTimeInterface|PackedArray|Type|array|bool|float|int|null|stdClass|string $value
      * @param Optional|Document|Serializable|array|stdClass $score
+     * @param Optional|BSONArray|PackedArray|array|string $doesNotAffect
      */
     public static function in(
         array|string $path,
         DateTimeInterface|PackedArray|Type|BSONArray|stdClass|array|bool|float|int|null|string $value,
         Optional|Document|Serializable|stdClass|array $score = Optional::Undefined,
+        Optional|PackedArray|BSONArray|array|string $doesNotAffect = Optional::Undefined,
     ): InOperator {
-        return new InOperator($path, $value, $score);
+        return new InOperator($path, $value, $score, $doesNotAffect);
     }
 
     /**
@@ -300,6 +336,7 @@ trait FactoryTrait
      * @param Optional|DateTimeInterface|Decimal128|Int64|ObjectId|UTCDateTime|float|int|string $lt
      * @param Optional|DateTimeInterface|Decimal128|Int64|ObjectId|UTCDateTime|float|int|string $lte
      * @param Optional|Document|Serializable|array|stdClass $score
+     * @param Optional|BSONArray|PackedArray|array|string $doesNotAffect
      */
     public static function range(
         array|string $path,
@@ -308,8 +345,9 @@ trait FactoryTrait
         Optional|DateTimeInterface|Decimal128|Int64|ObjectId|UTCDateTime|float|int|string $lt = Optional::Undefined,
         Optional|DateTimeInterface|Decimal128|Int64|ObjectId|UTCDateTime|float|int|string $lte = Optional::Undefined,
         Optional|Document|Serializable|stdClass|array $score = Optional::Undefined,
+        Optional|PackedArray|BSONArray|array|string $doesNotAffect = Optional::Undefined,
     ): RangeOperator {
-        return new RangeOperator($path, $gt, $gte, $lt, $lte, $score);
+        return new RangeOperator($path, $gt, $gte, $lt, $lte, $score, $doesNotAffect);
     }
 
     /**
@@ -356,6 +394,39 @@ trait FactoryTrait
         Optional|Document|Serializable|stdClass|array $score = Optional::Undefined,
     ): TextOperator {
         return new TextOperator($path, $query, $fuzzy, $matchCriteria, $synonyms, $score);
+    }
+
+    /**
+     * The vectorSearch operator performs an ANN or ENN search on a vector field. It can only be
+     * used as a top-level operator in a $search or $searchMeta query, not nested under compound
+     * or other operators.
+     *
+     * New in MongoDB 6.0
+     *
+     * @see https://www.mongodb.com/docs/atlas/atlas-search/vector-search/
+     * @param array|string $path The indexed vector field to search.
+     * @param BSONArray|Binary|PackedArray|array|string $queryVector Array of numbers or a BinData value that represents the query vector. The number type
+     * must match the indexed field value type.
+     * @param int $limit The integer number of documents to return in the results. This value cannot exceed
+     * numCandidates if numCandidates is specified.
+     * @param Optional|bool $exact If false, runs an ANN search. If true, runs an ENN search. Defaults to false.
+     * This parameter is required if numCandidates is omitted.
+     * @param Optional|int $numCandidates The number of nearest neighbors to use during the search. Value must be less than or
+     * equal to 10000 and cannot be less than limit. This field is required if exact is false
+     * or omitted.
+     * @param Optional|Document|SearchOperatorInterface|Serializable|array|stdClass $filter Any Atlas Search operator to filter documents based on metadata or specific search criteria.
+     * @param Optional|Document|Serializable|array|stdClass $score Score assigned to matching search results.
+     */
+    public static function vectorSearch(
+        array|string $path,
+        Binary|PackedArray|BSONArray|array|string $queryVector,
+        int $limit,
+        Optional|bool $exact = Optional::Undefined,
+        Optional|int $numCandidates = Optional::Undefined,
+        Optional|Document|Serializable|SearchOperatorInterface|stdClass|array $filter = Optional::Undefined,
+        Optional|Document|Serializable|stdClass|array $score = Optional::Undefined,
+    ): VectorSearchOperator {
+        return new VectorSearchOperator($path, $queryVector, $limit, $exact, $numCandidates, $filter, $score);
     }
 
     /**

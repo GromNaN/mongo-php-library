@@ -31,9 +31,7 @@ final class PopOperator implements UpdateInterface, OperatorInterface
     /** @var stdClass<int> $field */
     public readonly stdClass $field;
 
-    /**
-     * @param int ...$field
-     */
+    /** @param int ...$field */
     public function __construct(int ...$field)
     {
         if (\count($field) < 1) {

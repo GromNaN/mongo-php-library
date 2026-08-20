@@ -33,9 +33,7 @@ final class MulOperator implements UpdateInterface, OperatorInterface
     /** @var stdClass<Decimal128|Int64|float|int> $field */
     public readonly stdClass $field;
 
-    /**
-     * @param Decimal128|Int64|float|int ...$field
-     */
+    /** @param Decimal128|Int64|float|int ...$field */
     public function __construct(Decimal128|Int64|float|int ...$field)
     {
         if (\count($field) < 1) {
