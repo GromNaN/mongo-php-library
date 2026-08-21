@@ -42,11 +42,11 @@ return RectorConfig::configure()
         ChangeSwitchToMatchRector::class => [
             __DIR__ . '/tests/SpecTests/Operation.php',
         ],
+        AddDoesNotPerformAssertionToNonAssertingTestRector::class,
         ClassPropertyAssignToConstructorPromotionRector::class,
         StringableForToStringRector::class => [
             __DIR__ . '/src/Model/IndexInput.php',
         ],
-        AddDoesNotPerformAssertionToNonAssertingTestRector::class,
     ])
     // phpcs:enable
     ->withImportNames(importNames: false, removeUnusedImports: true);
