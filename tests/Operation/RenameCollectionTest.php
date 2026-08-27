@@ -29,4 +29,23 @@ class RenameCollectionTest extends TestCase
             'writeConcern' => self::getInvalidWriteConcernValues(),
         ]);
     }
+
+    #[DataProvider('provideInvalidRenameDatabaseAndCollectionNames')]
+    public function testConstructorDatabaseAndCollectionNameChecks(string $fromDatabaseName, string $fromCollectionName, string $toDatabaseName, string $toCollectionName): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        new RenameCollection($fromDatabaseName, $fromCollectionName, $toDatabaseName, $toCollectionName);
+    }
+
+    public static function provideInvalidRenameDatabaseAndCollectionNames(): array
+    {
+        return [
+            'dot in fromDatabaseName' => ['foo.bar', 'coll', 'db', 'coll'],
+            'NUL byte in fromDatabaseName' => ["foo\0bar", 'coll', 'db', 'coll'],
+            'NUL byte in fromCollectionName' => ['db', "foo\0bar", 'db', 'coll'],
+            'dot in toDatabaseName' => ['db', 'coll', 'foo.bar', 'coll'],
+            'NUL byte in toDatabaseName' => ['db', 'coll', "foo\0bar", 'coll'],
+            'NUL byte in toCollectionName' => ['db', 'coll', 'db', "foo\0bar"],
+        ];
+    }
 }
