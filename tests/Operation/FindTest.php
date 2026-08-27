@@ -12,6 +12,13 @@ use TypeError;
 
 class FindTest extends TestCase
 {
+    #[DataProvider('provideInvalidDatabaseAndCollectionNames')]
+    public function testConstructorDatabaseAndCollectionNameChecks(string $databaseName, string $collectionName): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        new Find($databaseName, $collectionName, ['x' => 1]);
+    }
+
     #[DataProvider('provideInvalidDocumentValues')]
     public function testConstructorFilterArgumentTypeCheck($filter): void
     {

@@ -45,6 +45,7 @@ use function get_object_vars;
 use function is_array;
 use function is_object;
 use function is_string;
+use function str_contains;
 use function str_ends_with;
 use function substr;
 
@@ -454,6 +455,30 @@ function is_string_array(mixed $input): bool
     }
 
     return true;
+}
+
+/**
+ * Validates a database and collection name and returns the namespace formed
+ * by concatenating them.
+ *
+ * A "." or NUL byte in the database name, or a NUL byte in the collection
+ * name, would shift the namespace split performed by the server and cause
+ * the operation to silently target a different database or collection.
+ *
+ * @internal
+ * @throws InvalidArgumentException if either name is invalid
+ */
+function create_namespace(string $databaseName, string $collectionName): string
+{
+    if ($databaseName === '' || str_contains($databaseName, '.') || str_contains($databaseName, "\0")) {
+        throw new InvalidArgumentException('$databaseName is invalid: ' . $databaseName);
+    }
+
+    if ($collectionName === '' || str_contains($collectionName, "\0")) {
+        throw new InvalidArgumentException('$collectionName is invalid: ' . $collectionName);
+    }
+
+    return $databaseName . '.' . $collectionName;
 }
 
 /**

@@ -11,6 +11,13 @@ use TypeError;
 
 class UpdateTest extends TestCase
 {
+    #[DataProvider('provideInvalidDatabaseAndCollectionNames')]
+    public function testConstructorDatabaseAndCollectionNameChecks(string $databaseName, string $collectionName): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        new Update($databaseName, $collectionName, ['x' => 1], ['$set' => ['x' => 1]]);
+    }
+
     #[DataProvider('provideInvalidDocumentValues')]
     public function testConstructorFilterArgumentTypeCheck($filter): void
     {

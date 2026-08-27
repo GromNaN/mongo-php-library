@@ -57,6 +57,7 @@ use Traversable;
 use function is_array;
 use function is_bool;
 use function sprintf;
+use function str_contains;
 use function strlen;
 use function trigger_error;
 
@@ -117,7 +118,7 @@ class Database
      */
     public function __construct(private Manager $manager, private string $databaseName, array $options = [])
     {
-        if (strlen($databaseName) < 1) {
+        if (strlen($databaseName) < 1 || str_contains($databaseName, '.') || str_contains($databaseName, "\0")) {
             throw new InvalidArgumentException('$databaseName is invalid: ' . $databaseName);
         }
 

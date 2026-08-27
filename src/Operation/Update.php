@@ -29,6 +29,7 @@ use MongoDB\UpdateResult;
 use function is_array;
 use function is_bool;
 use function is_string;
+use function MongoDB\create_namespace;
 use function MongoDB\is_document;
 use function MongoDB\is_first_key_operator;
 use function MongoDB\is_pipeline;
@@ -49,6 +50,8 @@ class Update implements Executable, Explainable
     private const WIRE_VERSION_FOR_HINT = 8;
 
     private array $options;
+
+    private string $namespace;
 
     /**
      * Constructs a update command.
@@ -98,8 +101,10 @@ class Update implements Executable, Explainable
      * @param array        $options        Command options
      * @throws InvalidArgumentException for parameter/option parsing errors
      */
-    public function __construct(private string $databaseName, private string $collectionName, private array|object $filter, private array|object $update, array $options = [])
+    public function __construct(string $databaseName, private string $collectionName, private array|object $filter, private array|object $update, array $options = [])
     {
+        $this->namespace = create_namespace($databaseName, $collectionName);
+
         if (! is_document($filter)) {
             throw InvalidArgumentException::expectedDocumentType('$filter', $filter);
         }
@@ -195,7 +200,7 @@ class Update implements Executable, Explainable
         $bulk = new Bulk($this->createBulkWriteOptions());
         $bulk->update($this->filter, $this->update, $this->createUpdateOptions());
 
-        $writeResult = $server->executeBulkWrite($this->databaseName . '.' . $this->collectionName, $bulk, $this->createExecuteOptions());
+        $writeResult = $server->executeBulkWrite($this->namespace, $bulk, $this->createExecuteOptions());
 
         return new UpdateResult($writeResult);
     }
