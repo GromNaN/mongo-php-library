@@ -130,9 +130,7 @@ abstract class FunctionalTestCase extends TestCase
      */
     protected function assertCollectionDoesNotExist(string $collectionName, ?string $databaseName = null): void
     {
-        if (! isset($databaseName)) {
-            $databaseName = $this->getDatabaseName();
-        }
+        $databaseName ??= $this->getDatabaseName();
 
         $operation = new ListCollections($this->getDatabaseName());
         $collections = $operation->execute($this->getPrimaryServer());
@@ -160,9 +158,7 @@ abstract class FunctionalTestCase extends TestCase
      */
     protected function assertCollectionExists(string $collectionName, ?string $databaseName = null, ?callable $callback = null): void
     {
-        if (! isset($databaseName)) {
-            $databaseName = $this->getDatabaseName();
-        }
+        $databaseName ??= $this->getDatabaseName();
 
         if ($callback !== null && ! is_callable($callback)) {
             throw new InvalidArgumentException('$callback is not a callable');
