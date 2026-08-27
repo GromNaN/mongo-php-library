@@ -56,6 +56,7 @@ use Throwable;
 
 use function is_array;
 use function is_bool;
+use function str_contains;
 use function strlen;
 
 /** @psalm-no-seal-properties */
@@ -112,7 +113,7 @@ class Database implements Stringable
      */
     public function __construct(private Manager $manager, private string $databaseName, array $options = [])
     {
-        if (strlen($databaseName) < 1) {
+        if (strlen($databaseName) < 1 || str_contains($databaseName, '.') || str_contains($databaseName, "\0")) {
             throw new InvalidArgumentException('$databaseName is invalid: ' . $databaseName);
         }
 

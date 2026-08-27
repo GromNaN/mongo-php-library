@@ -36,6 +36,7 @@ use function current;
 use function is_array;
 use function is_bool;
 use function key;
+use function MongoDB\create_namespace;
 use function MongoDB\is_document;
 use function MongoDB\is_first_key_operator;
 use function MongoDB\is_pipeline;
@@ -62,6 +63,8 @@ final class BulkWrite
     private array $operations;
 
     private array $options;
+
+    private string $namespace;
 
     /**
      * Constructs a bulk write operation.
@@ -142,8 +145,10 @@ final class BulkWrite
      * @param array  $options        Command options
      * @throws InvalidArgumentException for parameter/option parsing errors
      */
-    public function __construct(private string $databaseName, private string $collectionName, array $operations, array $options = [])
+    public function __construct(string $databaseName, string $collectionName, array $operations, array $options = [])
     {
+        $this->namespace = create_namespace($databaseName, $collectionName);
+
         if (empty($operations)) {
             throw new InvalidArgumentException('$operations is empty');
         }
@@ -232,7 +237,7 @@ final class BulkWrite
             }
         }
 
-        $writeResult = $server->executeBulkWrite($this->databaseName . '.' . $this->collectionName, $bulk, $this->createExecuteOptions());
+        $writeResult = $server->executeBulkWrite($this->namespace, $bulk, $this->createExecuteOptions());
 
         return new BulkWriteResult($writeResult, $insertedIds);
     }
