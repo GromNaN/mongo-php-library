@@ -132,7 +132,7 @@ abstract class FunctionalTestCase extends TestCase
     {
         $databaseName ??= $this->getDatabaseName();
 
-        $operation = new ListCollections($this->getDatabaseName());
+        $operation = new ListCollections($databaseName);
         $collections = $operation->execute($this->getPrimaryServer());
 
         $foundCollection = null;
