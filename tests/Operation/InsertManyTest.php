@@ -10,6 +10,13 @@ use PHPUnit\Framework\Attributes\DataProvider;
 
 class InsertManyTest extends TestCase
 {
+    #[DataProvider('provideInvalidDatabaseAndCollectionNames')]
+    public function testConstructorDatabaseAndCollectionNameChecks(string $databaseName, string $collectionName): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        new InsertMany($databaseName, $collectionName, [['x' => 1]]);
+    }
+
     public function testConstructorDocumentsMustNotBeEmpty(): void
     {
         $this->expectException(InvalidArgumentException::class);

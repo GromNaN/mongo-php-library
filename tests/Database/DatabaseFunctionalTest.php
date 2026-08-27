@@ -39,6 +39,8 @@ class DatabaseFunctionalTest extends FunctionalTestCase
         return [
             [null, TypeError::class],
             ['', InvalidArgumentException::class],
+            ['foo.bar', InvalidArgumentException::class],
+            ["foo\0bar", InvalidArgumentException::class],
         ];
     }
 

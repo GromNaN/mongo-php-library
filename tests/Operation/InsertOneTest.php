@@ -12,6 +12,13 @@ use TypeError;
 
 class InsertOneTest extends TestCase
 {
+    #[DataProvider('provideInvalidDatabaseAndCollectionNames')]
+    public function testConstructorDatabaseAndCollectionNameChecks(string $databaseName, string $collectionName): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        new InsertOne($databaseName, $collectionName, ['x' => 1]);
+    }
+
     #[DataProvider('provideInvalidDocumentValues')]
     public function testConstructorDocumentArgumentTypeCheck($document): void
     {

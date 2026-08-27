@@ -39,7 +39,7 @@ use const JSON_THROW_ON_ERROR;
  */
 class CollectionFunctionalTest extends FunctionalTestCase
 {
-    #[DataProvider('provideInvalidDatabaseAndCollectionNames')]
+    #[DataProvider('provideInvalidDatabaseNames')]
     public function testConstructorDatabaseNameArgument($databaseName, string $expectedExceptionClass): void
     {
         $this->expectException($expectedExceptionClass);
@@ -47,7 +47,7 @@ class CollectionFunctionalTest extends FunctionalTestCase
         new Collection($this->manager, $databaseName, $this->getCollectionName());
     }
 
-    #[DataProvider('provideInvalidDatabaseAndCollectionNames')]
+    #[DataProvider('provideInvalidCollectionNames')]
     public function testConstructorCollectionNameArgument($collectionName, string $expectedExceptionClass): void
     {
         $this->expectException($expectedExceptionClass);
@@ -55,11 +55,29 @@ class CollectionFunctionalTest extends FunctionalTestCase
         new Collection($this->manager, $this->getDatabaseName(), $collectionName);
     }
 
-    public static function provideInvalidDatabaseAndCollectionNames()
+    public function testConstructorAllowsDotInCollectionName(): void
+    {
+        $collection = new Collection($this->manager, $this->getDatabaseName(), 'foo.bar');
+
+        $this->assertSame('foo.bar', $collection->getCollectionName());
+    }
+
+    public static function provideInvalidDatabaseNames()
     {
         return [
             [null, TypeError::class],
             ['', InvalidArgumentException::class],
+            ['foo.bar', InvalidArgumentException::class],
+            ["foo\0bar", InvalidArgumentException::class],
+        ];
+    }
+
+    public static function provideInvalidCollectionNames()
+    {
+        return [
+            [null, TypeError::class],
+            ['', InvalidArgumentException::class],
+            ["foo\0bar", InvalidArgumentException::class],
         ];
     }
 

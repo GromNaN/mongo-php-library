@@ -16,6 +16,13 @@ use TypeError;
 
 class DeleteTest extends TestCase
 {
+    #[DataProvider('provideInvalidDatabaseAndCollectionNames')]
+    public function testConstructorDatabaseAndCollectionNameChecks(string $databaseName, string $collectionName): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        new Delete($databaseName, $collectionName, ['x' => 1], 1);
+    }
+
     #[DataProvider('provideInvalidDocumentValues')]
     public function testConstructorFilterArgumentTypeCheck($filter): void
     {
