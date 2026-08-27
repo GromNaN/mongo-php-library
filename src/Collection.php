@@ -77,6 +77,7 @@ use function array_key_exists;
 use function current;
 use function is_array;
 use function is_bool;
+use function str_contains;
 use function strlen;
 
 /**
@@ -174,11 +175,11 @@ class Collection implements Stringable
      */
     public function __construct(private Manager $manager, private string $databaseName, private string $collectionName, array $options = [])
     {
-        if (strlen($databaseName) < 1) {
+        if (strlen($databaseName) < 1 || str_contains($databaseName, '.') || str_contains($databaseName, "\0")) {
             throw new InvalidArgumentException('$databaseName is invalid: ' . $databaseName);
         }
 
-        if (strlen($collectionName) < 1) {
+        if (strlen($collectionName) < 1 || str_contains($collectionName, "\0")) {
             throw new InvalidArgumentException('$collectionName is invalid: ' . $collectionName);
         }
 

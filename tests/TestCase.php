@@ -159,6 +159,15 @@ OUTPUT;
         return self::wrapValuesForDataProvider(self::getInvalidStringValues());
     }
 
+    final public static function provideInvalidDatabaseAndCollectionNames(): array
+    {
+        return [
+            'dot in databaseName' => ['foo.bar', 'coll'],
+            'NUL byte in databaseName' => ["foo\0bar", 'coll'],
+            'NUL byte in collectionName' => ['db', "foo\0bar"],
+        ];
+    }
+
     protected function assertDeprecated(callable $execution): mixed
     {
         return $this->assertError(E_USER_DEPRECATED | E_DEPRECATED, $execution);

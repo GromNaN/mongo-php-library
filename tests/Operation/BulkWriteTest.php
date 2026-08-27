@@ -13,6 +13,15 @@ use TypeError;
 
 class BulkWriteTest extends TestCase
 {
+    #[DataProvider('provideInvalidDatabaseAndCollectionNames')]
+    public function testConstructorDatabaseAndCollectionNameChecks(string $databaseName, string $collectionName): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        new BulkWrite($databaseName, $collectionName, [
+            [BulkWrite::INSERT_ONE => [['x' => 1]]],
+        ]);
+    }
+
     public function testOperationsMustNotBeEmpty(): void
     {
         $this->expectException(InvalidArgumentException::class);
