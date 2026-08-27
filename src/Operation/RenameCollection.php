@@ -26,7 +26,6 @@ use MongoDB\Exception\InvalidArgumentException;
 use MongoDB\Exception\UnsupportedException;
 
 use function is_bool;
-
 use function MongoDB\create_namespace;
 
 /**
