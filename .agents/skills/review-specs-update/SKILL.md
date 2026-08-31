@@ -91,7 +91,7 @@ Commit the skip and push it to the PR branch after confirming with the operator.
 Add a comment on the corresponding PHPLIB/PHPC ticket:
 
 ```bash
-jira issue comment add PHPLIB-XXXX -b "Spec tests updated in mongodb/mongo-php-library#<PR_NUMBER>"
+jira issue comment add PHPLIB-XXXX "Spec tests updated in mongodb/mongo-php-library#<PR_NUMBER>" --no-input
 ```
 
 ## Step 5 — Approve the PR
