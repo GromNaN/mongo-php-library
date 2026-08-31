@@ -16,7 +16,7 @@ description: >-
 ## Overview
 
 The `tests/specifications` git submodule tracks `mongodb/specifications`. A Dependabot PR that bumps it
-(e.g. `Bump tests/specifications from `92b3c0b` to `1de749a` (#1977)`) usually bundles several upstream commits, each
+(e.g. ``Bump tests/specifications from `92b3c0b` to `1de749a` (#1977)``) usually bundles several upstream commits, each
 referencing a `DRIVERS-XXXX` Jira ticket. Any spec change that requires driver-specific work is normally "split" into a
 `PHPLIB-XXXX` (pure PHP library) or `PHPC-XXXX` (C driver / extension) ticket. This skill walks through tracing each
 `DRIVERS-XXXX` commit back to its split ticket, checking whether the bump broke CI, skipping newly-broken tests with a

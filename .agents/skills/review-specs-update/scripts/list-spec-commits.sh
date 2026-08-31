@@ -21,8 +21,15 @@ UPSTREAM_REPO="mongodb/specifications"
 
 DIFF=$(gh pr diff "$PR_NUMBER" --repo "$REPO")
 
-OLD_SHA=$(echo "$DIFF" | grep -m1 -- "-Subproject commit" | awk '{print $3}')
-NEW_SHA=$(echo "$DIFF" | grep -m1 -- "+Subproject commit" | awk '{print $3}')
+# Scope to the diff hunk for this submodule only (a PR can touch several submodules,
+# e.g. generator/mql-specifications, tests/drivers-evergreen-tools).
+SUBMODULE_DIFF=$(echo "$DIFF" | awk -v path="$SUBMODULE_PATH" '
+    /^diff --git/ { in_hunk = ($0 ~ ("b/" path "$")) }
+    in_hunk { print }
+')
+
+OLD_SHA=$(echo "$SUBMODULE_DIFF" | grep -m1 -- "-Subproject commit" | awk '{print $3}' || true)
+NEW_SHA=$(echo "$SUBMODULE_DIFF" | grep -m1 -- "+Subproject commit" | awk '{print $3}' || true)
 
 if [ -z "$OLD_SHA" ] || [ -z "$NEW_SHA" ]; then
     echo "Could not find a $SUBMODULE_PATH submodule pointer change in PR #$PR_NUMBER" >&2
@@ -36,8 +43,9 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../../../.." && pwd)"
 
 if git -C "$REPO_ROOT/$SUBMODULE_PATH" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-    if ! git -C "$REPO_ROOT/$SUBMODULE_PATH" cat-file -e "$NEW_SHA" 2>/dev/null; then
-        git -C "$REPO_ROOT/$SUBMODULE_PATH" fetch origin --quiet
+    if ! git -C "$REPO_ROOT/$SUBMODULE_PATH" cat-file -e "$OLD_SHA" 2>/dev/null \
+        || ! git -C "$REPO_ROOT/$SUBMODULE_PATH" cat-file -e "$NEW_SHA" 2>/dev/null; then
+        git -C "$REPO_ROOT/$SUBMODULE_PATH" fetch --all --quiet
     fi
     COMMITS=$(git -C "$REPO_ROOT/$SUBMODULE_PATH" log --oneline "$OLD_SHA..$NEW_SHA")
 
@@ -84,7 +92,12 @@ if git -C "$REPO_ROOT/$SUBMODULE_PATH" rev-parse --is-inside-work-tree >/dev/nul
         echo
     done
     echo "DRIVERS tickets referenced:"
-    echo "$COMMITS" | grep -oE 'DRIVERS-[0-9]+' | sort -u -t- -k2 -n || echo "(none found)"
+    DRIVERS_TICKETS=$(echo "$COMMITS" | grep -oE 'DRIVERS-[0-9]+' | sort -u -t- -k2 -n || true)
+    if [ -n "$DRIVERS_TICKETS" ]; then
+        echo "$DRIVERS_TICKETS"
+    else
+        echo "(none found)"
+    fi
 else
     echo "$SUBMODULE_PATH is not initialized locally." >&2
     echo "Run 'git submodule update --init $SUBMODULE_PATH' to list commits locally, or compare manually at:" >&2
