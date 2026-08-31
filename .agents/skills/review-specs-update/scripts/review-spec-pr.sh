@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Usage: list-spec-commits.sh <PR_NUMBER>
+# Usage: review-spec-pr.sh <PR_NUMBER>
 #
-# Prints the old/new tests/specifications submodule SHA for a given
-# mongodb/mongo-php-library pull request, lists the commits between them,
-# and highlights any DRIVERS-XXXX ticket references found in those commits.
+# Deterministic, read-only gathering for reviewing a tests/specifications submodule
+# bump PR: prints the old/new submodule SHA, the commits between them with their
+# changed files classified, any DRIVERS-XXXX tickets referenced, the PHPLIB/PHPC
+# ticket(s) that split from each of them (via the jira CLI), and the PR's CI status.
 #
-# Read-only: does not call Jira or write anything to GitHub.
+# Does not write anything to Jira or GitHub.
 
 if [ $# -ne 1 ]; then
     echo "Usage: $0 <PR_NUMBER>" >&2
@@ -98,9 +99,27 @@ if git -C "$REPO_ROOT/$SUBMODULE_PATH" rev-parse --is-inside-work-tree >/dev/nul
     else
         echo "(none found)"
     fi
+    echo
+
+    if [ -n "$DRIVERS_TICKETS" ] && command -v jira >/dev/null 2>&1; then
+        echo "PHPLIB/PHPC split tickets:"
+        echo "$DRIVERS_TICKETS" | while IFS= read -r ticket; do
+            SPLIT=$(jira issue list --jql "project in (PHPLIB, PHPC) AND text ~ \"$ticket\"" --plain --no-headers 2>/dev/null || true)
+            if [ -n "$SPLIT" ]; then
+                echo "  $ticket ->"
+                echo "$SPLIT" | sed 's/^/    /'
+            else
+                echo "  $ticket -> (no split ticket found)"
+            fi
+        done
+        echo
+    fi
 else
     echo "$SUBMODULE_PATH is not initialized locally." >&2
     echo "Run 'git submodule update --init $SUBMODULE_PATH' to list commits locally, or compare manually at:" >&2
     echo "https://github.com/$UPSTREAM_REPO/compare/$OLD_SHA...$NEW_SHA" >&2
     exit 0
 fi
+
+echo "CI status:"
+gh pr checks "$PR_NUMBER" --repo "$REPO" || true
