@@ -88,10 +88,20 @@ Commit the skip and push it to the PR branch after confirming with the operator.
 
 ## Step 4b — Ticket-linked changes with no CI failure
 
-Add a comment on the corresponding PHPLIB/PHPC ticket:
+Add a comment on the corresponding PHPLIB/PHPC ticket. Use the **full PR URL**, not the `owner/repo#N` GitHub shorthand
+— Jira does not render that shorthand as a clickable link:
 
 ```bash
-jira issue comment add PHPLIB-XXXX "Spec tests updated in mongodb/mongo-php-library#<PR_NUMBER>" --no-input
+jira issue comment add PHPLIB-XXXX "Spec tests updated in https://github.com/mongodb/mongo-php-library/pull/<PR_NUMBER>" --no-input
+```
+
+The `jira` CLI has no comment-edit or comment-delete command. If a comment needs fixing, add a new corrective comment
+rather than trying to edit the previous one.
+
+Also add a comment on the GitHub PR itself, listing every PHPLIB/PHPC ticket found in Step 2 with its full Jira URL:
+
+```bash
+gh pr comment <PR_NUMBER> --repo mongodb/mongo-php-library --body "Spec bump tickets: https://jira.mongodb.org/browse/PHPLIB-XXXX"
 ```
 
 ## Step 5 — Approve the PR
