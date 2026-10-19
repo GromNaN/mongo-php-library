@@ -45,6 +45,174 @@
       <code><![CDATA[stdClass]]></code>
     </MoreSpecificReturnType>
   </file>
+  <file src="src/BSON/Binary.php">
+    <MixedArgument>
+      <code><![CDATA[$data['data']]]></code>
+      <code><![CDATA[$data['data']]]></code>
+      <code><![CDATA[$data['type']]]></code>
+      <code><![CDATA[$properties['data']]]></code>
+      <code><![CDATA[$properties['data']]]></code>
+      <code><![CDATA[$properties['data']]]></code>
+      <code><![CDATA[$properties['type']]]></code>
+      <code><![CDATA[$properties['type']]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$this->data]]></code>
+      <code><![CDATA[$this->type]]></code>
+    </MixedAssignment>
+  </file>
+  <file src="src/BSON/DBPointer.php">
+    <TooManyArguments>
+      <code><![CDATA[new static($properties['ref'], $properties['id'])]]></code>
+      <code><![CDATA[new static($ref, $id)]]></code>
+    </TooManyArguments>
+  </file>
+  <file src="src/BSON/Decimal128.php">
+    <MixedArgument>
+      <code><![CDATA[$data['dec']]]></code>
+      <code><![CDATA[$properties['dec']]]></code>
+    </MixedArgument>
+  </file>
+  <file src="src/BSON/Document.php">
+    <MissingTemplateParam>
+      <code><![CDATA[ArrayAccess]]></code>
+      <code><![CDATA[IteratorAggregate]]></code>
+    </MissingTemplateParam>
+    <MixedArgument>
+      <code><![CDATA[$data['data'] ?? '']]></code>
+      <code><![CDATA[$properties['data'] ?? '']]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$claimed]]></code>
+      <code><![CDATA[$claimed]]></code>
+      <code><![CDATA[$decoded]]></code>
+    </MixedAssignment>
+    <TooManyArguments>
+      <code><![CDATA[new static($bson)]]></code>
+      <code><![CDATA[new static($bson)]]></code>
+      <code><![CDATA[new static($bson)]]></code>
+      <code><![CDATA[new static(BsonEncoder::encode($value))]]></code>
+    </TooManyArguments>
+  </file>
+  <file src="src/BSON/Int64.php">
+    <MixedArgument>
+      <code><![CDATA[$data['integer']]]></code>
+      <code><![CDATA[$properties['integer']]]></code>
+    </MixedArgument>
+  </file>
+  <file src="src/BSON/Iterator.php">
+    <MethodSignatureMustProvideReturnType>
+      <code><![CDATA[icen]]></code>
+      <code><![CDATA[icens]]></code>
+      <code><![CDATA[icense]]></code>
+    </MethodSignatureMustProvideReturnType>
+    <MissingTemplateParam>
+      <code><![CDATA[Iterator]]></code>
+    </MissingTemplateParam>
+    <MixedMethodCall>
+      <code><![CDATA[getValue]]></code>
+    </MixedMethodCall>
+    <TooManyArguments>
+      <code><![CDATA[new static($bson, $fields)]]></code>
+    </TooManyArguments>
+  </file>
+  <file src="src/BSON/Javascript.php">
+    <MixedArgument>
+      <code><![CDATA[$data['code']]]></code>
+      <code><![CDATA[$properties['code']]]></code>
+      <code><![CDATA[$properties['code']]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$this->code]]></code>
+    </MixedAssignment>
+  </file>
+  <file src="src/BSON/ObjectId.php">
+    <MixedArgument>
+      <code><![CDATA[$data['oid']]]></code>
+      <code><![CDATA[$data['oid']]]></code>
+      <code><![CDATA[$data['oid']]]></code>
+      <code><![CDATA[$properties['oid']]]></code>
+      <code><![CDATA[$properties['oid']]]></code>
+      <code><![CDATA[$properties['oid']]]></code>
+    </MixedArgument>
+  </file>
+  <file src="src/BSON/PackedArray.php">
+    <MissingTemplateParam>
+      <code><![CDATA[ArrayAccess]]></code>
+      <code><![CDATA[IteratorAggregate]]></code>
+    </MissingTemplateParam>
+    <MixedArgument>
+      <code><![CDATA[$data['data'] ?? '']]></code>
+      <code><![CDATA[$offset]]></code>
+      <code><![CDATA[$properties['data'] ?? '']]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$claimed]]></code>
+      <code><![CDATA[$claimed]]></code>
+      <code><![CDATA[$decoded]]></code>
+      <code><![CDATA[$map['root']]]></code>
+      <code><![CDATA[$rootTarget]]></code>
+      <code><![CDATA[$v]]></code>
+    </MixedAssignment>
+    <TooManyArguments>
+      <code><![CDATA[new static($bson)]]></code>
+      <code><![CDATA[new static($bson)]]></code>
+      <code><![CDATA[new static($bson)]]></code>
+      <code><![CDATA[new static(BsonEncoder::encodeList($value))]]></code>
+    </TooManyArguments>
+  </file>
+  <file src="src/BSON/Regex.php">
+    <MixedArgument>
+      <code><![CDATA[$data['flags']]]></code>
+      <code><![CDATA[$data['flags']]]></code>
+      <code><![CDATA[$data['pattern']]]></code>
+      <code><![CDATA[$properties['flags']]]></code>
+      <code><![CDATA[$properties['pattern']]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$this->pattern]]></code>
+    </MixedAssignment>
+  </file>
+  <file src="src/BSON/Symbol.php">
+    <MixedArgument>
+      <code><![CDATA[$data['symbol']]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$this->symbol]]></code>
+    </MixedAssignment>
+    <TooManyArguments>
+      <code><![CDATA[new static($properties['symbol'])]]></code>
+      <code><![CDATA[new static($symbol)]]></code>
+    </TooManyArguments>
+  </file>
+  <file src="src/BSON/Timestamp.php">
+    <MixedArgument>
+      <code><![CDATA[$data['increment']]]></code>
+      <code><![CDATA[$data['timestamp']]]></code>
+      <code><![CDATA[$data['timestamp']]]></code>
+      <code><![CDATA[$properties['increment']]]></code>
+      <code><![CDATA[$properties['timestamp']]]></code>
+    </MixedArgument>
+  </file>
+  <file src="src/BSON/UTCDateTime.php">
+    <InvalidOperand>
+      <code><![CDATA[microtime(as_float: true) * 1000]]></code>
+    </InvalidOperand>
+    <PropertyNotSetInConstructor>
+      <code><![CDATA[$milliseconds]]></code>
+    </PropertyNotSetInConstructor>
+    <RedundantCondition>
+      <code><![CDATA[is_int($milliseconds)]]></code>
+    </RedundantCondition>
+    <TypeDoesNotContainType>
+      <code><![CDATA[is_object($milliseconds)]]></code>
+    </TypeDoesNotContainType>
+  </file>
+  <file src="src/BSON/VectorType.php">
+    <MixedAssignment>
+      <code><![CDATA[$v]]></code>
+    </MixedAssignment>
+  </file>
   <file src="src/Builder/BuilderEncoder.php">
     <MixedReturnStatement>
       <code><![CDATA[$encoder->encode($value)]]></code>
@@ -432,6 +600,428 @@
       <code><![CDATA[$pipeline]]></code>
     </PossiblyInvalidArgument>
   </file>
+  <file src="src/Driver/BulkWrite.php">
+    <MixedArgument>
+      <code><![CDATA[$f]]></code>
+      <code><![CDATA[$options['collation']]]></code>
+      <code><![CDATA[$options['collation']]]></code>
+      <code><![CDATA[$options['hint']]]></code>
+      <code><![CDATA[$options['hint']]]></code>
+      <code><![CDATA[$options['sort']]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$af]]></code>
+      <code><![CDATA[$comment]]></code>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$info['comment']]]></code>
+      <code><![CDATA[$info['let']]]></code>
+      <code><![CDATA[$v]]></code>
+      <code><![CDATA[$v]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedAssignment>
+    <PossiblyFalseArgument>
+      <code><![CDATA[$nullPos]]></code>
+    </PossiblyFalseArgument>
+  </file>
+  <file src="src/Driver/BulkWriteCommand.php">
+    <MixedArgument>
+      <code><![CDATA[$f]]></code>
+      <code><![CDATA[$options['collation']]]></code>
+      <code><![CDATA[$options['hint']]]></code>
+      <code><![CDATA[$options['sort']]]></code>
+      <code><![CDATA[$opts['collation']]]></code>
+      <code><![CDATA[$opts['hint']]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$arrayFilters]]></code>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$info['comment']]]></code>
+      <code><![CDATA[$info['let']]]></code>
+      <code><![CDATA[$info['ordered']]]></code>
+      <code><![CDATA[$info['verboseResults']]]></code>
+      <code><![CDATA[$v]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedAssignment>
+    <PossiblyFalseArgument>
+      <code><![CDATA[$nullPos]]></code>
+    </PossiblyFalseArgument>
+  </file>
+  <file src="src/Driver/BulkWriteCommandResult.php">
+    <PropertyNotSetInConstructor>
+      <code><![CDATA[$acknowledged]]></code>
+      <code><![CDATA[$deletedCount]]></code>
+      <code><![CDATA[$insertedCount]]></code>
+      <code><![CDATA[$matchedCount]]></code>
+      <code><![CDATA[$modifiedCount]]></code>
+      <code><![CDATA[$upsertedCount]]></code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="src/Driver/Command.php">
+    <MixedAssignment>
+      <code><![CDATA[$v]]></code>
+    </MixedAssignment>
+  </file>
+  <file src="src/Driver/Cursor.php">
+    <InvalidTemplateParam>
+      <code><![CDATA[CursorInterface]]></code>
+    </InvalidTemplateParam>
+    <MixedArrayAccess>
+      <code><![CDATA[$newCursorId]]></code>
+      <code><![CDATA[$newItems]]></code>
+    </MixedArrayAccess>
+    <MixedAssignment>
+      <code><![CDATA[$item]]></code>
+      <code><![CDATA[$this->cursorId]]></code>
+      <code><![CDATA[$this->items]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[[$newItems, $newCursorId]]]></code>
+    </MixedAssignment>
+    <MixedReturnStatement>
+      <code><![CDATA[TypeMapper::apply($item, $this->typeMap, 'root')]]></code>
+    </MixedReturnStatement>
+    <PossiblyFalseOperand>
+      <code><![CDATA[strpos($this->namespace, '.')]]></code>
+    </PossiblyFalseOperand>
+    <PossiblyNullFunctionCall>
+      <code><![CDATA[($this->getMoreFn)($this->cursorId, $this->namespace)]]></code>
+    </PossiblyNullFunctionCall>
+  </file>
+  <file src="src/Driver/Exception/BulkWriteCommandException.php">
+    <PropertyTypeCoercion>
+      <code><![CDATA[$writeConcernErrors]]></code>
+      <code><![CDATA[$writeErrors]]></code>
+    </PropertyTypeCoercion>
+  </file>
+  <file src="src/Driver/Exception/BulkWriteException.php">
+    <UnsafeInstantiation>
+      <code><![CDATA[new static($message, $code, $previous)]]></code>
+    </UnsafeInstantiation>
+  </file>
+  <file src="src/Driver/Exception/ServerException.php">
+    <MixedAssignment>
+      <code><![CDATA[$labels]]></code>
+    </MixedAssignment>
+    <UnsafeInstantiation>
+      <code><![CDATA[new static($message, $code, $previous)]]></code>
+    </UnsafeInstantiation>
+  </file>
+  <file src="src/Driver/Manager.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$driverInfo]]></code>
+    </ArgumentTypeCoercion>
+    <LessSpecificReturnStatement>
+      <code><![CDATA[SrvResolver::resolve($hosts[0]['host'], $serviceName, $maxHosts)->hosts]]></code>
+    </LessSpecificReturnStatement>
+    <MixedArgument>
+      <code><![CDATA[$journal]]></code>
+      <code><![CDATA[$merged['appname'] ?? null]]></code>
+      <code><![CDATA[$options['readPreference'] ?? ReadPreference::PRIMARY]]></code>
+      <code><![CDATA[$options['readPreferenceTags'] ?? null]]></code>
+      <code><![CDATA[$w ?? WriteConcern::MAJORITY]]></code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$driverInfo]]></code>
+      <code><![CDATA[$driverInfo]]></code>
+    </MixedArgumentTypeCoercion>
+    <MixedAssignment>
+      <code><![CDATA[$journal]]></code>
+      <code><![CDATA[$merged['authSource']]]></code>
+      <code><![CDATA[$normalized[ConnectionString::normalizeOptionKey((string) $key)]]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$w]]></code>
+    </MixedAssignment>
+    <MoreSpecificReturnType>
+      <code><![CDATA[list<array{host: string, port: int}>]]></code>
+    </MoreSpecificReturnType>
+    <RedundantCastGivenDocblockType>
+      <code><![CDATA[(string) $key]]></code>
+    </RedundantCastGivenDocblockType>
+    <RiskyTruthyFalsyComparison>
+      <code><![CDATA[$options['directConnection'] ?? false]]></code>
+    </RiskyTruthyFalsyComparison>
+  </file>
+  <file src="src/Driver/Monitoring/CommandFailedEvent.php">
+    <TooManyArguments>
+      <code><![CDATA[new self($commandName, $databaseName, $error, (string) $requestId, (string) $operationId, $durationMicros, $reply ?? (object) [], $host, $port, $serviceId, $serverConnectionId)]]></code>
+    </TooManyArguments>
+  </file>
+  <file src="src/Driver/Monitoring/CommandStartedEvent.php">
+    <TooManyArguments>
+      <code><![CDATA[new self($commandName, $command, $databaseName, (string) $requestId, (string) $operationId, $host, $port, $serviceId, $serverConnectionId)]]></code>
+    </TooManyArguments>
+  </file>
+  <file src="src/Driver/Monitoring/CommandSucceededEvent.php">
+    <TooManyArguments>
+      <code><![CDATA[new self($commandName, $reply, $databaseName, (string) $requestId, (string) $operationId, $durationMicros, $host, $port, $serviceId, $serverConnectionId)]]></code>
+    </TooManyArguments>
+  </file>
+  <file src="src/Driver/Monitoring/ServerChangedEvent.php">
+    <TooManyArguments>
+      <code><![CDATA[new self($host, $port, $topologyId, $previousDescription, $newDescription)]]></code>
+    </TooManyArguments>
+  </file>
+  <file src="src/Driver/Monitoring/ServerClosedEvent.php">
+    <TooManyArguments>
+      <code><![CDATA[new self($host, $port, $topologyId)]]></code>
+    </TooManyArguments>
+  </file>
+  <file src="src/Driver/Monitoring/ServerHeartbeatFailedEvent.php">
+    <TooManyArguments>
+      <code><![CDATA[new self($host, $port, $durationMicros, $error, $awaited)]]></code>
+    </TooManyArguments>
+  </file>
+  <file src="src/Driver/Monitoring/ServerHeartbeatStartedEvent.php">
+    <TooManyArguments>
+      <code><![CDATA[new self($host, $port, $awaited)]]></code>
+    </TooManyArguments>
+  </file>
+  <file src="src/Driver/Monitoring/ServerHeartbeatSucceededEvent.php">
+    <TooManyArguments>
+      <code><![CDATA[new self($host, $port, $durationMicros, $reply, $awaited)]]></code>
+    </TooManyArguments>
+  </file>
+  <file src="src/Driver/Monitoring/ServerOpeningEvent.php">
+    <TooManyArguments>
+      <code><![CDATA[new self($host, $port, $topologyId)]]></code>
+    </TooManyArguments>
+  </file>
+  <file src="src/Driver/Monitoring/TopologyChangedEvent.php">
+    <TooManyArguments>
+      <code><![CDATA[new self($topologyId, $previousTopologyType, $newTopologyType, $previousServers, $newServers)]]></code>
+    </TooManyArguments>
+  </file>
+  <file src="src/Driver/Monitoring/TopologyClosedEvent.php">
+    <TooManyArguments>
+      <code><![CDATA[new self($topologyId)]]></code>
+    </TooManyArguments>
+  </file>
+  <file src="src/Driver/Monitoring/TopologyOpeningEvent.php">
+    <TooManyArguments>
+      <code><![CDATA[new self($topologyId)]]></code>
+    </TooManyArguments>
+  </file>
+  <file src="src/Driver/Query.php">
+    <MixedAssignment>
+      <code><![CDATA[$v]]></code>
+      <code><![CDATA[$val]]></code>
+      <code><![CDATA[$val]]></code>
+      <code><![CDATA[$val]]></code>
+    </MixedAssignment>
+    <MixedOperand>
+      <code><![CDATA[$val]]></code>
+      <code><![CDATA[$val]]></code>
+    </MixedOperand>
+  </file>
+  <file src="src/Driver/ReadPreference.php">
+    <MixedArgument>
+      <code><![CDATA[$hedge]]></code>
+      <code><![CDATA[$maxStalenessSeconds]]></code>
+      <code><![CDATA[$maxStalenessSeconds]]></code>
+      <code><![CDATA[$maxStalenessSeconds]]></code>
+      <code><![CDATA[$tags]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$hedge]]></code>
+      <code><![CDATA[$maxStalenessSeconds]]></code>
+      <code><![CDATA[$maxStalenessSeconds]]></code>
+      <code><![CDATA[$maxStalenessSeconds]]></code>
+      <code><![CDATA[$ms]]></code>
+      <code><![CDATA[$ms]]></code>
+      <code><![CDATA[$normalizedTagSets[]]]></code>
+      <code><![CDATA[$normalizedTags[]]]></code>
+      <code><![CDATA[$tagSet]]></code>
+      <code><![CDATA[$tagSet]]></code>
+      <code><![CDATA[$tags]]></code>
+    </MixedAssignment>
+    <MixedOperand>
+      <code><![CDATA[$ms]]></code>
+      <code><![CDATA[$ms]]></code>
+    </MixedOperand>
+  </file>
+  <file src="src/Driver/Server.php">
+    <InvalidArgument>
+      <code><![CDATA[$this->getType()]]></code>
+    </InvalidArgument>
+    <InvalidReturnStatement>
+      <code><![CDATA[Document::fromPHP($prepared)->toPHP(['root' => 'object', 'document' => 'object'])]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[object]]></code>
+    </InvalidReturnType>
+    <MismatchingDocblockParamType>
+      <code><![CDATA[array<string, mixed>|object]]></code>
+    </MismatchingDocblockParamType>
+    <MissingClosureReturnType>
+      <code><![CDATA[static fn ($op) => $op[1]]]></code>
+    </MissingClosureReturnType>
+    <MixedArgument>
+      <code><![CDATA[$error->errInfo ?? null]]></code>
+      <code><![CDATA[$newObject]]></code>
+      <code><![CDATA[$prepared[$sequenceId]]]></code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$bulkOptions]]></code>
+      <code><![CDATA[$prepared]]></code>
+      <code><![CDATA[$prepared]]></code>
+      <code><![CDATA[$prepared]]></code>
+      <code><![CDATA[$prepared]]></code>
+      <code><![CDATA[$prepared]]></code>
+      <code><![CDATA[[['id' => $sequenceId, 'docs' => $docs]]]]></code>
+    </MixedArgumentTypeCoercion>
+    <MixedArrayAccess>
+      <code><![CDATA[$options[$key]]]></code>
+      <code><![CDATA[$options['limit']]]></code>
+    </MixedArrayAccess>
+    <MixedAssignment>
+      <code><![CDATA[$command[$option]]]></code>
+      <code><![CDATA[$command['batchSize']]]></code>
+      <code><![CDATA[$command['comment']]]></code>
+      <code><![CDATA[$command['comment']]]></code>
+      <code><![CDATA[$command['comment']]]></code>
+      <code><![CDATA[$command['let']]]></code>
+      <code><![CDATA[$command['let']]]></code>
+      <code><![CDATA[$command['rawData']]]></code>
+      <code><![CDATA[$command['rawData']]]></code>
+      <code><![CDATA[$command['rawData']]]></code>
+      <code><![CDATA[$cursor]]></code>
+      <code><![CDATA[$error]]></code>
+      <code><![CDATA[$getMore['comment']]]></code>
+      <code><![CDATA[$rawCursor]]></code>
+      <code><![CDATA[$setName]]></code>
+      <code><![CDATA[$spec[$key]]]></code>
+      <code><![CDATA[$spec[$key]]]></code>
+      <code><![CDATA[$tags]]></code>
+      <code><![CDATA[$type]]></code>
+      <code><![CDATA[$upserted]]></code>
+      <code><![CDATA[$upsertedIds[$globalIndex]]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$writeConcern]]></code>
+    </MixedAssignment>
+    <MixedOperand>
+      <code><![CDATA[$command['limit']]]></code>
+    </MixedOperand>
+    <MixedPropertyFetch>
+      <code><![CDATA[$error->code]]></code>
+      <code><![CDATA[$error->errInfo]]></code>
+      <code><![CDATA[$error->errmsg]]></code>
+      <code><![CDATA[$error->index]]></code>
+    </MixedPropertyFetch>
+    <MixedReturnTypeCoercion>
+      <code><![CDATA[$batches]]></code>
+      <code><![CDATA[$body]]></code>
+      <code><![CDATA[array<string, mixed>]]></code>
+      <code><![CDATA[array<string, string>]]></code>
+      <code><![CDATA[is_array($tags) ? $tags : []]]></code>
+      <code><![CDATA[list<array{type: string, ops: list<array>, globalIndices: list<int>}>]]></code>
+    </MixedReturnTypeCoercion>
+    <RedundantCast>
+      <code><![CDATA[(string) $key]]></code>
+    </RedundantCast>
+    <RiskyTruthyFalsyComparison>
+      <code><![CDATA[$bulkOptions['bypassDocumentValidation'] ?? false]]></code>
+      <code><![CDATA[$bulkOptions['bypassDocumentValidation'] ?? false]]></code>
+      <code><![CDATA[$info['arbiterOnly'] ?? false]]></code>
+      <code><![CDATA[$info['isWritablePrimary'] ?? false]]></code>
+      <code><![CDATA[$info['isWritablePrimary'] ?? false]]></code>
+      <code><![CDATA[$info['isWritablePrimary'] ?? false]]></code>
+      <code><![CDATA[$info['isreplicaset'] ?? false]]></code>
+      <code><![CDATA[$info['secondary'] ?? false]]></code>
+      <code><![CDATA[$options['limit'] ?? 1]]></code>
+    </RiskyTruthyFalsyComparison>
+    <TooManyArguments>
+      <code><![CDATA[new self($connection, $defaultReadConcern, $defaultReadPreference, $defaultWriteConcern, $dispatcher, $serverApi)]]></code>
+    </TooManyArguments>
+  </file>
+  <file src="src/Driver/ServerApi.php">
+    <MixedArgument>
+      <code><![CDATA[$properties['version']]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$this->version]]></code>
+    </MixedAssignment>
+  </file>
+  <file src="src/Driver/ServerDescription.php">
+    <PropertyNotSetInConstructor>
+      <code><![CDATA[$helloResponse]]></code>
+      <code><![CDATA[$host]]></code>
+      <code><![CDATA[$lastUpdateTime]]></code>
+      <code><![CDATA[$port]]></code>
+      <code><![CDATA[$type]]></code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="src/Driver/Session.php">
+    <TooManyArguments>
+      <code><![CDATA[new self($serverProvider, $options)]]></code>
+    </TooManyArguments>
+  </file>
+  <file src="src/Driver/TopologyDescription.php">
+    <TooManyArguments>
+      <code><![CDATA[new self($type, $servers)]]></code>
+    </TooManyArguments>
+  </file>
+  <file src="src/Driver/WriteConcern.php">
+    <MixedArgument>
+      <code><![CDATA[$w]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$w]]></code>
+      <code><![CDATA[$wtimeout]]></code>
+      <code><![CDATA[$wtimeout]]></code>
+    </MixedAssignment>
+    <TypeDoesNotContainType>
+      <code><![CDATA[$positive === '']]></code>
+    </TypeDoesNotContainType>
+  </file>
+  <file src="src/Driver/WriteConcernError.php">
+    <TooManyArguments>
+      <code><![CDATA[new self($code, $message, $info, $details)]]></code>
+    </TooManyArguments>
+  </file>
+  <file src="src/Driver/WriteError.php">
+    <TooManyArguments>
+      <code><![CDATA[new self($code, $index, $message, $info)]]></code>
+    </TooManyArguments>
+  </file>
+  <file src="src/Driver/WriteResult.php">
+    <InvalidNullableReturnType>
+      <code><![CDATA[int]]></code>
+      <code><![CDATA[int]]></code>
+      <code><![CDATA[int]]></code>
+      <code><![CDATA[int]]></code>
+      <code><![CDATA[int]]></code>
+    </InvalidNullableReturnType>
+    <MixedAssignment>
+      <code><![CDATA[$id]]></code>
+    </MixedAssignment>
+    <NullableReturnStatement>
+      <code><![CDATA[$this->deletedCount]]></code>
+      <code><![CDATA[$this->insertedCount]]></code>
+      <code><![CDATA[$this->matchedCount]]></code>
+      <code><![CDATA[$this->modifiedCount]]></code>
+      <code><![CDATA[$this->upsertedCount]]></code>
+    </NullableReturnStatement>
+    <TooManyArguments>
+      <code><![CDATA[new static(
+            $insertedCount,
+            $matchedCount,
+            $modifiedCount,
+            $deletedCount,
+            $upsertedCount,
+            $upsertedIds,
+            $server,
+            $writeConcernError,
+            $writeErrors,
+            $acknowledged,
+            $writeConcern,
+            $errorReplies,
+        )]]></code>
+    </TooManyArguments>
+  </file>
   <file src="src/GridFS/Bucket.php">
     <MixedArgument>
       <code><![CDATA[$options['revision']]]></code>
@@ -469,6 +1059,409 @@
       <code><![CDATA[deleteFileAndChunksByFilename]]></code>
       <code><![CDATA[updateFilenameForFilename]]></code>
     </MixedMethodCall>
+  </file>
+  <file src="src/Internal/BSON/BsonDecoder.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$targetType]]></code>
+    </ArgumentTypeCoercion>
+    <DeprecatedClass>
+      <code><![CDATA[BsonUndefined::create()]]></code>
+      <code><![CDATA[BsonUndefined::create()]]></code>
+      <code><![CDATA[DBPointer]]></code>
+      <code><![CDATA[DBPointer::create($ref, $oid)]]></code>
+      <code><![CDATA[Symbol]]></code>
+      <code><![CDATA[Symbol::create($sym)]]></code>
+    </DeprecatedClass>
+    <DeprecatedMethod>
+      <code><![CDATA[BsonUndefined::create()]]></code>
+      <code><![CDATA[BsonUndefined::create()]]></code>
+      <code><![CDATA[DBPointer::create($ref, $oid)]]></code>
+      <code><![CDATA[Symbol::create($sym)]]></code>
+    </DeprecatedMethod>
+    <InvalidArgument>
+      <code><![CDATA[$fields]]></code>
+      <code><![CDATA[$fields]]></code>
+    </InvalidArgument>
+    <MixedArgument>
+      <code><![CDATA[$targetType]]></code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$fields]]></code>
+      <code><![CDATA[$fields]]></code>
+    </MixedArgumentTypeCoercion>
+    <MixedAssignment>
+      <code><![CDATA[$fields[$key]]]></code>
+      <code><![CDATA[$fields[]]]></code>
+      <code><![CDATA[$targetType]]></code>
+      <code><![CDATA[$typeMap['root']]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedAssignment>
+  </file>
+  <file src="src/Internal/BSON/BsonEncoder.php">
+    <MixedAssignment>
+      <code><![CDATA[$outId]]></code>
+      <code><![CDATA[$outId]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedAssignment>
+  </file>
+  <file src="src/Internal/BSON/ExtendedJson.php">
+    <DeprecatedClass>
+      <code><![CDATA[BsonUndefined::create()]]></code>
+      <code><![CDATA[DBPointer::create($ref, $oid)]]></code>
+      <code><![CDATA[Symbol::create($value['$symbol'])]]></code>
+    </DeprecatedClass>
+    <DeprecatedMethod>
+      <code><![CDATA[BsonUndefined::create()]]></code>
+      <code><![CDATA[DBPointer::create($ref, $oid)]]></code>
+      <code><![CDATA[Symbol::create($value['$symbol'])]]></code>
+    </DeprecatedMethod>
+    <MixedArgument>
+      <code><![CDATA[$bin['base64']]]></code>
+      <code><![CDATA[$bin['subType']]]></code>
+      <code><![CDATA[$oid]]></code>
+      <code><![CDATA[$r['options']]]></code>
+      <code><![CDATA[$r['pattern']]]></code>
+      <code><![CDATA[$ref]]></code>
+      <code><![CDATA[$value['$options']]]></code>
+      <code><![CDATA[$value['$regex']]]></code>
+      <code><![CDATA[$value['$symbol']]]></code>
+      <code><![CDATA[$value['$type']]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$bin]]></code>
+      <code><![CDATA[$d]]></code>
+      <code><![CDATA[$dbpId]]></code>
+      <code><![CDATA[$item]]></code>
+      <code><![CDATA[$item]]></code>
+      <code><![CDATA[$item]]></code>
+      <code><![CDATA[$item]]></code>
+      <code><![CDATA[$item]]></code>
+      <code><![CDATA[$item]]></code>
+      <code><![CDATA[$normalized]]></code>
+      <code><![CDATA[$normalized]]></code>
+      <code><![CDATA[$oid]]></code>
+      <code><![CDATA[$ref]]></code>
+      <code><![CDATA[$result[$k]]]></code>
+      <code><![CDATA[$v]]></code>
+      <code><![CDATA[$v]]></code>
+      <code><![CDATA[$v]]></code>
+      <code><![CDATA[$val]]></code>
+    </MixedAssignment>
+    <PossiblyNullArgument>
+      <code><![CDATA[$value['$type']]]></code>
+    </PossiblyNullArgument>
+    <PossiblyUndefinedArrayOffset>
+      <code><![CDATA[$value['$type']]]></code>
+    </PossiblyUndefinedArrayOffset>
+  </file>
+  <file src="src/Internal/BSON/Index/Index.php">
+    <MixedArgument>
+      <code><![CDATA[$field['bsonType']]]></code>
+      <code><![CDATA[$field['dataLength'] ?? null]]></code>
+      <code><![CDATA[$field['dataOffset'] ?? null]]></code>
+      <code><![CDATA[$field['key']]]></code>
+      <code><![CDATA[$field['keyLength']]]></code>
+      <code><![CDATA[$field['keyOffset']]]></code>
+    </MixedArgument>
+    <MixedReturnStatement>
+      <code><![CDATA[self::$cache[$bson]]]></code>
+      <code><![CDATA[self::$cache[$bson]]]></code>
+    </MixedReturnStatement>
+    <PropertyTypeCoercion>
+      <code><![CDATA[self::$cache]]></code>
+      <code><![CDATA[self::$cache ??= new WeakMap()]]></code>
+    </PropertyTypeCoercion>
+  </file>
+  <file src="src/Internal/BSON/Index/Indexer.php">
+    <MixedArgument>
+      <code><![CDATA[$bsonType]]></code>
+      <code><![CDATA[$data['options']]]></code>
+      <code><![CDATA[$data['pattern']]]></code>
+      <code><![CDATA[$key]]></code>
+      <code><![CDATA[$key]]></code>
+      <code><![CDATA[$offset]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$fields[]]]></code>
+    </MixedAssignment>
+    <MixedReturnStatement>
+      <code><![CDATA[$length]]></code>
+    </MixedReturnStatement>
+    <MixedReturnTypeCoercion>
+      <code><![CDATA[$fields]]></code>
+      <code><![CDATA[list<array{key: string, bsonType: int, keyOffset: int, keyLength: int, dataOffset: int|null, dataLength: int|null}>]]></code>
+    </MixedReturnTypeCoercion>
+  </file>
+  <file src="src/Internal/BSON/TypeMapper.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$targetType]]></code>
+    </ArgumentTypeCoercion>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$fields]]></code>
+      <code><![CDATA[$fields]]></code>
+    </MixedArgumentTypeCoercion>
+    <MixedArrayAccess>
+      <code><![CDATA[$fieldPaths[$fieldName]]]></code>
+    </MixedArrayAccess>
+    <MixedArrayOffset>
+      <code><![CDATA[$result[$key]]]></code>
+      <code><![CDATA[$result[$key]]]></code>
+      <code><![CDATA[$result[$key]]]></code>
+    </MixedArrayOffset>
+    <MixedAssignment>
+      <code><![CDATA[$fieldPaths]]></code>
+      <code><![CDATA[$fieldPaths]]></code>
+      <code><![CDATA[$key]]></code>
+      <code><![CDATA[$narrowed[substr($path, strlen($prefix))]]]></code>
+      <code><![CDATA[$narrowed[substr($path, strlen($wildcardPrefix))]]]></code>
+      <code><![CDATA[$path]]></code>
+      <code><![CDATA[$result[$key]]]></code>
+      <code><![CDATA[$result[$key]]]></code>
+      <code><![CDATA[$result[$key]]]></code>
+      <code><![CDATA[$type]]></code>
+      <code><![CDATA[$v]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedAssignment>
+    <MixedReturnStatement>
+      <code><![CDATA[$fieldPaths[$fieldName] ?? null]]></code>
+      <code><![CDATA[$fieldPaths[$fieldName] ?? null]]></code>
+      <code><![CDATA[match ($context) {
+            'root'  => $typeMap['root']     ?? 'object',
+            'array' => $typeMap['array']    ?? 'array',
+            default => $typeMap['document'] ?? 'object',
+        }]]></code>
+      <code><![CDATA[match ($context) {
+            'root'  => $typeMap['root']     ?? 'object',
+            'array' => $typeMap['array']    ?? 'array',
+            default => $typeMap['document'] ?? 'object',
+        }]]></code>
+    </MixedReturnStatement>
+  </file>
+  <file src="src/Internal/Connection/Connection.php">
+    <InvalidOperand>
+      <code><![CDATA[$seconds - (int) $seconds]]></code>
+      <code><![CDATA[($seconds - (int) $seconds) * 1_000_000]]></code>
+      <code><![CDATA[(hrtime(true) - $startedAt) / 1e6]]></code>
+    </InvalidOperand>
+    <InvalidPropertyAssignmentValue>
+      <code><![CDATA[$this->stream]]></code>
+    </InvalidPropertyAssignmentValue>
+    <MixedReturnTypeCoercion>
+      <code><![CDATA[array<string, mixed>]]></code>
+      <code><![CDATA[is_array($body) ? $body : (array) $body]]></code>
+    </MixedReturnTypeCoercion>
+    <PossiblyNullArgument>
+      <code><![CDATA[$this->stream]]></code>
+      <code><![CDATA[$this->stream]]></code>
+      <code><![CDATA[$this->stream]]></code>
+    </PossiblyNullArgument>
+    <RedundantCondition>
+      <code><![CDATA[$this->options->ssl]]></code>
+      <code><![CDATA[$this->options->tls]]></code>
+      <code><![CDATA[isset($this->options->connectTimeoutMS)]]></code>
+      <code><![CDATA[isset($this->options->socketTimeoutMS)]]></code>
+      <code><![CDATA[isset($this->options->tlsCAFile)]]></code>
+      <code><![CDATA[isset($this->options->tlsCertificateKeyFile)]]></code>
+      <code><![CDATA[isset($this->options->tlsCertificateKeyFilePassword)]]></code>
+    </RedundantCondition>
+    <TypeDoesNotContainType>
+      <code><![CDATA[($this->options->tls ?? false)
+            || ($this->options->ssl ?? false)
+            || isset($this->options->tlsCAFile)]]></code>
+      <code><![CDATA[false]]></code>
+      <code><![CDATA[false]]></code>
+    </TypeDoesNotContainType>
+  </file>
+  <file src="src/Internal/Monitoring/Dispatcher.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$e]]></code>
+      <code><![CDATA[$e ??= CommandFailedEvent::create(
+                    commandName:        $cmdName,
+                    databaseName:       $db,
+                    error:              $exception instanceof Exception ? $exception : new RuntimeException($exception->getMessage(), $exception->getCode(), $exception),
+                    requestId:          $requestId,
+                    operationId:        $operationId ?: $requestId,
+                    durationMicros:     $durationMicros,
+                    host:               $host,
+                    port:               $port,
+                    serverConnectionId: $serverConnectionId,
+                    reply:              $reply,
+                )]]></code>
+      <code><![CDATA[$e ??= CommandSucceededEvent::create(
+                    commandName:        $cmdName,
+                    reply:              $reply,
+                    databaseName:       $db,
+                    requestId:          $requestId,
+                    operationId:        $operationId ?: $requestId,
+                    durationMicros:     $durationMicros,
+                    host:               $host,
+                    port:               $port,
+                    serverConnectionId: $serverConnectionId,
+                )]]></code>
+      <code><![CDATA[$e ??= ServerChangedEvent::create($host, $port, $topologyId, $previous, $new)]]></code>
+      <code><![CDATA[$e ??= ServerClosedEvent::create($host, $port, $topologyId)]]></code>
+      <code><![CDATA[$e ??= ServerHeartbeatFailedEvent::create($host, $port, $durationMicros, $error, $awaited)]]></code>
+      <code><![CDATA[$e ??= ServerHeartbeatStartedEvent::create($host, $port, $awaited)]]></code>
+      <code><![CDATA[$e ??= ServerHeartbeatSucceededEvent::create($host, $port, $durationMicros, $reply, $awaited)]]></code>
+      <code><![CDATA[$e ??= ServerOpeningEvent::create($host, $port, $topologyId)]]></code>
+      <code><![CDATA[$e ??= TopologyChangedEvent::create($topologyId, $previousType, $newType, $previousServers, $newServers)]]></code>
+      <code><![CDATA[$e ??= TopologyClosedEvent::create($topologyId)]]></code>
+      <code><![CDATA[$e ??= TopologyOpeningEvent::create($topologyId)]]></code>
+      <code><![CDATA[$e ??= new ConnectionCheckOutFailedEvent($host, $port, $reason, $durationMicros)]]></code>
+      <code><![CDATA[$e ??= new ConnectionCheckOutStartedEvent($host, $port)]]></code>
+      <code><![CDATA[$e ??= new ConnectionCheckedInEvent($connectionId, $host, $port)]]></code>
+      <code><![CDATA[$e ??= new ConnectionCheckedOutEvent($connectionId, $host, $port, $durationMicros)]]></code>
+      <code><![CDATA[$e ??= new ConnectionClosedEvent($connectionId, $host, $port, $reason)]]></code>
+      <code><![CDATA[$e ??= new ConnectionCreatedEvent($connectionId, $host, $port)]]></code>
+      <code><![CDATA[$e ??= new ConnectionPoolClosedEvent($host, $port)]]></code>
+      <code><![CDATA[$e ??= new ConnectionPoolCreatedEvent($host, $port, $options)]]></code>
+      <code><![CDATA[$e ??= new ConnectionPoolReadyEvent($host, $port)]]></code>
+      <code><![CDATA[$e ??= new ConnectionReadyEvent($connectionId, $host, $port, $durationMicros)]]></code>
+      <code><![CDATA[$newServers]]></code>
+    </ArgumentTypeCoercion>
+    <MismatchingDocblockParamType>
+      <code><![CDATA[callable(TSubscriber, object|null)]]></code>
+    </MismatchingDocblockParamType>
+    <MixedArgument>
+      <code><![CDATA[$cmd]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$cmd]]></code>
+    </MixedAssignment>
+    <PossiblyInvalidArgument>
+      <code><![CDATA[$exception->getCode()]]></code>
+    </PossiblyInvalidArgument>
+  </file>
+  <file src="src/Internal/Operation/CommandHelper.php">
+    <MixedArgument>
+      <code><![CDATA[$session->getTxnNumber()]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$k]]></code>
+      <code><![CDATA[$v]]></code>
+    </MixedAssignment>
+    <UndefinedMethod>
+      <code><![CDATA[getTxnNumber]]></code>
+    </UndefinedMethod>
+  </file>
+  <file src="src/Internal/Protocol/OpMsgDecoder.php">
+    <MixedAssignment>
+      <code><![CDATA[$errmsg]]></code>
+      <code><![CDATA[$ok]]></code>
+    </MixedAssignment>
+    <PossiblyInvalidPropertyFetch>
+      <code><![CDATA[$body->code]]></code>
+      <code><![CDATA[$body->errmsg]]></code>
+      <code><![CDATA[$body->ok]]></code>
+    </PossiblyInvalidPropertyFetch>
+  </file>
+  <file src="src/Internal/Protocol/OpMsgEncoder.php">
+    <MixedArgument>
+      <code><![CDATA[$doc]]></code>
+    </MixedArgument>
+    <MixedArrayAccess>
+      <code><![CDATA[$seq['docs']]]></code>
+      <code><![CDATA[$seq['id']]]></code>
+    </MixedArrayAccess>
+    <MixedAssignment>
+      <code><![CDATA[$doc]]></code>
+      <code><![CDATA[$seq]]></code>
+    </MixedAssignment>
+  </file>
+  <file src="src/Internal/Uri/ConnectionString.php">
+    <MixedArgument>
+      <code><![CDATA[$options['readPreference']]]></code>
+    </MixedArgument>
+    <MixedArrayAssignment>
+      <code><![CDATA[$options[$canonicalKey][]]]></code>
+    </MixedArrayAssignment>
+    <MixedAssignment>
+      <code><![CDATA[$coercedValue]]></code>
+      <code><![CDATA[$directConnection]]></code>
+      <code><![CDATA[$loadBalanced]]></code>
+      <code><![CDATA[$options[$canonicalKey]]]></code>
+      <code><![CDATA[$options[$canonicalKey][]]]></code>
+    </MixedAssignment>
+    <RiskyTruthyFalsyComparison>
+      <code><![CDATA[$directConnection]]></code>
+      <code><![CDATA[$directConnection]]></code>
+      <code><![CDATA[$loadBalanced]]></code>
+      <code><![CDATA[$loadBalanced]]></code>
+    </RiskyTruthyFalsyComparison>
+  </file>
+  <file src="src/Internal/Uri/SrvResolver.php">
+    <MixedArgument>
+      <code><![CDATA[$entries]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$entries]]></code>
+    </MixedAssignment>
+    <MixedPropertyTypeCoercion>
+      <code><![CDATA[$txtOptions]]></code>
+    </MixedPropertyTypeCoercion>
+  </file>
+  <file src="src/Internal/Uri/UriOptions.php">
+    <MissingConstructor>
+      <code><![CDATA[$appname]]></code>
+      <code><![CDATA[$authMechanism]]></code>
+      <code><![CDATA[$authMechanismProperties]]></code>
+      <code><![CDATA[$authSource]]></code>
+      <code><![CDATA[$clientMetadata]]></code>
+      <code><![CDATA[$compressors]]></code>
+      <code><![CDATA[$connectTimeoutMS]]></code>
+      <code><![CDATA[$directConnection]]></code>
+      <code><![CDATA[$heartbeatFrequencyMS]]></code>
+      <code><![CDATA[$journal]]></code>
+      <code><![CDATA[$loadBalanced]]></code>
+      <code><![CDATA[$localThresholdMS]]></code>
+      <code><![CDATA[$maxConnecting]]></code>
+      <code><![CDATA[$maxIdleTimeMS]]></code>
+      <code><![CDATA[$maxPoolSize]]></code>
+      <code><![CDATA[$minHeartbeatFrequencyMS]]></code>
+      <code><![CDATA[$minPoolSize]]></code>
+      <code><![CDATA[$password]]></code>
+      <code><![CDATA[$readPreference]]></code>
+      <code><![CDATA[$readPreferenceTags]]></code>
+      <code><![CDATA[$replicaSet]]></code>
+      <code><![CDATA[$retryReads]]></code>
+      <code><![CDATA[$retryWrites]]></code>
+      <code><![CDATA[$serverSelectionTimeoutMS]]></code>
+      <code><![CDATA[$socketTimeoutMS]]></code>
+      <code><![CDATA[$srvMaxHosts]]></code>
+      <code><![CDATA[$srvServiceName]]></code>
+      <code><![CDATA[$ssl]]></code>
+      <code><![CDATA[$timeoutMS]]></code>
+      <code><![CDATA[$tls]]></code>
+      <code><![CDATA[$tlsAllowInvalidCertificates]]></code>
+      <code><![CDATA[$tlsAllowInvalidHostnames]]></code>
+      <code><![CDATA[$tlsCAFile]]></code>
+      <code><![CDATA[$tlsCertificateKeyFile]]></code>
+      <code><![CDATA[$tlsCertificateKeyFilePassword]]></code>
+      <code><![CDATA[$username]]></code>
+      <code><![CDATA[$w]]></code>
+      <code><![CDATA[$wTimeoutMS]]></code>
+      <code><![CDATA[$waitQueueTimeoutMS]]></code>
+      <code><![CDATA[$zlibCompressionLevel]]></code>
+    </MissingConstructor>
+    <MixedArgument>
+      <code><![CDATA[$c]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$c]]></code>
+      <code><![CDATA[$compressors]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedAssignment>
+    <PossiblyNullFunctionCall>
+      <code><![CDATA[$assign($obj, $property, $value)]]></code>
+    </PossiblyNullFunctionCall>
+    <PossiblyUndefinedArrayOffset>
+      <code><![CDATA[$options[$key]]]></code>
+    </PossiblyUndefinedArrayOffset>
   </file>
   <file src="src/Model/BSONArray.php">
     <MixedAssignment>

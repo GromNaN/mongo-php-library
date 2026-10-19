@@ -15,6 +15,7 @@ use function array_map;
 use function array_values;
 use function in_array;
 use function realpath;
+use function sprintf;
 use function str_contains;
 use function str_replace;
 use function strcasecmp;
@@ -38,6 +39,15 @@ class PedantryTest extends TestCase
     public function testMethodsAreOrderedAlphabeticallyByVisibility($className): void
     {
         $class = new ReflectionClass($className);
+
+        /* The library ships a PHP implementation of the BSON and Driver classes
+         * that ext-mongodb also provides. When the extension is loaded, the
+         * class is the extension's and its method order is not ours to enforce.
+         * The no-extension job runs this test against the PHP implementation. */
+        if (! $class->isUserDefined()) {
+            $this->markTestSkipped(sprintf('%s is provided by ext-mongodb', $className));
+        }
+
         $methods = $class->getMethods();
 
         $methods = array_values(array_filter(

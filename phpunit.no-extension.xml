@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Configuration for the "No extension" workflow. It runs the parts of the test
+    suite that need no MongoDB server, plus the API parity check, on a PHP
+    install that has no ext-mongodb.
+-->
+<phpunit
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/8.3/phpunit.xsd"
+         beStrictAboutOutputDuringTests="true"
+         beStrictAboutChangesToGlobalState="true"
+         colors="true"
+         bootstrap="tests/bootstrap.php"
+         defaultTestSuite="unit"
+>
+
+    <php>
+        <ini name="assert.exception" value="1"/>
+        <ini name="error_reporting" value="-1"/>
+        <ini name="zend.assertions" value="1"/>
+        <env name="MONGODB_URI" value="mongodb://127.0.0.1:27017/?serverSelectionTimeoutMS=100"/>
+        <env name="MONGODB_DATABASE" value="phplib_test"/>
+    </php>
+
+    <testsuites>
+        <testsuite name="unit">
+            <directory>tests/Builder</directory>
+            <directory>tests/Command</directory>
+            <directory>tests/Comparator</directory>
+            <directory>tests/Model</directory>
+            <exclude>tests/Model/CachingIteratorFunctionalTest.php</exclude>
+            <exclude>tests/Model/ChangeStreamIteratorTest.php</exclude>
+            <exclude>tests/Model/CodecCursorFunctionalTest.php</exclude>
+            <exclude>tests/Model/IndexInfoFunctionalTest.php</exclude>
+            <file>tests/PedantryTest.php</file>
+            <file>tests/PsrLogAdapterTest.php</file>
+            <file>tests/SpecTests/DocumentsMatchConstraintTest.php</file>
+            <file>tests/UnifiedSpecTests/Constraint/IsBsonTypeTest.php</file>
+        </testsuite>
+        <testsuite name="parity">
+            <file>tests/Parity/StubCompatibilityTest.php</file>
+        </testsuite>
+    </testsuites>
+</phpunit>

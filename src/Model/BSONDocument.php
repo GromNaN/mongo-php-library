@@ -88,6 +88,7 @@ class BSONDocument extends ArrayObject implements JsonSerializable, Serializable
      *
      * @see https://php.net/mongodb-bson-unserializable.bsonunserialize
      * @param array<string, mixed> $data Array data
+     * @psalm-suppress MoreSpecificImplementedParamType The extension only passes a BSON document.
      */
     public function bsonUnserialize(array $data): void
     {

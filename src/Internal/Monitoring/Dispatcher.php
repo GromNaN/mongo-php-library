@@ -1,0 +1,481 @@
+<?php
+/*
+ * Copyright 2015-present MongoDB, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+declare(strict_types=1);
+
+namespace MongoDB\Internal\Monitoring;
+
+use Closure;
+use Exception;
+use MongoDB\BSON\ObjectId;
+use MongoDB\Driver\Exception\InvalidArgumentException;
+use MongoDB\Driver\Monitoring\CommandFailedEvent;
+use MongoDB\Driver\Monitoring\CommandStartedEvent;
+use MongoDB\Driver\Monitoring\CommandSubscriber;
+use MongoDB\Driver\Monitoring\CommandSucceededEvent;
+use MongoDB\Driver\Monitoring\ConnectionCheckedInEvent;
+use MongoDB\Driver\Monitoring\ConnectionCheckedOutEvent;
+use MongoDB\Driver\Monitoring\ConnectionCheckOutFailedEvent;
+use MongoDB\Driver\Monitoring\ConnectionCheckOutStartedEvent;
+use MongoDB\Driver\Monitoring\ConnectionClosedEvent;
+use MongoDB\Driver\Monitoring\ConnectionCreatedEvent;
+use MongoDB\Driver\Monitoring\ConnectionPoolClosedEvent;
+use MongoDB\Driver\Monitoring\ConnectionPoolCreatedEvent;
+use MongoDB\Driver\Monitoring\ConnectionPoolReadyEvent;
+use MongoDB\Driver\Monitoring\ConnectionPoolSubscriber;
+use MongoDB\Driver\Monitoring\ConnectionReadyEvent;
+use MongoDB\Driver\Monitoring\LogSubscriber;
+use MongoDB\Driver\Monitoring\SDAMSubscriber;
+use MongoDB\Driver\Monitoring\ServerChangedEvent;
+use MongoDB\Driver\Monitoring\ServerClosedEvent;
+use MongoDB\Driver\Monitoring\ServerHeartbeatFailedEvent;
+use MongoDB\Driver\Monitoring\ServerHeartbeatStartedEvent;
+use MongoDB\Driver\Monitoring\ServerHeartbeatSucceededEvent;
+use MongoDB\Driver\Monitoring\ServerOpeningEvent;
+use MongoDB\Driver\Monitoring\Subscriber;
+use MongoDB\Driver\Monitoring\TopologyChangedEvent;
+use MongoDB\Driver\Monitoring\TopologyClosedEvent;
+use MongoDB\Driver\Monitoring\TopologyOpeningEvent;
+use MongoDB\Driver\ServerDescription;
+use RuntimeException;
+use stdClass;
+use Throwable;
+
+use function spl_object_id;
+use function sprintf;
+use function str_contains;
+use function strstr;
+use function strtolower;
+
+/**
+ * Single per-manager subscriber registry, also holding the process-wide global
+ * subscriber list.
+ *
+ * Global subscribers (registered via {@see \MongoDB\Driver\Monitoring\addSubscriber()})
+ * are stored in the static {@see $globalSubscribers} array and notified by every
+ * {@see dispatch()} call, regardless of which manager-scoped registry fires the event.
+ *
+ * @internal
+ */
+final class Dispatcher
+{
+    /** @var Subscriber[] Process-wide subscribers. */
+    private static array $globalSubscribers = [];
+
+    /** @var array<int, Subscriber> Per-manager subscribers keyed by spl_object_id(). */
+    private array $subscribers = [];
+
+    public static function addGlobalSubscriber(Subscriber $subscriber): void
+    {
+        self::$globalSubscribers[spl_object_id($subscriber)] = $subscriber;
+    }
+
+    public function addSubscriber(Subscriber $subscriber): void
+    {
+        $this->subscribers[spl_object_id($subscriber)] = $subscriber;
+    }
+
+    /**
+     * Dispatch an event to all subscribers of a given class.
+     *
+     * Manager-scoped subscribers are notified first; global subscribers follow,
+     * skipping any that are already in the manager list to avoid double-notification.
+     *
+     * The $event parameter passed to the callback is created lazily: the first
+     * time a subscriber of the correct class is found, $callback is invoked to
+     * create the event object, which is then passed by reference to all
+     * subsequent subscribers.  This avoids unnecessary object allocation when
+     * no subscribers are registered for the event type.
+     *
+     * @param class-string<TSubscriber>          $subscriberClass
+     * @param callable(TSubscriber, object|null) $callback
+     *
+     * @template TSubscriber = object
+     */
+    public function dispatch(string $subscriberClass, Closure $callback): void
+    {
+        $event = null;
+        foreach ($this->subscribers as $subscriber) {
+            if (! $subscriber instanceof $subscriberClass) {
+                continue;
+            }
+
+            try {
+                $callback($subscriber, $event);
+            } catch (Throwable) {
+                // Subscribers must not interfere with operation execution.
+            }
+        }
+
+        foreach (self::$globalSubscribers as $subscriber) {
+            if (! $subscriber instanceof $subscriberClass) {
+                continue;
+            }
+
+            // Skip if already notified via the manager subscriber list.
+            if (isset($this->subscribers[spl_object_id($subscriber)])) {
+                continue;
+            }
+
+            try {
+                $callback($subscriber, $event);
+            } catch (Throwable) {
+                // Subscribers must not interfere with operation execution.
+            }
+        }
+    }
+
+    public function dispatchCommandFailed(
+        string $cmdName,
+        Throwable $exception,
+        string $db,
+        int $requestId,
+        int $durationMicros,
+        string $host,
+        int $port,
+        ?object $reply,
+        ?int $serverConnectionId,
+        int $operationId = 0,
+    ): void {
+        if ($reply !== null && $this->isSensitiveCommand($cmdName, $reply)) {
+            $reply = new stdClass();
+        }
+
+        self::dispatch(
+            CommandSubscriber::class,
+            static fn (CommandSubscriber $subscriber, ?object &$e) => $subscriber->commandFailed(
+                $e ??= CommandFailedEvent::create(
+                    commandName:        $cmdName,
+                    databaseName:       $db,
+                    error:              $exception instanceof Exception ? $exception : new RuntimeException($exception->getMessage(), $exception->getCode(), $exception),
+                    requestId:          $requestId,
+                    operationId:        $operationId ?: $requestId,
+                    durationMicros:     $durationMicros,
+                    host:               $host,
+                    port:               $port,
+                    serverConnectionId: $serverConnectionId,
+                    reply:              $reply,
+                ),
+            ),
+        );
+    }
+
+    public function dispatchCommandStarted(
+        string $cmdName,
+        Closure $cmdFactory,
+        string $db,
+        int $requestId,
+        string $host,
+        int $port,
+        ?int $serverConnectionId,
+        int $operationId,
+    ): void {
+        self::dispatch(
+            CommandSubscriber::class,
+            function (CommandSubscriber $subscriber, ?object &$e) use ($cmdName, $cmdFactory, $db, $requestId, $host, $port, $serverConnectionId, $operationId): void {
+                if ($e === null) {
+                    $cmd = $cmdFactory();
+                    if ($this->isSensitiveCommand($cmdName, $cmd)) {
+                        $cmd = new stdClass();
+                    }
+
+                    $e = CommandStartedEvent::create(
+                        commandName:        $cmdName,
+                        command:            $cmd,
+                        databaseName:       $db,
+                        requestId:          $requestId,
+                        operationId:        $operationId ?: $requestId,
+                        host:               $host,
+                        port:               $port,
+                        serverConnectionId: $serverConnectionId,
+                    );
+                }
+
+                $subscriber->commandStarted($e);
+            },
+        );
+    }
+
+    public function dispatchCommandSucceeded(
+        string $cmdName,
+        object $reply,
+        string $db,
+        int $requestId,
+        int $durationMicros,
+        string $host,
+        int $port,
+        ?int $serverConnectionId,
+        int $operationId,
+    ): void {
+        if ($this->isSensitiveCommand($cmdName, $reply)) {
+            $reply = new stdClass();
+        }
+
+        self::dispatch(
+            CommandSubscriber::class,
+            static fn (CommandSubscriber $subscriber, ?object &$e) => $subscriber->commandSucceeded(
+                $e ??= CommandSucceededEvent::create(
+                    commandName:        $cmdName,
+                    reply:              $reply,
+                    databaseName:       $db,
+                    requestId:          $requestId,
+                    operationId:        $operationId ?: $requestId,
+                    durationMicros:     $durationMicros,
+                    host:               $host,
+                    port:               $port,
+                    serverConnectionId: $serverConnectionId,
+                ),
+            ),
+        );
+    }
+
+    public function dispatchConnectionCheckedIn(string $host, int $port, int $connectionId): void
+    {
+        self::dispatch(
+            ConnectionPoolSubscriber::class,
+            static fn (ConnectionPoolSubscriber $s, ?object &$e) => $s->connectionCheckedIn($e ??= new ConnectionCheckedInEvent($connectionId, $host, $port)),
+        );
+    }
+
+    public function dispatchConnectionCheckedOut(string $host, int $port, int $connectionId, int $durationMicros): void
+    {
+        self::dispatch(
+            ConnectionPoolSubscriber::class,
+            static fn (ConnectionPoolSubscriber $s, ?object &$e) => $s->connectionCheckedOut($e ??= new ConnectionCheckedOutEvent($connectionId, $host, $port, $durationMicros)),
+        );
+    }
+
+    /** @param ConnectionCheckOutFailedEvent::REASON_* $reason */
+    public function dispatchConnectionCheckOutFailed(string $host, int $port, string $reason, int $durationMicros): void
+    {
+        self::dispatch(
+            ConnectionPoolSubscriber::class,
+            static fn (ConnectionPoolSubscriber $s, ?object &$e) => $s->connectionCheckOutFailed($e ??= new ConnectionCheckOutFailedEvent($host, $port, $reason, $durationMicros)),
+        );
+    }
+
+    public function dispatchConnectionCheckOutStarted(string $host, int $port): void
+    {
+        self::dispatch(
+            ConnectionPoolSubscriber::class,
+            static fn (ConnectionPoolSubscriber $s, ?object &$e) => $s->connectionCheckOutStarted($e ??= new ConnectionCheckOutStartedEvent($host, $port)),
+        );
+    }
+
+    /** @param ConnectionClosedEvent::REASON_* $reason */
+    public function dispatchConnectionClosed(string $host, int $port, int $connectionId, string $reason): void
+    {
+        self::dispatch(
+            ConnectionPoolSubscriber::class,
+            static fn (ConnectionPoolSubscriber $s, ?object &$e) => $s->connectionClosed($e ??= new ConnectionClosedEvent($connectionId, $host, $port, $reason)),
+        );
+    }
+
+    public function dispatchConnectionCreated(string $host, int $port, int $connectionId): void
+    {
+        self::dispatch(
+            ConnectionPoolSubscriber::class,
+            static fn (ConnectionPoolSubscriber $s, ?object &$e) => $s->connectionCreated($e ??= new ConnectionCreatedEvent($connectionId, $host, $port)),
+        );
+    }
+
+    public function dispatchConnectionPoolClosed(string $host, int $port): void
+    {
+        self::dispatch(
+            ConnectionPoolSubscriber::class,
+            static fn (ConnectionPoolSubscriber $s, ?object &$e) => $s->connectionPoolClosed($e ??= new ConnectionPoolClosedEvent($host, $port)),
+        );
+    }
+
+    /** @param array<string, mixed> $options */
+    public function dispatchConnectionPoolCreated(string $host, int $port, array $options): void
+    {
+        self::dispatch(
+            ConnectionPoolSubscriber::class,
+            static fn (ConnectionPoolSubscriber $s, ?object &$e) => $s->connectionPoolCreated($e ??= new ConnectionPoolCreatedEvent($host, $port, $options)),
+        );
+    }
+
+    public function dispatchConnectionPoolReady(string $host, int $port): void
+    {
+        self::dispatch(
+            ConnectionPoolSubscriber::class,
+            static fn (ConnectionPoolSubscriber $s, ?object &$e) => $s->connectionPoolReady($e ??= new ConnectionPoolReadyEvent($host, $port)),
+        );
+    }
+
+    public function dispatchConnectionReady(string $host, int $port, int $connectionId, int $durationMicros): void
+    {
+        self::dispatch(
+            ConnectionPoolSubscriber::class,
+            static fn (ConnectionPoolSubscriber $s, ?object &$e) => $s->connectionReady($e ??= new ConnectionReadyEvent($connectionId, $host, $port, $durationMicros)),
+        );
+    }
+
+    public function dispatchServerChanged(string $host, int $port, ObjectId $topologyId, ServerDescription $previous, ServerDescription $new): void
+    {
+        self::dispatch(
+            SDAMSubscriber::class,
+            static fn (SDAMSubscriber $s, ?object &$e) => $s->serverChanged($e ??= ServerChangedEvent::create($host, $port, $topologyId, $previous, $new)),
+        );
+    }
+
+    public function dispatchServerClosed(string $host, int $port, ObjectId $topologyId): void
+    {
+        self::dispatch(
+            SDAMSubscriber::class,
+            static fn (SDAMSubscriber $s, ?object &$e) => $s->serverClosed($e ??= ServerClosedEvent::create($host, $port, $topologyId)),
+        );
+    }
+
+    public function dispatchServerHeartbeatFailed(string $host, int $port, int $durationMicros, Throwable $error, bool $awaited): void
+    {
+        self::dispatch(
+            SDAMSubscriber::class,
+            static fn (SDAMSubscriber $s, ?object &$e) => $s->serverHeartbeatFailed($e ??= ServerHeartbeatFailedEvent::create($host, $port, $durationMicros, $error, $awaited)),
+        );
+    }
+
+    public function dispatchServerHeartbeatStarted(string $host, int $port, bool $awaited): void
+    {
+        self::dispatch(
+            SDAMSubscriber::class,
+            static fn (SDAMSubscriber $s, ?object &$e) => $s->serverHeartbeatStarted($e ??= ServerHeartbeatStartedEvent::create($host, $port, $awaited)),
+        );
+    }
+
+    public function dispatchServerHeartbeatSucceeded(string $host, int $port, int $durationMicros, object $reply, bool $awaited): void
+    {
+        self::dispatch(
+            SDAMSubscriber::class,
+            static fn (SDAMSubscriber $s, ?object &$e) => $s->serverHeartbeatSucceeded($e ??= ServerHeartbeatSucceededEvent::create($host, $port, $durationMicros, $reply, $awaited)),
+        );
+    }
+
+    public function dispatchServerOpening(string $host, int $port, ObjectId $topologyId): void
+    {
+        self::dispatch(
+            SDAMSubscriber::class,
+            static fn (SDAMSubscriber $s, ?object &$e) => $s->serverOpening($e ??= ServerOpeningEvent::create($host, $port, $topologyId)),
+        );
+    }
+
+    /** @param list<ServerDescription> $previousServers @param list<ServerDescription> $newServers */
+    public function dispatchTopologyChanged(ObjectId $topologyId, string $previousType, string $newType, array $previousServers = [], array $newServers = []): void
+    {
+        self::dispatch(
+            SDAMSubscriber::class,
+            static fn (SDAMSubscriber $s, ?object &$e) => $s->topologyChanged($e ??= TopologyChangedEvent::create($topologyId, $previousType, $newType, $previousServers, $newServers)),
+        );
+    }
+
+    public function dispatchTopologyClosed(ObjectId $topologyId): void
+    {
+        self::dispatch(
+            SDAMSubscriber::class,
+            static fn (SDAMSubscriber $s, ?object &$e) => $s->topologyClosed($e ??= TopologyClosedEvent::create($topologyId)),
+        );
+    }
+
+    public function dispatchTopologyOpening(ObjectId $topologyId): void
+    {
+        self::dispatch(
+            SDAMSubscriber::class,
+            static fn (SDAMSubscriber $s, ?object &$e) => $s->topologyOpening($e ??= TopologyOpeningEvent::create($topologyId)),
+        );
+    }
+
+    /**
+     * Dispatch a log message to all global {@see LogSubscriber} instances.
+     *
+     * This is a static method because log events have no manager scope —
+     * they mirror the process-wide mongoc_log() callback in libmongoc.
+     *
+     * @throws InvalidArgumentException if $level is out of range or $domain / $message contain null bytes.
+     */
+    public static function log(int $level, string $domain, string $message): void
+    {
+        if ($level < 0 || $level > 6) {
+            throw new InvalidArgumentException(
+                sprintf('Expected level to be >= 0 and <= 6, %d given', $level),
+            );
+        }
+
+        if (str_contains($domain, "\0")) {
+            throw new InvalidArgumentException(
+                sprintf('Domain cannot contain null bytes. Unexpected null byte after "%s".', strstr($domain, "\0", true)),
+            );
+        }
+
+        if (str_contains($message, "\0")) {
+            throw new InvalidArgumentException(
+                sprintf('Message cannot contain null bytes. Unexpected null byte after "%s".', strstr($message, "\0", true)),
+            );
+        }
+
+        foreach (self::$globalSubscribers as $subscriber) {
+            if (! $subscriber instanceof LogSubscriber) {
+                continue;
+            }
+
+            try {
+                $subscriber->log($level, $domain, $message);
+            } catch (Throwable) {
+                // Subscribers must not interfere with driver operation.
+            }
+        }
+    }
+
+    public static function removeGlobalSubscriber(Subscriber $subscriber): void
+    {
+        unset(self::$globalSubscribers[spl_object_id($subscriber)]);
+    }
+
+    public function removeSubscriber(Subscriber $subscriber): void
+    {
+        unset($this->subscribers[spl_object_id($subscriber)]);
+    }
+
+    /**
+     * Return true when this command must have its body and reply redacted in APM events.
+     *
+     * Per the Command Monitoring specification, the following commands are sensitive:
+     * authenticate, saslStart, saslContinue, getnonce, createUser, updateUser,
+     * copydbgetnonce, copydbsaslstart, copydb, and hello / isMaster when they contain
+     * speculativeAuthenticate.
+     */
+    private function isSensitiveCommand(string $cmdName, object $cmd): bool
+    {
+        return match (strtolower($cmdName)) {
+            'authenticate',
+            'saslstart',
+            'saslcontinue',
+            'getnonce',
+            'createuser',
+            'updateuser',
+            'copydbgetnonce',
+            'copydbsaslstart',
+            'copydb' => true,
+
+            'hello',
+            'ismaster',
+            'isMaster' => isset($cmd->speculativeAuthenticate),
+
+            default => false,
+        };
+    }
+}

@@ -276,12 +276,12 @@ final class Watch implements /* @internal */ CommandSubscriber
     }
 
     /** @internal */
-    final public function commandFailed(CommandFailedEvent $event): void
+    public function commandFailed(CommandFailedEvent $event): void
     {
     }
 
     /** @internal */
-    final public function commandStarted(CommandStartedEvent $event): void
+    public function commandStarted(CommandStartedEvent $event): void
     {
         if ($event->getCommandName() !== 'aggregate') {
             return;
@@ -292,7 +292,7 @@ final class Watch implements /* @internal */ CommandSubscriber
     }
 
     /** @internal */
-    final public function commandSucceeded(CommandSucceededEvent $event): void
+    public function commandSucceeded(CommandSucceededEvent $event): void
     {
         if ($event->getCommandName() !== 'aggregate') {
             return;

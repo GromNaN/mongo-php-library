@@ -1,0 +1,275 @@
+<?php
+/*
+ * Copyright 2015-present MongoDB, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+declare(strict_types=1);
+
+namespace MongoDB\BSON;
+
+use ArrayAccess;
+use IteratorAggregate;
+use JsonException;
+use MongoDB\Driver\Exception\InvalidArgumentException as DriverInvalidArgumentException;
+use MongoDB\Driver\Exception\LogicException as DriverLogicException;
+use MongoDB\Driver\Exception\RuntimeException as DriverRuntimeException;
+use MongoDB\Driver\Exception\UnexpectedValueException as DriverUnexpectedValueException;
+use MongoDB\Internal\BSON\BsonDecoder;
+use MongoDB\Internal\BSON\BsonEncoder;
+use MongoDB\Internal\BSON\ExtendedJson;
+use MongoDB\Internal\BSON\Index\PackedArrayIndex;
+use OutOfBoundsException;
+use stdClass;
+use Stringable;
+
+use function array_is_list;
+use function array_values;
+use function base64_decode;
+use function base64_encode;
+use function get_debug_type;
+use function is_array;
+use function is_int;
+use function json_decode;
+use function ltrim;
+use function sprintf;
+use function strlen;
+use function substr;
+use function unpack;
+
+use const JSON_THROW_ON_ERROR;
+
+/**
+ * Represents a BSON array (packed array – keys must be sequential integers
+ * starting at 0).
+ */
+final class PackedArray implements IteratorAggregate, ArrayAccess, Type, Stringable
+{
+    private function __construct(private readonly string $data)
+    {
+    }
+
+    public function __debugInfo(): array
+    {
+        return [
+            'data'  => base64_encode($this->data),
+            'value' => $this->toPHP(['root' => 'array', 'document' => 'bson', 'array' => 'bson']),
+        ];
+    }
+
+    public function __serialize(): array
+    {
+        return ['data' => base64_encode($this->data)];
+    }
+
+    public static function __set_state(array $properties): static
+    {
+        $bson = base64_decode($properties['data'] ?? '');
+        self::assertValidBson($bson, self::class);
+
+        return new static($bson);
+    }
+
+    public function __toString(): string
+    {
+        return $this->data;
+    }
+
+    public function __unserialize(array $data): void
+    {
+        $bson = base64_decode($data['data'] ?? '');
+        self::assertValidBson($bson, self::class);
+        $this->data = $bson;
+    }
+
+    public static function fromJSON(string $json): static
+    {
+        try {
+            $phpValue = json_decode($json, associative: false, depth: 101, flags: JSON_THROW_ON_ERROR);
+        } catch (JsonException $e) {
+            // PHP doesn't expose the byte offset from json_decode, so we
+            // approximate it: find the first non-whitespace character, which
+            // is where the parser would have stopped for immediately-invalid input.
+            $trimmed = ltrim($json);
+            $pos     = strlen($json) - strlen($trimmed);
+            $char    = $trimmed !== '' ? $trimmed[0] : '';
+
+            throw new DriverUnexpectedValueException(
+                sprintf('Got parse error at "%s", position %d: "SPECIAL_EXPECTED"', $char, $pos),
+                previous: $e,
+            );
+        }
+
+        // Non-empty JSON objects are accepted when their keys are sequential integers 0, 1, 2, ...
+        // An empty JSON object {} is rejected (indistinguishable from a document, not an array).
+        if ($phpValue instanceof stdClass) {
+            $phpValue = (array) $phpValue;
+
+            if ($phpValue === []) {
+                throw new DriverUnexpectedValueException(
+                    'Received invalid JSON array: expected key 0, but found ""',
+                );
+            }
+        }
+
+        if (! is_array($phpValue)) {
+            throw new DriverUnexpectedValueException(
+                'Received invalid JSON array: expected key 0, but found ""',
+            );
+        }
+
+        // Validate sequential integer keys starting at 0
+        $expected = 0;
+        foreach ($phpValue as $key => $v) {
+            if ((string) $key !== (string) $expected) {
+                throw new DriverUnexpectedValueException(
+                    sprintf('Received invalid JSON array: expected key %d, but found "%s"', $expected, $key),
+                );
+            }
+
+            $expected++;
+        }
+
+        // Re-index to a list for BsonEncoder
+        $phpValue = array_values($phpValue);
+        $decoded  = ExtendedJson::fromValue(ExtendedJson::normalizeJson($phpValue));
+        $bson     = BsonEncoder::encodeList(is_array($decoded) ? $decoded : (array) $decoded);
+
+        return new static($bson);
+    }
+
+    public static function fromPHP(array $value): static
+    {
+        if (! array_is_list($value)) {
+            throw new DriverInvalidArgumentException('Expected value to be a list, but given array is not');
+        }
+
+        return new static(BsonEncoder::encodeList($value));
+    }
+
+    public function get(int $index): mixed
+    {
+        try {
+            return PackedArrayIndex::forBson($this)->getFieldValue($index);
+        } catch (OutOfBoundsException) {
+            throw new DriverRuntimeException(sprintf('Could not find index "%d" in BSON array', $index));
+        }
+    }
+
+    public function getIterator(): Iterator
+    {
+        $index = PackedArrayIndex::forBson($this);
+
+        return Iterator::createFromDecodedData($this, $index->fields);
+    }
+
+    public function has(int $index): bool
+    {
+        return PackedArrayIndex::forBson($this)->hasField($index);
+    }
+
+    public function offsetExists(mixed $offset): bool
+    {
+        if (is_int($offset)) {
+            return $this->has($offset);
+        }
+
+        return false;
+    }
+
+    public function offsetGet(mixed $offset): mixed
+    {
+        $type = get_debug_type($offset);
+        if ($type === 'int') {
+            return $this->get($offset);
+        }
+
+        throw new DriverRuntimeException(
+            sprintf('Could not find index of type "%s" in BSON array', $type),
+        );
+    }
+
+    public function offsetSet(mixed $offset, mixed $value): void
+    {
+        throw new DriverLogicException('Cannot write to MongoDB\BSON\PackedArray offset');
+    }
+
+    public function offsetUnset(mixed $offset): void
+    {
+        throw new DriverLogicException('Cannot unset MongoDB\BSON\PackedArray offset');
+    }
+
+    public function toCanonicalExtendedJSON(): string
+    {
+        return ExtendedJson::toCanonical(BsonDecoder::decode($this->data, ['root' => 'array'], preserveInt64: true));
+    }
+
+    public function toPHP(?array $typeMap = null): array|object
+    {
+        $map = $typeMap ?? ['root' => 'array'];
+        // Default root to 'array' when the caller only provided fieldPaths (or other keys) but no 'root'
+        $map['root'] ??= 'array';
+
+        // Resolve 'bson' root to PackedArray
+        if ($map['root'] === 'bson') {
+            $map['root'] = 'bsonArray';
+        }
+
+        // For array root, ignore degenerate BSON keys (reindex by insertion order)
+        $rootTarget = $map['root'];
+        $ignoreRoot = ($rootTarget === 'array' || $rootTarget === 'bsonArray');
+
+        return BsonDecoder::decode($this->data, $map, ignoreRootKeys: $ignoreRoot, preserveInt64: true);
+    }
+
+    public function toRelaxedExtendedJSON(): string
+    {
+        return ExtendedJson::toRelaxed(BsonDecoder::decode($this->data, ['root' => 'array'], preserveInt64: true));
+    }
+
+    /** @internal */
+    public static function fromBSON(string $bson): static
+    {
+        $len = strlen($bson);
+        if ($len < 4) {
+            throw new DriverUnexpectedValueException('Could not read document from BSON reader');
+        }
+
+        $claimed = unpack('V', substr($bson, 0, 4))[1];
+        if ($claimed < 5) {
+            throw new DriverUnexpectedValueException('Could not read document from BSON reader');
+        }
+
+        if ($claimed > $len) {
+            throw new DriverUnexpectedValueException('Could not read document from BSON reader');
+        }
+
+        if ($claimed < $len) {
+            throw new DriverUnexpectedValueException('Reading document did not exhaust input buffer');
+        }
+
+        return new static($bson);
+    }
+
+    private static function assertValidBson(string $bson, string $className): void
+    {
+        $len     = strlen($bson);
+        $claimed = $len >= 4 ? unpack('V', substr($bson, 0, 4))[1] : 0;
+        if ($len < 5 || $claimed !== $len) {
+            throw new DriverInvalidArgumentException(
+                sprintf('%s initialization requires valid BSON', $className),
+            );
+        }
+    }
+}

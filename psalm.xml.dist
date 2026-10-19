@@ -20,14 +20,23 @@
         </ignoreFiles>
     </projectFiles>
 
-    <stubs>
-        <file name="stubs/Driver/BulkWriteCommand.stub.php"/>
-        <file name="stubs/Driver/BulkWriteCommandException.stub.php"/>
-        <file name="stubs/Driver/BulkWriteCommandResult.stub.php"/>
-        <file name="stubs/Driver/Cursor.stub.php"/>
-        <file name="stubs/Driver/CursorInterface.stub.php"/>
-        <file name="stubs/Driver/WriteResult.stub.php"/>
-    </stubs>
+    <!--
+        The MongoDB\BSON and MongoDB\Driver classes are declared in src/ when
+        ext-mongodb is absent. When the extension is loaded, its own stubs would
+        declare the same classes, so they are disabled here.
+    -->
+    <disableExtensions>
+        <extension name="mongodb" />
+    </disableExtensions>
+
+    <!--
+        Disabling the extension does not disable the call map that Psalm ships
+        in dictionaries/CallMap_*.php. That call map is generated from the
+        extension's arginfo, so Psalm checks calls to the classes declared in
+        src/ against the extension signatures and reports false positives, for
+        example "Too many arguments for MongoDB\Driver\Server::__construct".
+        Those are listed in psalm-baseline.xml.
+    -->
 
     <issueHandlers>
         <!-- Class is meant to be Unserialized by the extension only -->

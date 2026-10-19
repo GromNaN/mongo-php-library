@@ -6,7 +6,6 @@ docs export-ignore
 examples export-ignore
 generator export-ignore
 mongo-orchestration export-ignore
-stubs export-ignore
 tools export-ignore
 Makefile export-ignore
 phpbench.json.dist export-ignore

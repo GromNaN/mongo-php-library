@@ -1,0 +1,77 @@
+name: "No extension"
+
+on:
+  merge_group:
+  pull_request:
+    branches:
+      - "v*.*"
+      - "feature/*"
+  push:
+    branches:
+      - "v*.*"
+      - "feature/*"
+
+jobs:
+  no-extension:
+    name: "No ext-mongodb"
+    runs-on: "ubuntu-24.04"
+
+    strategy:
+      fail-fast: true
+      matrix:
+        php-version:
+          - "8.1"
+          - "8.4"
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v7"
+        with:
+          fetch-depth: 2
+          submodules: true
+
+      # Deliberately not ./.github/actions/setup: that action hard-wires
+      # extensions: "mongodb-<driver-version>" and runs `php --ri mongodb`.
+      - name: "Install PHP without ext-mongodb"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          php-version: "${{ matrix.php-version }}"
+          coverage: "none"
+          tools: "composer"
+          ini-values: "zend.assertions=1"
+
+      - name: "Assert ext-mongodb is absent"
+        run: |
+          php -r 'if (extension_loaded("mongodb")) { fwrite(STDERR, "ext-mongodb must not be loaded\n"); exit(1); }'
+
+      - name: "Install dependencies"
+        run: "composer install"
+
+      - name: "Assert the userland driver is used"
+        run: |
+          php -r '
+            require "vendor/autoload.php";
+            $r = new ReflectionClass(MongoDB\Driver\Manager::class);
+            printf("Manager from %s\n", $r->getFileName());
+            if ($r->isInternal()) { fwrite(STDERR, "Manager is the extension\n"); exit(1); }
+          '
+
+      - name: "Run unit test suite"
+        run: "vendor/bin/phpunit --configuration phpunit.no-extension.xml --testsuite unit"
+
+      - name: "Set up MongoDB"
+        id: setup-mongodb
+        uses: ./tests/drivers-evergreen-tools
+        with:
+          version: "8.0"
+          topology: "replica_set"
+
+      - name: "Smoke test"
+        env:
+          MONGODB_URI: ${{ steps.setup-mongodb.outputs.cluster-uri }}
+        run: |
+          php tests/Smoke/crud.php
+          php tests/Smoke/edge-cases.php
+
+      - name: "Parity: stub compatibility"
+        run: "vendor/bin/phpunit --configuration phpunit.no-extension.xml --filter StubCompatibilityTest"

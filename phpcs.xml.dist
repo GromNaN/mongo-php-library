@@ -22,6 +22,9 @@
     <!-- Ignore auto-generated code -->
     <exclude-pattern>src/Builder/(Accumulator|Expression|Query|Search|Stage|Update)/*\.php</exclude-pattern>
 
+    <!-- Ignore submodule checkouts: third-party code, not ours to style -->
+    <exclude-pattern>tests/references/*</exclude-pattern>
+
     <!-- Target minimum supported PHP version -->
     <config name="php_version" value="80100"/>
 

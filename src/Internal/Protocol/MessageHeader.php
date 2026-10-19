@@ -1,0 +1,95 @@
+<?php
+/*
+ * Copyright 2015-present MongoDB, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+declare(strict_types=1);
+
+namespace MongoDB\Internal\Protocol;
+
+use InvalidArgumentException;
+
+use function pack;
+use function sprintf;
+use function strlen;
+use function substr;
+use function unpack;
+
+/**
+ * Represents the 16-byte MongoDB Wire Protocol message header.
+ *
+ * @internal
+ */
+final class MessageHeader
+{
+    public const HEADER_SIZE = 16;
+    public const OP_MSG        = 2013;
+    public const OP_QUERY      = 2004; // legacy
+    public const OP_REPLY      = 1;    // legacy
+    public const OP_COMPRESSED = 2012;
+
+    // Compressor IDs as defined in the MongoDB compression spec §4.4.
+    public const COMPRESSOR_NOOP   = 0;
+    public const COMPRESSOR_SNAPPY = 1;
+    public const COMPRESSOR_ZLIB   = 2;
+    public const COMPRESSOR_ZSTD   = 3;
+
+    public function __construct(
+        public readonly int $messageLength,
+        public readonly int $requestId,
+        public readonly int $responseTo,
+        public readonly int $opCode,
+    ) {
+    }
+
+    /**
+     * Parse a 16-byte header from raw bytes.
+     *
+     * @throws InvalidArgumentException if $bytes is not exactly 16 bytes
+     */
+    public static function fromBytes(string $bytes): self
+    {
+        if (strlen($bytes) < self::HEADER_SIZE) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    'MessageHeader requires %d bytes, got %d',
+                    self::HEADER_SIZE,
+                    strlen($bytes),
+                ),
+            );
+        }
+
+        /** @var array{1: int, 2: int, 3: int, 4: int} $fields */
+        $fields = unpack('V4', substr($bytes, 0, self::HEADER_SIZE));
+
+        return new self(
+            messageLength: $fields[1],
+            requestId:     $fields[2],
+            responseTo:    $fields[3],
+            opCode:        $fields[4],
+        );
+    }
+
+    /**
+     * Serialize the header to 16 raw bytes (four little-endian uint32 fields).
+     */
+    public function toBytes(): string
+    {
+        return pack('V', $this->messageLength)
+             . pack('V', $this->requestId)
+             . pack('V', $this->responseTo)
+             . pack('V', $this->opCode);
+    }
+}

@@ -10,3 +10,8 @@
 	path = generator/mql-specifications
 	url = https://github.com/mongodb/mql-specifications
 	branch = main
+[submodule "tests/references/mongo-php-driver"]
+	path = tests/references/mongo-php-driver
+	url = https://github.com/mongodb/mongo-php-driver
+	branch = master
+	shallow = true

@@ -23,6 +23,8 @@ return RectorConfig::configure()
     // Error with StaticCallOnNonStaticToInstanceCallRector
     // https://github.com/rectorphp/rector/issues/9608
     ->withSkipPath(__DIR__ . '/tests/Builder/BuilderEncoderTest.php')
+    // Submodule checkouts are third-party code
+    ->withSkipPath(__DIR__ . '/tests/references')
     ->withPhpSets(php80: true)
     ->withComposerBased(phpunit: true)
     ->withRules([
