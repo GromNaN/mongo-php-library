@@ -80,6 +80,8 @@ class Database implements Stringable
 
     private bool $autoEncryptionEnabled;
 
+    private bool $hideSafeContent;
+
     /**
      * Constructs new Database instance.
      *
@@ -140,12 +142,17 @@ class Database implements Stringable
             throw InvalidArgumentException::invalidType('"autoEncryptionEnabled" option', $options['autoEncryptionEnabled'], 'boolean');
         }
 
+        if (isset($options['hideSafeContent']) && ! is_bool($options['hideSafeContent'])) {
+            throw InvalidArgumentException::invalidType('"hideSafeContent" option', $options['hideSafeContent'], 'boolean');
+        }
+
         $this->builderEncoder = $options['builderEncoder'] ?? new BuilderEncoder();
         $this->readConcern = $options['readConcern'] ?? $this->manager->getReadConcern();
         $this->readPreference = $options['readPreference'] ?? $this->manager->getReadPreference();
         $this->typeMap = $options['typeMap'] ?? self::DEFAULT_TYPE_MAP;
         $this->writeConcern = $options['writeConcern'] ?? $this->manager->getWriteConcern();
         $this->autoEncryptionEnabled = $options['autoEncryptionEnabled'] ?? false;
+        $this->hideSafeContent = $options['hideSafeContent'] ?? false;
     }
 
     /**
@@ -409,6 +416,7 @@ class Database implements Stringable
             'typeMap' => $this->typeMap,
             'writeConcern' => $this->writeConcern,
             'autoEncryptionEnabled' => $this->autoEncryptionEnabled,
+            'hideSafeContent' => $this->hideSafeContent,
         ];
 
         return new Collection($this->manager, $this->databaseName, $collectionName, $options);
@@ -645,6 +653,7 @@ class Database implements Stringable
         $options += [
             'autoEncryptionEnabled' => $this->autoEncryptionEnabled,
             'builderEncoder' => $this->builderEncoder,
+            'hideSafeContent' => $this->hideSafeContent,
             'readConcern' => $this->readConcern,
             'readPreference' => $this->readPreference,
             'typeMap' => $this->typeMap,

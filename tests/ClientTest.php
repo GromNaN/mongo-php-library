@@ -70,6 +70,8 @@ class ClientTest extends TestCase
 
         $options[][] = ['autoEncryption' => ['keyVaultClient' => 'foo']];
 
+        $options[][] = ['autoEncryption' => ['hideSafeContent' => 'foo']];
+
         foreach (self::getInvalidStringValues() as $value) {
             $options[][] = ['driver' => ['name' => $value]];
         }

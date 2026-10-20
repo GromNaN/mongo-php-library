@@ -14,6 +14,7 @@ use Throwable;
 use function array_diff_key;
 use function array_filter;
 use function is_array;
+use function is_bool;
 use function is_string;
 use function sprintf;
 use function trim;
@@ -24,6 +25,7 @@ final class DriverOptions
     private const KEY_TYPE_MAP = 'typeMap';
     private const KEY_BUILDER_ENCODER = 'builderEncoder';
     private const KEY_AUTO_ENCRYPTION = 'autoEncryption';
+    private const KEY_HIDE_SAFE_CONTENT = 'hideSafeContent';
     private const KEY_DRIVER = 'driver';
     private const DEFAULT_TYPE_MAP = [
         'array' => BSONArray::class,
@@ -45,6 +47,7 @@ final class DriverOptions
         public readonly array $typeMap,
         public readonly Encoder $builderEncoder,
         public readonly ?array $autoEncryption,
+        private readonly bool $hideSafeContent,
         private readonly array $miscOptions,
         array $driver,
     ) {
@@ -71,8 +74,22 @@ final class DriverOptions
             );
         }
 
-        /** @var array{kmsProviders?: stdClass|array<string, array>, keyVaultClient?: Client|Manager} $autoEncryptionOptions */
+        /** @var array{kmsProviders?: stdClass|array<string, array>, keyVaultClient?: Client|Manager, hideSafeContent?: bool} $autoEncryptionOptions */
         $autoEncryptionOptions = $options[self::KEY_AUTO_ENCRYPTION] ?? [];
+
+        // The "hideSafeContent" option is handled by the library and must not be
+        // passed to the driver.
+        if (isset($autoEncryptionOptions[self::KEY_HIDE_SAFE_CONTENT]) && ! is_bool($autoEncryptionOptions[self::KEY_HIDE_SAFE_CONTENT])) {
+            throw InvalidArgumentException::invalidType(
+                sprintf('"%s" option', self::KEY_HIDE_SAFE_CONTENT),
+                $autoEncryptionOptions[self::KEY_HIDE_SAFE_CONTENT],
+                'boolean',
+            );
+        }
+
+        $hideSafeContent = $autoEncryptionOptions[self::KEY_HIDE_SAFE_CONTENT] ?? false;
+        unset($autoEncryptionOptions[self::KEY_HIDE_SAFE_CONTENT]);
+
         $autoEncryption = ! empty($autoEncryptionOptions)
             ? AutoEncryptionOptions::fromArray($autoEncryptionOptions)->toArray()
             : null;
@@ -84,6 +101,7 @@ final class DriverOptions
             typeMap: $options[self::KEY_TYPE_MAP],
             builderEncoder: $options[self::KEY_BUILDER_ENCODER] ?? new BuilderEncoder(),
             autoEncryption: $autoEncryption,
+            hideSafeContent: $hideSafeContent,
             miscOptions: array_diff_key($options, [
                 self::KEY_TYPE_MAP => 1,
                 self::KEY_BUILDER_ENCODER => 1,
@@ -97,6 +115,17 @@ final class DriverOptions
     public function isAutoEncryptionEnabled(): bool
     {
         return isset($this->autoEncryption['keyVaultNamespace']);
+    }
+
+    /**
+     * Return whether the reserved __safeContent__ field is excluded from query
+     * results.
+     *
+     * @see https://mongodb.com/docs/manual/core/queryable-encryption/
+     */
+    public function isSafeContentHidden(): bool
+    {
+        return $this->hideSafeContent;
     }
 
     public function toArray(): array

@@ -74,9 +74,11 @@ use Stringable;
 use function array_diff_key;
 use function array_intersect_key;
 use function array_key_exists;
+use function assert;
 use function current;
 use function is_array;
 use function is_bool;
+use function is_object;
 use function strlen;
 
 /**
@@ -138,6 +140,8 @@ class Collection implements Stringable
     private WriteConcern $writeConcern;
 
     private bool $autoEncryptionEnabled;
+
+    private bool $hideSafeContent;
 
     /**
      * Constructs new Collection instance.
@@ -210,6 +214,10 @@ class Collection implements Stringable
             throw InvalidArgumentException::invalidType('"autoEncryptionEnabled" option', $options['autoEncryptionEnabled'], 'boolean');
         }
 
+        if (isset($options['hideSafeContent']) && ! is_bool($options['hideSafeContent'])) {
+            throw InvalidArgumentException::invalidType('"hideSafeContent" option', $options['hideSafeContent'], 'boolean');
+        }
+
         $this->builderEncoder = $options['builderEncoder'] ?? new BuilderEncoder();
         $this->codec = $options['codec'] ?? null;
         $this->readConcern = $options['readConcern'] ?? $this->manager->getReadConcern();
@@ -217,6 +225,7 @@ class Collection implements Stringable
         $this->typeMap = $options['typeMap'] ?? self::DEFAULT_TYPE_MAP;
         $this->writeConcern = $options['writeConcern'] ?? $this->manager->getWriteConcern();
         $this->autoEncryptionEnabled = $options['autoEncryptionEnabled'] ?? false;
+        $this->hideSafeContent = $options['hideSafeContent'] ?? false;
     }
 
     /**
@@ -269,6 +278,10 @@ class Collection implements Stringable
         $pipeline = $this->builderEncoder->encodeIfSupported($pipeline);
 
         $hasWriteStage = is_last_pipeline_operator_write($pipeline);
+
+        if ($this->hideSafeContent) {
+            $pipeline = hide_safe_content_from_pipeline($pipeline);
+        }
 
         $options = $this->inheritReadPreference($options);
         $options = $this->inheritReadConcern($options);
@@ -680,6 +693,7 @@ class Collection implements Stringable
         $filter = $this->builderEncoder->encodeIfSupported($filter);
         $options = $this->inheritReadOptions($options);
         $options = $this->inheritCodecOrTypeMap($options);
+        $options = $this->applySafeContentProjection($options);
 
         $operation = new Find($this->databaseName, $this->collectionName, $filter, $options);
 
@@ -702,6 +716,7 @@ class Collection implements Stringable
         $filter = $this->builderEncoder->encodeIfSupported($filter);
         $options = $this->inheritReadOptions($options);
         $options = $this->inheritCodecOrTypeMap($options);
+        $options = $this->applySafeContentProjection($options);
 
         $operation = new FindOne($this->databaseName, $this->collectionName, $filter, $options);
 
@@ -727,6 +742,7 @@ class Collection implements Stringable
         $filter = $this->builderEncoder->encodeIfSupported($filter);
         $options = $this->inheritWriteOptions($options);
         $options = $this->inheritCodecOrTypeMap($options);
+        $options = $this->applySafeContentProjection($options, findAndModify: true);
 
         $operation = new FindOneAndDelete($this->databaseName, $this->collectionName, $filter, $options);
 
@@ -757,6 +773,7 @@ class Collection implements Stringable
         $filter = $this->builderEncoder->encodeIfSupported($filter);
         $options = $this->inheritWriteOptions($options);
         $options = $this->inheritCodecOrTypeMap($options);
+        $options = $this->applySafeContentProjection($options, findAndModify: true);
 
         $operation = new FindOneAndReplace($this->databaseName, $this->collectionName, $filter, $replacement, $options);
 
@@ -788,6 +805,7 @@ class Collection implements Stringable
         $update = $this->builderEncoder->encodeIfSupported($update);
         $options = $this->inheritWriteOptions($options);
         $options = $this->inheritCodecOrTypeMap($options);
+        $options = $this->applySafeContentProjection($options, findAndModify: true);
 
         $operation = new FindOneAndUpdate($this->databaseName, $this->collectionName, $filter, $update, $options);
 
@@ -1099,6 +1117,7 @@ class Collection implements Stringable
             'autoEncryptionEnabled' => $this->autoEncryptionEnabled,
             'builderEncoder' => $this->builderEncoder,
             'codec' => $this->codec,
+            'hideSafeContent' => $this->hideSafeContent,
             'readConcern' => $this->readConcern,
             'readPreference' => $this->readPreference,
             'typeMap' => $this->typeMap,
@@ -1106,6 +1125,40 @@ class Collection implements Stringable
         ];
 
         return new Collection($this->manager, $this->databaseName, $this->collectionName, $options);
+    }
+
+    /**
+     * Add an exclusion of the reserved __safeContent__ field to the projection
+     * option of a read operation.
+     *
+     * The "fields" option of a findAndModify command is not supported on an
+     * encrypted collection: the encryption library rejects the command when it
+     * contains a projection. Such commands are left unchanged so that they keep
+     * working, and the reserved field remains in their results.
+     *
+     * @param array $options       Command options
+     * @param bool  $findAndModify Whether the options are for a findAndModify command
+     */
+    private function applySafeContentProjection(array $options, bool $findAndModify = false): array
+    {
+        if (! $this->hideSafeContent) {
+            return $options;
+        }
+
+        if ($findAndModify && $this->autoEncryptionEnabled) {
+            return $options;
+        }
+
+        // An invalid projection is left as is, so that the operation reports it
+        if (! isset($options['projection'])) {
+            $options['projection'] = hide_safe_content_from_projection(null);
+        } elseif (is_document($options['projection'])) {
+            // is_document() does not narrow the type for Psalm
+            assert(is_array($options['projection']) || is_object($options['projection']));
+            $options['projection'] = hide_safe_content_from_projection($options['projection']);
+        }
+
+        return $options;
     }
 
     private function inheritBuilderEncoder(array $options): array

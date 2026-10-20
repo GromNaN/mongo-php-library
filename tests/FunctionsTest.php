@@ -15,7 +15,10 @@ use TypeError;
 use function MongoDB\apply_type_map_to_document;
 use function MongoDB\create_field_path_type_map;
 use function MongoDB\document_to_array;
+use function MongoDB\hide_safe_content_from_pipeline;
+use function MongoDB\hide_safe_content_from_projection;
 use function MongoDB\is_builder_pipeline;
+use function MongoDB\is_exclusion_projection;
 use function MongoDB\is_first_key_operator;
 use function MongoDB\is_last_pipeline_operator_write;
 use function MongoDB\is_pipeline;
@@ -140,6 +143,65 @@ class FunctionsTest extends TestCase
             'Document' => [fn ($value) => Document::fromPHP($value)],
         ];
         // phpcs:enable
+    }
+
+    #[DataProvider('provideProjections')]
+    public function testIsExclusionProjection(bool $expected, array|object $projection): void
+    {
+        $this->assertSame($expected, is_exclusion_projection($projection));
+    }
+
+    public static function provideProjections(): iterable
+    {
+        yield 'empty array' => [true, []];
+        yield 'exclusion' => [true, ['password' => 0]];
+        yield 'exclusion false' => [true, ['password' => false]];
+        yield '_id exclusion' => [true, ['_id' => 0]];
+        yield '_id inclusion and exclusion' => [true, ['_id' => 1, 'password' => 0]];
+        yield 'inclusion' => [false, ['name' => 1]];
+        yield '_id inclusion' => [false, ['_id' => 1]];
+        yield 'positional inclusion' => [false, ['field.$' => 1]];
+        yield 'slice' => [false, ['field' => ['$slice' => 1]]];
+        yield 'elemMatch' => [false, ['field' => ['$elemMatch' => ['x' => 1]]]];
+        yield 'meta' => [false, ['score' => ['$meta' => 'textScore']]];
+    }
+
+    #[DataProvider('provideDocumentCasts')]
+    public function testHideSafeContentFromProjection(callable $cast): void
+    {
+        $exclusion = ['__safeContent__' => 0];
+
+        // The projection is created when it is not specified
+        $this->assertEquals($exclusion, hide_safe_content_from_projection(null));
+
+        // The reserved field is excluded when the projection returns all fields
+        $this->assertEquals($exclusion, hide_safe_content_from_projection($cast([])));
+        $this->assertEquals(['password' => 0] + $exclusion, hide_safe_content_from_projection($cast(['password' => 0])));
+        $this->assertEquals(['_id' => 0] + $exclusion, hide_safe_content_from_projection($cast(['_id' => 0])));
+        $this->assertEquals(['_id' => 1, 'password' => 0] + $exclusion, hide_safe_content_from_projection($cast(['_id' => 1, 'password' => 0])));
+
+        // The projection is unchanged when it does not return all fields
+        $this->assertEquals($cast(['name' => 1]), hide_safe_content_from_projection($cast(['name' => 1])));
+        $this->assertEquals($cast(['_id' => 1]), hide_safe_content_from_projection($cast(['_id' => 1])));
+        $this->assertEquals($cast(['field' => ['$slice' => 1]]), hide_safe_content_from_projection($cast(['field' => ['$slice' => 1]])));
+        $this->assertEquals($cast(['field' => ['$elemMatch' => ['x' => 1]]]), hide_safe_content_from_projection($cast(['field' => ['$elemMatch' => ['x' => 1]]])));
+    }
+
+    #[DataProvider('provideDocumentCasts')]
+    public function testHideSafeContentFromPipeline(callable $cast): void
+    {
+        $match = ['$match' => ['x' => 1]];
+        $exclusion = ['$project' => ['__safeContent__' => 0]];
+
+        $this->assertEquals([$exclusion], hide_safe_content_from_pipeline([]));
+        $this->assertEquals([$cast($match), $exclusion], hide_safe_content_from_pipeline([$cast($match)]));
+
+        // The pipeline is unchanged when it ends with a stage that writes to another collection
+        $out = [$cast($match), $cast(['$out' => 'other'])];
+        $this->assertEquals($out, hide_safe_content_from_pipeline($out));
+
+        $merge = [$cast($match), $cast(['$merge' => ['into' => 'other']])];
+        $this->assertEquals($merge, hide_safe_content_from_pipeline($merge));
     }
 
     #[DataProvider('provideDocumentCasts')]

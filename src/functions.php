@@ -42,6 +42,7 @@ use function array_key_first;
 use function assert;
 use function end;
 use function get_object_vars;
+use function in_array;
 use function is_array;
 use function is_object;
 use function is_string;
@@ -214,6 +215,62 @@ function get_encrypted_fields_from_server(string $databaseName, string $collecti
 }
 
 /**
+ * Return the pipeline with a final stage that excludes the reserved
+ * __safeContent__ field.
+ *
+ * Nothing is appended when the pipeline ends with an $out or $merge stage.
+ * These stages write to another collection and are rejected by automatic
+ * encryption; appending a stage after them would replace the error reported by
+ * the encryption library with a pipeline syntax error.
+ *
+ * @internal
+ * @see Collection::aggregate()
+ * @param mixed $pipeline Aggregation pipeline, already encoded to an array
+ */
+function hide_safe_content_from_pipeline(mixed $pipeline): array
+{
+    assert(is_array($pipeline));
+
+    if (is_last_pipeline_operator_write($pipeline)) {
+        return $pipeline;
+    }
+
+    $pipeline[] = ['$project' => ['__safeContent__' => 0]];
+
+    return $pipeline;
+}
+
+/**
+ * Return the projection with the reserved __safeContent__ field excluded.
+ *
+ * The field is excluded only when the projection returns all fields of the
+ * documents (see is_exclusion_projection()). Inclusion projections and
+ * projections that use operators such as $slice or $elemMatch are returned
+ * unchanged, as excluding a field would change the fields that are returned.
+ * The caller must pass null or a valid document, so that an invalid projection
+ * is reported by the operation.
+ *
+ * @internal
+ * @see Collection::find()
+ * @param array|object|null $projection Projection document
+ */
+function hide_safe_content_from_projection(array|object|null $projection): array|object
+{
+    if ($projection === null) {
+        return ['__safeContent__' => 0];
+    }
+
+    if (! is_exclusion_projection($projection)) {
+        return $projection;
+    }
+
+    $projection = document_to_array($projection);
+    $projection['__safeContent__'] = 0;
+
+    return $projection;
+}
+
+/**
  * Returns whether a given value is a valid document.
  *
  * This method returns true for any array or object, but specifically excludes
@@ -224,6 +281,27 @@ function get_encrypted_fields_from_server(string $databaseName, string $collecti
 function is_document(mixed $document): bool
 {
     return is_array($document) || (is_object($document) && ! $document instanceof PackedArray);
+}
+
+/**
+ * Return whether the projection returns all fields of the documents.
+ *
+ * This is the case for an empty projection and for a projection that excludes
+ * at least one field (e.g. {"password": 0}). An inclusion projection
+ * (e.g. {"name": 1}), a projection that only includes "_id", and a projection
+ * that uses operators such as $slice or $elemMatch return a restricted set of
+ * fields.
+ *
+ * @internal
+ * @see hide_safe_content_from_projection()
+ * @see https://mongodb.com/docs/manual/tutorial/project-fields-from-query-results/
+ * @param array|object $projection Projection document
+ */
+function is_exclusion_projection(array|object $projection): bool
+{
+    $projection = document_to_array($projection);
+
+    return $projection === [] || in_array(0, $projection, true) || in_array(false, $projection, true);
 }
 
 /**

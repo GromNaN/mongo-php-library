@@ -57,6 +57,21 @@ class DriverOptionsTest extends TestCase
         $this->assertFalse($notEnabled->isAutoEncryptionEnabled());
     }
 
+    public function testIsSafeContentHidden(): void
+    {
+        $hidden = DriverOptions::fromArray(['autoEncryption' => ['hideSafeContent' => true]]);
+
+        $this->assertTrue($hidden->isSafeContentHidden());
+
+        $notHidden = DriverOptions::fromArray(['autoEncryption' => ['keyVaultNamespace' => 'foo']]);
+
+        $this->assertFalse($notHidden->isSafeContentHidden());
+
+        $default = DriverOptions::fromArray([]);
+
+        $this->assertFalse($default->isSafeContentHidden());
+    }
+
     #[DataProvider('provideDriverInfo')]
     public function testDriverInfo(array $options, string $name, string $versionRegex, ?string $platform): void
     {
@@ -121,6 +136,40 @@ class DriverOptionsTest extends TestCase
             ],
         ];
 
+        yield 'hide safe content' => [
+            [
+                'autoEncryption' => ['keyVaultNamespace' => 'foo', 'hideSafeContent' => true],
+            ],
+            [
+                'typeMap' => [
+                    'array' => BSONArray::class,
+                    'document' => BSONDocument::class,
+                    'root' => BSONDocument::class,
+                ],
+                'autoEncryption' => ['keyVaultNamespace' => 'foo'],
+                'builderEncoder' => new BuilderEncoder(),
+                'driver' => [
+                    'name' => 'PHPLIB',
+                    'platform' => 'iue',
+                ],
+            ],
+        ];
+
+        yield 'hide safe content without automatic encryption' => [
+            [
+                'autoEncryption' => ['hideSafeContent' => true],
+            ],
+            [
+                'typeMap' => [
+                    'array' => BSONArray::class,
+                    'document' => BSONDocument::class,
+                    'root' => BSONDocument::class,
+                ],
+                'builderEncoder' => new BuilderEncoder(),
+                'driver' => ['name' => 'PHPLIB'],
+            ],
+        ];
+
         yield 'extra options' => [
             [
                 'typeMap' => [],
@@ -152,6 +201,12 @@ class DriverOptionsTest extends TestCase
         yield 'invalid type for builder encoder' => [
             [
                 'builderEncoder' => new StdClass(),
+            ],
+        ];
+
+        yield 'invalid type for hide safe content' => [
+            [
+                'autoEncryption' => ['hideSafeContent' => 'foo'],
             ],
         ];
     }

@@ -80,6 +80,12 @@ class Client implements Stringable
      *
      *  * typeMap (array): Default type map for cursors and BSON documents.
      *
+     *  * autoEncryption (array): Options for automatic client-side encryption,
+     *    as documented in MongoDB\Driver\Manager::__construct(). In addition to
+     *    the driver options, this library supports the "hideSafeContent"
+     *    boolean option, which excludes the reserved "__safeContent__" field
+     *    written by the server on encrypted documents from query results.
+     *
      * Other options are documented in MongoDB\Driver\Manager::__construct().
      *
      * @see https://mongodb.com/docs/manual/reference/connection-string/
@@ -233,6 +239,7 @@ class Client implements Stringable
             'typeMap' => $this->driverOptions->typeMap,
             'builderEncoder' => $this->driverOptions->builderEncoder,
             'autoEncryptionEnabled' => $this->driverOptions->isAutoEncryptionEnabled(),
+            'hideSafeContent' => $this->driverOptions->isSafeContentHidden(),
         ];
 
         return new Collection($this->manager, $databaseName, $collectionName, $options);
@@ -252,6 +259,7 @@ class Client implements Stringable
             'typeMap' => $this->driverOptions->typeMap,
             'builderEncoder' => $this->driverOptions->builderEncoder,
             'autoEncryptionEnabled' => $this->driverOptions->isAutoEncryptionEnabled(),
+            'hideSafeContent' => $this->driverOptions->isSafeContentHidden(),
         ];
 
         return new Database($this->manager, $databaseName, $options);
